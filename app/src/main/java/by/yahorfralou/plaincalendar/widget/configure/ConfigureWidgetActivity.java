@@ -12,8 +12,10 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -44,6 +46,8 @@ import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
 public class ConfigureWidgetActivity extends Activity implements EasyPermissions.PermissionCallbacks {
+    private static final String LOGCAT = "=== PCW ===";
+
     static final int REQUEST_ACCOUNT_PICKER = 1000;
     static final int REQUEST_AUTHORIZATION = 1001;
     static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
@@ -78,6 +82,15 @@ public class ConfigureWidgetActivity extends Activity implements EasyPermissions
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        EasyPermissions.onRequestPermissionsResult(
+                requestCode, permissions, grantResults, this);
+    }
+
+    @Override
     protected void onActivityResult(
             int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -97,6 +110,7 @@ public class ConfigureWidgetActivity extends Activity implements EasyPermissions
                     String accountName =
                             data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
                     if (accountName != null) {
+                        // TODO add Preference Helper
                         SharedPreferences settings =
                                 getPreferences(Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = settings.edit();
@@ -117,23 +131,26 @@ public class ConfigureWidgetActivity extends Activity implements EasyPermissions
 
     @Override
     public void onPermissionsGranted(int requestCode, List<String> perms) {
-
+        Log.i(LOGCAT, "onPermissionsGranted");
     }
 
     @Override
     public void onPermissionsDenied(int requestCode, List<String> perms) {
-
+        Log.w(LOGCAT, "onPermissionsDenied");
     }
 
     private void getResultsFromApi() {
         if (! isGooglePlayServicesAvailable()) {
+            Log.e(LOGCAT, "Google Play service not available");
             acquireGooglePlayServices();
         } else if (credential.getSelectedAccountName() == null) {
+            Log.i(LOGCAT, "No preferred account. Let choose an account");
             chooseAccount();
         } else if (! isDeviceOnline()) {
             // TODO make better output
             Toast.makeText(this, "No connection", Toast.LENGTH_LONG).show();
         } else {
+            Log.i(LOGCAT, "Starting Request Task for Calendar");
             new MakeRequestTask(credential).execute();
         }
     }
@@ -142,19 +159,23 @@ public class ConfigureWidgetActivity extends Activity implements EasyPermissions
     private void chooseAccount() {
         if (EasyPermissions.hasPermissions(
                 this, Manifest.permission.GET_ACCOUNTS)) {
+            Log.i(LOGCAT, "Already have permissions for GET_ACCOUNTS");
             String accountName = getPreferences(Context.MODE_PRIVATE)
                     .getString(PREF_ACCOUNT_NAME, null);
             if (accountName != null) {
                 credential.setSelectedAccountName(accountName);
+                Log.i(LOGCAT, "Call for API with accountName " + accountName);
                 getResultsFromApi();
             } else {
                 // Start a dialog from which the user can choose an account
+                Log.i(LOGCAT, "Start a dialog to choose account");
                 startActivityForResult(
                         credential.newChooseAccountIntent(),
                         REQUEST_ACCOUNT_PICKER);
             }
         } else {
             // Request the GET_ACCOUNTS permission via a user dialog
+            Log.i(LOGCAT, "Request the GET_ACCOUNTS permission via a user dialog");
             EasyPermissions.requestPermissions(
                     this,
                     "This app needs to access your Google account (via Contacts).",
@@ -200,13 +221,13 @@ public class ConfigureWidgetActivity extends Activity implements EasyPermissions
     }
 
     class MakeRequestTask extends AsyncTask<Void, Void, List<String>> {
-        private com.google.api.services.calendar.Calendar mService = null;
-        private Exception mLastError = null;
+        private com.google.api.services.calendar.Calendar calService = null;
+        private Exception lastError = null;
 
         MakeRequestTask(GoogleAccountCredential credential) {
             HttpTransport transport = AndroidHttp.newCompatibleTransport();
             JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
-            mService = new com.google.api.services.calendar.Calendar.Builder(
+            calService = new com.google.api.services.calendar.Calendar.Builder(
                     transport, jsonFactory, credential)
                     .setApplicationName("Google Calendar API Android Quickstart")
                     .build();
@@ -221,7 +242,7 @@ public class ConfigureWidgetActivity extends Activity implements EasyPermissions
             try {
                 return getDataFromApi();
             } catch (Exception e) {
-                mLastError = e;
+                lastError = e;
                 cancel(true);
                 return null;
             }
@@ -236,7 +257,8 @@ public class ConfigureWidgetActivity extends Activity implements EasyPermissions
             // List the next 10 events from the primary calendar.
             DateTime now = new DateTime(System.currentTimeMillis());
             List<String> eventStrings = new ArrayList<>();
-            Events events = mService.events().list("primary")
+            Log.i(LOGCAT, "Start request with CalendarService");
+            Events events = calService.events().list("primary")
                     .setMaxResults(10)
                     .setTimeMin(now)
                     .setOrderBy("startTime")
@@ -278,18 +300,19 @@ public class ConfigureWidgetActivity extends Activity implements EasyPermissions
         @Override
         protected void onCancelled() {
             dialogProgress.hide();
-            if (mLastError != null) {
-                if (mLastError instanceof GooglePlayServicesAvailabilityIOException) {
+            if (lastError != null) {
+                if (lastError instanceof GooglePlayServicesAvailabilityIOException) {
                     showGooglePlayServicesAvailabilityErrorDialog(
-                            ((GooglePlayServicesAvailabilityIOException) mLastError)
+                            ((GooglePlayServicesAvailabilityIOException) lastError)
                                     .getConnectionStatusCode());
-                } else if (mLastError instanceof UserRecoverableAuthIOException) {
+                } else if (lastError instanceof UserRecoverableAuthIOException) {
                     startActivityForResult(
-                            ((UserRecoverableAuthIOException) mLastError).getIntent(),
+                            ((UserRecoverableAuthIOException) lastError).getIntent(),
                             ConfigureWidgetActivity.REQUEST_AUTHORIZATION);
                 } else {
+                    Log.e(LOGCAT, "Error getting events! ", lastError);
                     txtOutput.setText("The following error occurred:\n"
-                            + mLastError.getMessage());
+                            + lastError.getMessage());
                 }
             } else {
                 txtOutput.setText("Request cancelled.");
