@@ -1,9 +1,9 @@
 package by.yahorfralou.plaincalendar.widget.configure;
 
-/**
- * Created by Yahor_Fralou on 9/5/2017 5:46 PM.
- */
+import java.util.List;
+
+import by.yahorfralou.plaincalendar.widget.model.CalendarBean;
 
 public interface IConfigureView {
-    void displayCalendars(String[] calendars);
+    void displayCalendars(List<CalendarBean> calendars);
 }

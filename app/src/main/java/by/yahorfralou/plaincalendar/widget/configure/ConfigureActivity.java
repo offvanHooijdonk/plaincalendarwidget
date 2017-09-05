@@ -15,10 +15,11 @@ import android.widget.TextView;
 import java.util.List;
 
 import by.yahorfralou.plaincalendar.widget.R;
+import by.yahorfralou.plaincalendar.widget.model.CalendarBean;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
-import static by.yahorfralou.plaincalendar.widget.PlainCalendarWidgetApp.LOGCAT;
+import static by.yahorfralou.plaincalendar.widget.app.PlainCalendarWidgetApp.LOGCAT;
 
 public class ConfigureActivity extends Activity implements IConfigureView, EasyPermissions.PermissionCallbacks {
 
@@ -53,9 +54,15 @@ public class ConfigureActivity extends Activity implements IConfigureView, EasyP
     }
 
     @Override
-    public void displayCalendars(String[] calendars) {
+    public void displayCalendars(@NonNull List<CalendarBean> calendars) {
+        String[] calNames = new String[calendars.size()];
+        int index = 0;
+        for (CalendarBean bean : calendars) {
+            calNames[index] = String.format("%s (%s)", bean.getDisplayName(), bean.getAccountName());
+        }
+
         AlertDialog dialog = new AlertDialog.Builder(this)
-                .setMultiChoiceItems(calendars, null, new DialogInterface.OnMultiChoiceClickListener() {
+                .setMultiChoiceItems(calNames, null, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i, boolean b) {
 
@@ -63,7 +70,6 @@ public class ConfigureActivity extends Activity implements IConfigureView, EasyP
                 })
                 .create();
         dialog.show();
-
     }
 
     @Override

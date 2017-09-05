@@ -13,7 +13,9 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-import static by.yahorfralou.plaincalendar.widget.PlainCalendarWidgetApp.LOGCAT;
+import by.yahorfralou.plaincalendar.widget.model.CalendarBean;
+
+import static by.yahorfralou.plaincalendar.widget.app.PlainCalendarWidgetApp.LOGCAT;
 
 public class ConfigurePresenter {
 
@@ -31,7 +33,7 @@ public class ConfigurePresenter {
             // TODO output some message
             return;
         }
-        List<String> calendarList = new ArrayList<>();
+        List<CalendarBean> calendarList = new ArrayList<>();
 
 
         ContentResolver cr = ctx.getContentResolver();
@@ -41,20 +43,22 @@ public class ConfigurePresenter {
                 CalendarContract.Calendars._ID,
                 CalendarContract.Calendars.ACCOUNT_NAME,
                 CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,
-                CalendarContract.Calendars.OWNER_ACCOUNT
+                CalendarContract.Calendars.CALENDAR_COLOR
         }, null, null, CalendarContract.Calendars.ACCOUNT_NAME + ", " + CalendarContract.Calendars.CALENDAR_DISPLAY_NAME)) {
             while (cur != null && cur.moveToNext()) {
-                calendarList.add(cur.getString(cur.getColumnIndex(CalendarContract.Calendars.CALENDAR_DISPLAY_NAME)) + ":" +
-                        cur.getString(cur.getColumnIndex(CalendarContract.Calendars.ACCOUNT_NAME)));
+                CalendarBean bean = new CalendarBean();
+                bean.setId(cur.getLong(cur.getColumnIndex(CalendarContract.Calendars._ID)));
+                bean.setDisplayName(cur.getString(cur.getColumnIndex(CalendarContract.Calendars.CALENDAR_DISPLAY_NAME)));
+                bean.setAccountName(cur.getString(cur.getColumnIndex(CalendarContract.Calendars.ACCOUNT_NAME)));
+                bean.setColor(cur.getInt(cur.getColumnIndex(CalendarContract.Calendars.CALENDAR_COLOR)));
             }
 
         } catch (Exception e) {
             // TODO handle
         }
 
-        String[] calendars = new String[calendarList.size()];
-        calendarList.toArray(calendars);
+        //PlainCalendarWidgetApp.getAppDatabase().calendarDao().insertAll(calendarList);
 
-        view.displayCalendars(calendars);
+        view.displayCalendars(calendarList);
     }
 }
