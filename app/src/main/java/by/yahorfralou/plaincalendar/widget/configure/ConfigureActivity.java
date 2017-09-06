@@ -8,6 +8,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -97,22 +99,30 @@ public class ConfigureActivity extends Activity implements IConfigureView, EasyP
         txtCalendarsNumber.setText(String.valueOf(calendarSettings.size()));
 
         blockCalIcons.removeAllViews();
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        );
-        params.setMarginStart(-8);
+
+        boolean isFirst = true;
         for (CalendarBean bean : calendarSettings) {
-            CalendarIconView iconView = new CalendarIconView(ConfigureActivity.this);
+            CalendarIconView iconView = (CalendarIconView) LayoutInflater.from(ConfigureActivity.this)
+                    .inflate(R.layout.inc_cal_icon, blockCalIcons, false);
 
             if (bean.getColor() != null) {
                 iconView.setBackColor(bean.getColor());
             }
             iconView.setSymbol(bean.getDisplayName().charAt(0));
-            iconView.setLayoutParams(params);
+
+            if (isFirst) {
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                );
+                iconView.setLayoutParams(params);
+                isFirst = false;
+            }
 
             blockCalIcons.addView(iconView);
+            Log.i(LOGCAT, "Add icon: " + bean.getAccountName() + ", " + bean.getDisplayName());
         }
+
     }
 
     @Override

@@ -13,7 +13,7 @@ import io.reactivex.Maybe;
 @Dao
 public interface CalendarDao {
 
-    @Query("SELECT * FROM calendars WHERE is_selected = 1")
+    @Query("SELECT * FROM calendars WHERE is_selected = 1 ORDER BY account_name, display_name")
     Maybe<List<CalendarBean>> getAllSelected();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
