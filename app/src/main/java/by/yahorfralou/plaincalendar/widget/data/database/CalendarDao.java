@@ -1,4 +1,4 @@
-package by.yahorfralou.plaincalendar.widget.data;
+package by.yahorfralou.plaincalendar.widget.data.database;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
@@ -8,14 +8,15 @@ import android.arch.persistence.room.Query;
 import java.util.List;
 
 import by.yahorfralou.plaincalendar.widget.model.CalendarBean;
+import io.reactivex.Maybe;
 
 @Dao
 public interface CalendarDao {
 
-    @Query("SELECT * from calendars")
-    List<CalendarBean> getAll();
+    @Query("SELECT * FROM calendars WHERE is_selected = 1")
+    Maybe<List<CalendarBean>> getAllSelected();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertAll(List<CalendarBean> beans);
+    long[] insertAll(List<CalendarBean> beans);
 
 }

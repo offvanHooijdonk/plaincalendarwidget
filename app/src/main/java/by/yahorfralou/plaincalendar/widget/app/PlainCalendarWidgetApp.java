@@ -4,7 +4,7 @@ import android.app.Application;
 import android.arch.persistence.room.Room;
 import android.util.Log;
 
-import by.yahorfralou.plaincalendar.widget.data.AppDatabase;
+import by.yahorfralou.plaincalendar.widget.data.database.AppDatabase;
 
 public class PlainCalendarWidgetApp extends Application {
     public static final String LOGCAT = "=== PCW ===";

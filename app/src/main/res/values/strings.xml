@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Plain Calendar Widget</string>
     <string name="fish_short" translatable="false">Lorem Ipsum</string>
+    <string name="dialog_load_calendars_msg">Loading Calendars…</string>
+    <string name="btn_pick_calendars">Pick Calendars</string>
+    <string name="calendars_selected">Calendars selected:</string>
 
 
 </resources>

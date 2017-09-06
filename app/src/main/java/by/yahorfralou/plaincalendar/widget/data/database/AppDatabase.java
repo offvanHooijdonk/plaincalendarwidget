@@ -1,4 +1,4 @@
-package by.yahorfralou.plaincalendar.widget.data;
+package by.yahorfralou.plaincalendar.widget.data.database;
 
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.RoomDatabase;

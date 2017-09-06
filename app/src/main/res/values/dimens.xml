@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="widget_margin">8dp</dimen>
+    <dimen name="choice_list_padding">16dp</dimen>
+    <dimen name="activity_v_padding">16dp</dimen>
+    <dimen name="activity_h_padding">16dp</dimen>
 </resources>

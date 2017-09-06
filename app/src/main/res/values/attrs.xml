@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CalendarIconView">
+        <attr name="imageSize" format="dimension" />
+        <attr name="textSize" format="dimension" />
+        <attr name="symbol" format="string" />
+        <attr name="backgroundColor" format="color" />
+    </declare-styleable>
+
+</resources>
