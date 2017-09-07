@@ -24,11 +24,13 @@ android {
 }
 
 dependencies {
+    ext.support_version = '26.0.1'
     ext.rx_version = '2.0.1'
     ext.room_version = '1.0.0-alpha9'
 
-    implementation 'com.android.support:appcompat-v7:26.0.1'
-    implementation 'com.android.support:support-v4:26.0.1'
+    implementation "com.android.support:appcompat-v7:$support_version"
+    implementation "com.android.support:support-v4:$support_version"
+    implementation "com.android.support:design:$support_version"
 
     compile "android.arch.persistence.room:runtime:$room_version"
     implementation "android.arch.persistence.room:rxjava2:$room_version"

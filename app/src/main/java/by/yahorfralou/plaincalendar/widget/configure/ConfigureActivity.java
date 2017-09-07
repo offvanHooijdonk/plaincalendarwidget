@@ -1,19 +1,20 @@
 package by.yahorfralou.plaincalendar.widget.configure;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.ProgressDialog;
+import android.appwidget.AppWidgetManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -27,17 +28,19 @@ import pub.devrel.easypermissions.EasyPermissions;
 
 import static by.yahorfralou.plaincalendar.widget.app.PlainCalendarWidgetApp.LOGCAT;
 
-public class ConfigureActivity extends Activity implements IConfigureView, EasyPermissions.PermissionCallbacks {
+public class ConfigureActivity extends AppCompatActivity implements IConfigureView, EasyPermissions.PermissionCallbacks {
 
     private static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1003;
 
     private ConfigurePresenter presenter;
-    List<CalendarBean> calendarSettings;
+    private List<CalendarBean> calendarSettings;
+    private int widgetId;
 
     private ProgressDialog dialogProgress;
     private TextView txtCalendarsNumber;
     private Button btnPickCalendars;
     private ViewGroup blockCalIcons;
+    private FloatingActionButton fabCreateWidget;
 
     private AlertDialog pickCalendarsDialog;
     private BaseAdapter calSettingsAdapter;
@@ -46,6 +49,13 @@ public class ConfigureActivity extends Activity implements IConfigureView, EasyP
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_configure_widget);
+
+        if (getIntent().getExtras() != null) {
+            widgetId = getIntent().getExtras().getInt(AppWidgetManager.EXTRA_APPWIDGET_ID);
+        } else {
+            Log.w(LOGCAT, "No Widget ID found in Extras");
+            widgetId = 0;
+        }
 
         presenter = new ConfigurePresenter(getApplicationContext(), this);
         calendarSettings = new ArrayList<>();
@@ -56,6 +66,7 @@ public class ConfigureActivity extends Activity implements IConfigureView, EasyP
         txtCalendarsNumber = findViewById(R.id.txtCalendarsNumber);
         btnPickCalendars = findViewById(R.id.btnPickCalendars);
         blockCalIcons = findViewById(R.id.blockCalendarsIcons);
+        fabCreateWidget = findViewById(R.id.fabCreateWidget);
 
         btnPickCalendars.setOnClickListener(view -> loadCalendars());
 
@@ -71,8 +82,14 @@ public class ConfigureActivity extends Activity implements IConfigureView, EasyP
                 .setNegativeButton("Cancel", (dialogInterface, i) -> dialogInterface.dismiss())
                 .create();
 
-        presenter.loadCalendarsSettings();
+        fabCreateWidget.setOnClickListener(view -> {
+            Intent intent = new Intent();
+            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);
+            setResult(RESULT_OK, intent);
+            finish();
+        });
 
+        presenter.loadCalendarsSettings();
     }
 
     @Override
@@ -97,32 +114,7 @@ public class ConfigureActivity extends Activity implements IConfigureView, EasyP
         calendarSettings.addAll(list);
 
         txtCalendarsNumber.setText(String.valueOf(calendarSettings.size()));
-
-        blockCalIcons.removeAllViews();
-
-        boolean isFirst = true;
-        for (CalendarBean bean : calendarSettings) {
-            CalendarIconView iconView = (CalendarIconView) LayoutInflater.from(ConfigureActivity.this)
-                    .inflate(R.layout.inc_cal_icon, blockCalIcons, false);
-
-            if (bean.getColor() != null) {
-                iconView.setBackColor(bean.getColor());
-            }
-            iconView.setSymbol(bean.getDisplayName().charAt(0));
-
-            if (isFirst) {
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.WRAP_CONTENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT
-                );
-                iconView.setLayoutParams(params);
-                isFirst = false;
-            }
-
-            blockCalIcons.addView(iconView);
-            Log.i(LOGCAT, "Add icon: " + bean.getAccountName() + ", " + bean.getDisplayName());
-        }
-
+        updateCalIcons();
     }
 
     @Override
@@ -183,4 +175,22 @@ public class ConfigureActivity extends Activity implements IConfigureView, EasyP
     private boolean hasPermissions() {
         return EasyPermissions.hasPermissions(ConfigureActivity.this, Manifest.permission.READ_CALENDAR);
     }
+
+    private void updateCalIcons() {
+        blockCalIcons.removeAllViews();
+
+        for (CalendarBean bean : calendarSettings) {
+            CalendarIconView iconView = (CalendarIconView) LayoutInflater.from(ConfigureActivity.this)
+                    .inflate(R.layout.inc_cal_icon, blockCalIcons, false);
+
+            if (bean.getColor() != null) {
+                iconView.setBackColor(bean.getColor());
+            }
+            iconView.setSymbol(bean.getDisplayName().charAt(0));
+
+            blockCalIcons.addView(iconView);
+            Log.i(LOGCAT, "Add icon: " + bean.getAccountName() + ", " + bean.getDisplayName());
+        }
+    }
+
 }

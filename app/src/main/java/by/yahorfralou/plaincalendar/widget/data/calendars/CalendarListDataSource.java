@@ -12,11 +12,11 @@ import java.util.List;
 import by.yahorfralou.plaincalendar.widget.model.CalendarBean;
 import io.reactivex.Maybe;
 
-public class CalendarListRequest {
+public class CalendarListDataSource {
+    private static final int BOOLEAN_TRUE = 1;
     private Context ctx;
 
-
-    public CalendarListRequest(Context context) {
+    public CalendarListDataSource(Context context) {
         this.ctx = context;
     }
 
@@ -39,6 +39,7 @@ public class CalendarListRequest {
                 bean.setDisplayName(cur.getString(cur.getColumnIndex(CalendarContract.Calendars.CALENDAR_DISPLAY_NAME)));
                 bean.setAccountName(cur.getString(cur.getColumnIndex(CalendarContract.Calendars.ACCOUNT_NAME)));
                 bean.setColor(cur.getInt(cur.getColumnIndex(CalendarContract.Calendars.CALENDAR_COLOR)));
+                bean.setPrimaryOnAccount(cur.getInt(cur.getColumnIndex(CalendarContract.Calendars.IS_PRIMARY)) == BOOLEAN_TRUE);
 
                 calendarList.add(bean);
             }

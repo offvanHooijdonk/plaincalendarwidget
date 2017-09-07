@@ -4,4 +4,6 @@
     <dimen name="choice_list_padding">16dp</dimen>
     <dimen name="activity_v_padding">16dp</dimen>
     <dimen name="activity_h_padding">16dp</dimen>
+
+    <dimen name="cal_icon_sibling_margin">0dp</dimen>
 </resources>

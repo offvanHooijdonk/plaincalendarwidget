@@ -1,55 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:paddingBottom="@dimen/activity_v_padding"
     android:paddingEnd="@dimen/activity_h_padding"
     android:paddingStart="@dimen/activity_h_padding"
     android:paddingTop="@dimen/activity_v_padding">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/txtCalNumLabel"
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/calendars_selected"
-                android:textSize="16sp" />
+                android:layout_centerVertical="true">
 
-            <TextView
-                android:id="@+id/txtCalendarsNumber"
+                <TextView
+                    android:id="@+id/txtCalNumLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/calendars_selected"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/txtCalendarsNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_toEndOf="@id/txtCalNumLabel"
+                    android:text="0"
+                    android:textSize="16sp" />
+
+                <LinearLayout
+                    android:id="@+id/blockCalendarsIcons"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txtCalNumLabel"
+                    android:orientation="horizontal"
+                    android:paddingStart="4dp">
+
+                </LinearLayout>
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/btnPickCalendars"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_toEndOf="@id/txtCalNumLabel"
-                android:text="0"
-                android:textSize="16sp" />
-
-            <LinearLayout
-                android:id="@+id/blockCalendarsIcons"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingStart="4dp"
-                android:layout_below="@id/txtCalNumLabel"
-                android:orientation="horizontal">
-
-            </LinearLayout>
+                android:layout_alignParentEnd="true"
+                android:text="@string/btn_pick_calendars" />
         </RelativeLayout>
+    </LinearLayout>
 
-        <Button
-            android:id="@+id/btnPickCalendars"
-            style="@style/Widget.AppCompat.Button.Borderless.Colored"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:text="@string/btn_pick_calendars" />
-    </RelativeLayout>
-</LinearLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabCreateWidget"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="@dimen/activity_v_padding"
+        android:layout_marginEnd="@dimen/activity_h_padding"
+        android:src="@drawable/ic_done_24dp"
+        app:fabSize="normal" />
+</android.support.design.widget.CoordinatorLayout>
