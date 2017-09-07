@@ -20,6 +20,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import by.yahorfralou.plaincalendar.widget.CalendarWidgetProvider;
 import by.yahorfralou.plaincalendar.widget.R;
 import by.yahorfralou.plaincalendar.widget.model.CalendarBean;
 import by.yahorfralou.plaincalendar.widget.views.CalendarIconView;
@@ -49,7 +50,7 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_configure_widget);
-
+// TODO check if we have any widgets stored or this extra. Else show message 'no widgets'
         if (getIntent().getExtras() != null) {
             widgetId = getIntent().getExtras().getInt(AppWidgetManager.EXTRA_APPWIDGET_ID);
         } else {
@@ -82,12 +83,7 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
                 .setNegativeButton("Cancel", (dialogInterface, i) -> dialogInterface.dismiss())
                 .create();
 
-        fabCreateWidget.setOnClickListener(view -> {
-            Intent intent = new Intent();
-            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);
-            setResult(RESULT_OK, intent);
-            finish();
-        });
+        fabCreateWidget.setOnClickListener(view -> applySettingsAndFinish());
 
         presenter.loadCalendarsSettings();
     }
@@ -112,6 +108,11 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
     public void onCalendarSettingsLoaded(List<CalendarBean> list) {
         calendarSettings.clear();
         calendarSettings.addAll(list);
+        if (calendarSettings.isEmpty()) {
+            fabCreateWidget.setEnabled(false);
+        } else {
+            fabCreateWidget.setEnabled(true);
+        }
 
         txtCalendarsNumber.setText(String.valueOf(calendarSettings.size()));
         updateCalIcons();
@@ -176,6 +177,17 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
         return EasyPermissions.hasPermissions(ConfigureActivity.this, Manifest.permission.READ_CALENDAR);
     }
 
+    private void applySettingsAndFinish() {
+        Intent intentBr = new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE, null, this, CalendarWidgetProvider.class);
+        intentBr.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, new int[] {widgetId});
+        sendBroadcast(intentBr);
+
+        Intent intent = new Intent();
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);
+        setResult(RESULT_OK, intent);
+        finish();
+    }
+
     private void updateCalIcons() {
         blockCalIcons.removeAllViews();
 
@@ -189,7 +201,6 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
             iconView.setSymbol(bean.getDisplayName().charAt(0));
 
             blockCalIcons.addView(iconView);
-            Log.i(LOGCAT, "Add icon: " + bean.getAccountName() + ", " + bean.getDisplayName());
         }
     }
 
