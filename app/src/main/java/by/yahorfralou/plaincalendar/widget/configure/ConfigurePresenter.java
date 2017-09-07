@@ -6,7 +6,7 @@ import android.util.Log;
 import java.util.List;
 
 import by.yahorfralou.plaincalendar.widget.app.PlainCalendarWidgetApp;
-import by.yahorfralou.plaincalendar.widget.data.calendars.CalendarListDataSource;
+import by.yahorfralou.plaincalendar.widget.data.calendars.CalendarDataSource;
 import by.yahorfralou.plaincalendar.widget.model.CalendarBean;
 import io.reactivex.Maybe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -28,7 +28,7 @@ public class ConfigurePresenter {
     // TODO handle errors everywhere
     public void onPickCalendarsRequested() {
         view.showCalendarsLoadProgress(true);
-        new CalendarListDataSource(ctx).requestCalendarList()
+        new CalendarDataSource(ctx).requestCalendarList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(calendarBeans -> {

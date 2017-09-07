@@ -20,7 +20,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import by.yahorfralou.plaincalendar.widget.CalendarWidgetProvider;
+import by.yahorfralou.plaincalendar.widget.widget.CalendarWidgetProvider;
 import by.yahorfralou.plaincalendar.widget.R;
 import by.yahorfralou.plaincalendar.widget.model.CalendarBean;
 import by.yahorfralou.plaincalendar.widget.views.CalendarIconView;
