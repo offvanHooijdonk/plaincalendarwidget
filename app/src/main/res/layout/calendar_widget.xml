@@ -12,20 +12,21 @@
 
         <TextView
             android:id="@+id/txtWidgetDate"
-            android:layout_width="48dp"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:textAlignment="textEnd"
+            android:layout_marginEnd="4dp"
             android:text="31"
+            android:textAlignment="textEnd"
             android:textColor="@color/md_white_1000"
-            android:textSize="40sp" />
+            android:textSize="42sp" />
 
         <TextView
             android:id="@+id/txtWidgetDay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:layout_marginEnd="8dp"
-            android:text="su"
+            android:layout_marginEnd="6dp"
+            android:text="@string/fish_day_of_week"
             android:textColor="@color/md_white_1000"
             android:textSize="14sp" />
     </LinearLayout>
@@ -34,30 +35,22 @@
         android:id="@+id/dividerDate"
         android:layout_width="2dp"
         android:layout_height="match_parent"
-        android:layout_margin="8dp"
+        android:layout_margin="4dp"
         android:src="@drawable/divider_white" />
 
     <ListView
         android:id="@+id/listEvents"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:divider="@null"
+        android:layout_marginStart="@dimen/widget_margin" />
 
     <TextView
         android:id="@+id/emptyView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/fish_short"
+        android:layout_marginTop="@dimen/widget_margin"
+        android:layout_marginStart="@dimen/widget_margin"
+        android:text="@string/widget_empty_events_list"
         android:textColor="@color/md_white_1000" />
-    <!--<LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="4dp"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/fish_short"
-            android:textColor="@color/md_white_1000" />
-    </LinearLayout>-->
 </LinearLayout>

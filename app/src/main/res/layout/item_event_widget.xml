@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <!--<ImageView
+        android:id="@+id/imgColor"
+        android:layout_width="8dp"
+        android:layout_height="8dp"
+        android:layout_marginTop="4dp"
+        android:src="@drawable/circle"
+        android:tint="@color/colorPrimary" />-->
+
+    <TextView
+        android:id="@+id/txtDateRange"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:text="@string/fish_date"
+        android:textColor="@color/md_white_1000"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/txtEventTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@id/txtDateRange"
+        android:layout_below="@id/txtDateRange"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:text="@string/fish_short"
+        android:textColor="@color/md_white_1000" />
+
+</RelativeLayout>
