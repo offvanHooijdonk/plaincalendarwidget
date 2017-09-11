@@ -54,6 +54,13 @@ public class ConfigurePresenter {
                 .subscribe(calendarBeans -> view.onCalendarSettingsLoaded(calendarBeans));
     }
 
+    public void loadWidgetSettings() {
+        PlainCalendarWidgetApp.getAppDatabase().widgetDao().getAll()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(list -> view.onWidgetSettingsLoaded(list));
+    }
+
     private void handleError(Throwable th) {
 
     }

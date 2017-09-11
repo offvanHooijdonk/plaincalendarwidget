@@ -3,18 +3,16 @@ package by.yahorfralou.plaincalendar.widget.model;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
-import java.util.Objects;
-
 @Entity(tableName = "widgets")
 public class WidgetBean {
     @PrimaryKey
-    private long id;
+    private int id;
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -25,6 +23,6 @@ public class WidgetBean {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return id;
     }
 }

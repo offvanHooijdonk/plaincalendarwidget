@@ -20,6 +20,7 @@ import java.util.Set;
 import by.yahorfralou.plaincalendar.widget.R;
 import by.yahorfralou.plaincalendar.widget.data.calendars.CalendarsRemoteService;
 import by.yahorfralou.plaincalendar.widget.data.calendars.observer.EventsContentObserver;
+import by.yahorfralou.plaincalendar.widget.helper.DateHelper;
 
 import static by.yahorfralou.plaincalendar.widget.app.PlainCalendarWidgetApp.LOGCAT;
 
@@ -112,9 +113,9 @@ public class CalendarWidgetProvider extends AppWidgetProvider {
     }
 
     private void updateDateViews(RemoteViews rv) {
-        String[] dateValues = SDF.format(new Date()).split("\\s");
-        rv.setTextViewText(R.id.txtWidgetDate, dateValues[0]);
-        rv.setTextViewText(R.id.txtWidgetDay, dateValues[1].toLowerCase());
+        Date now = new Date(System.currentTimeMillis());
+        rv.setTextViewText(R.id.txtWidgetDate, DateHelper.formatDateOnly(now));
+        rv.setTextViewText(R.id.txtWidgetDay, DateHelper.formatDay(now));
     }
 
 }

@@ -20,6 +20,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import by.yahorfralou.plaincalendar.widget.model.WidgetBean;
 import by.yahorfralou.plaincalendar.widget.widget.CalendarWidgetProvider;
 import by.yahorfralou.plaincalendar.widget.R;
 import by.yahorfralou.plaincalendar.widget.model.CalendarBean;
@@ -35,7 +36,7 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
 
     private ConfigurePresenter presenter;
     private List<CalendarBean> calendarSettings;
-    private Integer widgetIncomingId;
+    private Integer widgetId;
 
     private ProgressDialog dialogProgress;
     private TextView txtCalendarsNumber;
@@ -52,11 +53,11 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
         setContentView(R.layout.activity_configure_widget);
 // TODO check if we have any widgets stored or this extra. Else show message 'no widgets'
         if (getIntent().getExtras() != null) {
-            widgetIncomingId = getIntent().getExtras().getInt(AppWidgetManager.EXTRA_APPWIDGET_ID);
+            widgetId = getIntent().getExtras().getInt(AppWidgetManager.EXTRA_APPWIDGET_ID);
         } else {
             Log.d(LOGCAT, "No Widget ID found in Extras");
-            // TODO read widgets from DB
-            widgetIncomingId = 0;
+            widgetId = null;
+            presenter.loadWidgetSettings();
         }
 
         presenter = new ConfigurePresenter(getApplicationContext(), this);
@@ -70,7 +71,7 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
         blockCalIcons = findViewById(R.id.blockCalendarsIcons);
         fabCreateWidget = findViewById(R.id.fabCreateWidget);
 
-        btnPickCalendars.setOnClickListener(view -> loadCalendars());
+        btnPickCalendars.setOnClickListener(view -> pickCalendars());
 
         calSettingsAdapter = new CalendarsChoiceAdapter(this, calendarSettings, (index, isSelected) -> calendarSettings.get(index).setSelected(isSelected));
         pickCalendarsDialog = new AlertDialog.Builder(this)
@@ -124,6 +125,13 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
     }
 
     @Override
+    public void onWidgetSettingsLoaded(List<WidgetBean> list) {
+        if (list.isEmpty()) {
+            widgetId = list.get(0).getId();
+        }
+    }
+
+    @Override
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
@@ -148,7 +156,7 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
         fabCreateWidget.setEnabled(true);
 
         if (calendarSettings.isEmpty()) {
-            loadCalendars();
+            pickCalendars();
         }
     }
 
@@ -165,7 +173,7 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
         presenter.updateCalendarsSettings(calendarSettings);
     }
 
-    private void loadCalendars() {
+    private void pickCalendars() {
         if (hasPermissions()) {
             presenter.onPickCalendarsRequested();
         } else {
@@ -187,11 +195,11 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
 
     private void applySettingsAndFinish() {
         Intent intentBr = new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE, null, this, CalendarWidgetProvider.class);
-        intentBr.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, new int[] {widgetIncomingId});
+        intentBr.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, new int[] {widgetId});
         sendBroadcast(intentBr);
 
         Intent intent = new Intent();
-        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetIncomingId);
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);
         setResult(RESULT_OK, intent);
         finish();
     }

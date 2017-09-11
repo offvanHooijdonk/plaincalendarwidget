@@ -7,6 +7,7 @@
     <string name="calendars_selected">Calendars selected:</string>
     <string name="widget_empty_events_list">No Events</string>
     <string name="fish_day_of_week">su</string>
+    <string name="date_default">31</string>
 
 
 </resources>
