@@ -1,0 +1,30 @@
+package by.yahorfralou.plaincalendar.widget.model;
+
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+
+import java.util.Objects;
+
+@Entity(tableName = "widgets")
+public class WidgetBean {
+    @PrimaryKey
+    private long id;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj != null && obj instanceof WidgetBean && id == ((WidgetBean) obj).id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+}

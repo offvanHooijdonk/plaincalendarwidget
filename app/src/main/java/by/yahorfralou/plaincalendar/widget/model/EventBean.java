@@ -20,7 +20,7 @@ public class EventBean {
     @ColumnInfo(name = "is_all_day")
     private boolean allDay;
     @ColumnInfo(name = "event_color")
-    private int eventColor;
+    private Integer eventColor;
     @ColumnInfo(name = "calendar_id")
     private long calendarId;
 
@@ -64,11 +64,11 @@ public class EventBean {
         this.allDay = allDay;
     }
 
-    public int getEventColor() {
+    public Integer getEventColor() {
         return eventColor;
     }
 
-    public void setEventColor(int eventColor) {
+    public void setEventColor(Integer eventColor) {
         this.eventColor = eventColor;
     }
 

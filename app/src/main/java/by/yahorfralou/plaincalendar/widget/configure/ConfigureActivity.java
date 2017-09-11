@@ -35,7 +35,7 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
 
     private ConfigurePresenter presenter;
     private List<CalendarBean> calendarSettings;
-    private int widgetId;
+    private Integer widgetIncomingId;
 
     private ProgressDialog dialogProgress;
     private TextView txtCalendarsNumber;
@@ -52,10 +52,11 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
         setContentView(R.layout.activity_configure_widget);
 // TODO check if we have any widgets stored or this extra. Else show message 'no widgets'
         if (getIntent().getExtras() != null) {
-            widgetId = getIntent().getExtras().getInt(AppWidgetManager.EXTRA_APPWIDGET_ID);
+            widgetIncomingId = getIntent().getExtras().getInt(AppWidgetManager.EXTRA_APPWIDGET_ID);
         } else {
-            Log.w(LOGCAT, "No Widget ID found in Extras");
-            widgetId = 0;
+            Log.d(LOGCAT, "No Widget ID found in Extras");
+            // TODO read widgets from DB
+            widgetIncomingId = 0;
         }
 
         presenter = new ConfigurePresenter(getApplicationContext(), this);
@@ -83,6 +84,10 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
                 .setNegativeButton("Cancel", (dialogInterface, i) -> dialogInterface.dismiss())
                 .create();
 
+        if (!EasyPermissions.hasPermissions(ConfigureActivity.this, Manifest.permission.READ_CALENDAR)) {
+            fabCreateWidget.setEnabled(false);
+            askForPermissions();
+        }
         fabCreateWidget.setOnClickListener(view -> applySettingsAndFinish());
 
         presenter.loadCalendarsSettings();
@@ -140,8 +145,11 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
     @AfterPermissionGranted(REQUEST_PERMISSION_GET_ACCOUNTS)
     private void afterPermissionGranted() {
         Log.i(LOGCAT, "afterPermissionGranted");
+        fabCreateWidget.setEnabled(true);
 
-        loadCalendars();
+        if (calendarSettings.isEmpty()) {
+            loadCalendars();
+        }
     }
 
     @Override
@@ -179,11 +187,11 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
 
     private void applySettingsAndFinish() {
         Intent intentBr = new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE, null, this, CalendarWidgetProvider.class);
-        intentBr.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, new int[] {widgetId});
+        intentBr.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, new int[] {widgetIncomingId});
         sendBroadcast(intentBr);
 
         Intent intent = new Intent();
-        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetIncomingId);
         setResult(RESULT_OK, intent);
         finish();
     }

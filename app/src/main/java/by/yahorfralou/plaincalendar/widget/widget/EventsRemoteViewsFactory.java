@@ -67,6 +67,10 @@ public class EventsRemoteViewsFactory implements RemoteViewsService.RemoteViewsF
         rv.setTextViewText(R.id.txtDateRange, String.format("%s", event.isAllDay() ? "All Day" : DATE_FORMAT.format(event.getDateStart())));
         rv.setTextViewText(R.id.txtEventTitle, event.getTitle());
 
+        if (event.getEventColor() != null) {
+            rv.setInt(R.id.imgColor, "setColorFilter", event.getEventColor());
+        }
+
         return rv;
     }
 
