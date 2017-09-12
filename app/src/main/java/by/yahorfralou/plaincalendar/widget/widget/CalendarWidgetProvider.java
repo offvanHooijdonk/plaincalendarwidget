@@ -29,13 +29,11 @@ public class CalendarWidgetProvider extends AppWidgetProvider {
     private static final SimpleDateFormat SDF = new SimpleDateFormat("d EE");
 
     private EventsContentObserver contentObserver;
-    private Set<Integer> globalWidgetIdSet = new HashSet<>();
-    private AppWidgetManager widgetManagerCached;
+    private static Set<Integer> globalWidgetIdSet = new HashSet<>();
 
     @Override
     public void onEnabled(Context ctx) {
         super.onEnabled(ctx);
-
         Log.i(LOGCAT, "Enabled");
     }
 
@@ -43,7 +41,6 @@ public class CalendarWidgetProvider extends AppWidgetProvider {
     public void onUpdate(Context ctx, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         super.onUpdate(ctx, appWidgetManager, appWidgetIds);
         Log.i(LOGCAT, "Update " + Arrays.toString(appWidgetIds));
-        widgetManagerCached = appWidgetManager;
 
         for (int appWidgetId : appWidgetIds) {
             globalWidgetIdSet.add(appWidgetId);
@@ -74,18 +71,28 @@ public class CalendarWidgetProvider extends AppWidgetProvider {
 
             appWidgetManager.updateAppWidget(appWidgetId, rv);
         }
+
     }
 
     @Override
     public void onReceive(Context ctx, Intent intent) {
         super.onReceive(ctx, intent);
+        Log.d(LOGCAT, "onReceive");
+        Log.d(LOGCAT, "Got " + intent.getAction() + " action");
+        AppWidgetManager manager = AppWidgetManager.getInstance(ctx);
 
-        if (Intent.ACTION_DATE_CHANGED.equals(intent.getAction()) && widgetManagerCached != null) {
+        if (Intent.ACTION_DATE_CHANGED.equals(intent.getAction()) ||
+                Intent.ACTION_TIME_CHANGED.equals(intent.getAction()) ||
+                Intent.ACTION_TIMEZONE_CHANGED.equals(intent.getAction())) {
+
+            Log.i(LOGCAT, "Applying current date on Event");
+
             for (int widgetId : globalWidgetIdSet) {
+                Log.i(LOGCAT, "Event " + widgetId);
                 RemoteViews rv = new RemoteViews(ctx.getPackageName(), R.layout.calendar_widget);
                 updateDateViews(rv);
 
-                widgetManagerCached.partiallyUpdateAppWidget(widgetId, rv);
+                manager.partiallyUpdateAppWidget(widgetId, rv);
             }
         }
     }
