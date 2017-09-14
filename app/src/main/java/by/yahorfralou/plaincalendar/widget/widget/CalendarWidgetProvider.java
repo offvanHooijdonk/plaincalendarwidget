@@ -1,6 +1,8 @@
 package by.yahorfralou.plaincalendar.widget.widget;
 
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
@@ -35,6 +37,16 @@ public class CalendarWidgetProvider extends AppWidgetProvider {
     public void onEnabled(Context ctx) {
         super.onEnabled(ctx);
         Log.i(LOGCAT, "Enabled");
+
+        AlarmManager alarmManager = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
+        if (alarmManager != null) {
+            Intent intent = new Intent(ctx, CalendarWidgetProvider.class);
+            PendingIntent pi = PendingIntent.getBroadcast(ctx, 0, intent, 0);
+
+            alarmManager.setRepeating(AlarmManager.RTC, DateHelper.getClosestMidnightMillis(), DateHelper.MILLIS_IN_DAY, pi);
+        } else {
+            // TODO handle
+        }
     }
 
     @Override

@@ -51,6 +51,9 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_configure_widget);
+
+        presenter = new ConfigurePresenter(getApplicationContext(), this);
+
 // TODO check if we have any widgets stored or this extra. Else show message 'no widgets'
         if (getIntent().getExtras() != null) {
             widgetId = getIntent().getExtras().getInt(AppWidgetManager.EXTRA_APPWIDGET_ID);
@@ -60,7 +63,7 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
             presenter.loadWidgetSettings();
         }
 
-        presenter = new ConfigurePresenter(getApplicationContext(), this);
+
         calendarSettings = new ArrayList<>();
 
         dialogProgress = new ProgressDialog(this);
@@ -126,7 +129,7 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
 
     @Override
     public void onWidgetSettingsLoaded(List<WidgetBean> list) {
-        if (list.isEmpty()) {
+        if (!list.isEmpty()) {
             widgetId = list.get(0).getId();
         }
     }
