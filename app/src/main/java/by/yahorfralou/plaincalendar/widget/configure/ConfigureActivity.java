@@ -20,6 +20,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import by.yahorfralou.plaincalendar.widget.helper.PermissionHelper;
 import by.yahorfralou.plaincalendar.widget.model.WidgetBean;
 import by.yahorfralou.plaincalendar.widget.widget.CalendarWidgetProvider;
 import by.yahorfralou.plaincalendar.widget.R;
@@ -88,7 +89,7 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
                 .setNegativeButton("Cancel", (dialogInterface, i) -> dialogInterface.dismiss())
                 .create();
 
-        if (!EasyPermissions.hasPermissions(ConfigureActivity.this, Manifest.permission.READ_CALENDAR)) {
+        if (!PermissionHelper.hasCalendarPermissions(ConfigureActivity.this)) {
             fabCreateWidget.setEnabled(false);
             askForPermissions();
         }
@@ -177,7 +178,7 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
     }
 
     private void pickCalendars() {
-        if (hasPermissions()) {
+        if (PermissionHelper.hasCalendarPermissions(this)) {
             presenter.onPickCalendarsRequested();
         } else {
             askForPermissions();
@@ -190,10 +191,6 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
                 "This app needs to access Calendars on your device.",
                 REQUEST_PERMISSION_GET_ACCOUNTS,
                 Manifest.permission.READ_CALENDAR);
-    }
-
-    private boolean hasPermissions() {
-        return EasyPermissions.hasPermissions(ConfigureActivity.this, Manifest.permission.READ_CALENDAR);
     }
 
     private void applySettingsAndFinish() {

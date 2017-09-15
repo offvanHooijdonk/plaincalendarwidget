@@ -1,6 +1,5 @@
 package by.yahorfralou.plaincalendar.widget.widget;
 
-import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
@@ -13,7 +12,6 @@ import android.provider.CalendarContract;
 import android.util.Log;
 import android.widget.RemoteViews;
 
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
@@ -23,15 +21,16 @@ import by.yahorfralou.plaincalendar.widget.R;
 import by.yahorfralou.plaincalendar.widget.data.calendars.CalendarsRemoteService;
 import by.yahorfralou.plaincalendar.widget.data.calendars.observer.EventsContentObserver;
 import by.yahorfralou.plaincalendar.widget.helper.DateHelper;
+import by.yahorfralou.plaincalendar.widget.helper.PermissionHelper;
 
 import static by.yahorfralou.plaincalendar.widget.app.PlainCalendarWidgetApp.LOGCAT;
 
 public class CalendarWidgetProvider extends AppWidgetProvider {
-    @SuppressLint("SimpleDateFormat")
-    private static final SimpleDateFormat SDF = new SimpleDateFormat("d EE");
+    private static final String INTENT_ACTION_NEW_DAY = "NEW_DAY_STARTED";
 
     private EventsContentObserver contentObserver;
     private static Set<Integer> globalWidgetIdSet = new HashSet<>();
+    private static PendingIntent pendingIntentAlarmDaily;
 
     @Override
     public void onEnabled(Context ctx) {
@@ -41,9 +40,10 @@ public class CalendarWidgetProvider extends AppWidgetProvider {
         AlarmManager alarmManager = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
         if (alarmManager != null) {
             Intent intent = new Intent(ctx, CalendarWidgetProvider.class);
-            PendingIntent pi = PendingIntent.getBroadcast(ctx, 0, intent, 0);
+            intent.setAction(INTENT_ACTION_NEW_DAY);
+            pendingIntentAlarmDaily = PendingIntent.getBroadcast(ctx, 0, intent, 0);
 
-            alarmManager.setRepeating(AlarmManager.RTC, DateHelper.getClosestMidnightMillis(), DateHelper.MILLIS_IN_DAY, pi);
+            alarmManager.setRepeating(AlarmManager.RTC, DateHelper.getClosestMidnightMillis(), DateHelper.MILLIS_IN_DAY, pendingIntentAlarmDaily);
         } else {
             // TODO handle
         }
@@ -58,12 +58,13 @@ public class CalendarWidgetProvider extends AppWidgetProvider {
             globalWidgetIdSet.add(appWidgetId);
         }
 
-        if (contentObserver == null) {
+        if (contentObserver == null && PermissionHelper.hasCalendarPermissions(ctx)) {
             contentObserver = new EventsContentObserver(new Handler(), () -> {
                 for (Integer wId : globalWidgetIdSet) {
                     appWidgetManager.notifyAppWidgetViewDataChanged(wId, R.id.listEvents);
                 }
             });
+
             ctx.getContentResolver().registerContentObserver(CalendarContract.Events.CONTENT_URI, true, contentObserver);
         }
 
@@ -91,11 +92,13 @@ public class CalendarWidgetProvider extends AppWidgetProvider {
         super.onReceive(ctx, intent);
         Log.d(LOGCAT, "onReceive");
         Log.d(LOGCAT, "Got " + intent.getAction() + " action");
+
         AppWidgetManager manager = AppWidgetManager.getInstance(ctx);
 
         if (Intent.ACTION_DATE_CHANGED.equals(intent.getAction()) ||
                 Intent.ACTION_TIME_CHANGED.equals(intent.getAction()) ||
-                Intent.ACTION_TIMEZONE_CHANGED.equals(intent.getAction())) {
+                Intent.ACTION_TIMEZONE_CHANGED.equals(intent.getAction()) ||
+                INTENT_ACTION_NEW_DAY.equals(intent.getAction())) {
 
             Log.i(LOGCAT, "Applying current date on Event");
 
@@ -128,6 +131,14 @@ public class CalendarWidgetProvider extends AppWidgetProvider {
 
         if (contentObserver != null) {
             ctx.getContentResolver().unregisterContentObserver(contentObserver);
+        }
+
+        if (pendingIntentAlarmDaily != null) {
+            AlarmManager alarmManager = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
+            if (alarmManager != null) {
+                alarmManager.cancel(pendingIntentAlarmDaily);
+            }
+
         }
     }
 
