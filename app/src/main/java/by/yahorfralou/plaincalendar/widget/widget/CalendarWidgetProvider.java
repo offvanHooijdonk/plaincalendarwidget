@@ -4,6 +4,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -14,8 +15,6 @@ import android.widget.RemoteViews;
 
 import java.util.Arrays;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 import by.yahorfralou.plaincalendar.widget.R;
 import by.yahorfralou.plaincalendar.widget.data.calendars.CalendarsRemoteService;
@@ -29,8 +28,6 @@ public class CalendarWidgetProvider extends AppWidgetProvider {
     private static final String INTENT_ACTION_NEW_DAY = "NEW_DAY_STARTED";
 
     private EventsContentObserver contentObserver;
-    private static Set<Integer> globalWidgetIdSet = new HashSet<>();
-    private static PendingIntent pendingIntentAlarmDaily;
 
     @Override
     public void onEnabled(Context ctx) {
@@ -39,11 +36,7 @@ public class CalendarWidgetProvider extends AppWidgetProvider {
 
         AlarmManager alarmManager = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
         if (alarmManager != null) {
-            Intent intent = new Intent(ctx, CalendarWidgetProvider.class);
-            intent.setAction(INTENT_ACTION_NEW_DAY);
-            pendingIntentAlarmDaily = PendingIntent.getBroadcast(ctx, 0, intent, 0);
-
-            alarmManager.setRepeating(AlarmManager.RTC, DateHelper.getClosestMidnightMillis(), DateHelper.MILLIS_IN_DAY, pendingIntentAlarmDaily);
+            alarmManager.setRepeating(AlarmManager.RTC, DateHelper.getClosestMidnightMillis(), DateHelper.MILLIS_IN_DAY, getNewDayPendingIntent(ctx));
         } else {
             // TODO handle
         }
@@ -54,15 +47,12 @@ public class CalendarWidgetProvider extends AppWidgetProvider {
         super.onUpdate(ctx, appWidgetManager, appWidgetIds);
         Log.i(LOGCAT, "Update " + Arrays.toString(appWidgetIds));
 
-        for (int appWidgetId : appWidgetIds) {
-            globalWidgetIdSet.add(appWidgetId);
-        }
-
         if (contentObserver == null && PermissionHelper.hasCalendarPermissions(ctx)) {
             contentObserver = new EventsContentObserver(new Handler(), () -> {
-                for (Integer wId : globalWidgetIdSet) {
-                    appWidgetManager.notifyAppWidgetViewDataChanged(wId, R.id.listEvents);
-                }
+                int[] widgetIds = getWidgetIds(ctx);
+                Log.i(LOGCAT, "Observer for events changes. Widgets: " + Arrays.toString(widgetIds));
+                // TODO check for the particular widgets subscriptions ?
+                appWidgetManager.notifyAppWidgetViewDataChanged(widgetIds, R.id.listEvents);
             });
 
             ctx.getContentResolver().registerContentObserver(CalendarContract.Events.CONTENT_URI, true, contentObserver);
@@ -93,7 +83,9 @@ public class CalendarWidgetProvider extends AppWidgetProvider {
         Log.d(LOGCAT, "onReceive");
         Log.d(LOGCAT, "Got " + intent.getAction() + " action");
 
-        AppWidgetManager manager = AppWidgetManager.getInstance(ctx);
+        int[] widgetIds = getWidgetIds(ctx);
+
+        Log.i(LOGCAT, "Widgets found: " + Arrays.toString(widgetIds));
 
         if (Intent.ACTION_DATE_CHANGED.equals(intent.getAction()) ||
                 Intent.ACTION_TIME_CHANGED.equals(intent.getAction()) ||
@@ -101,8 +93,9 @@ public class CalendarWidgetProvider extends AppWidgetProvider {
                 INTENT_ACTION_NEW_DAY.equals(intent.getAction())) {
 
             Log.i(LOGCAT, "Applying current date on Widget");
+            AppWidgetManager manager = AppWidgetManager.getInstance(ctx);
 
-            for (int widgetId : globalWidgetIdSet) {
+            for (int widgetId : /*globalWidgetIdSet*/ widgetIds) {
                 Log.i(LOGCAT, "Widget " + widgetId);
                 RemoteViews rv = new RemoteViews(ctx.getPackageName(), R.layout.calendar_widget);
                 updateDateViews(rv);
@@ -117,10 +110,6 @@ public class CalendarWidgetProvider extends AppWidgetProvider {
         super.onDeleted(context, appWidgetIds);
 
         Log.i(LOGCAT, "Deleted");
-
-        for (int widgetId : appWidgetIds) {
-            globalWidgetIdSet.remove(widgetId);
-        }
     }
 
     @Override
@@ -129,17 +118,27 @@ public class CalendarWidgetProvider extends AppWidgetProvider {
 
         Log.i(LOGCAT, "Disabled");
 
+        // TODO check that it is here to be unsubscribed
         if (contentObserver != null) {
             ctx.getContentResolver().unregisterContentObserver(contentObserver);
         }
 
-        if (pendingIntentAlarmDaily != null) {
-            AlarmManager alarmManager = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
-            if (alarmManager != null) {
-                alarmManager.cancel(pendingIntentAlarmDaily);
-            }
-
+        AlarmManager alarmManager = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
+        if (alarmManager != null) {
+            alarmManager.cancel(getNewDayPendingIntent(ctx));
         }
+    }
+
+    private PendingIntent getNewDayPendingIntent(Context ctx) {
+        Intent intent = new Intent(ctx, CalendarWidgetProvider.class);
+        intent.setAction(INTENT_ACTION_NEW_DAY);
+        // replace with a method that returns a *new* one
+        return PendingIntent.getBroadcast(ctx, 0, intent, 0);
+    }
+
+    private int[] getWidgetIds(Context ctx) {
+        AppWidgetManager manager = AppWidgetManager.getInstance(ctx);
+        return manager.getAppWidgetIds(new ComponentName(ctx, getClass()));
     }
 
     private void updateDateViews(RemoteViews rv) {

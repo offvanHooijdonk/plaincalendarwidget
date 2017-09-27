@@ -13,6 +13,7 @@ public class DateHelper {
     private static final SimpleDateFormat SDF_DATE_ONLY = new SimpleDateFormat("d");
     @SuppressLint("SimpleDateFormat")
     private static final SimpleDateFormat SDF_DAY = new SimpleDateFormat("EE");
+    //private static final SimpleDateFormat SDF_TIME_HH_MM = new SimpleDateFormat("HH:mm");
 
     public static String formatDateOnly(Date date) {
         return SDF_DATE_ONLY.format(date);
@@ -22,12 +23,17 @@ public class DateHelper {
         return SDF_DAY.format(date);
     }
 
+    /*public static String formatTimeHourMin(Date date) {
+        return SDF_TIME_HH_MM.format(date);
+    }*/
+
     public static long getClosestMidnightMillis() {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR, 0);
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
         calendar.add(Calendar.DAY_OF_MONTH, 1);
+        //calendar.add(Calendar.MINUTE, 1);
 
         return calendar.getTimeInMillis();
     }
