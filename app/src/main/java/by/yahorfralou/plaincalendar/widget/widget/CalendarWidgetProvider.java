@@ -100,10 +100,10 @@ public class CalendarWidgetProvider extends AppWidgetProvider {
                 Intent.ACTION_TIMEZONE_CHANGED.equals(intent.getAction()) ||
                 INTENT_ACTION_NEW_DAY.equals(intent.getAction())) {
 
-            Log.i(LOGCAT, "Applying current date on Event");
+            Log.i(LOGCAT, "Applying current date on Widget");
 
             for (int widgetId : globalWidgetIdSet) {
-                Log.i(LOGCAT, "Event " + widgetId);
+                Log.i(LOGCAT, "Widget " + widgetId);
                 RemoteViews rv = new RemoteViews(ctx.getPackageName(), R.layout.calendar_widget);
                 updateDateViews(rv);
 
