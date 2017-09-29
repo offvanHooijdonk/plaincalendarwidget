@@ -12,6 +12,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -20,12 +21,13 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import by.yahorfralou.plaincalendar.widget.helper.PermissionHelper;
-import by.yahorfralou.plaincalendar.widget.model.WidgetBean;
-import by.yahorfralou.plaincalendar.widget.widget.CalendarWidgetProvider;
 import by.yahorfralou.plaincalendar.widget.R;
+import by.yahorfralou.plaincalendar.widget.helper.PermissionHelper;
+import by.yahorfralou.plaincalendar.widget.helper.WidgetHelper;
 import by.yahorfralou.plaincalendar.widget.model.CalendarBean;
+import by.yahorfralou.plaincalendar.widget.model.WidgetBean;
 import by.yahorfralou.plaincalendar.widget.views.CalendarIconView;
+import by.yahorfralou.plaincalendar.widget.widget.CalendarWidgetProvider;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -44,6 +46,7 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
     private Button btnPickCalendars;
     private ViewGroup blockCalIcons;
     private FloatingActionButton fabCreateWidget;
+    private View viewNoWidgets;
 
     private AlertDialog pickCalendarsDialog;
     private BaseAdapter calSettingsAdapter;
@@ -55,13 +58,26 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
 
         presenter = new ConfigurePresenter(getApplicationContext(), this);
 
-// TODO check if we have any widgets stored or this extra. Else show message 'no widgets'
+        viewNoWidgets = findViewById(R.id.viewNoWidgets);
+
         if (getIntent().getExtras() != null) {
             widgetId = getIntent().getExtras().getInt(AppWidgetManager.EXTRA_APPWIDGET_ID);
         } else {
             Log.d(LOGCAT, "No Widget ID found in Extras");
-            widgetId = null;
-            presenter.loadWidgetSettings();
+            int[] widgetIds = WidgetHelper.getWidgetIds(this, getClass());
+            if (widgetIds != null && widgetIds.length > 0) {
+                // FIXME and add a list to pick
+                widgetId = widgetIds[0];
+            } else {
+                widgetId = null;
+            }
+
+            if (widgetId != null) {
+                presenter.loadWidgetSettings();
+            } else {
+                presenter.onNoWidgets();
+                // TODO return ?
+            }
         }
 
 
@@ -170,6 +186,15 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
             dialogProgress.show();
         } else {
             dialogProgress.dismiss();
+        }
+    }
+
+    @Override
+    public void showNoWidgets(boolean isShow) {
+        if (isShow) {
+            viewNoWidgets.setVisibility(View.VISIBLE);
+        } else {
+            viewNoWidgets.setVisibility(View.GONE);
         }
     }
 

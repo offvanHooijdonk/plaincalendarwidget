@@ -8,6 +8,7 @@
     <string name="widget_empty_events_list">No Events</string>
     <string name="fish_day_of_week">su</string>
     <string name="date_default">31</string>
+    <string name="no_widgets_yet">No widgets yet added</string>
 
 
 </resources>

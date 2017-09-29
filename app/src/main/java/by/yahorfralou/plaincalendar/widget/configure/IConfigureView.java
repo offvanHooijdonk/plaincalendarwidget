@@ -13,4 +13,6 @@ public interface IConfigureView {
     void onWidgetSettingsLoaded(List<WidgetBean> list);
 
     void showCalendarsLoadProgress(boolean isShow);
+
+    void showNoWidgets(boolean isShow);
 }

@@ -61,11 +61,16 @@ public class ConfigurePresenter {
                 .subscribe(list -> view.onWidgetSettingsLoaded(list));
     }
 
+    public void onNoWidgets() {
+        view.showNoWidgets(true);
+    }
+
     private void handleError(Throwable th) {
 
     }
 
-    private void nth(){
+    private void nth() {
 
     }
+
 }

@@ -20,6 +20,8 @@ public class CalendarBean {
     private boolean primaryOnAccount;
     @ColumnInfo(name = "is_selected")
     private boolean selected;
+    @ColumnInfo(name = "widget_id")
+    private long widgetId;
 
     public CalendarBean() {
     }
@@ -72,6 +74,14 @@ public class CalendarBean {
         this.primaryOnAccount = primaryOnAccount;
     }
 
+    public long getWidgetId() {
+        return widgetId;
+    }
+
+    public void setWidgetId(long widgetId) {
+        this.widgetId = widgetId;
+    }
+
     @Override
     public boolean equals(Object obj) {
         return obj != null &&
@@ -93,6 +103,7 @@ public class CalendarBean {
                 ", color=" + color +
                 ", selected=" + selected +
                 ", primary=" + primaryOnAccount +
+                ", widgetId=" + widgetId +
                 '}';
     }
 }

@@ -4,7 +4,6 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -21,6 +20,7 @@ import by.yahorfralou.plaincalendar.widget.data.calendars.CalendarsRemoteService
 import by.yahorfralou.plaincalendar.widget.data.calendars.observer.EventsContentObserver;
 import by.yahorfralou.plaincalendar.widget.helper.DateHelper;
 import by.yahorfralou.plaincalendar.widget.helper.PermissionHelper;
+import by.yahorfralou.plaincalendar.widget.helper.WidgetHelper;
 
 import static by.yahorfralou.plaincalendar.widget.app.PlainCalendarWidgetApp.LOGCAT;
 
@@ -49,7 +49,7 @@ public class CalendarWidgetProvider extends AppWidgetProvider {
 
         if (contentObserver == null && PermissionHelper.hasCalendarPermissions(ctx)) {
             contentObserver = new EventsContentObserver(new Handler(), () -> {
-                int[] widgetIds = getWidgetIds(ctx);
+                int[] widgetIds = WidgetHelper.getWidgetIds(ctx, getClass());
                 Log.i(LOGCAT, "Observer for events changes. Widgets: " + Arrays.toString(widgetIds));
                 // TODO check for the particular widgets subscriptions ?
                 appWidgetManager.notifyAppWidgetViewDataChanged(widgetIds, R.id.listEvents);
@@ -83,7 +83,7 @@ public class CalendarWidgetProvider extends AppWidgetProvider {
         Log.d(LOGCAT, "onReceive");
         Log.d(LOGCAT, "Got " + intent.getAction() + " action");
 
-        int[] widgetIds = getWidgetIds(ctx);
+        int[] widgetIds = WidgetHelper.getWidgetIds(ctx, getClass());
 
         Log.i(LOGCAT, "Widgets found: " + Arrays.toString(widgetIds));
 
@@ -136,10 +136,10 @@ public class CalendarWidgetProvider extends AppWidgetProvider {
         return PendingIntent.getBroadcast(ctx, 0, intent, 0);
     }
 
-    private int[] getWidgetIds(Context ctx) {
+    /*private int[] getWidgetIds(Context ctx) {
         AppWidgetManager manager = AppWidgetManager.getInstance(ctx);
         return manager.getAppWidgetIds(new ComponentName(ctx, getClass()));
-    }
+    }*/
 
     private void updateDateViews(RemoteViews rv) {
         Date now = new Date(System.currentTimeMillis());
