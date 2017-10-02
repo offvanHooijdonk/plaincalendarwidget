@@ -10,7 +10,7 @@ public interface IConfigureView {
 
     void onCalendarSettingsLoaded(List<CalendarBean> list);
 
-    void onWidgetSettingsLoaded(List<WidgetBean> list);
+    void onWidgetSettingsLoaded(WidgetBean widget);
 
     void showCalendarsLoadProgress(boolean isShow);
 

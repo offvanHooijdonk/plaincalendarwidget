@@ -4,6 +4,10 @@
     <string name="fish_date" translatable="false">8/16/2017</string>
     <string name="dialog_load_calendars_msg">Loading Calendars…</string>
     <string name="btn_pick_calendars">Pick Calendars</string>
+
+    <string name="title_add_widget">Adding a Widget</string>
+    <string name="title_edit_widget">Edit Widget #%s</string>
+
     <string name="calendars_selected">Calendars selected:</string>
     <string name="widget_empty_events_list">No Events</string>
     <string name="fish_day_of_week">su</string>

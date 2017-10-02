@@ -16,6 +16,6 @@ public interface WidgetDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void saveAll(List<WidgetBean> widgets);
 
-    @Query("SELECT * FROM widgets")
-    Maybe<List<WidgetBean>> getAll();
+    @Query("SELECT * FROM widgets WHERE id = :widgetId")
+    Maybe<WidgetBean> getById(long widgetId);
 }

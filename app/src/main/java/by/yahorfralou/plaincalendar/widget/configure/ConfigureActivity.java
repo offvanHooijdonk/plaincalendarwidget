@@ -61,35 +61,37 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
         viewNoWidgets = findViewById(R.id.viewNoWidgets);
 
         if (getIntent().getExtras() != null) {
-            widgetId = getIntent().getExtras().getInt(AppWidgetManager.EXTRA_APPWIDGET_ID);
+            if (getIntent().getExtras().containsKey(AppWidgetManager.EXTRA_APPWIDGET_ID)) {
+                widgetId = getIntent().getExtras().getInt(AppWidgetManager.EXTRA_APPWIDGET_ID);
+                getSupportActionBar().setTitle(getString(R.string.title_add_widget));
+            }
         } else {
             Log.d(LOGCAT, "No Widget ID found in Extras");
             int[] widgetIds = WidgetHelper.getWidgetIds(this, getClass());
             if (widgetIds != null && widgetIds.length > 0) {
                 // FIXME and add a list to pick
                 widgetId = widgetIds[0];
+                getSupportActionBar().setTitle(getString(R.string.title_edit_widget, String.valueOf(widgetId)));
             } else {
                 widgetId = null;
             }
-
-            if (widgetId != null) {
-                presenter.loadWidgetSettings();
-            } else {
-                presenter.onNoWidgets();
-                // TODO return ?
-            }
         }
-
 
         calendarSettings = new ArrayList<>();
 
         dialogProgress = new ProgressDialog(this);
         dialogProgress.setMessage(getString(R.string.dialog_load_calendars_msg));
-
         txtCalendarsNumber = findViewById(R.id.txtCalendarsNumber);
         btnPickCalendars = findViewById(R.id.btnPickCalendars);
         blockCalIcons = findViewById(R.id.blockCalendarsIcons);
         fabCreateWidget = findViewById(R.id.fabCreateWidget);
+
+        if (widgetId != null) {
+            presenter.loadWidgetSettings(widgetId);
+        } else {
+            presenter.onNoWidgets();
+            // TODO return ?
+        }
 
         btnPickCalendars.setOnClickListener(view -> pickCalendars());
 
@@ -111,7 +113,7 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
         }
         fabCreateWidget.setOnClickListener(view -> applySettingsAndFinish());
 
-        presenter.loadCalendarsSettings();
+        //presenter.loadCalendarsSettings();
     }
 
     @Override
@@ -145,10 +147,10 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
     }
 
     @Override
-    public void onWidgetSettingsLoaded(List<WidgetBean> list) {
-        if (!list.isEmpty()) {
-            widgetId = list.get(0).getId();
-        }
+    public void onWidgetSettingsLoaded(WidgetBean widgetBean) {
+        // TODO
+        calendarSettings.clear();
+        calendarSettings.addAll(widgetBean.getCalendars());
     }
 
     @Override

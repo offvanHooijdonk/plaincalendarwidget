@@ -43,22 +43,28 @@ public class ConfigurePresenter {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(o -> nth(), this::handleError, () -> {
                     Log.d(LOGCAT, "Calendars settings saved");
-                    loadCalendarsSettings();
+                    // FIXME call new method #loadWidgetSettings(long widgetId)
+                    //loadCalendarsSettings();
                 });
     }
 
-    public void loadCalendarsSettings() {
+    /*public void loadCalendarsSettings() {
         PlainCalendarWidgetApp.getAppDatabase().calendarDao().getAllSelected()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(calendarBeans -> view.onCalendarSettingsLoaded(calendarBeans));
-    }
+    }*/
 
-    public void loadWidgetSettings() {
-        PlainCalendarWidgetApp.getAppDatabase().widgetDao().getAll()
+    public void loadWidgetSettings(long widgetId) {
+        PlainCalendarWidgetApp.getAppDatabase().widgetDao().getById(widgetId)
+                .map(widgetBean -> {
+                            widgetBean.setCalendars(PlainCalendarWidgetApp.getAppDatabase().calendarDao().getCalendarsForWidget(widgetId));
+                            return widgetBean;
+                        }
+                )
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(list -> view.onWidgetSettingsLoaded(list));
+                .subscribe(widgetBean -> view.onWidgetSettingsLoaded(widgetBean));
     }
 
     public void onNoWidgets() {
