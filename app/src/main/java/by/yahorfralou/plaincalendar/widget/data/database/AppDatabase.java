@@ -9,8 +9,9 @@ import android.content.Context;
 
 import by.yahorfralou.plaincalendar.widget.model.CalendarBean;
 import by.yahorfralou.plaincalendar.widget.model.WidgetBean;
+import by.yahorfralou.plaincalendar.widget.model.WidgetCalendarBean;
 
-@Database(entities = {CalendarBean.class, WidgetBean.class}, version = 3)
+@Database(entities = {CalendarBean.class, WidgetBean.class, WidgetCalendarBean.class}, version = 3)
 public abstract class AppDatabase extends RoomDatabase {
     private static final String DB_NAME = "plain-calendar";
     public abstract CalendarDao calendarDao();

@@ -2,6 +2,7 @@ package by.yahorfralou.plaincalendar.widget.model;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.List;
 public class WidgetBean {
     @PrimaryKey
     private int id;
+    @Ignore
     private List<CalendarBean> calendars;
     @ColumnInfo(name = "back_color")
     private int backgroundColor;

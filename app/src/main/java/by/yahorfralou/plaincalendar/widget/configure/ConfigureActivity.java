@@ -67,7 +67,7 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
             }
         } else {
             Log.d(LOGCAT, "No Widget ID found in Extras");
-            int[] widgetIds = WidgetHelper.getWidgetIds(this, getClass());
+            int[] widgetIds = WidgetHelper.getWidgetIds(this, CalendarWidgetProvider.class);
             if (widgetIds != null && widgetIds.length > 0) {
                 // FIXME and add a list to pick
                 widgetId = widgetIds[0];

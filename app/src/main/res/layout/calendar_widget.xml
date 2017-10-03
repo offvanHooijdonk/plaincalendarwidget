@@ -20,7 +20,7 @@
         android:id="@+id/txtWidgetDay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/dividerDate"
+        android:layout_below="@id/txtWidgetDate"
         android:layout_alignEnd="@id/txtWidgetDate"
         android:layout_gravity="end"
         android:layout_marginEnd="6dp"
