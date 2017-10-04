@@ -112,10 +112,9 @@ public class CalendarDataSource {
                         CalendarContract.Instances.ALL_DAY,
                         CalendarContract.Instances.DISPLAY_COLOR,
                         CalendarContract.Instances.CALENDAR_ID
-                }, CalendarContract.Instances.CALENDAR_ID + " IN (" + prepareMultipleSubsPlaceholders(calendars.size()) + ")" /*+ " AND " +
-                        CalendarContract.Instances.END + " > ? " *//*+ "AND " + CalendarContract.Instances.DTSTART + " < ?"*/,
-                prepareEventsArgs(calendars), /*null, null,*/
-                /*CalendarContract.Instances.BEGIN + ", " + CalendarContract.Instances.END + ", " + CalendarContract.Instances.TITLE + *//*" LIMIT 5"*/null);
+                }, CalendarContract.Instances.CALENDAR_ID + " IN (" + prepareMultipleSubsPlaceholders(calendars.size()) + ")",
+                prepareEventsArgs(calendars),
+                CalendarContract.Instances.BEGIN + ", " + CalendarContract.Instances.END + ", " + CalendarContract.Instances.TITLE);
     }
 
     private String prepareMultipleSubsPlaceholders(int n) {

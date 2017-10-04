@@ -21,7 +21,7 @@ public class CalendarBean {
     @ColumnInfo(name = "is_selected")
     private boolean selected;
     @ColumnInfo(name = "widget_id")
-    private long widgetId;
+    private Long widgetId;
 
     public CalendarBean() {
     }
@@ -74,11 +74,11 @@ public class CalendarBean {
         this.primaryOnAccount = primaryOnAccount;
     }
 
-    public long getWidgetId() {
+    public Long getWidgetId() {
         return widgetId;
     }
 
-    public void setWidgetId(long widgetId) {
+    public void setWidgetId(Long widgetId) {
         this.widgetId = widgetId;
     }
 

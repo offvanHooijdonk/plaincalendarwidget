@@ -27,11 +27,13 @@ public abstract class AppDatabase extends RoomDatabase {
     private static final Migration MIGRATION_2_3 = new Migration(2, 3) {
         @Override
         public void migrate(SupportSQLiteDatabase database) {
-            database.execSQL("ALTER TABLE calendars ADD COLUMN widget_id INTEGER DEFAULT null;");
+            database.execSQL("ALTER TABLE calendars ADD COLUMN widget_id INTEGER;");
             database.execSQL("ALTER TABLE widgets ADD COLUMN back_color INTEGER;");
             database.execSQL("ALTER TABLE widgets ADD COLUMN date_color INTEGER;");
+            database.execSQL("CREATE TABLE widget_calendar (widget_id INTEGER NOT NULL, calendar_id INTEGER NOT NULL, PRIMARY KEY(widget_id, calendar_id))");
         }
     };
+
 
     public static AppDatabase buildDatabase(Context ctx) {
         return Room.databaseBuilder(ctx, AppDatabase.class, DB_NAME)

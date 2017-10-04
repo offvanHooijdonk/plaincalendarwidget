@@ -6,17 +6,18 @@ import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
 import java.util.List;
+import java.util.Objects;
 
 @Entity(tableName = "widgets")
 public class WidgetBean {
     @PrimaryKey
-    private int id;
+    private long id;
     @Ignore
     private List<CalendarBean> calendars;
     @ColumnInfo(name = "back_color")
-    private int backgroundColor;
+    private Integer backgroundColor;
     @ColumnInfo(name = "date_color")
-    private int textColor;
+    private Integer textColor;
 
     public List<CalendarBean> getCalendars() {
         return calendars;
@@ -26,27 +27,27 @@ public class WidgetBean {
         this.calendars = calendars;
     }
 
-    public int getBackgroundColor() {
+    public Integer getBackgroundColor() {
         return backgroundColor;
     }
 
-    public void setBackgroundColor(int backgroundColor) {
+    public void setBackgroundColor(Integer backgroundColor) {
         this.backgroundColor = backgroundColor;
     }
 
-    public int getTextColor() {
+    public Integer getTextColor() {
         return textColor;
     }
 
-    public void setTextColor(int textColor) {
+    public void setTextColor(Integer textColor) {
         this.textColor = textColor;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -57,6 +58,6 @@ public class WidgetBean {
 
     @Override
     public int hashCode() {
-        return id;
+        return Objects.hash(id);
     }
 }

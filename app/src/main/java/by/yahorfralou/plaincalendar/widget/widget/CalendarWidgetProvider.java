@@ -2,11 +2,17 @@ package by.yahorfralou.plaincalendar.widget.widget;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
+import android.provider.CalendarContract;
+import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.widget.RemoteViews;
 
@@ -15,6 +21,7 @@ import java.util.Date;
 
 import by.yahorfralou.plaincalendar.widget.R;
 import by.yahorfralou.plaincalendar.widget.data.calendars.CalendarsRemoteService;
+import by.yahorfralou.plaincalendar.widget.data.calendars.job.CalendarChangeJobService;
 import by.yahorfralou.plaincalendar.widget.data.calendars.observer.EventsContentObserver;
 import by.yahorfralou.plaincalendar.widget.helper.DateHelper;
 import by.yahorfralou.plaincalendar.widget.helper.WidgetHelper;
@@ -23,6 +30,7 @@ import static by.yahorfralou.plaincalendar.widget.app.PlainCalendarWidgetApp.LOG
 
 public class CalendarWidgetProvider extends AppWidgetProvider {
     private static final String INTENT_ACTION_NEW_DAY = "NEW_DAY_STARTED";
+    private static final int JOB_CALENDAR_CHANGE_ID = 1001;
 
     private EventsContentObserver contentObserver;
 
@@ -37,23 +45,16 @@ public class CalendarWidgetProvider extends AppWidgetProvider {
         } else {
             // TODO handle
         }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            scheduleJobCalendarChange(ctx);
+        }
     }
 
     @Override
     public void onUpdate(Context ctx, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         super.onUpdate(ctx, appWidgetManager, appWidgetIds);
         Log.i(LOGCAT, "Update " + Arrays.toString(appWidgetIds));
-
-        /*if (contentObserver == null && PermissionHelper.hasCalendarPermissions(ctx)) {
-            contentObserver = new EventsContentObserver(new Handler(), () -> {
-                int[] widgetIds = WidgetHelper.getWidgetIds(ctx, getClass());
-                Log.i(LOGCAT, "Observer for events changes. Widgets: " + Arrays.toString(widgetIds));
-                // TODO check for the particular widgets subscriptions ?
-                appWidgetManager.notifyAppWidgetViewDataChanged(widgetIds, R.id.listEvents);
-            });
-
-            ctx.getContentResolver().registerContentObserver(CalendarContract.Events.CONTENT_URI, true, contentObserver);
-        }*/
 
         for (int appWidgetId : appWidgetIds) {
             Intent intent = new Intent(ctx, CalendarsRemoteService.class);
@@ -126,17 +127,27 @@ public class CalendarWidgetProvider extends AppWidgetProvider {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void scheduleJobCalendarChange(Context ctx) {
+        JobInfo.Builder builder = new JobInfo.Builder(JOB_CALENDAR_CHANGE_ID, new ComponentName(ctx, CalendarChangeJobService.class))
+                .addTriggerContentUri(new JobInfo.TriggerContentUri(CalendarContract.Instances.CONTENT_URI, JobInfo.TriggerContentUri.FLAG_NOTIFY_FOR_DESCENDANTS))
+                // TODO constant
+                .setOverrideDeadline(5 * 1000);
+
+        JobScheduler jobScheduler = ctx.getSystemService(JobScheduler.class);
+        if (jobScheduler != null) {
+            jobScheduler.schedule(builder.build());
+        } else {
+            Log.e(LOGCAT, "Job Scheduler received from ctx is null!");
+        }
+    }
+
     private PendingIntent getNewDayPendingIntent(Context ctx) {
         Intent intent = new Intent(ctx, CalendarWidgetProvider.class);
         intent.setAction(INTENT_ACTION_NEW_DAY);
         // replace with a method that returns a *new* one
         return PendingIntent.getBroadcast(ctx, 0, intent, 0);
     }
-
-    /*private int[] getWidgetIds(Context ctx) {
-        AppWidgetManager manager = AppWidgetManager.getInstance(ctx);
-        return manager.getAppWidgetIds(new ComponentName(ctx, getClass()));
-    }*/
 
     private void updateDateViews(RemoteViews rv) {
         Date now = new Date(System.currentTimeMillis());
