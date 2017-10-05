@@ -2,17 +2,12 @@ package by.yahorfralou.plaincalendar.widget.widget;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.app.job.JobInfo;
-import android.app.job.JobScheduler;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
-import android.provider.CalendarContract;
-import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.widget.RemoteViews;
 
@@ -30,7 +25,6 @@ import static by.yahorfralou.plaincalendar.widget.app.PlainCalendarWidgetApp.LOG
 
 public class CalendarWidgetProvider extends AppWidgetProvider {
     private static final String INTENT_ACTION_NEW_DAY = "NEW_DAY_STARTED";
-    private static final int JOB_CALENDAR_CHANGE_ID = 1001;
 
     private EventsContentObserver contentObserver;
 
@@ -47,7 +41,7 @@ public class CalendarWidgetProvider extends AppWidgetProvider {
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            scheduleJobCalendarChange(ctx);
+            CalendarChangeJobService.scheduleCalendarChangeJob(ctx);
         }
     }
 
@@ -124,21 +118,6 @@ public class CalendarWidgetProvider extends AppWidgetProvider {
         AlarmManager alarmManager = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
         if (alarmManager != null) {
             alarmManager.cancel(getNewDayPendingIntent(ctx));
-        }
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    private void scheduleJobCalendarChange(Context ctx) {
-        JobInfo.Builder builder = new JobInfo.Builder(JOB_CALENDAR_CHANGE_ID, new ComponentName(ctx, CalendarChangeJobService.class))
-                .addTriggerContentUri(new JobInfo.TriggerContentUri(CalendarContract.Instances.CONTENT_URI, JobInfo.TriggerContentUri.FLAG_NOTIFY_FOR_DESCENDANTS))
-                // TODO constant
-                .setOverrideDeadline(5 * 1000);
-
-        JobScheduler jobScheduler = ctx.getSystemService(JobScheduler.class);
-        if (jobScheduler != null) {
-            jobScheduler.schedule(builder.build());
-        } else {
-            Log.e(LOGCAT, "Job Scheduler received from ctx is null!");
         }
     }
 

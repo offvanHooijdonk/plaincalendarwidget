@@ -88,6 +88,24 @@ public class CalendarDataSource {
         return eventBeans;
     }
 
+    public static Uri makeEventsObservationUri() {
+        return makeEventsUriForDates(new Date(), null);
+    }
+
+    private static Uri makeEventsUriForDates(Date dateFrom, Date dateTo) {
+        Uri uri = CalendarContract.Instances.CONTENT_URI;
+        if (dateFrom != null) {
+            Uri.Builder uriBuilder = uri.buildUpon().appendPath(String.valueOf(dateFrom.getTime()));
+            if (dateTo != null) {
+                uriBuilder.appendPath(String.valueOf(dateTo.getTime()));
+            }
+
+            uri = uriBuilder.build();
+        }
+
+        return uri;
+    }
+
     private Cursor prepareCalendarsCursor(ContentResolver cr, Uri uri) {
         return cr.query(uri, new String[]{
                         CalendarContract.Calendars._ID,
@@ -103,7 +121,7 @@ public class CalendarDataSource {
         Calendar dateTo = Calendar.getInstance();
         dateTo.add(Calendar.DAY_OF_MONTH, 14);
 
-        return cr.query(uri.buildUpon().appendPath(String.valueOf(new Date().getTime())).appendPath(String.valueOf(dateTo.getTimeInMillis())).build(),
+        return cr.query(makeEventsUriForDates(new Date(), dateTo.getTime()),
                 new String[]{
                         CalendarContract.Instances._ID,
                         CalendarContract.Instances.TITLE,
@@ -130,19 +148,12 @@ public class CalendarDataSource {
     }
 
     private String[] prepareEventsArgs(List<CalendarBean> calendars) {
-        String[] args = new String[calendars.size()/* + 2*/];
+        String[] args = new String[calendars.size()];
         int i = 0;
         for (CalendarBean bean : calendars) {
             args[i] = String.valueOf(bean.getId());
             i++;
         }
-
-
-        //args[args.length - 1] = String.valueOf(new Date().getTime());
-        /*Calendar dateTo = Calendar.getInstance();
-        dateTo.add(Calendar.DAY_OF_MONTH, 14);
-        args[args.length - 1] = String.valueOf(dateTo.getTimeInMillis());
-*/
 
         return args;
     }

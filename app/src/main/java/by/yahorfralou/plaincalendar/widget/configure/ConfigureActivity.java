@@ -129,6 +129,7 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
         calendarSettings.addAll(calendars);
 
         calSettingsAdapter.notifyDataSetChanged();
+        // TODO handle if no calendars
         pickCalendarsDialog.show();
     }
 
