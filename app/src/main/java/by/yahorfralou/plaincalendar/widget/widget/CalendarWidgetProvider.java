@@ -75,19 +75,21 @@ public class CalendarWidgetProvider extends AppWidgetProvider {
         Log.d(LOGCAT, "onReceive");
         Log.d(LOGCAT, "Got " + intent.getAction() + " action");
 
-        int[] widgetIds = WidgetHelper.getWidgetIds(ctx, getClass());
-
-        Log.i(LOGCAT, "Widgets found: " + Arrays.toString(widgetIds));
-
         if (Intent.ACTION_DATE_CHANGED.equals(intent.getAction()) ||
                 Intent.ACTION_TIME_CHANGED.equals(intent.getAction()) ||
                 Intent.ACTION_TIMEZONE_CHANGED.equals(intent.getAction()) ||
                 INTENT_ACTION_NEW_DAY.equals(intent.getAction())) {
 
-            Log.i(LOGCAT, "Applying current date on Widget");
+            int[] widgetIds = WidgetHelper.getWidgetIds(ctx, CalendarWidgetProvider.class);
+
+            Log.i(LOGCAT, "Widgets found: " + Arrays.toString(widgetIds));
+            Log.i(LOGCAT, "Applying current date on Widgets");
+
+            WidgetHelper.notifyWidgetsDataChanged(ctx, widgetIds);
+
             AppWidgetManager manager = AppWidgetManager.getInstance(ctx);
 
-            for (int widgetId : /*globalWidgetIdSet*/ widgetIds) {
+            for (int widgetId : widgetIds) {
                 Log.i(LOGCAT, "Widget " + widgetId);
                 RemoteViews rv = new RemoteViews(ctx.getPackageName(), R.layout.calendar_widget);
                 updateDateViews(rv);

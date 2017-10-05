@@ -8,8 +8,6 @@ import by.yahorfralou.plaincalendar.widget.model.WidgetBean;
 public interface IConfigureView {
     void displayCalendarsDialog(List<CalendarBean> calendars);
 
-    void onCalendarSettingsLoaded(List<CalendarBean> list);
-
     void onWidgetSettingsLoaded(WidgetBean widget);
 
     void showCalendarsLoadProgress(boolean isShow);

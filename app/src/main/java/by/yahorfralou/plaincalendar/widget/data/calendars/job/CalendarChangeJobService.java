@@ -15,7 +15,6 @@ import android.util.Log;
 
 import java.util.Arrays;
 
-import by.yahorfralou.plaincalendar.widget.R;
 import by.yahorfralou.plaincalendar.widget.data.calendars.CalendarDataSource;
 import by.yahorfralou.plaincalendar.widget.helper.WidgetHelper;
 import by.yahorfralou.plaincalendar.widget.widget.CalendarWidgetProvider;
@@ -37,7 +36,7 @@ public class CalendarChangeJobService extends JobService {
         int[] widgetIds = WidgetHelper.getWidgetIds(ctx, CalendarWidgetProvider.class);
         Log.i(LOGCAT, "Widgets to update in JobService: " + Arrays.toString(widgetIds));
 
-        appWidgetManager.notifyAppWidgetViewDataChanged(widgetIds, R.id.listEvents);
+        WidgetHelper.notifyWidgetsDataChanged(ctx, widgetIds);
 
         scheduleCalendarChangeJob(ctx);
 

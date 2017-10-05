@@ -62,10 +62,9 @@ public class CalendarDataSource {
     public List<EventBean> getEvents(List<CalendarBean> calendars) {
         List<EventBean> eventBeans = new ArrayList<>();
         ContentResolver cr = ctx.getContentResolver();
-        Uri uri = CalendarContract.Instances.CONTENT_URI;
         Log.i(LOGCAT, "Getting Events for " + calendars.size() + " calendars");
 
-        try (Cursor cur = prepareEventsCursor(cr, uri, calendars)) {
+        try (Cursor cur = prepareEventsCursor(cr, calendars)) {
             while (cur != null && cur.moveToNext()) {
                 EventBean event = new EventBean();
 
@@ -117,11 +116,22 @@ public class CalendarDataSource {
                 CalendarContract.Calendars.ACCOUNT_NAME + ", " + CalendarContract.Calendars.IS_PRIMARY + " desc, " + CalendarContract.Calendars.CALENDAR_DISPLAY_NAME);
     }
 
-    private Cursor prepareEventsCursor(ContentResolver cr, Uri uri, List<CalendarBean> calendars) {
-        Calendar dateTo = Calendar.getInstance();
-        dateTo.add(Calendar.DAY_OF_MONTH, 14);
+    private static Date prepareDateTo(Date dateFrom) {
+        Calendar calendarTo = Calendar.getInstance();
+        calendarTo.setTime(dateFrom);
+        calendarTo.set(Calendar.HOUR_OF_DAY, 0);
+        calendarTo.set(Calendar.MINUTE, 0);
+        calendarTo.set(Calendar.SECOND, 0);
+        calendarTo.add(Calendar.SECOND, -1);
 
-        return cr.query(makeEventsUriForDates(new Date(), dateTo.getTime()),
+        return calendarTo.getTime();
+    }
+
+    private Cursor prepareEventsCursor(ContentResolver cr, List<CalendarBean> calendars) {
+        Date dateFrom = new Date();
+        Date dateTo = prepareDateTo(dateFrom);
+
+        return cr.query(makeEventsUriForDates(dateFrom, dateTo),
                 new String[]{
                         CalendarContract.Instances._ID,
                         CalendarContract.Instances.TITLE,

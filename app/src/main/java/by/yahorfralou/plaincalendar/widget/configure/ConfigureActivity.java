@@ -134,9 +134,10 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
     }
 
     @Override
-    public void onCalendarSettingsLoaded(List<CalendarBean> list) {
+    public void onWidgetSettingsLoaded(WidgetBean widgetBean) {
         calendarSettings.clear();
-        calendarSettings.addAll(list);
+        calendarSettings.addAll(widgetBean.getCalendars());
+
         if (calendarSettings.isEmpty()) {
             fabCreateWidget.setEnabled(false);
         } else {
@@ -145,13 +146,6 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
 
         txtCalendarsNumber.setText(String.valueOf(calendarSettings.size()));
         updateCalIcons();
-    }
-
-    @Override
-    public void onWidgetSettingsLoaded(WidgetBean widgetBean) {
-        // TODO
-        calendarSettings.clear();
-        calendarSettings.addAll(widgetBean.getCalendars());
     }
 
     @Override
