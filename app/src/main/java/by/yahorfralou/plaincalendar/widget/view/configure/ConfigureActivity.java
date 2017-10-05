@@ -195,6 +195,20 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
         }
     }
 
+    @Override
+    public void onCalendarSettingsLoaded(List<CalendarBean> list) {
+        calendarSettings.clear();
+        calendarSettings.addAll(list);
+        if (calendarSettings.isEmpty()) {
+            fabCreateWidget.setEnabled(false);
+        } else {
+            fabCreateWidget.setEnabled(true);
+        }
+
+        txtCalendarsNumber.setText(String.valueOf(calendarSettings.size()));
+        updateCalIcons();
+    }
+
     private void onSelectionPicked() {
         presenter.updateCalendarsSettings(calendarSettings);
     }

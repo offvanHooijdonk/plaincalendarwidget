@@ -44,16 +44,16 @@ public class ConfigurePresenter {
                 .subscribe(o -> nth(), this::handleError, () -> {
                     Log.d(LOGCAT, "Calendars settings saved");
                     // FIXME call new method #loadWidgetSettings(long widgetId)
-                    //loadCalendarsSettings();
+                    loadCalendarsSettings();
                 });
     }
 
-    /*public void loadCalendarsSettings() {
+    private void loadCalendarsSettings() {
         PlainCalendarWidgetApp.getAppDatabase().calendarDao().getAllSelected()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(calendarBeans -> view.onCalendarSettingsLoaded(calendarBeans));
-    }*/
+    }
 
     public void loadWidgetSettings(long widgetId) {
         PlainCalendarWidgetApp.getAppDatabase().widgetDao().getById(widgetId)
