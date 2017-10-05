@@ -85,6 +85,7 @@ public class CalendarWidgetProvider extends AppWidgetProvider {
             Log.i(LOGCAT, "Widgets found: " + Arrays.toString(widgetIds));
             Log.i(LOGCAT, "Applying current date on Widgets");
 
+            // TODO send update Broadcast instead?
             WidgetHelper.notifyWidgetsDataChanged(ctx, widgetIds);
 
             AppWidgetManager manager = AppWidgetManager.getInstance(ctx);

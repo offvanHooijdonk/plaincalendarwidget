@@ -14,5 +14,7 @@ public interface IConfigureView {
 
     void showNoWidgets(boolean isShow);
 
-    void onCalendarSettingsLoaded(List<CalendarBean> list);
+    void onCalendarSettingsSaved();
+
+    void notifyChangesAndFinish();
 }

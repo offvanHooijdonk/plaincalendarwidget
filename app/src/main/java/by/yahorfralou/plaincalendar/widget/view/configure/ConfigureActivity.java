@@ -39,6 +39,7 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
 
     private ConfigurePresenter presenter;
     private List<CalendarBean> calendarSettings;
+    private WidgetBean widgetBean = null;
     private Integer widgetId;
 
     private ProgressDialog dialogProgress;
@@ -63,6 +64,9 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
         if (getIntent().getExtras() != null) {
             if (getIntent().getExtras().containsKey(AppWidgetManager.EXTRA_APPWIDGET_ID)) {
                 widgetId = getIntent().getExtras().getInt(AppWidgetManager.EXTRA_APPWIDGET_ID);
+                widgetBean = new WidgetBean();
+                // TODO initialize with default values?
+                widgetBean.setId(widgetId);
                 getSupportActionBar().setTitle(getString(R.string.title_add_widget));
             }
         } else {
@@ -71,9 +75,13 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
             if (widgetIds != null && widgetIds.length > 0) {
                 // FIXME and add a list to pick
                 widgetId = widgetIds[0];
+                presenter.loadWidgetSettings(widgetId);
+
                 getSupportActionBar().setTitle(getString(R.string.title_edit_widget, String.valueOf(widgetId)));
             } else {
                 widgetId = null;
+                presenter.onNoWidgets();
+                // TODO return?
             }
         }
 
@@ -85,13 +93,6 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
         btnPickCalendars = findViewById(R.id.btnPickCalendars);
         blockCalIcons = findViewById(R.id.blockCalendarsIcons);
         fabCreateWidget = findViewById(R.id.fabCreateWidget);
-
-        if (widgetId != null) {
-            presenter.loadWidgetSettings(widgetId);
-        } else {
-            presenter.onNoWidgets();
-            // TODO return ?
-        }
 
         btnPickCalendars.setOnClickListener(view -> pickCalendars());
 
@@ -111,7 +112,7 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
             fabCreateWidget.setEnabled(false);
             askForPermissions();
         }
-        fabCreateWidget.setOnClickListener(view -> applySettingsAndFinish());
+        fabCreateWidget.setOnClickListener(view -> applySettings());
 
         //presenter.loadCalendarsSettings();
     }
@@ -135,6 +136,7 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
 
     @Override
     public void onWidgetSettingsLoaded(WidgetBean widgetBean) {
+        this.widgetBean = widgetBean;
         calendarSettings.clear();
         calendarSettings.addAll(widgetBean.getCalendars());
 
@@ -196,9 +198,7 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
     }
 
     @Override
-    public void onCalendarSettingsLoaded(List<CalendarBean> list) {
-        calendarSettings.clear();
-        calendarSettings.addAll(list);
+    public void onCalendarSettingsSaved() {
         if (calendarSettings.isEmpty()) {
             fabCreateWidget.setEnabled(false);
         } else {
@@ -209,8 +209,25 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
         updateCalIcons();
     }
 
+    @Override
+    public void notifyChangesAndFinish() {
+        Intent intentBr = new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE, null, this, CalendarWidgetProvider.class);
+        intentBr.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, new int[] {widgetId});
+        sendBroadcast(intentBr);
+
+        Intent intent = new Intent();
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);
+        setResult(RESULT_OK, intent);
+        finish();
+    }
+
     private void onSelectionPicked() {
-        presenter.updateCalendarsSettings(calendarSettings);
+        // FIXME do not save anything now
+        if (calendarSettings.isEmpty()) {
+            fabCreateWidget.setEnabled(false);
+        } else {
+            presenter.updateCalendarsSettings(calendarSettings);
+        }
     }
 
     private void pickCalendars() {
@@ -229,15 +246,9 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
                 Manifest.permission.READ_CALENDAR);
     }
 
-    private void applySettingsAndFinish() {
-        Intent intentBr = new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE, null, this, CalendarWidgetProvider.class);
-        intentBr.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, new int[] {widgetId});
-        sendBroadcast(intentBr);
-
-        Intent intent = new Intent();
-        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);
-        setResult(RESULT_OK, intent);
-        finish();
+    private void applySettings() {
+        widgetBean.setCalendars(calendarSettings);
+        presenter.onApplySettings(widgetBean);
     }
 
     private void updateCalIcons() {

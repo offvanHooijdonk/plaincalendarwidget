@@ -30,7 +30,6 @@ public class CalendarChangeJobService extends JobService {
     public boolean onStartJob(JobParameters params) {
         Context ctx = getApplicationContext();
         Log.i(LOGCAT, "JOB Service#onStartJob");
-        Log.i(LOGCAT, "Job Parameters: " + params.getExtras().toString());
 
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(ctx);
         int[] widgetIds = WidgetHelper.getWidgetIds(ctx, CalendarWidgetProvider.class);

@@ -13,6 +13,11 @@ public class WidgetCalendarBean {
     @ColumnInfo(name = "calendar_id")
     private long calendarId;
 
+    public WidgetCalendarBean(long widgetId, long calendarId) {
+        this.widgetId = widgetId;
+        this.calendarId = calendarId;
+    }
+
     public long getWidgetId() {
         return widgetId;
     }

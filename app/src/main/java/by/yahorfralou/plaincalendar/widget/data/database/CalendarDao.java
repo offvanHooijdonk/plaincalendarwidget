@@ -17,7 +17,7 @@ public interface CalendarDao {
     Maybe<List<CalendarBean>> getAllSelected();
 
     @Query("SELECT * FROM calendars c JOIN widget_calendar w WHERE w.widget_id = :widgetId AND c.is_selected = 1 ORDER BY c.account_name, c.primary_on_account desc, c.display_name")
-    List<CalendarBean> getCalendarsForWidget(long widgetId);
+    Maybe<List<CalendarBean>> getCalendarsForWidget(long widgetId);
 
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
