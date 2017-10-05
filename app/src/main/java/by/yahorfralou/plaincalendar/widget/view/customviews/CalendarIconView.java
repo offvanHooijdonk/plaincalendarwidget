@@ -1,4 +1,4 @@
-package by.yahorfralou.plaincalendar.widget.views;
+package by.yahorfralou.plaincalendar.widget.view.customviews;
 
 import android.content.Context;
 import android.content.res.TypedArray;

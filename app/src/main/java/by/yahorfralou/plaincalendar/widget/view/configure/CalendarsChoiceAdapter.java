@@ -1,4 +1,4 @@
-package by.yahorfralou.plaincalendar.widget.configure;
+package by.yahorfralou.plaincalendar.widget.view.configure;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

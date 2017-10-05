@@ -1,4 +1,4 @@
-package by.yahorfralou.plaincalendar.widget.configure;
+package by.yahorfralou.plaincalendar.widget.view.configure;
 
 import android.Manifest;
 import android.app.ProgressDialog;
@@ -26,7 +26,7 @@ import by.yahorfralou.plaincalendar.widget.helper.PermissionHelper;
 import by.yahorfralou.plaincalendar.widget.helper.WidgetHelper;
 import by.yahorfralou.plaincalendar.widget.model.CalendarBean;
 import by.yahorfralou.plaincalendar.widget.model.WidgetBean;
-import by.yahorfralou.plaincalendar.widget.views.CalendarIconView;
+import by.yahorfralou.plaincalendar.widget.view.customviews.CalendarIconView;
 import by.yahorfralou.plaincalendar.widget.widget.CalendarWidgetProvider;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
