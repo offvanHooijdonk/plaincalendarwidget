@@ -14,7 +14,7 @@ public interface IConfigureView {
 
     void showNoWidgets(boolean isShow);
 
-    void onCalendarSettingsSaved();
+    //void onCalendarSettingsSaved();
 
     void notifyChangesAndFinish();
 }

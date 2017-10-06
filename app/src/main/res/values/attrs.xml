@@ -7,4 +7,10 @@
         <attr name="backgroundColor" format="color" />
     </declare-styleable>
 
+    <declare-styleable name="ColorSingleOptionView">
+        <attr name="checked" format="boolean" />
+        <attr name="checkSize" format="dimension" />
+        <attr name="color" format="color" />
+    </declare-styleable>
+
 </resources>

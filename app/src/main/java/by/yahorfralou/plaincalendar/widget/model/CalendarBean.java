@@ -2,6 +2,7 @@ package by.yahorfralou.plaincalendar.widget.model;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
 import java.util.Objects;
@@ -18,10 +19,8 @@ public class CalendarBean {
     private Integer color;
     @ColumnInfo(name = "primary_on_account")
     private boolean primaryOnAccount;
-    @ColumnInfo(name = "is_selected")
+    @Ignore
     private boolean selected;
-    @ColumnInfo(name = "widget_id")
-    private Long widgetId;
 
     public CalendarBean() {
     }
@@ -74,14 +73,6 @@ public class CalendarBean {
         this.primaryOnAccount = primaryOnAccount;
     }
 
-    public Long getWidgetId() {
-        return widgetId;
-    }
-
-    public void setWidgetId(Long widgetId) {
-        this.widgetId = widgetId;
-    }
-
     @Override
     public boolean equals(Object obj) {
         return obj != null &&
@@ -103,7 +94,6 @@ public class CalendarBean {
                 ", color=" + color +
                 ", selected=" + selected +
                 ", primary=" + primaryOnAccount +
-                ", widgetId=" + widgetId +
                 '}';
     }
 }

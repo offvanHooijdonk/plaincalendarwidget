@@ -20,6 +20,7 @@ import static by.yahorfralou.plaincalendar.widget.app.PlainCalendarWidgetApp.LOG
 
 public class CalendarDataSource {
     private static final int BOOLEAN_TRUE = 1;
+    private static final int EVENTS_DAYS = 14;
     private Context ctx;
 
     public CalendarDataSource(Context context) {
@@ -119,6 +120,8 @@ public class CalendarDataSource {
     private static Date prepareDateTo(Date dateFrom) {
         Calendar calendarTo = Calendar.getInstance();
         calendarTo.setTime(dateFrom);
+        calendarTo.add(Calendar.DAY_OF_MONTH, EVENTS_DAYS);
+
         calendarTo.set(Calendar.HOUR_OF_DAY, 0);
         calendarTo.set(Calendar.MINUTE, 0);
         calendarTo.set(Calendar.SECOND, 0);

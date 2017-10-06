@@ -5,7 +5,6 @@ import android.app.job.JobInfo;
 import android.app.job.JobParameters;
 import android.app.job.JobScheduler;
 import android.app.job.JobService;
-import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.net.Uri;
@@ -31,13 +30,14 @@ public class CalendarChangeJobService extends JobService {
         Context ctx = getApplicationContext();
         Log.i(LOGCAT, "JOB Service#onStartJob");
 
-        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(ctx);
         int[] widgetIds = WidgetHelper.getWidgetIds(ctx, CalendarWidgetProvider.class);
         Log.i(LOGCAT, "Widgets to update in JobService: " + Arrays.toString(widgetIds));
 
         WidgetHelper.notifyWidgetsDataChanged(ctx, widgetIds);
 
-        scheduleCalendarChangeJob(ctx);
+        if (widgetIds != null && widgetIds.length > 0) {
+            scheduleCalendarChangeJob(ctx);
+        }
 
         return true;
     }

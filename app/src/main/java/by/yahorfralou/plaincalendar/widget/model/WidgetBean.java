@@ -60,4 +60,13 @@ public class WidgetBean {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    @Override
+    public String toString() {
+        return "{"
+                + "id=" + id + "\n"
+                + ",backgroundColor=" + backgroundColor + "\n"
+                + ",dateColor=" + textColor + "\n"
+                + "}";
+    }
 }

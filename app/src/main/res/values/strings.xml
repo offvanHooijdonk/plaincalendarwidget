@@ -13,6 +13,8 @@
     <string name="fish_day_of_week">su</string>
     <string name="date_default">31</string>
     <string name="no_widgets_yet">No widgets yet added</string>
+    <string name="widget_settings_background">Background</string>
+    <string name="widget_settings_date_color">Date color</string>
 
     <bool name="is24">false</bool>
     <bool name="less24">true</bool>

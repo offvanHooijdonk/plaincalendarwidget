@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import by.yahorfralou.plaincalendar.widget.R;
@@ -26,6 +27,7 @@ import by.yahorfralou.plaincalendar.widget.helper.PermissionHelper;
 import by.yahorfralou.plaincalendar.widget.helper.WidgetHelper;
 import by.yahorfralou.plaincalendar.widget.model.CalendarBean;
 import by.yahorfralou.plaincalendar.widget.model.WidgetBean;
+import by.yahorfralou.plaincalendar.widget.view.configure.settings.ColorsSettingsFragment;
 import by.yahorfralou.plaincalendar.widget.view.customviews.CalendarIconView;
 import by.yahorfralou.plaincalendar.widget.widget.CalendarWidgetProvider;
 import pub.devrel.easypermissions.AfterPermissionGranted;
@@ -48,6 +50,7 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
     private ViewGroup blockCalIcons;
     private FloatingActionButton fabCreateWidget;
     private View viewNoWidgets;
+    private View placeholderSettings;
 
     private AlertDialog pickCalendarsDialog;
     private BaseAdapter calSettingsAdapter;
@@ -81,7 +84,7 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
             } else {
                 widgetId = null;
                 presenter.onNoWidgets();
-                // TODO return?
+                return;
             }
         }
 
@@ -93,6 +96,7 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
         btnPickCalendars = findViewById(R.id.btnPickCalendars);
         blockCalIcons = findViewById(R.id.blockCalendarsIcons);
         fabCreateWidget = findViewById(R.id.fabCreateWidget);
+        placeholderSettings = findViewById(R.id.placeholderSettings);
 
         btnPickCalendars.setOnClickListener(view -> pickCalendars());
 
@@ -114,7 +118,8 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
         }
         fabCreateWidget.setOnClickListener(view -> applySettings());
 
-        //presenter.loadCalendarsSettings();
+        int[] colorsBackground = getResources().getIntArray(R.array.settings_back_colors);
+        getFragmentManager().beginTransaction().replace(R.id.placeholderSettings, ColorsSettingsFragment.getNewInstance(colorsBackground)).commit();
     }
 
     @Override
@@ -197,7 +202,7 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
         }
     }
 
-    @Override
+    /*@Override
     public void onCalendarSettingsSaved() {
         if (calendarSettings.isEmpty()) {
             fabCreateWidget.setEnabled(false);
@@ -207,7 +212,7 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
 
         txtCalendarsNumber.setText(String.valueOf(calendarSettings.size()));
         updateCalIcons();
-    }
+    }*/
 
     @Override
     public void notifyChangesAndFinish() {
@@ -222,12 +227,20 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
     }
 
     private void onSelectionPicked() {
-        // FIXME do not save anything now
+        Iterator<CalendarBean> itCalendarSettings = calendarSettings.iterator();
+        while (itCalendarSettings.hasNext()) {
+            if (!itCalendarSettings.next().isSelected()) {
+                itCalendarSettings.remove();
+            }
+        }
         if (calendarSettings.isEmpty()) {
             fabCreateWidget.setEnabled(false);
         } else {
-            presenter.updateCalendarsSettings(calendarSettings);
+            fabCreateWidget.setEnabled(true);
         }
+
+        txtCalendarsNumber.setText(String.valueOf(calendarSettings.size()));
+        updateCalIcons();
     }
 
     private void pickCalendars() {

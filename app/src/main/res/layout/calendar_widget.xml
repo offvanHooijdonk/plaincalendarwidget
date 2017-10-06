@@ -24,7 +24,7 @@
         android:layout_below="@id/txtWidgetDate"
         android:layout_alignEnd="@id/txtWidgetDate"
         android:layout_gravity="end"
-        android:layout_marginEnd="6dp"
+        android:layout_marginEnd="2dp"
         android:text="@string/fish_day_of_week"
         android:textColor="@color/md_white_1000"
         android:textSize="14sp" />

@@ -6,4 +6,6 @@
     <dimen name="activity_h_padding">16dp</dimen>
 
     <dimen name="cal_icon_sibling_margin">0dp</dimen>
+    <dimen name="settings_values_block_height">48dp</dimen>
+    <dimen name="color_option_size">@dimen/settings_values_block_height</dimen>
 </resources>

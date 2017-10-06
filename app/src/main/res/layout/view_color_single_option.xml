@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
+    android:layout_width="@dimen/color_option_size"
+    android:layout_height="@dimen/color_option_size"
+    android:background="@drawable/color_option_border">
+
+    <ImageView
+        android:id="@+id/imgSelected"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:tint="@color/md_blue_grey_100"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:alpha="0.8"
+        android:src="@drawable/ic_check_circle_24dp"/>
+</FrameLayout>

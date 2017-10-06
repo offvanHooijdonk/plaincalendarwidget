@@ -12,13 +12,9 @@ import io.reactivex.Maybe;
 
 @Dao
 public interface CalendarDao {
-
-    @Query("SELECT * FROM calendars WHERE is_selected = 1 ORDER BY account_name, primary_on_account desc, display_name")
-    Maybe<List<CalendarBean>> getAllSelected();
-
-    @Query("SELECT * FROM calendars c JOIN widget_calendar w WHERE w.widget_id = :widgetId AND c.is_selected = 1 ORDER BY c.account_name, c.primary_on_account desc, c.display_name")
+    @Query("SELECT * FROM calendars c INNER JOIN widget_calendar w ON c.id = w.calendar_id " +
+            "WHERE w.widget_id = :widgetId ORDER BY c.account_name, c.primary_on_account desc, c.display_name")
     Maybe<List<CalendarBean>> getCalendarsForWidget(long widgetId);
-
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long[] insertAll(List<CalendarBean> beans);

@@ -7,6 +7,7 @@ import android.arch.persistence.room.Entity;
 import java.util.Objects;
 
 @Entity(tableName = "widget_calendar", primaryKeys = {"widget_id", "calendar_id"})
+// TODO add foreign keys
 public class WidgetCalendarBean {
     @ColumnInfo(name = "widget_id")
     private long widgetId;

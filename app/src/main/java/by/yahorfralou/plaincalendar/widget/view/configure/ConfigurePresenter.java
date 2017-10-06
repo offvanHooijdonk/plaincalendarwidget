@@ -32,6 +32,10 @@ public class ConfigurePresenter {
     public void onPickCalendarsRequested() {
         view.showCalendarsLoadProgress(true);
         new CalendarDataSource(ctx).requestCalendarList()
+                .map(calendarBeans -> {
+                    PlainCalendarWidgetApp.getAppDatabase().calendarDao().insertAll(calendarBeans);
+                    return calendarBeans;
+                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(calendarBeans -> {
@@ -41,7 +45,7 @@ public class ConfigurePresenter {
                 });
     }
 
-    public void updateCalendarsSettings(List<CalendarBean> calendars) {
+    /*public void updateCalendarsSettings(List<CalendarBean> calendars) {
         Maybe.fromAction(() -> PlainCalendarWidgetApp.getAppDatabase().calendarDao().insertAll(calendars))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -49,7 +53,7 @@ public class ConfigurePresenter {
                     Log.d(LOGCAT, "Calendars settings saved");
                     view.onCalendarSettingsSaved();
                 });
-    }
+    }*/
 
     /*private void loadCalendarsSettings() {
         PlainCalendarWidgetApp.getAppDatabase().calendarDao().getAllSelected()
@@ -75,7 +79,7 @@ public class ConfigurePresenter {
     }
 
     private void handleError(Throwable th) {
-
+        Log.e(LOGCAT, "Error in ConfigPresenter! " + th.getMessage(), th);
     }
 
     private void nth() {
@@ -84,27 +88,18 @@ public class ConfigurePresenter {
 
     public void onApplySettings(WidgetBean widgetBean) {
         List<WidgetCalendarBean> widgetCalendars = new ArrayList<>();
+        /*Log.i(LOGCAT, "Apply widget " + widgetBean);
+        Log.i(LOGCAT, "Apply with calendars " + widgetBean.getCalendars());*/
         for (CalendarBean cal : widgetBean.getCalendars()) {
             widgetCalendars.add(new WidgetCalendarBean(widgetBean.getId(), cal.getId()));
         }
 
-
         Maybe.fromAction(() -> {
-                    PlainCalendarWidgetApp.getAppDatabase().beginTransaction();
-                    PlainCalendarWidgetApp.getAppDatabase().widgetDao().saveWidget(widgetBean);
-                })
-                .map(o -> {
-                    PlainCalendarWidgetApp.getAppDatabase().widgetDao().deleteAllWidgetCalendars(widgetBean.getId());
-                    return o;
-                })
-                .map(o -> {
-                    PlainCalendarWidgetApp.getAppDatabase().widgetDao().saveWidgetCalendars(widgetCalendars);
-                    return o;
-                })
-                .map(o -> {
-                    PlainCalendarWidgetApp.getAppDatabase().endTransaction();
-                    return o;
-                })
+            //PlainCalendarWidgetApp.getAppDatabase().beginTransaction();
+            PlainCalendarWidgetApp.getAppDatabase().widgetDao().saveWidget(widgetBean);
+            PlainCalendarWidgetApp.getAppDatabase().widgetDao().deleteAllWidgetCalendars(widgetBean.getId());
+            PlainCalendarWidgetApp.getAppDatabase().widgetDao().saveWidgetCalendars(widgetCalendars);
+        })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(o -> nth(), this::handleError, () -> {
