@@ -15,11 +15,14 @@ import java.util.Arrays;
 import java.util.Date;
 
 import by.yahorfralou.plaincalendar.widget.R;
+import by.yahorfralou.plaincalendar.widget.app.PlainCalendarWidgetApp;
 import by.yahorfralou.plaincalendar.widget.data.calendars.CalendarsRemoteService;
 import by.yahorfralou.plaincalendar.widget.data.calendars.job.CalendarChangeJobService;
 import by.yahorfralou.plaincalendar.widget.data.calendars.observer.EventsContentObserver;
 import by.yahorfralou.plaincalendar.widget.helper.DateHelper;
 import by.yahorfralou.plaincalendar.widget.helper.WidgetHelper;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 import static by.yahorfralou.plaincalendar.widget.app.PlainCalendarWidgetApp.LOGCAT;
 
@@ -58,13 +61,28 @@ public class CalendarWidgetProvider extends AppWidgetProvider {
 
             RemoteViews rv = new RemoteViews(ctx.getPackageName(), R.layout.calendar_widget);
 
-            updateDateViews(rv);
+            PlainCalendarWidgetApp.getAppDatabase().widgetDao().getById(appWidgetId)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(widgetBean -> {
+                        Log.i(LOGCAT, "Widget color to apply: " + widgetBean.getBackgroundColor());
+                        if (widgetBean.getBackgroundColor() != null) {
+                            rv.setInt(R.id.widgetBack, "setBackgroundColor", widgetBean.getBackgroundColor());
+                        }
+                        updateDateViews(rv);
+                        rv.setRemoteAdapter(R.id.listEvents, intent);
+                        rv.setEmptyView(R.id.listEvents, R.id.emptyView);
+
+                        appWidgetManager.updateAppWidget(appWidgetId, rv);
+                    }, th -> {}, () -> Log.i(LOGCAT, "Widget load onFinished"));
+
+            /*updateDateViews(rv);
 
             rv.setRemoteAdapter(R.id.listEvents, intent);
 
             rv.setEmptyView(R.id.listEvents, R.id.emptyView);
 
-            appWidgetManager.updateAppWidget(appWidgetId, rv);
+            appWidgetManager.updateAppWidget(appWidgetId, rv);*/
         }
 
     }

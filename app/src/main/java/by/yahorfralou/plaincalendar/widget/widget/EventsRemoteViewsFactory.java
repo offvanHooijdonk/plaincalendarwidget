@@ -19,7 +19,8 @@ import by.yahorfralou.plaincalendar.widget.model.EventBean;
 import static by.yahorfralou.plaincalendar.widget.app.PlainCalendarWidgetApp.LOGCAT;
 
 public class EventsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
-    private static final DateFormat DATE_FORMAT = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
+    private static final DateFormat DATE_FORMAT = DateFormat.getDateInstance(DateFormat.SHORT);
+    private static final DateFormat TIME_FORMAT = DateFormat.getTimeInstance(DateFormat.SHORT);
 
     private final int widgetId;
     private Context ctx;
@@ -67,7 +68,11 @@ public class EventsRemoteViewsFactory implements RemoteViewsService.RemoteViewsF
         EventBean event = eventList.get(i);
 // TODO make beauty
         RemoteViews rv = new RemoteViews(ctx.getPackageName(), R.layout.item_event_widget);
-        rv.setTextViewText(R.id.txtDateRange, String.format("%s", event.isAllDay() ? "All Day" : DATE_FORMAT.format(event.getDateStart())));
+        String eventDateText = String.format("%s %s",
+                DATE_FORMAT.format(event.getDateStart()),
+                (event.isAllDay() ? ctx.getString(R.string.date_all_day) : TIME_FORMAT.format(event.getDateStart())));
+
+        rv.setTextViewText(R.id.txtDateRange, eventDateText);
         rv.setTextViewText(R.id.txtEventTitle, event.getTitle());
 
         if (event.getEventColor() != null) {

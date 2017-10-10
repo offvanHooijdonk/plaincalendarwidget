@@ -18,6 +18,7 @@ public class ColorsSettingsFragment extends Fragment {
 
     private Context ctx;
     private LinearLayout root;
+    private SettingClickListener listener;
 
     private int[] colorsList;
 
@@ -53,6 +54,10 @@ public class ColorsSettingsFragment extends Fragment {
         drawColorSettings();
     }
 
+    public void setSettingsListener(SettingClickListener listener) {
+        this.listener = listener;
+    }
+
     private void drawColorSettings() {
         root.removeAllViews();
         FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) root.getLayoutParams();
@@ -75,10 +80,24 @@ public class ColorsSettingsFragment extends Fragment {
     }
 
     private void onOptionSelected(View v) {
+        int colorSelected = 0;
         for (int i = 0; i < root.getChildCount(); i++) {
             ColorSingleOptionView child = (ColorSingleOptionView) root.getChildAt(i);
-            child.setChecked(child.equals(v));
+
+            if (child.equals(v)) {
+                child.setChecked(true);
+                colorSelected = colorsList[i];
+            } else {
+                child.setChecked(false);
+            }
+        }
+
+        if (listener != null) {
+            listener.onSettingClick(colorSelected);
         }
     }
 
+    public interface SettingClickListener {
+        void onSettingClick(int colorValue);
+    }
 }

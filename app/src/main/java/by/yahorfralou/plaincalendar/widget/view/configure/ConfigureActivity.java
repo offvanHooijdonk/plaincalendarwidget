@@ -35,7 +35,7 @@ import pub.devrel.easypermissions.EasyPermissions;
 
 import static by.yahorfralou.plaincalendar.widget.app.PlainCalendarWidgetApp.LOGCAT;
 
-public class ConfigureActivity extends AppCompatActivity implements IConfigureView, EasyPermissions.PermissionCallbacks {
+public class ConfigureActivity extends AppCompatActivity implements IConfigureView, EasyPermissions.PermissionCallbacks, ColorsSettingsFragment.SettingClickListener {
 
     private static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1003;
 
@@ -111,6 +111,11 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
                 })
                 .setNegativeButton("Cancel", (dialogInterface, i) -> dialogInterface.dismiss())
                 .create();
+        if (pickCalendarsDialog.getListView() != null) {
+            TextView txtEmptyList = new TextView(this);
+            txtEmptyList.setText(R.string.empty_cal_list);
+            pickCalendarsDialog.getListView().setEmptyView(txtEmptyList);
+        }
 
         if (!PermissionHelper.hasCalendarPermissions(ConfigureActivity.this)) {
             fabCreateWidget.setEnabled(false);
@@ -119,7 +124,9 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
         fabCreateWidget.setOnClickListener(view -> applySettings());
 
         int[] colorsBackground = getResources().getIntArray(R.array.settings_back_colors);
-        getFragmentManager().beginTransaction().replace(R.id.placeholderSettings, ColorsSettingsFragment.getNewInstance(colorsBackground)).commit();
+        ColorsSettingsFragment fragment = ColorsSettingsFragment.getNewInstance(colorsBackground);
+        fragment.setSettingsListener(this);
+        getFragmentManager().beginTransaction().replace(R.id.placeholderSettings, fragment).commit();
     }
 
     @Override
@@ -224,6 +231,12 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);
         setResult(RESULT_OK, intent);
         finish();
+    }
+
+    @Override
+    public void onSettingClick(int colorValue) {
+        Log.i(LOGCAT, "Color picked : " + colorValue);
+        widgetBean.setBackgroundColor(colorValue);
     }
 
     private void onSelectionPicked() {
