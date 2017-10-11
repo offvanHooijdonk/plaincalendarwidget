@@ -2,11 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_v_padding"
-    android:paddingEnd="@dimen/activity_h_padding"
-    android:paddingStart="@dimen/activity_h_padding"
-    android:paddingTop="@dimen/activity_v_padding">
+    android:layout_height="match_parent">
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -18,8 +14,10 @@
 
             <RelativeLayout
                 android:id="@+id/blockPickCalendars"
+                style="@style/BlockWithBackground"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/settings_block_minor_padding">
 
                 <TextView
                     android:id="@+id/txtCalNumLabel"
@@ -51,18 +49,22 @@
 
             <LinearLayout
                 android:id="@+id/blockCalendarsIcons"
-                android:layout_width="wrap_content"
+                style="@style/BlockWithBackground"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/blockPickCalendars"
                 android:orientation="horizontal"
-                android:paddingStart="4dp">
+                android:paddingTop="0dp"
+                android:paddingBottom="@dimen/settings_block_minor_padding">
 
             </LinearLayout>
 
             <LinearLayout
+                style="@style/BlockWithBackground"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
+                android:paddingTop="@dimen/settings_block_minor_padding"
                 android:orientation="vertical">
 
                 <FrameLayout
@@ -98,7 +100,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
-            android:layout_marginBottom="96dp"
+            android:layout_marginBottom="128dp"
             android:layout_marginEnd="@dimen/activity_h_padding"
             android:src="@drawable/ic_done_24dp"
             app:fabSize="normal" />

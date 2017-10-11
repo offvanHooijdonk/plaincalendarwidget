@@ -9,4 +9,6 @@
     <dimen name="settings_values_block_height">48dp</dimen>
     <dimen name="color_option_size">@dimen/settings_values_block_height</dimen>
     <dimen name="event_color_size">6dp</dimen>
+    <dimen name="widget_corner_radius">4dp</dimen>
+    <dimen name="settings_block_minor_padding">8dp</dimen>
 </resources>

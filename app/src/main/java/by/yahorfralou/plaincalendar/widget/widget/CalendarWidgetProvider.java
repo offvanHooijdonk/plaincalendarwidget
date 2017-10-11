@@ -67,8 +67,11 @@ public class CalendarWidgetProvider extends AppWidgetProvider {
                     .subscribe(widgetBean -> {
                         Log.i(LOGCAT, "Widget color to apply: " + widgetBean.getBackgroundColor());
                         if (widgetBean.getBackgroundColor() != null) {
-                            rv.setInt(R.id.widgetBack, "setBackgroundColor", widgetBean.getBackgroundColor());
+                            rv.setInt(R.id.widgetBack, "setColorFilter", widgetBean.getBackgroundColor());
                         }
+                        // TODO apply this from widget bean
+                        rv.setInt(R.id.widgetBack, "setImageAlpha", 0xCC);
+
                         updateDateViews(rv);
                         rv.setRemoteAdapter(R.id.listEvents, intent);
                         rv.setEmptyView(R.id.listEvents, R.id.emptyView);
