@@ -18,6 +18,8 @@ public class WidgetBean {
     private Integer backgroundColor;
     @ColumnInfo(name = "date_color")
     private Integer textColor;
+    @ColumnInfo(name = "opacity")
+    private Integer opacity;
 
     public List<CalendarBean> getCalendars() {
         return calendars;
@@ -49,6 +51,14 @@ public class WidgetBean {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public Integer getOpacity() {
+        return opacity;
+    }
+
+    public void setOpacity(Integer opacity) {
+        this.opacity = opacity;
     }
 
     @Override

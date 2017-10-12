@@ -7,4 +7,12 @@
     <string name="widget_empty_events_list">Ничего</string>
     <string name="fish_day_of_week">вс</string>
     <string name="date_default">31</string>
+    <string name="fish_digit_value">48</string>
+    <string name="empty_cal_list">Календарей не найдено</string>
+    <string name="title_add_widget">Добавляем виджет</string>
+    <string name="title_edit_widget">Меняем виджет №%s</string>
+    <string name="no_widgets_yet">Виджетов пока нет</string>
+    <string name="widget_settings_background">Цвет фона</string>
+    <string name="widget_settings_date_color">Цвет текста</string>
+    <string name="date_all_day">Весь день</string>
 </resources>

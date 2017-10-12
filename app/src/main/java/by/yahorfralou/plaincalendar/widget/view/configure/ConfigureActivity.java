@@ -1,6 +1,7 @@
 package by.yahorfralou.plaincalendar.widget.view.configure;
 
 import android.Manifest;
+import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.appwidget.AppWidgetManager;
 import android.content.Intent;
@@ -16,6 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -24,10 +27,12 @@ import java.util.List;
 
 import by.yahorfralou.plaincalendar.widget.R;
 import by.yahorfralou.plaincalendar.widget.helper.PermissionHelper;
+import by.yahorfralou.plaincalendar.widget.helper.PrefHelper;
 import by.yahorfralou.plaincalendar.widget.helper.WidgetHelper;
 import by.yahorfralou.plaincalendar.widget.model.CalendarBean;
 import by.yahorfralou.plaincalendar.widget.model.WidgetBean;
 import by.yahorfralou.plaincalendar.widget.view.configure.settings.ColorsSettingsFragment;
+import by.yahorfralou.plaincalendar.widget.view.configure.settings.SeekBarSettingsFragment;
 import by.yahorfralou.plaincalendar.widget.view.customviews.CalendarIconView;
 import by.yahorfralou.plaincalendar.widget.widget.CalendarWidgetProvider;
 import pub.devrel.easypermissions.AfterPermissionGranted;
@@ -35,7 +40,7 @@ import pub.devrel.easypermissions.EasyPermissions;
 
 import static by.yahorfralou.plaincalendar.widget.app.PlainCalendarWidgetApp.LOGCAT;
 
-public class ConfigureActivity extends AppCompatActivity implements IConfigureView, EasyPermissions.PermissionCallbacks, ColorsSettingsFragment.SettingClickListener {
+public class ConfigureActivity extends AppCompatActivity implements IConfigureView, EasyPermissions.PermissionCallbacks {
 
     private static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1003;
 
@@ -51,9 +56,11 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
     private FloatingActionButton fabCreateWidget;
     private View viewNoWidgets;
     private View placeholderSettings;
+    private RadioGroup groupSettings;
 
     private AlertDialog pickCalendarsDialog;
     private BaseAdapter calSettingsAdapter;
+    private SettingsListener settingsListener = new SettingsListener();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -97,6 +104,7 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
         blockCalIcons = findViewById(R.id.blockCalendarsIcons);
         fabCreateWidget = findViewById(R.id.fabCreateWidget);
         placeholderSettings = findViewById(R.id.placeholderSettings);
+        groupSettings = findViewById(R.id.groupSettings);
 
         btnPickCalendars.setOnClickListener(view -> pickCalendars());
 
@@ -123,10 +131,11 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
         }
         fabCreateWidget.setOnClickListener(view -> applySettings());
 
-        int[] colorsBackground = getResources().getIntArray(R.array.settings_back_colors);
-        ColorsSettingsFragment fragment = ColorsSettingsFragment.getNewInstance(colorsBackground);
-        fragment.setSettingsListener(this);
-        getFragmentManager().beginTransaction().replace(R.id.placeholderSettings, fragment).commit();
+        groupSettings.setOnCheckedChangeListener((group, checkedId) -> displaySettings(checkedId));
+        View settingFirst = groupSettings.getChildAt(0);
+        if (settingFirst != null && settingFirst instanceof RadioButton) {
+            ((RadioButton) settingFirst).setChecked(true);
+        }
     }
 
     @Override
@@ -209,34 +218,16 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
         }
     }
 
-    /*@Override
-    public void onCalendarSettingsSaved() {
-        if (calendarSettings.isEmpty()) {
-            fabCreateWidget.setEnabled(false);
-        } else {
-            fabCreateWidget.setEnabled(true);
-        }
-
-        txtCalendarsNumber.setText(String.valueOf(calendarSettings.size()));
-        updateCalIcons();
-    }*/
-
     @Override
     public void notifyChangesAndFinish() {
         Intent intentBr = new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE, null, this, CalendarWidgetProvider.class);
-        intentBr.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, new int[] {widgetId});
+        intentBr.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, new int[]{widgetId});
         sendBroadcast(intentBr);
 
         Intent intent = new Intent();
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);
         setResult(RESULT_OK, intent);
         finish();
-    }
-
-    @Override
-    public void onSettingClick(int colorValue) {
-        Log.i(LOGCAT, "Color picked : " + colorValue);
-        widgetBean.setBackgroundColor(colorValue);
     }
 
     private void onSelectionPicked() {
@@ -272,6 +263,34 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
                 Manifest.permission.READ_CALENDAR);
     }
 
+    private void displaySettings(int buttonId) {
+        Fragment fr;
+        switch (buttonId) {
+            case R.id.radioBack: {
+                int[] colorsBackground = getResources().getIntArray(R.array.settings_back_colors);
+                ColorsSettingsFragment fragment = ColorsSettingsFragment.getNewInstance(colorsBackground);
+                fragment.setSettingsListener(settingsListener);
+                fr = fragment;
+            } break;
+            case R.id.radioOpac: {
+                // TODO values from Widget Bean and preferences
+                SeekBarSettingsFragment fragment = SeekBarSettingsFragment.newInstance(0,
+                        100,
+                        widgetBean.getOpacity() != null ? widgetBean.getOpacity() : PrefHelper.getDefaultOpacity(ConfigureActivity.this),
+                        5, // TODO constant
+                        getString(R.string.per_cent_sign));
+                fragment.setListener(settingsListener);
+                fr = fragment;
+            } break;
+
+            default: fr = null;
+        }
+
+        if (fr != null) {
+            getFragmentManager().beginTransaction().replace(R.id.placeholderSettings, fr).commit();
+        }
+    }
+
     private void applySettings() {
         widgetBean.setCalendars(calendarSettings);
         presenter.onApplySettings(widgetBean);
@@ -293,4 +312,18 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
         }
     }
 
+    private class SettingsListener implements ColorsSettingsFragment.SettingClickListener, SeekBarSettingsFragment.OnValueChangeListener {
+
+        @Override
+        public void onSettingClick(int colorValue) {
+            widgetBean.setBackgroundColor(colorValue);
+        }
+
+        @Override
+        public void onValueChanged(int value) {
+            // TODO check it wis opacity
+            int opacity = (0xFF * value) / 100;
+            widgetBean.setOpacity(opacity);
+        }
+    }
 }

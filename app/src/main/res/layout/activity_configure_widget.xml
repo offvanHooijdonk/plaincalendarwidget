@@ -54,8 +54,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/blockPickCalendars"
                 android:orientation="horizontal"
-                android:paddingTop="0dp"
-                android:paddingBottom="@dimen/settings_block_minor_padding">
+                android:paddingBottom="@dimen/settings_block_minor_padding"
+                android:paddingTop="0dp">
 
             </LinearLayout>
 
@@ -64,33 +64,51 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:paddingTop="@dimen/settings_block_minor_padding"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingTop="@dimen/settings_block_minor_padding">
 
                 <FrameLayout
                     android:id="@+id/placeholderSettings"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/settings_values_block_height" />
 
-                <LinearLayout
+                <HorizontalScrollView
                     android:id="@+id/blockSettings"
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:orientation="horizontal"
+                    android:layout_height="@dimen/settings_titles_block_height"
                     android:scrollbars="none">
 
-                    <TextView
-                        style="@style/SettingsItem"
+                    <RadioGroup
+                        android:id="@+id/groupSettings"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="@string/widget_settings_background" />
+                        android:orientation="horizontal">
 
-                    <TextView
-                        style="@style/SettingsItem"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="@string/widget_settings_date_color" />
-                </LinearLayout>
+                        <RadioButton
+                            android:id="@+id/radioBack"
+                            style="@style/SettingsItem"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:button="@null"
+                            android:text="@string/widget_settings_background" />
+
+                        <RadioButton
+                            android:id="@+id/radioOpac"
+                            style="@style/SettingsItem"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:button="@null"
+                            android:text="@string/widget_settings_opacity" />
+
+                        <RadioButton
+                            android:id="@+id/radioTextColor"
+                            style="@style/SettingsItem"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:button="@null"
+                            android:text="@string/widget_settings_date_color" />
+                    </RadioGroup>
+                </HorizontalScrollView>
             </LinearLayout>
 
         </RelativeLayout>

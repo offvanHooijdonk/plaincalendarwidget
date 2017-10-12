@@ -11,4 +11,5 @@
     <dimen name="event_color_size">6dp</dimen>
     <dimen name="widget_corner_radius">4dp</dimen>
     <dimen name="settings_block_minor_padding">8dp</dimen>
+    <dimen name="settings_titles_block_height">40dp</dimen>
 </resources>

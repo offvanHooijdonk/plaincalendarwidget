@@ -21,12 +21,10 @@
     </style>
 
     <style name="SettingsItem">
-        <item name="android:textColor">@color/md_black_1000</item>
+        <item name="android:textColor">@color/settings_select</item>
         <item name="android:textSize">14sp</item>
-        <item name="android:paddingStart">4dp</item>
-        <item name="android:paddingEnd">4dp</item>
-        <item name="android:gravity">center_vertical|center_horizontal</item>
-        <item name="android:textAlignment">center</item>
+        <item name="android:paddingStart">8dp</item>
+        <item name="android:paddingEnd">8dp</item>
     </style>
 
     <style name="SettingsItem.Selected" parent="SettingsItem">
