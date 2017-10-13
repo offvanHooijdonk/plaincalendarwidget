@@ -55,8 +55,8 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
     private ViewGroup blockCalIcons;
     private FloatingActionButton fabCreateWidget;
     private View viewNoWidgets;
-    private View placeholderSettings;
     private RadioGroup groupSettings;
+    private PreviewWidgetFragment fragPreviewWidget;
 
     private AlertDialog pickCalendarsDialog;
     private BaseAdapter calSettingsAdapter;
@@ -76,6 +76,8 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
                 widgetId = getIntent().getExtras().getInt(AppWidgetManager.EXTRA_APPWIDGET_ID);
                 widgetBean = new WidgetBean();
                 // TODO initialize with default values?
+                initWidgetWithDefaults();
+
                 widgetBean.setId(widgetId);
                 getSupportActionBar().setTitle(getString(R.string.title_add_widget));
             }
@@ -103,7 +105,6 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
         btnPickCalendars = findViewById(R.id.btnPickCalendars);
         blockCalIcons = findViewById(R.id.blockCalendarsIcons);
         fabCreateWidget = findViewById(R.id.fabCreateWidget);
-        placeholderSettings = findViewById(R.id.placeholderSettings);
         groupSettings = findViewById(R.id.groupSettings);
 
         btnPickCalendars.setOnClickListener(view -> pickCalendars());
@@ -136,6 +137,9 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
         if (settingFirst != null && settingFirst instanceof RadioButton) {
             ((RadioButton) settingFirst).setChecked(true);
         }
+
+        fragPreviewWidget = (PreviewWidgetFragment) getFragmentManager().findFragmentById(R.id.fragPreviewWidget);
+        fragPreviewWidget.setInitialParametersFromWidgetBean(widgetBean);
     }
 
     @Override
@@ -268,7 +272,7 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
         switch (buttonId) {
             case R.id.radioBack: {
                 int[] colorsBackground = getResources().getIntArray(R.array.settings_back_colors);
-                ColorsSettingsFragment fragment = ColorsSettingsFragment.getNewInstance(colorsBackground);
+                ColorsSettingsFragment fragment = ColorsSettingsFragment.getNewInstance(colorsBackground, widgetBean.getBackgroundColor());
                 fragment.setSettingsListener(settingsListener);
                 fr = fragment;
             } break;
@@ -276,7 +280,7 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
                 // TODO values from Widget Bean and preferences
                 SeekBarSettingsFragment fragment = SeekBarSettingsFragment.newInstance(0,
                         100,
-                        widgetBean.getOpacity() != null ? widgetBean.getOpacity() : PrefHelper.getDefaultOpacity(ConfigureActivity.this),
+                        widgetBean.getOpacity(),
                         5, // TODO constant
                         getString(R.string.per_cent_sign));
                 fragment.setListener(settingsListener);
@@ -312,18 +316,27 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
         }
     }
 
+
+    private void initWidgetWithDefaults() {
+        if (widgetBean != null) {
+            widgetBean.setBackgroundColor(PrefHelper.getDefaultBackColor(this));
+            widgetBean.setOpacity(PrefHelper.getDefaultOpacityPerCent(this));
+        }
+    }
+
     private class SettingsListener implements ColorsSettingsFragment.SettingClickListener, SeekBarSettingsFragment.OnValueChangeListener {
 
         @Override
         public void onSettingClick(int colorValue) {
             widgetBean.setBackgroundColor(colorValue);
+            fragPreviewWidget.updateBackColor(colorValue);
         }
 
         @Override
         public void onValueChanged(int value) {
-            // TODO check it wis opacity
-            int opacity = (0xFF * value) / 100;
-            widgetBean.setOpacity(opacity);
+            widgetBean.setOpacity(value);
+            fragPreviewWidget.updateOpacity(value);
         }
     }
+
 }

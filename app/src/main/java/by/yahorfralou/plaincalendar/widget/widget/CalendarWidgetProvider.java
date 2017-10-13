@@ -59,7 +59,7 @@ public class CalendarWidgetProvider extends AppWidgetProvider {
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
             intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
 
-            RemoteViews rv = new RemoteViews(ctx.getPackageName(), R.layout.calendar_widget);
+            RemoteViews rv = new RemoteViews(ctx.getPackageName(), R.layout.widget_calendars);
 
             PlainCalendarWidgetApp.getAppDatabase().widgetDao().getById(appWidgetId)
                     .subscribeOn(Schedulers.io())
@@ -68,7 +68,7 @@ public class CalendarWidgetProvider extends AppWidgetProvider {
                         if (widgetBean.getBackgroundColor() != null) {
                             rv.setInt(R.id.widgetBack, "setColorFilter", widgetBean.getBackgroundColor());
                             if (widgetBean.getBackgroundColor() != ctx.getResources().getColor(R.color.transparent) && widgetBean.getOpacity() != null) {
-                                rv.setInt(R.id.widgetBack, "setImageAlpha", widgetBean.getOpacity());
+                                rv.setInt(R.id.widgetBack, "setImageAlpha", (widgetBean.getOpacity() * 0xFF) / 100);
                             }
                         }
 
@@ -105,7 +105,7 @@ public class CalendarWidgetProvider extends AppWidgetProvider {
 
             for (int widgetId : widgetIds) {
                 Log.i(LOGCAT, "Widget " + widgetId);
-                RemoteViews rv = new RemoteViews(ctx.getPackageName(), R.layout.calendar_widget);
+                RemoteViews rv = new RemoteViews(ctx.getPackageName(), R.layout.widget_calendars);
                 updateDateViews(rv);
 
                 manager.partiallyUpdateAppWidget(widgetId, rv);

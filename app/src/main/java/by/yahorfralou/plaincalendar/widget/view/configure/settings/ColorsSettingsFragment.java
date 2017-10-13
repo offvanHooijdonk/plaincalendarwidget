@@ -15,18 +15,22 @@ import by.yahorfralou.plaincalendar.widget.view.customviews.ColorSingleOptionVie
 
 public class ColorsSettingsFragment extends Fragment {
     private static final String ARG_COLORS_LIST = "arg_colors_list";
+    private static final String ARG_COLOR_SELECTED = "arg_color_selected";
 
     private Context ctx;
     private LinearLayout root;
+    private View selectedView = null;
+
     private SettingClickListener listener;
-
     private int[] colorsList;
+    private int colorSelected;
 
-    public static ColorsSettingsFragment getNewInstance(int [] colors) {
+    public static ColorsSettingsFragment getNewInstance(int [] colors, int colorSelected) {
         ColorsSettingsFragment fragment = new ColorsSettingsFragment();
 
         Bundle args = new Bundle();
         args.putIntArray(ARG_COLORS_LIST, colors);
+        args.putInt(ARG_COLOR_SELECTED, colorSelected);
         fragment.setArguments(args);
 
         return fragment;
@@ -43,6 +47,7 @@ public class ColorsSettingsFragment extends Fragment {
 
         root = v.findViewById(R.id.root);
         colorsList = getArguments().getIntArray(ARG_COLORS_LIST);
+        colorSelected = getArguments().getInt(ARG_COLOR_SELECTED);
 
         return v;
     }
@@ -64,23 +69,32 @@ public class ColorsSettingsFragment extends Fragment {
         params.setMarginStart(4);
         params.setMarginEnd(4);
 
-        boolean first = true;
         for (int color : colorsList) {
             ColorSingleOptionView viewColorOption = new ColorSingleOptionView(ctx);
             viewColorOption.setColor(color);
             viewColorOption.setLayoutParams(params);
             viewColorOption.setOnClickListener(this::onOptionSelected);
-            if (first) {
+            if (color == colorSelected) {
                 viewColorOption.setChecked(true);
-                first = false;
+                selectedView = viewColorOption;
             }
 
             root.addView(viewColorOption);
         }
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+// TODO make this work
+        if (selectedView != null) {
+            root.scrollTo(selectedView.getRight(), 0);
+        }
     }
 
     private void onOptionSelected(View v) {
-        int colorSelected = 0;
+        int colorSelected = ctx.getResources().getColor(R.color.transparent);
         for (int i = 0; i < root.getChildCount(); i++) {
             ColorSingleOptionView child = (ColorSingleOptionView) root.getChildAt(i);
 
