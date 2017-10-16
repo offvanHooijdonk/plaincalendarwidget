@@ -75,7 +75,6 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
             if (getIntent().getExtras().containsKey(AppWidgetManager.EXTRA_APPWIDGET_ID)) {
                 widgetId = getIntent().getExtras().getInt(AppWidgetManager.EXTRA_APPWIDGET_ID);
                 widgetBean = new WidgetBean();
-                // TODO initialize with default values?
                 initWidgetWithDefaults();
 
                 widgetBean.setId(widgetId);
@@ -321,6 +320,7 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
         if (widgetBean != null) {
             widgetBean.setBackgroundColor(PrefHelper.getDefaultBackColor(this));
             widgetBean.setOpacity(PrefHelper.getDefaultOpacityPerCent(this));
+            widgetBean.setTextColor(PrefHelper.getDefaultTextColor(this));
         }
     }
 

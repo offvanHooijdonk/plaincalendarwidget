@@ -31,4 +31,13 @@
         <item>@color/md_grey_500</item>
         <item>@color/md_black_1000</item>
     </integer-array>
+
+    <integer-array name="settings_text_colors">
+        <item>@color/md_white_1000</item>
+        <item>@color/md_yellow_A400</item>
+        <item>@color/md_grey_300</item>
+        <item>@color/md_grey_500</item>
+        <item>@color/md_grey_700</item>
+        <item>@color/md_black_1000</item>
+    </integer-array>
 </resources>

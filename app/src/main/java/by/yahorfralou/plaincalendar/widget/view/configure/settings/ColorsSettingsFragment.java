@@ -2,12 +2,14 @@ package by.yahorfralou.plaincalendar.widget.view.configure.settings;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 
 import by.yahorfralou.plaincalendar.widget.R;
@@ -20,11 +22,14 @@ public class ColorsSettingsFragment extends Fragment {
 
     private Context ctx;
     private LinearLayout root;
+    private HorizontalScrollView scrollView;
     private View selectedView = null;
 
     private SettingClickListener listener;
     private int[] colorsList;
     private int colorSelected;
+
+    private int screeWidth;
 
     public static ColorsSettingsFragment getNewInstance(int [] colors, int colorSelected) {
         ColorsSettingsFragment fragment = new ColorsSettingsFragment();
@@ -46,9 +51,14 @@ public class ColorsSettingsFragment extends Fragment {
         }
         ctx = getActivity();
 
+        scrollView = v.findViewById(R.id.blockScroll);
         root = v.findViewById(R.id.root);
         colorsList = getArguments().getIntArray(ARG_COLORS_LIST);
         colorSelected = getArguments().getInt(ARG_COLOR_SELECTED);
+
+        Point size = new Point();
+        getActivity().getWindowManager().getDefaultDisplay().getSize(size);
+        screeWidth = size.x;
 
         return v;
     }
@@ -88,9 +98,10 @@ public class ColorsSettingsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-// TODO make this work
+// TODO fix right side
         if (selectedView != null) {
-            root.scrollTo(selectedView.getRight(), 0);
+            scrollView.post(() -> scrollView.scrollTo(selectedView.getLeft(), 0));
+            scrollView.post(() -> scrollView.scrollBy(- (screeWidth / 2 - selectedView.getWidth()), 0));
         }
     }
 

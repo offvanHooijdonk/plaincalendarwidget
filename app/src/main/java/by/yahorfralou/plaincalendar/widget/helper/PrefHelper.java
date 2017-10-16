@@ -9,9 +9,11 @@ import by.yahorfralou.plaincalendar.widget.R;
 public class PrefHelper {
     private static final String PREF_OPACITY_PER_CENT = "pref_opacity_per_cent";
     private static final String PREF_DEFAULT_BACK_COLOR = "pref_default_back_color";
+    private static final String PREF_DEFAULT_TEXT_COLOR = "pref_default_text_color";
 
     private static final int DEFAULT_OPACITY_PERCENT = 80;
     private static final int DEFAULT_BACK_COLOR_RESOURCE = R.color.md_blue_400;
+    private static final int DEFAULT_TEXT_COLOR_RESOURCE = R.color.md_white_1000;
 
     public static int getDefaultOpacityPerCent(Context ctx) {
         return getSharedPreference(ctx).getInt(PREF_OPACITY_PER_CENT, DEFAULT_OPACITY_PERCENT);
@@ -27,6 +29,14 @@ public class PrefHelper {
 
     public static void setDefaultBackColor(Context ctx, int color) {
         getSharedPreference(ctx).edit().putInt(PREF_DEFAULT_BACK_COLOR, color).apply();
+    }
+
+    public static int getDefaultTextColor(Context ctx) {
+        return getSharedPreference(ctx).getInt(PREF_DEFAULT_TEXT_COLOR, ctx.getResources().getColor(DEFAULT_TEXT_COLOR_RESOURCE));
+    }
+
+    public static void setDefaultTextColor(Context ctx, int color) {
+        getSharedPreference(ctx).edit().putInt(PREF_DEFAULT_TEXT_COLOR, color).apply();
     }
 
     private static SharedPreferences getSharedPreference(Context ctx) {
