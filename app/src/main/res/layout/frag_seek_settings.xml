@@ -7,7 +7,7 @@
 
     <SeekBar
         android:id="@+id/seekBar"
-        android:layout_width="164dp"
+        android:layout_width="@dimen/seekbar_setting_width"
         android:layout_height="wrap_content" />
 
     <TextView

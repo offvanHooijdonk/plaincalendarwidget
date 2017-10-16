@@ -9,7 +9,6 @@
     <!--<color name="list_divider">#99FFFFFF</color>-->
 
     <integer-array name="settings_back_colors">
-        <item>@color/transparent</item>
         <item>@color/md_white_1000</item>
         <item>@color/md_pink_500</item>
         <item>@color/md_pink_A400</item>

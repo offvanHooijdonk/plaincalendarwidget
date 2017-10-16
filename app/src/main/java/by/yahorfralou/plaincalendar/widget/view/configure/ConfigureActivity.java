@@ -338,5 +338,4 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
             fragPreviewWidget.updateOpacity(value);
         }
     }
-
 }

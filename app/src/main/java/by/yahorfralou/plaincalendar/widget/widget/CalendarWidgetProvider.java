@@ -62,7 +62,7 @@ public class CalendarWidgetProvider extends AppWidgetProvider {
                     .subscribe(widgetBean -> {
                         if (widgetBean.getBackgroundColor() != null) {
                             rv.setInt(R.id.widgetBack, "setColorFilter", widgetBean.getBackgroundColor());
-                            if (widgetBean.getBackgroundColor() != ctx.getResources().getColor(R.color.transparent) && widgetBean.getOpacity() != null) {
+                            if (widgetBean.getOpacity() != null) {
                                 rv.setInt(R.id.widgetBack, "setImageAlpha", (widgetBean.getOpacity() * 0xFF) / 100);
                             }
                         }

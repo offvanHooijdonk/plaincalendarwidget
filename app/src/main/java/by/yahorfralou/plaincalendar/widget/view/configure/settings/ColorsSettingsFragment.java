@@ -11,6 +11,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import by.yahorfralou.plaincalendar.widget.R;
+import by.yahorfralou.plaincalendar.widget.helper.PrefHelper;
 import by.yahorfralou.plaincalendar.widget.view.customviews.ColorSingleOptionView;
 
 public class ColorsSettingsFragment extends Fragment {
@@ -94,7 +95,7 @@ public class ColorsSettingsFragment extends Fragment {
     }
 
     private void onOptionSelected(View v) {
-        int colorSelected = ctx.getResources().getColor(R.color.transparent);
+        int colorSelected = PrefHelper.getDefaultBackColor(ctx);
         for (int i = 0; i < root.getChildCount(); i++) {
             ColorSingleOptionView child = (ColorSingleOptionView) root.getChildAt(i);
 
