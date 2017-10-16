@@ -36,12 +36,7 @@ public class CalendarWidgetProvider extends AppWidgetProvider {
         super.onEnabled(ctx);
         Log.i(LOGCAT, "Enabled");
 
-        AlarmManager alarmManager = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
-        if (alarmManager != null) {
-            alarmManager.setRepeating(AlarmManager.RTC, DateHelper.getClosestMidnightMillis(), DateHelper.MILLIS_IN_DAY, getNewDayPendingIntent(ctx));
-        } else {
-            // TODO handle
-        }
+        setupDailyAlarm(ctx);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             CalendarChangeJobService.scheduleCalendarChangeJob(ctx);
@@ -91,11 +86,11 @@ public class CalendarWidgetProvider extends AppWidgetProvider {
         if (Intent.ACTION_DATE_CHANGED.equals(intent.getAction()) ||
                 Intent.ACTION_TIME_CHANGED.equals(intent.getAction()) ||
                 Intent.ACTION_TIMEZONE_CHANGED.equals(intent.getAction()) ||
-                INTENT_ACTION_NEW_DAY.equals(intent.getAction())) {
+                INTENT_ACTION_NEW_DAY.equals(intent.getAction()) ||
+                Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
 
             int[] widgetIds = WidgetHelper.getWidgetIds(ctx, CalendarWidgetProvider.class);
 
-            Log.i(LOGCAT, "Widgets found: " + Arrays.toString(widgetIds));
             Log.i(LOGCAT, "Applying current date on Widgets");
 
             // TODO send update Broadcast instead?
@@ -109,6 +104,10 @@ public class CalendarWidgetProvider extends AppWidgetProvider {
                 updateDateViews(rv);
 
                 manager.partiallyUpdateAppWidget(widgetId, rv);
+            }
+
+            if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
+                setupDailyAlarm(ctx);
             }
         }
     }
@@ -150,4 +149,12 @@ public class CalendarWidgetProvider extends AppWidgetProvider {
         rv.setTextViewText(R.id.txtWidgetDay, DateHelper.formatDay(now));
     }
 
+    private void setupDailyAlarm(Context ctx) {
+        AlarmManager alarmManager = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
+        if (alarmManager != null) {
+            alarmManager.setRepeating(AlarmManager.RTC, DateHelper.getClosestMidnightMillis(), DateHelper.MILLIS_IN_DAY, getNewDayPendingIntent(ctx));
+        } else {
+            // TODO handle
+        }
+    }
 }
