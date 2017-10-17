@@ -2,12 +2,16 @@ package by.yahorfralou.plaincalendar.widget.helper;
 
 import android.annotation.SuppressLint;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
 public class DateHelper {
     public static long MILLIS_IN_DAY = 24 * 60 * 60 * 1000;
+
+    private static final DateFormat EVENT_DATE_FORMAT = DateFormat.getDateInstance(DateFormat.SHORT);
+    private static final DateFormat EVENT_TIME_FORMAT = DateFormat.getTimeInstance(DateFormat.SHORT);
 
     @SuppressLint("SimpleDateFormat")
     private static final SimpleDateFormat SDF_DATE_ONLY = new SimpleDateFormat("d");
@@ -36,5 +40,13 @@ public class DateHelper {
         //calendar.add(Calendar.MINUTE, 1);
 
         return calendar.getTimeInMillis();
+    }
+
+    public static String formatEventDate(Date date) {
+        return EVENT_DATE_FORMAT.format(date);
+    }
+
+    public static String formatEventTime(Date date) {
+        return EVENT_TIME_FORMAT.format(date);
     }
 }

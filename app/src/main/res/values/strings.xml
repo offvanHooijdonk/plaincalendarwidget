@@ -21,6 +21,8 @@
 
     <string name="date_all_day">All day</string>
     <string name="per_cent_sign">%</string>
+    <string name="fish_event_title_1">Movies, \'Blade Runner\'</string>
+    <string name="fish_event_title_2">Birthday - John Doe</string>
 
     <bool name="is24">false</bool>
     <bool name="less24">true</bool>

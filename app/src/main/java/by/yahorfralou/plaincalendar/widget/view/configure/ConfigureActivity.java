@@ -31,6 +31,7 @@ import by.yahorfralou.plaincalendar.widget.helper.PrefHelper;
 import by.yahorfralou.plaincalendar.widget.helper.WidgetHelper;
 import by.yahorfralou.plaincalendar.widget.model.CalendarBean;
 import by.yahorfralou.plaincalendar.widget.model.WidgetBean;
+import by.yahorfralou.plaincalendar.widget.view.configure.preview.PreviewWidgetFragment;
 import by.yahorfralou.plaincalendar.widget.view.configure.settings.ColorsSettingsFragment;
 import by.yahorfralou.plaincalendar.widget.view.configure.settings.SeekBarSettingsFragment;
 import by.yahorfralou.plaincalendar.widget.view.customviews.CalendarIconView;
@@ -48,6 +49,7 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
     private List<CalendarBean> calendarSettings;
     private WidgetBean widgetBean = null;
     private Integer widgetId;
+    private boolean isCreateMode = false;
 
     private ProgressDialog dialogProgress;
     private TextView txtCalendarsNumber;
@@ -69,17 +71,26 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
 
         presenter = new ConfigurePresenter(getApplicationContext(), this);
 
+        calendarSettings = new ArrayList<>();
+
         viewNoWidgets = findViewById(R.id.viewNoWidgets);
+        dialogProgress = new ProgressDialog(this);
+        dialogProgress.setMessage(getString(R.string.dialog_load_calendars_msg));
+        txtCalendarsNumber = findViewById(R.id.txtCalendarsNumber);
+        btnPickCalendars = findViewById(R.id.btnPickCalendars);
+        blockCalIcons = findViewById(R.id.blockCalendarsIcons);
+        fabCreateWidget = findViewById(R.id.fabCreateWidget);
+        groupSettings = findViewById(R.id.groupSettings);
 
-        if (getIntent().getExtras() != null) {
-            if (getIntent().getExtras().containsKey(AppWidgetManager.EXTRA_APPWIDGET_ID)) {
-                widgetId = getIntent().getExtras().getInt(AppWidgetManager.EXTRA_APPWIDGET_ID);
-                widgetBean = new WidgetBean();
-                initWidgetWithDefaults();
+        if (getIntent().getExtras() != null && getIntent().getExtras().containsKey(AppWidgetManager.EXTRA_APPWIDGET_ID)) {
+            widgetId = getIntent().getExtras().getInt(AppWidgetManager.EXTRA_APPWIDGET_ID);
+            widgetBean = new WidgetBean();
+            isCreateMode = true;
 
-                widgetBean.setId(widgetId);
-                getSupportActionBar().setTitle(getString(R.string.title_add_widget));
-            }
+            initWidgetWithDefaults();
+
+            widgetBean.setId(widgetId);
+            getSupportActionBar().setTitle(getString(R.string.title_add_widget));
         } else {
             Log.d(LOGCAT, "No Widget ID found in Extras");
             int[] widgetIds = WidgetHelper.getWidgetIds(this, CalendarWidgetProvider.class);
@@ -95,16 +106,6 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
                 return;
             }
         }
-
-        calendarSettings = new ArrayList<>();
-
-        dialogProgress = new ProgressDialog(this);
-        dialogProgress.setMessage(getString(R.string.dialog_load_calendars_msg));
-        txtCalendarsNumber = findViewById(R.id.txtCalendarsNumber);
-        btnPickCalendars = findViewById(R.id.btnPickCalendars);
-        blockCalIcons = findViewById(R.id.blockCalendarsIcons);
-        fabCreateWidget = findViewById(R.id.fabCreateWidget);
-        groupSettings = findViewById(R.id.groupSettings);
 
         btnPickCalendars.setOnClickListener(view -> pickCalendars());
 
@@ -132,13 +133,10 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
         fabCreateWidget.setOnClickListener(view -> applySettings());
 
         groupSettings.setOnCheckedChangeListener((group, checkedId) -> displaySettings(checkedId));
-        View settingFirst = groupSettings.getChildAt(0);
-        if (settingFirst != null && settingFirst instanceof RadioButton) {
-            ((RadioButton) settingFirst).setChecked(true);
+        if (isCreateMode) {
+            openDefaultSettings();
+            initPreview();
         }
-
-        fragPreviewWidget = (PreviewWidgetFragment) getFragmentManager().findFragmentById(R.id.fragPreviewWidget);
-        fragPreviewWidget.setInitialParametersFromWidgetBean(widgetBean);
     }
 
     @Override
@@ -169,6 +167,9 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
         } else {
             fabCreateWidget.setEnabled(true);
         }
+
+        openDefaultSettings();
+        initPreview();
 
         txtCalendarsNumber.setText(String.valueOf(calendarSettings.size()));
         updateCalIcons();
@@ -266,6 +267,18 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
                 Manifest.permission.READ_CALENDAR);
     }
 
+    private void initPreview() {
+        fragPreviewWidget = (PreviewWidgetFragment) getFragmentManager().findFragmentById(R.id.fragPreviewWidget);
+        fragPreviewWidget.setInitialParametersFromWidgetBean(widgetBean);
+    }
+
+    private void openDefaultSettings() {
+        View settingFirst = groupSettings.getChildAt(0);
+        if (settingFirst != null && settingFirst instanceof RadioButton) {
+            ((RadioButton) settingFirst).setChecked(true);
+        }
+    }
+
     private void displaySettings(int buttonId) {
         Fragment fr;
         switch (buttonId) {
@@ -274,7 +287,8 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
                 ColorsSettingsFragment fragment = ColorsSettingsFragment.getNewInstance(colorsBackground, widgetBean.getBackgroundColor());
                 fragment.setSettingsListener(settingsListener);
                 fr = fragment;
-            } break;
+            }
+            break;
             case R.id.radioOpac: {
                 // TODO values from Widget Bean and preferences
                 SeekBarSettingsFragment fragment = SeekBarSettingsFragment.newInstance(0,
@@ -284,9 +298,11 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
                         getString(R.string.per_cent_sign));
                 fragment.setListener(settingsListener);
                 fr = fragment;
-            } break;
+            }
+            break;
 
-            default: fr = null;
+            default:
+                fr = null;
         }
 
         if (fr != null) {

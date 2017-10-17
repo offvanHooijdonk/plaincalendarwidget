@@ -7,21 +7,19 @@ import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import by.yahorfralou.plaincalendar.widget.R;
 import by.yahorfralou.plaincalendar.widget.app.PlainCalendarWidgetApp;
 import by.yahorfralou.plaincalendar.widget.data.calendars.CalendarDataSource;
+import by.yahorfralou.plaincalendar.widget.helper.DateHelper;
 import by.yahorfralou.plaincalendar.widget.model.EventBean;
 
 import static by.yahorfralou.plaincalendar.widget.app.PlainCalendarWidgetApp.LOGCAT;
 
 public class EventsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
-    private static final DateFormat DATE_FORMAT = DateFormat.getDateInstance(DateFormat.SHORT);
-    private static final DateFormat TIME_FORMAT = DateFormat.getTimeInstance(DateFormat.SHORT);
-
     private final int widgetId;
     private Context ctx;
     private CalendarDataSource calDataSource;
@@ -68,9 +66,7 @@ public class EventsRemoteViewsFactory implements RemoteViewsService.RemoteViewsF
         EventBean event = eventList.get(i);
 // TODO make beauty
         RemoteViews rv = new RemoteViews(ctx.getPackageName(), R.layout.item_event_widget);
-        String eventDateText = String.format("%s %s",
-                DATE_FORMAT.format(event.getDateStart()),
-                (event.isAllDay() ? ctx.getString(R.string.date_all_day) : TIME_FORMAT.format(event.getDateStart())));
+        String eventDateText = formatDateRange(ctx, event.getDateStart(), event.getDateStart(), event.isAllDay());
 
         rv.setTextViewText(R.id.txtDateRange, eventDateText);
         rv.setTextViewText(R.id.txtEventTitle, event.getTitle());
@@ -82,12 +78,16 @@ public class EventsRemoteViewsFactory implements RemoteViewsService.RemoteViewsF
         return rv;
     }
 
+    public static String formatDateRange(Context ctx, Date dateStart, Date dateEnd, boolean isAllDay) {
+        return String.format("%s %s",
+                DateHelper.formatEventDate(dateStart),
+                (isAllDay ? ctx.getString(R.string.date_all_day) : DateHelper.formatEventTime(dateStart)));
+    }
 
     @Override
     public long getItemId(int i) {
         return eventList.get(i).getId();
     }
-
 
     @Override
     public boolean hasStableIds() {

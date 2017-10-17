@@ -70,7 +70,7 @@
                     android:id="@+id/fragPreviewWidget"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    class="by.yahorfralou.plaincalendar.widget.view.configure.PreviewWidgetFragment" />
+                    class="by.yahorfralou.plaincalendar.widget.view.configure.preview.PreviewWidgetFragment" />
 
             </LinearLayout>
 

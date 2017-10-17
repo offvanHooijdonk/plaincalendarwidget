@@ -1,4 +1,4 @@
-package by.yahorfralou.plaincalendar.widget.view.configure;
+package by.yahorfralou.plaincalendar.widget.view.configure.preview;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -9,8 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import java.util.Date;
 
 import by.yahorfralou.plaincalendar.widget.R;
+import by.yahorfralou.plaincalendar.widget.helper.DateHelper;
 import by.yahorfralou.plaincalendar.widget.model.WidgetBean;
 
 public class PreviewWidgetFragment extends Fragment {
@@ -18,7 +23,11 @@ public class PreviewWidgetFragment extends Fragment {
     private static final int DEFAULT_ROWS = 2;
 
     private Context ctx;
+
     private ImageView imgBack;
+    private TextView txtDate;
+    private TextView txtDay;
+    private ListView lstEvents;
 
     @Nullable
     @Override
@@ -38,6 +47,11 @@ public class PreviewWidgetFragment extends Fragment {
         super.onViewCreated(v, savedInstanceState);
 
         imgBack = v.findViewById(R.id.widgetBack);
+        txtDate = v.findViewById(R.id.txtWidgetDate);
+        txtDay = v.findViewById(R.id.txtWidgetDay);
+        lstEvents = v.findViewById(R.id.listEvents);
+
+        lstEvents.setAdapter(new PreviewEventsAdapter(ctx));
     }
 
     @Override
@@ -46,6 +60,10 @@ public class PreviewWidgetFragment extends Fragment {
 
         getView().getLayoutParams().width = calcWidthPx();
         getView().getLayoutParams().height = calcHeightPx();
+
+        Date now = new Date();
+        txtDate.setText(DateHelper.formatDateOnly(now));
+        txtDay.setText(DateHelper.formatDay(now));
     }
 
     public void setInitialParametersFromWidgetBean(WidgetBean initialParams) {
