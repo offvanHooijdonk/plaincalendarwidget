@@ -61,6 +61,7 @@
             android:layout_height="match_parent"
             android:layout_marginStart="@dimen/widget_margin"
             android:layout_marginTop="@dimen/widget_margin"
+            android:visibility="gone"
             android:layout_toEndOf="@id/dividerDate"
             android:text="@string/widget_empty_events_list"
             android:textColor="@color/md_white_1000" />

@@ -15,4 +15,8 @@
     <string name="widget_settings_background">Цвет фона</string>
     <string name="widget_settings_date_color">Цвет текста</string>
     <string name="date_all_day">Весь день</string>
+    <string name="widget_settings_opacity">Прозрачность</string>
+    <string name="per_cent_sign">%</string>
+    <string name="fish_event_title_1">Кино, \"Бегущий по лезвию\"</string>
+    <string name="fish_event_title_2">День рождения - Вася Пупкин</string>
 </resources>
