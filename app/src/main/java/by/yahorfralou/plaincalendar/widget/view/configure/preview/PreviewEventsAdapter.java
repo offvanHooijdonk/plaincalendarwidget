@@ -20,9 +20,11 @@ public class PreviewEventsAdapter extends BaseAdapter {
 
     private Context ctx;
     private List<EventBean> eventList;
+    private int textColor;
 
-    public PreviewEventsAdapter(Context context) {
+    public PreviewEventsAdapter(Context context, int textColor) {
         this.ctx = context;
+        this.textColor = textColor;
 
         initStubEvents();
     }
@@ -56,12 +58,19 @@ public class PreviewEventsAdapter extends BaseAdapter {
 
         String eventDateText = EventsRemoteViewsFactory.formatDateRange(ctx, eventBean.getDateStart(), eventBean.getDateEnd(), eventBean.isAllDay());
         txtDateRange.setText(eventDateText);
-        txtEventTitle.setText(eventBean.getTitle());
+        txtDateRange.setTextColor(textColor);
+        txtEventTitle.setTextColor(textColor);
+
         if (eventBean.getEventColor() != null) {
             imgColor.setColorFilter(eventBean.getEventColor());
         }
 
         return v;
+    }
+
+    public void updateTextColor(int textColor) {
+        this.textColor = textColor;
+        notifyDataSetChanged();
     }
 
     private void initStubEvents() {

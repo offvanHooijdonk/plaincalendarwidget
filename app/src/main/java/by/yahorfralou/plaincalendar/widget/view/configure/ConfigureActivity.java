@@ -59,6 +59,7 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
     private View viewNoWidgets;
     private RadioGroup groupSettings;
     private PreviewWidgetFragment fragPreviewWidget;
+    private SettingsSelection settingsOpened;
 
     private AlertDialog pickCalendarsDialog;
     private BaseAdapter calSettingsAdapter;
@@ -287,6 +288,7 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
                 ColorsSettingsFragment fragment = ColorsSettingsFragment.getNewInstance(colorsBackground, widgetBean.getBackgroundColor());
                 fragment.setSettingsListener(settingsListener);
                 fr = fragment;
+                settingsOpened = SettingsSelection.BACKGROUND;
             }
             break;
             case R.id.radioOpac: {
@@ -298,6 +300,15 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
                         getString(R.string.per_cent_sign));
                 fragment.setListener(settingsListener);
                 fr = fragment;
+                settingsOpened = SettingsSelection.OPACITY;
+            }
+            break;
+            case R.id.radioTextColor: {
+                int[] colorsBackground = getResources().getIntArray(R.array.settings_text_colors);
+                ColorsSettingsFragment fragment = ColorsSettingsFragment.getNewInstance(colorsBackground, widgetBean.getTextColor());
+                fragment.setSettingsListener(settingsListener);
+                fr = fragment;
+                settingsOpened = SettingsSelection.TEXT_COLOR;
             }
             break;
 
@@ -343,15 +354,24 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
     private class SettingsListener implements ColorsSettingsFragment.SettingClickListener, SeekBarSettingsFragment.OnValueChangeListener {
 
         @Override
-        public void onSettingClick(int colorValue) {
-            widgetBean.setBackgroundColor(colorValue);
-            fragPreviewWidget.updateBackColor(colorValue);
+        public void onColorClick(int colorValue) {
+            if (settingsOpened == SettingsSelection.BACKGROUND) {
+                widgetBean.setBackgroundColor(colorValue);
+                fragPreviewWidget.updateBackColor(colorValue);
+            } else if (settingsOpened == SettingsSelection.TEXT_COLOR) {
+                widgetBean.setTextColor(colorValue);
+                fragPreviewWidget.updateTextColor(colorValue);
+            }
         }
 
         @Override
-        public void onValueChanged(int value) {
+        public void onSeekValueChanged(int value) {
             widgetBean.setOpacity(value);
             fragPreviewWidget.updateOpacity(value);
         }
+    }
+
+    private enum SettingsSelection {
+        BACKGROUND, OPACITY, TEXT_COLOR
     }
 }

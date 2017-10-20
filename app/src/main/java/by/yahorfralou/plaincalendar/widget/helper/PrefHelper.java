@@ -12,8 +12,8 @@ public class PrefHelper {
     private static final String PREF_DEFAULT_TEXT_COLOR = "pref_default_text_color";
 
     private static final int DEFAULT_OPACITY_PERCENT = 80;
-    private static final int DEFAULT_BACK_COLOR_RESOURCE = R.color.md_blue_400;
-    private static final int DEFAULT_TEXT_COLOR_RESOURCE = R.color.md_white_1000;
+    private static final int DEFAULT_BACK_COLOR_RESOURCE = R.color.widget_default_back;
+    private static final int DEFAULT_TEXT_COLOR_RESOURCE = R.color.widget_default_text;
 
     public static int getDefaultOpacityPerCent(Context ctx) {
         return getSharedPreference(ctx).getInt(PREF_OPACITY_PER_CENT, DEFAULT_OPACITY_PERCENT);

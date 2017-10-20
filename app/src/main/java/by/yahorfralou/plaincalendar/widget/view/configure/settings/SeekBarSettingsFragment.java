@@ -95,7 +95,7 @@ public class SeekBarSettingsFragment extends Fragment {
         updateLabel(value);
 
         if (listener != null) {
-            listener.onValueChanged(value);
+            listener.onSeekValueChanged(value);
         }
     }
 
@@ -104,6 +104,6 @@ public class SeekBarSettingsFragment extends Fragment {
     }
 
     public interface OnValueChangeListener {
-        void onValueChanged(int value);
+        void onSeekValueChanged(int value);
     }
 }

@@ -119,11 +119,11 @@ public class ColorsSettingsFragment extends Fragment {
         }
 
         if (listener != null) {
-            listener.onSettingClick(colorSelected);
+            listener.onColorClick(colorSelected);
         }
     }
 
     public interface SettingClickListener {
-        void onSettingClick(int colorValue);
+        void onColorClick(int colorValue);
     }
 }

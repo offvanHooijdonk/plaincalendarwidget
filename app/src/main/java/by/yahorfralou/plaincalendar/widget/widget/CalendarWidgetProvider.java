@@ -60,12 +60,13 @@ public class CalendarWidgetProvider extends AppWidgetProvider {
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(widgetBean -> {
-                        if (widgetBean.getBackgroundColor() != null) {
-                            rv.setInt(R.id.widgetBack, "setColorFilter", widgetBean.getBackgroundColor());
-                            if (widgetBean.getOpacity() != null) {
-                                rv.setInt(R.id.widgetBack, "setImageAlpha", (widgetBean.getOpacity() * 0xFF) / 100);
-                            }
-                        }
+                        rv.setInt(R.id.widgetBack, "setColorFilter", widgetBean.getBackgroundColor());
+                        rv.setInt(R.id.widgetBack, "setImageAlpha", (widgetBean.getOpacity() * 0xFF) / 100);
+
+                        rv.setTextColor(R.id.txtWidgetDate, widgetBean.getTextColor());
+                        rv.setTextColor(R.id.txtWidgetDay, widgetBean.getTextColor());
+                        rv.setInt(R.id.dividerDate, "setColorFilter", widgetBean.getTextColor());
+                        rv.setTextColor(R.id.emptyView, widgetBean.getTextColor());
 
                         updateDateViews(rv);
                         rv.setRemoteAdapter(R.id.listEvents, intent);

@@ -16,6 +16,7 @@ import java.util.Date;
 
 import by.yahorfralou.plaincalendar.widget.R;
 import by.yahorfralou.plaincalendar.widget.helper.DateHelper;
+import by.yahorfralou.plaincalendar.widget.helper.PrefHelper;
 import by.yahorfralou.plaincalendar.widget.model.WidgetBean;
 
 public class PreviewWidgetFragment extends Fragment {
@@ -28,6 +29,8 @@ public class PreviewWidgetFragment extends Fragment {
     private TextView txtDate;
     private TextView txtDay;
     private ListView lstEvents;
+    private ImageView viewDivider;
+    private PreviewEventsAdapter adapter;
 
     @Nullable
     @Override
@@ -38,6 +41,7 @@ public class PreviewWidgetFragment extends Fragment {
         }
 
         ctx = getActivity();
+        adapter = new PreviewEventsAdapter(ctx, PrefHelper.getDefaultTextColor(ctx));
 
         return v;
     }
@@ -50,8 +54,9 @@ public class PreviewWidgetFragment extends Fragment {
         txtDate = v.findViewById(R.id.txtWidgetDate);
         txtDay = v.findViewById(R.id.txtWidgetDay);
         lstEvents = v.findViewById(R.id.listEvents);
+        viewDivider = v.findViewById(R.id.dividerDate);
 
-        lstEvents.setAdapter(new PreviewEventsAdapter(ctx));
+        lstEvents.setAdapter(adapter);
     }
 
     @Override
@@ -69,6 +74,7 @@ public class PreviewWidgetFragment extends Fragment {
     public void setInitialParametersFromWidgetBean(WidgetBean initialParams) {
         updateBackColor(initialParams.getBackgroundColor());
         updateOpacity(initialParams.getOpacity());
+        updateTextColor(initialParams.getTextColor());
     }
 
     public void updateBackColor(int color) {
@@ -81,6 +87,13 @@ public class PreviewWidgetFragment extends Fragment {
         if (imgBack != null) {
             imgBack.setImageAlpha((perCent * 0xFF) / 100);
         }
+    }
+
+    public void updateTextColor(int color) {
+        txtDate.setTextColor(color);
+        txtDay.setTextColor(color);
+        viewDivider.setColorFilter(color);
+        adapter.updateTextColor(color);
     }
 
     private int calcWidthPx() {

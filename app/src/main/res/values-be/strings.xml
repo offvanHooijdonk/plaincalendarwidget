@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Просты Вiджэт Каляндара</string>
+    <string name="dialog_load_calendars_msg">Загружаем Каляндары…</string>
+    <string name="btn_pick_calendars">Выберыце Каляндары</string>
+    <string name="empty_cal_list">Не знойдзена каляндароў</string>
+    <string name="title_add_widget">Дадаем вiджэт</string>
+    <string name="title_edit_widget">Зьмяняем вiджэт</string>
+    <string name="calendars_selected">Абрана каляндароў</string>
+    <string name="widget_empty_events_list">Нiчога няма</string>
+    <string name="fish_day_of_week">ня</string>
+    <string name="fish_digit_value">48</string>
+    <string name="date_default">31</string>
+    <string name="no_widgets_yet">Вiджэтаў пакуль няма</string>
+    <string name="widget_settings_background">Фонавы колер</string>
+    <string name="widget_settings_date_color">Колер тэксту</string>
+    <string name="widget_settings_opacity">Празрыстасьць</string>
+    <string name="date_all_day">Увесь дзень</string>
+    <string name="per_cent_sign">%</string>
+    <string name="fish_event_title_1">Кiно, Бягучы па лязу</string>
+    <string name="fish_event_title_2">Дзень нараджэньня - Алесь Пупкiн</string>
+</resources>

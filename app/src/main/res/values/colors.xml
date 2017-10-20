@@ -6,6 +6,8 @@
 
     <color name="transparent">#00ffffff</color>
     <color name="settings_activity_blocks_back">#ccffffff</color>
+    <color name="widget_default_back">@color/md_blue_400</color>
+    <color name="widget_default_text">@color/md_white_1000</color>
     <!--<color name="list_divider">#99FFFFFF</color>-->
 
     <integer-array name="settings_back_colors">

@@ -16,11 +16,13 @@ import by.yahorfralou.plaincalendar.widget.app.PlainCalendarWidgetApp;
 import by.yahorfralou.plaincalendar.widget.data.calendars.CalendarDataSource;
 import by.yahorfralou.plaincalendar.widget.helper.DateHelper;
 import by.yahorfralou.plaincalendar.widget.model.EventBean;
+import by.yahorfralou.plaincalendar.widget.model.WidgetBean;
 
 import static by.yahorfralou.plaincalendar.widget.app.PlainCalendarWidgetApp.LOGCAT;
 
 public class EventsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     private final int widgetId;
+    private WidgetBean widgetOptions;
     private Context ctx;
     private CalendarDataSource calDataSource;
     private List<EventBean> eventList = new ArrayList<>();
@@ -47,6 +49,9 @@ public class EventsRemoteViewsFactory implements RemoteViewsService.RemoteViewsF
                     return calDataSource.getEvents(calendarBeans);
                 })
                 .subscribe(this::displayEvents);
+
+        PlainCalendarWidgetApp.getAppDatabase().widgetDao().getById(widgetId)
+                .subscribe(widgetBean -> this.widgetOptions = widgetBean);
     }
 
     private void displayEvents(List<EventBean> list) {
@@ -70,6 +75,10 @@ public class EventsRemoteViewsFactory implements RemoteViewsService.RemoteViewsF
 
         rv.setTextViewText(R.id.txtDateRange, eventDateText);
         rv.setTextViewText(R.id.txtEventTitle, event.getTitle());
+        if (widgetOptions != null) {
+            rv.setTextColor(R.id.txtDateRange, widgetOptions.getTextColor());
+            rv.setTextColor(R.id.txtEventTitle, widgetOptions.getTextColor());
+        }
 
         if (event.getEventColor() != null) {
             rv.setInt(R.id.imgColor, "setColorFilter", event.getEventColor());
