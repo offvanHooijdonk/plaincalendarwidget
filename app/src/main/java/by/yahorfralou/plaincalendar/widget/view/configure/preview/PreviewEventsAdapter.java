@@ -56,6 +56,7 @@ public class PreviewEventsAdapter extends BaseAdapter {
         TextView txtEventTitle = v.findViewById(R.id.txtEventTitle);
         ImageView imgColor = v.findViewById(R.id.imgColor);
 
+        txtEventTitle.setText(eventBean.getTitle());
         String eventDateText = EventsRemoteViewsFactory.formatDateRange(ctx, eventBean.getDateStart(), eventBean.getDateEnd(), eventBean.isAllDay());
         txtDateRange.setText(eventDateText);
         txtDateRange.setTextColor(textColor);
@@ -75,7 +76,7 @@ public class PreviewEventsAdapter extends BaseAdapter {
 
     private void initStubEvents() {
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DAY_OF_MONTH, 2);
+        calendar.add(Calendar.DAY_OF_MONTH, 1);
         eventList = new ArrayList<>();
 
         EventBean eventBean = new EventBean();

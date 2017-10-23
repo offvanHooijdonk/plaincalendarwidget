@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Просто Виджет Календаря</string>
-    <string name="dialog_load_calendars_msg">Загружем Календари…</string>
+    <string name="dialog_load_calendars_msg">Загружаем Календари…</string>
     <string name="btn_pick_calendars">Выберите Календари</string>
     <string name="calendars_selected">Выбрано календарей</string>
     <string name="widget_empty_events_list">Ничего</string>
@@ -19,4 +19,8 @@
     <string name="per_cent_sign">%</string>
     <string name="fish_event_title_1">Кино, \"Бегущий по лезвию\"</string>
     <string name="fish_event_title_2">День рождения - Вася Пупкин</string>
+    <string name="tomorrow">Завтра</string>
+    <string name="today">Сегодня</string>
+    <string name="number_no_widgets">ни одного</string>
+    <string name="settings_show_event_color">Показывать цвет события</string>
 </resources>

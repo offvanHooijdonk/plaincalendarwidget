@@ -17,7 +17,7 @@
                 style="@style/BlockWithBackground"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/settings_block_minor_padding">
+                android:paddingBottom="0dp">
 
                 <TextView
                     android:id="@+id/txtCalNumLabel"
@@ -34,7 +34,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginStart="8dp"
                     android:layout_toEndOf="@id/txtCalNumLabel"
-                    android:text="0"
+                    android:text="@string/number_no_widgets"
                     android:textSize="16sp" />
 
                 <Button
@@ -47,35 +47,62 @@
 
             </RelativeLayout>
 
-            <LinearLayout
-                android:id="@+id/blockCalendarsIcons"
+            <RelativeLayout
+                android:id="@+id/blockIconAndSettings"
                 style="@style/BlockWithBackground"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_below="@id/blockPickCalendars"
-                android:orientation="horizontal"
                 android:paddingBottom="@dimen/settings_block_minor_padding"
-                android:paddingTop="0dp">
+                android:paddingTop="@dimen/settings_block_minor_padding">
 
-            </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/blockCalendarsIcons"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toStartOf="@id/imgSettings"
+                    android:orientation="horizontal">
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/imgSettings"
+                    android:layout_width="@dimen/calendar_icon_size"
+                    android:layout_height="@dimen/calendar_icon_size"
+                    android:layout_alignParentEnd="true"
+                    android:background="?android:selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_tune_black_24dp"
+                    android:tint="@color/colorAccent" />
+            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_above="@id/blockSettings"
-                android:layout_below="@id/blockCalendarsIcons"
+                android:layout_above="@id/blockBottomSettings"
+                android:layout_below="@id/blockIconAndSettings"
                 android:gravity="center_horizontal|center_vertical">
 
                 <fragment
                     android:id="@+id/fragPreviewWidget"
+                    class="by.yahorfralou.plaincalendar.widget.view.configure.preview.PreviewWidgetFragment"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    class="by.yahorfralou.plaincalendar.widget.view.configure.preview.PreviewWidgetFragment" />
+                    android:layout_height="wrap_content" />
 
             </LinearLayout>
 
+            <FrameLayout
+                android:id="@+id/blockExpandableSettings"
+                style="@style/BlockWithBackground"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_below="@id/blockIconAndSettings">
+
+                <include layout="@layout/inc_exp_settings" />
+
+            </FrameLayout>
+
             <LinearLayout
-                android:id="@+id/blockSettings"
+                android:id="@+id/blockBottomSettings"
                 style="@style/BlockWithBackground"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -1,16 +1,20 @@
 package by.yahorfralou.plaincalendar.widget.helper;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.text.format.DateUtils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import by.yahorfralou.plaincalendar.widget.R;
+
 public class DateHelper {
     public static long MILLIS_IN_DAY = 24 * 60 * 60 * 1000;
 
-    private static final DateFormat EVENT_DATE_FORMAT = DateFormat.getDateInstance(DateFormat.SHORT);
+    private static final DateFormat EVENT_DATE_FORMAT = DateFormat.getDateInstance(DateFormat.MEDIUM);
     private static final DateFormat EVENT_TIME_FORMAT = DateFormat.getTimeInstance(DateFormat.SHORT);
 
     @SuppressLint("SimpleDateFormat")
@@ -42,11 +46,32 @@ public class DateHelper {
         return calendar.getTimeInMillis();
     }
 
-    public static String formatEventDate(Date date) {
-        return EVENT_DATE_FORMAT.format(date);
+    public static String formatEventDate(Context ctx, Date date) {
+        Calendar calToday = Calendar.getInstance();
+        Calendar calNextDay = Calendar.getInstance();
+        calNextDay.add(Calendar.DAY_OF_MONTH, 1);
+        Calendar calEvent = Calendar.getInstance();
+        calEvent.setTime(date);
+
+        if (isSameDay(calToday, calEvent)) {
+            return ctx.getString(R.string.today);
+        } else if (isSameDay(calNextDay, calEvent)) {
+            return ctx.getString(R.string.tomorrow);
+        } else {
+
+            int flags = DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_MONTH |
+                    (calEvent.get(Calendar.YEAR) != calToday.get(Calendar.YEAR) ? DateUtils.FORMAT_NO_YEAR : 0);
+            return DateUtils.formatDateTime(ctx, date.getTime(), flags);
+        }
     }
 
     public static String formatEventTime(Date date) {
         return EVENT_TIME_FORMAT.format(date);
+    }
+
+    private static boolean isSameDay(Calendar cal1, Calendar cal2) {
+        return cal1.get(Calendar.DAY_OF_MONTH) == cal2.get(Calendar.DAY_OF_MONTH) &&
+                cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH) &&
+                cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR);
     }
 }

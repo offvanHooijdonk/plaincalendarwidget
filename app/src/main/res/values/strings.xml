@@ -21,8 +21,12 @@
 
     <string name="date_all_day">All day</string>
     <string name="per_cent_sign">%</string>
+    <string name="today">Today</string>
+    <string name="tomorrow">Tomorrow</string>
     <string name="fish_event_title_1">Movies, \'Blade Runner\'</string>
     <string name="fish_event_title_2">Birthday - John Doe</string>
+    <string name="number_no_widgets">none</string>
+    <string name="settings_show_event_color">Show event color</string>
 
     <bool name="is24">false</bool>
     <bool name="less24">true</bool>

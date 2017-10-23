@@ -1,6 +1,7 @@
 package by.yahorfralou.plaincalendar.widget.view.configure;
 
 import android.Manifest;
+import android.animation.ValueAnimator;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.appwidget.AppWidgetManager;
@@ -15,8 +16,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -59,11 +62,15 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
     private View viewNoWidgets;
     private RadioGroup groupSettings;
     private PreviewWidgetFragment fragPreviewWidget;
-    private SettingsSelection settingsOpened;
+    private ImageView imgSettings;
+    private View blockBottomSettings;
+    private View blockExpandableSettings;
 
+    private SettingsSelection settingsOpened;
     private AlertDialog pickCalendarsDialog;
     private BaseAdapter calSettingsAdapter;
     private SettingsListener settingsListener = new SettingsListener();
+    private boolean isSettingsExpanded = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -82,6 +89,9 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
         blockCalIcons = findViewById(R.id.blockCalendarsIcons);
         fabCreateWidget = findViewById(R.id.fabCreateWidget);
         groupSettings = findViewById(R.id.groupSettings);
+        imgSettings = findViewById(R.id.imgSettings);
+        blockBottomSettings = findViewById(R.id.blockBottomSettings);
+        blockExpandableSettings = findViewById(R.id.blockExpandableSettings);
 
         if (getIntent().getExtras() != null && getIntent().getExtras().containsKey(AppWidgetManager.EXTRA_APPWIDGET_ID)) {
             widgetId = getIntent().getExtras().getInt(AppWidgetManager.EXTRA_APPWIDGET_ID);
@@ -138,6 +148,8 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
             openDefaultSettings();
             initPreview();
         }
+
+        imgSettings.setOnClickListener(v -> toggleExpandableSettings());
     }
 
     @Override
@@ -342,6 +354,28 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
         }
     }
 
+    private void toggleExpandableSettings() { // TODO move to some helper?
+        int startHeight = isSettingsExpanded ? blockBottomSettings.getTop() - blockExpandableSettings.getTop() : 0;
+        int endHeight = !isSettingsExpanded ? blockBottomSettings.getTop() - blockExpandableSettings.getTop() : 0;
+
+        ValueAnimator heightAnim = ValueAnimator.ofInt(startHeight, endHeight);
+        heightAnim.addUpdateListener(animation -> {
+            int value = (Integer) animation.getAnimatedValue();
+            ViewGroup.LayoutParams layoutParams = blockExpandableSettings.getLayoutParams();
+            layoutParams.height = value;
+            blockExpandableSettings.setLayoutParams(layoutParams);
+        });
+        heightAnim.setDuration(isSettingsExpanded ? 350 : 500);
+        heightAnim.setInterpolator(new AccelerateDecelerateInterpolator());
+        heightAnim.start();
+
+        if (isSettingsExpanded) {
+            fabCreateWidget.show();
+        } else {
+            fabCreateWidget.hide();
+        }
+        isSettingsExpanded = !isSettingsExpanded;
+    }
 
     private void initWidgetWithDefaults() {
         if (widgetBean != null) {

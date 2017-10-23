@@ -89,8 +89,8 @@ public class EventsRemoteViewsFactory implements RemoteViewsService.RemoteViewsF
 
     public static String formatDateRange(Context ctx, Date dateStart, Date dateEnd, boolean isAllDay) {
         return String.format("%s %s",
-                DateHelper.formatEventDate(dateStart),
-                (isAllDay ? ctx.getString(R.string.date_all_day) : DateHelper.formatEventTime(dateStart)));
+                DateHelper.formatEventDate(ctx, dateStart),
+                (isAllDay ? "" : DateHelper.formatEventTime(dateStart)));
     }
 
     @Override

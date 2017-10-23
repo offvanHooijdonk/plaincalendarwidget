@@ -5,8 +5,8 @@
 
     <ImageView
         android:id="@+id/imgBack"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="@dimen/calendar_icon_size"
+        android:layout_height="@dimen/calendar_icon_size"
         android:src="@drawable/circle"
         android:tint="@color/md_white_1000" />
 
