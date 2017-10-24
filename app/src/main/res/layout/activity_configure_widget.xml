@@ -15,25 +15,25 @@
             <RelativeLayout
                 android:id="@+id/blockPickCalendars"
                 style="@style/BlockWithBackground"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="0dp">
 
-                <TextView
-                    android:id="@+id/txtCalNumLabel"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:id="@+id/blockCalendarsIcons"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="@string/calendars_selected"
-                    android:textSize="16sp" />
+                    android:layout_toStartOf="@id/btnPickCalendars"
+                    android:orientation="horizontal">
+
+                </LinearLayout>
 
                 <TextView
-                    android:id="@+id/txtCalendarsNumber"
+                    android:id="@+id/txtNoCalSelected"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginStart="8dp"
-                    android:layout_toEndOf="@id/txtCalNumLabel"
                     android:text="@string/number_no_widgets"
                     android:textSize="16sp" />
 
@@ -43,6 +43,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
                     android:text="@string/btn_pick_calendars" />
 
             </RelativeLayout>
@@ -51,27 +52,55 @@
                 android:id="@+id/blockIconAndSettings"
                 style="@style/BlockWithBackground"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:layout_below="@id/blockPickCalendars"
-                android:paddingBottom="@dimen/settings_block_minor_padding"
                 android:paddingTop="@dimen/settings_block_minor_padding">
 
                 <LinearLayout
-                    android:id="@+id/blockCalendarsIcons"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toStartOf="@id/imgSettings"
+                    android:focusableInTouchMode="true"
+                    android:layout_centerVertical="true"
                     android:orientation="horizontal">
 
+                    <EditText
+                        android:id="@+id/txtDaysForEvents"
+                        android:layout_width="32dp"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:textAlignment="textEnd"
+                        android:text="14" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/settings_block_minor_padding"
+                        android:text="Days"/>
+
+                    <Button
+                        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                        android:layout_width="48dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/settings_block_minor_padding"
+                        android:onClick="incrementDays"
+                        android:text="@string/increment_days" />
+
+                    <Button
+                        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                        android:layout_width="48dp"
+                        android:layout_height="wrap_content"
+                        android:onClick="decrementDays"
+                        android:text="@string/decrement_days" />
                 </LinearLayout>
 
                 <ImageView
                     android:id="@+id/imgSettings"
-                    android:layout_width="@dimen/calendar_icon_size"
-                    android:layout_height="@dimen/calendar_icon_size"
+                    android:layout_width="@dimen/settings_btn_size"
+                    android:layout_height="@dimen/settings_btn_size"
                     android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
                     android:background="?android:selectableItemBackgroundBorderless"
-                    android:src="@drawable/ic_tune_black_24dp"
+                    android:src="@drawable/ic_tune_36dp"
                     android:tint="@color/colorAccent" />
             </RelativeLayout>
 

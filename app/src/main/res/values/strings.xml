@@ -7,9 +7,8 @@
     <string name="empty_cal_list">No calendars found</string>
 
     <string name="title_add_widget">Adding a Widget</string>
-    <string name="title_edit_widget">Edit Widget #%s</string>
+    <string name="title_edit_widget">Widget #%s</string>
 
-    <string name="calendars_selected">Calendars selected:</string>
     <string name="widget_empty_events_list">No Events</string>
     <string name="fish_day_of_week">su</string>
     <string name="fish_digit_value">48</string>
@@ -25,8 +24,10 @@
     <string name="tomorrow">Tomorrow</string>
     <string name="fish_event_title_1">Movies, \'Blade Runner\'</string>
     <string name="fish_event_title_2">Birthday - John Doe</string>
-    <string name="number_no_widgets">none</string>
+    <string name="number_no_widgets">None selected</string>
     <string name="settings_show_event_color">Show event color</string>
+    <string name="increment_days">+1</string>
+    <string name="decrement_days">-1</string>
 
     <bool name="is24">false</bool>
     <bool name="less24">true</bool>

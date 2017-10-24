@@ -3,14 +3,13 @@
     <string name="app_name">Просто Виджет Календаря</string>
     <string name="dialog_load_calendars_msg">Загружаем Календари…</string>
     <string name="btn_pick_calendars">Выберите Календари</string>
-    <string name="calendars_selected">Выбрано календарей</string>
     <string name="widget_empty_events_list">Ничего</string>
     <string name="fish_day_of_week">вс</string>
     <string name="date_default">31</string>
     <string name="fish_digit_value">48</string>
     <string name="empty_cal_list">Календарей не найдено</string>
     <string name="title_add_widget">Добавляем виджет</string>
-    <string name="title_edit_widget">Меняем виджет №%s</string>
+    <string name="title_edit_widget">Виджет №%s</string>
     <string name="no_widgets_yet">Виджетов пока нет</string>
     <string name="widget_settings_background">Цвет фона</string>
     <string name="widget_settings_date_color">Цвет текста</string>
@@ -21,6 +20,6 @@
     <string name="fish_event_title_2">День рождения - Вася Пупкин</string>
     <string name="tomorrow">Завтра</string>
     <string name="today">Сегодня</string>
-    <string name="number_no_widgets">ни одного</string>
+    <string name="number_no_widgets">Не выборано</string>
     <string name="settings_show_event_color">Показывать цвет события</string>
 </resources>

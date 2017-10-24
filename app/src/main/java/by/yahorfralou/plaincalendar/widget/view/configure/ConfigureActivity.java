@@ -55,9 +55,10 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
     private boolean isCreateMode = false;
 
     private ProgressDialog dialogProgress;
-    private TextView txtCalendarsNumber;
+    private TextView txtNoCalSelected;
     private Button btnPickCalendars;
     private ViewGroup blockCalIcons;
+    private TextView txtDaysForEvents;
     private FloatingActionButton fabCreateWidget;
     private View viewNoWidgets;
     private RadioGroup groupSettings;
@@ -84,9 +85,10 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
         viewNoWidgets = findViewById(R.id.viewNoWidgets);
         dialogProgress = new ProgressDialog(this);
         dialogProgress.setMessage(getString(R.string.dialog_load_calendars_msg));
-        txtCalendarsNumber = findViewById(R.id.txtCalendarsNumber);
+        txtNoCalSelected = findViewById(R.id.txtNoCalSelected);
         btnPickCalendars = findViewById(R.id.btnPickCalendars);
         blockCalIcons = findViewById(R.id.blockCalendarsIcons);
+        txtDaysForEvents = findViewById(R.id.txtDaysForEvents);
         fabCreateWidget = findViewById(R.id.fabCreateWidget);
         groupSettings = findViewById(R.id.groupSettings);
         imgSettings = findViewById(R.id.imgSettings);
@@ -184,7 +186,6 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
         openDefaultSettings();
         initPreview();
 
-        txtCalendarsNumber.setText(String.valueOf(calendarSettings.size()));
         updateCalIcons();
     }
 
@@ -260,7 +261,6 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
             fabCreateWidget.setEnabled(true);
         }
 
-        txtCalendarsNumber.setText(String.valueOf(calendarSettings.size()));
         updateCalIcons();
     }
 
@@ -340,6 +340,13 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
 
     private void updateCalIcons() {
         blockCalIcons.removeAllViews();
+        if (calendarSettings.isEmpty()) {
+            blockCalIcons.setVisibility(View.GONE);
+            txtNoCalSelected.setVisibility(View.VISIBLE);
+        } else {
+            blockCalIcons.setVisibility(View.VISIBLE);
+            txtNoCalSelected.setVisibility(View.GONE);
+        }
 
         for (CalendarBean bean : calendarSettings) {
             CalendarIconView iconView = (CalendarIconView) LayoutInflater.from(ConfigureActivity.this)
@@ -383,6 +390,27 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
             widgetBean.setOpacity(PrefHelper.getDefaultOpacityPerCent(this));
             widgetBean.setTextColor(PrefHelper.getDefaultTextColor(this));
         }
+    }
+
+    public void decrementDays(View view) {
+        updateDaysView(-1);
+    }
+
+    public void incrementDays(View view) {
+        updateDaysView(+1);
+    }
+
+    private void updateDaysView(int days) {
+        int value = Integer.parseInt(txtDaysForEvents.getText().toString());
+        value += days;
+        if (isDaysValid(value)) {
+            txtDaysForEvents.setText(String.valueOf(value));
+        }
+    }
+
+    private boolean isDaysValid(int value) {
+        // TODO store this values
+        return value >= 1 && value <= 1000;
     }
 
     private class SettingsListener implements ColorsSettingsFragment.SettingClickListener, SeekBarSettingsFragment.OnValueChangeListener {
