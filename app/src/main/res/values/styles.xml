@@ -27,8 +27,4 @@
         <item name="android:paddingEnd">8dp</item>
     </style>
 
-    <style name="SettingsItem.Selected" parent="SettingsItem">
-        <item name="android:background">@color/md_blue_grey_200</item>
-    </style>
-
 </resources>

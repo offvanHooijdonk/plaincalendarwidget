@@ -7,7 +7,7 @@
         android:id="@+id/widgetBack"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/widget_bck" />
+        android:src="@drawable/widget_back_corner_m" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -51,7 +51,6 @@
             android:id="@+id/listEvents"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/widget_margin"
             android:layout_toEndOf="@id/dividerDate"
             android:divider="@null" />
 

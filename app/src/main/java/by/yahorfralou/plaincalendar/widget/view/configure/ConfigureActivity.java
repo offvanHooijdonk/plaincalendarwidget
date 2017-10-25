@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -58,7 +59,7 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
     private TextView txtNoCalSelected;
     private Button btnPickCalendars;
     private ViewGroup blockCalIcons;
-    private TextView txtDaysForEvents;
+    private EditText inputDaysForEvents;
     private FloatingActionButton fabCreateWidget;
     private View viewNoWidgets;
     private RadioGroup groupSettings;
@@ -88,7 +89,7 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
         txtNoCalSelected = findViewById(R.id.txtNoCalSelected);
         btnPickCalendars = findViewById(R.id.btnPickCalendars);
         blockCalIcons = findViewById(R.id.blockCalendarsIcons);
-        txtDaysForEvents = findViewById(R.id.txtDaysForEvents);
+        inputDaysForEvents = findViewById(R.id.inputDaysForEvents);
         fabCreateWidget = findViewById(R.id.fabCreateWidget);
         groupSettings = findViewById(R.id.groupSettings);
         imgSettings = findViewById(R.id.imgSettings);
@@ -101,6 +102,7 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
             isCreateMode = true;
 
             initWidgetWithDefaults();
+            inputDaysForEvents.setText(String.valueOf(widgetBean.getDays()));
 
             widgetBean.setId(widgetId);
             getSupportActionBar().setTitle(getString(R.string.title_add_widget));
@@ -138,6 +140,16 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
             txtEmptyList.setText(R.string.empty_cal_list);
             pickCalendarsDialog.getListView().setEmptyView(txtEmptyList);
         }
+
+        inputDaysForEvents.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                if (inputDaysForEvents.getText().length() == 0 || !isDaysValid(Integer.parseInt(inputDaysForEvents.getText().toString()))) {
+                    inputDaysForEvents.setText(String.valueOf(widgetBean.getDays()));
+                } else {
+                    widgetBean.setDays(Integer.parseInt(inputDaysForEvents.getText().toString()));
+                }
+            }
+        });
 
         if (!PermissionHelper.hasCalendarPermissions(ConfigureActivity.this)) {
             fabCreateWidget.setEnabled(false);
@@ -182,6 +194,8 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
         } else {
             fabCreateWidget.setEnabled(true);
         }
+
+        inputDaysForEvents.setText(String.valueOf(widgetBean.getDays()));
 
         openDefaultSettings();
         initPreview();
@@ -309,10 +323,21 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
                         100,
                         widgetBean.getOpacity(),
                         5, // TODO constant
-                        getString(R.string.per_cent_sign));
+                        getString(R.string.per_cent_sign), null);
                 fragment.setListener(settingsListener);
                 fr = fragment;
                 settingsOpened = SettingsSelection.OPACITY;
+            }
+            break;
+            case R.id.radioCorners : {
+                SeekBarSettingsFragment fragment = SeekBarSettingsFragment.newInstance(WidgetBean.Corners.NO_CORNER.getCode(),
+                        WidgetBean.Corners.XLARGE.getCode(),
+                        widgetBean.getCorners().getCode(),
+                        1,
+                        null, getResources().getStringArray(R.array.corner_sizes));
+                fragment.setListener(settingsListener);
+                fr = fragment;
+                settingsOpened = SettingsSelection.CORNERS;
             }
             break;
             case R.id.radioTextColor: {
@@ -321,6 +346,17 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
                 fragment.setSettingsListener(settingsListener);
                 fr = fragment;
                 settingsOpened = SettingsSelection.TEXT_COLOR;
+            }
+            break;
+            case R.id.radioTextSize : {
+                SeekBarSettingsFragment fragment = SeekBarSettingsFragment.newInstance(0,
+                        5,
+                        widgetBean.getTextSizeDelta(),
+                        1,
+                        "+%s", null);
+                fragment.setListener(settingsListener);
+                fr = fragment;
+                settingsOpened = SettingsSelection.TEXT_SIZE;
             }
             break;
 
@@ -386,9 +422,15 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
 
     private void initWidgetWithDefaults() {
         if (widgetBean != null) {
+            // TODO add Preferences
+            widgetBean.setDays(14);
             widgetBean.setBackgroundColor(PrefHelper.getDefaultBackColor(this));
             widgetBean.setOpacity(PrefHelper.getDefaultOpacityPerCent(this));
             widgetBean.setTextColor(PrefHelper.getDefaultTextColor(this));
+            // TODO add Preferences
+            widgetBean.setCorners(WidgetBean.Corners.MEDIUM);
+            // TODO add Preferences
+            widgetBean.setTextSizeDelta(0);
         }
     }
 
@@ -400,11 +442,12 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
         updateDaysView(+1);
     }
 
-    private void updateDaysView(int days) {
-        int value = Integer.parseInt(txtDaysForEvents.getText().toString());
-        value += days;
+    private void updateDaysView(int byDays) {
+        int value = Integer.parseInt(inputDaysForEvents.getText().toString());
+        value += byDays;
         if (isDaysValid(value)) {
-            txtDaysForEvents.setText(String.valueOf(value));
+            inputDaysForEvents.setText(String.valueOf(value));
+            widgetBean.setDays(value);
         }
     }
 
@@ -428,12 +471,25 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
 
         @Override
         public void onSeekValueChanged(int value) {
-            widgetBean.setOpacity(value);
-            fragPreviewWidget.updateOpacity(value);
+            switch (settingsOpened) {
+                case OPACITY:
+                    widgetBean.setOpacity(value);
+                    fragPreviewWidget.updateOpacity(value);
+                    break;
+                case CORNERS:
+                    WidgetBean.Corners corners = WidgetBean.Corners.fromInt(value);
+                    widgetBean.setCorners(corners);
+                    fragPreviewWidget.updateCorners(corners);
+                    break;
+                case TEXT_SIZE:
+                    widgetBean.setTextSizeDelta(value);
+                    fragPreviewWidget.updateTextSize(value);
+                    break;
+            }
         }
     }
 
     private enum SettingsSelection {
-        BACKGROUND, OPACITY, TEXT_COLOR
+        BACKGROUND, OPACITY, CORNERS, TEXT_COLOR, TEXT_SIZE
     }
 }

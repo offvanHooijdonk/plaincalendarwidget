@@ -22,4 +22,18 @@
     <string name="today">Сегодня</string>
     <string name="number_no_widgets">Не выборано</string>
     <string name="settings_show_event_color">Показывать цвет события</string>
+    <string name="increment_days">+1</string>
+    <string name="decrement_days">-1</string>
+    <string name="widget_settings_days">дней</string>
+    <string name="fish_days">14</string>
+    <string name="widget_settings_corners">Скругление</string>
+
+    <string-array name="corner_sizes">
+        <item>Нет</item>
+        <item>Маленькое</item>
+        <item>Среднее</item>
+        <item>Большое</item>
+        <item>Ещё больше</item>
+    </string-array>
+    <string name="widget_settings_text_size">Текст</string>
 </resources>

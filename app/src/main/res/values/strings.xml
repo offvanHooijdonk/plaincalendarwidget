@@ -15,7 +15,7 @@
     <string name="date_default">31</string>
     <string name="no_widgets_yet">No widgets yet added</string>
     <string name="widget_settings_background">Background</string>
-    <string name="widget_settings_date_color">Date color</string>
+    <string name="widget_settings_date_color">Text color</string>
     <string name="widget_settings_opacity">Opacity</string>
 
     <string name="date_all_day">All day</string>
@@ -28,6 +28,18 @@
     <string name="settings_show_event_color">Show event color</string>
     <string name="increment_days">+1</string>
     <string name="decrement_days">-1</string>
+    <string name="widget_settings_days">days</string>
+    <string name="fish_days">14</string>
+    <string name="widget_settings_corners">Radius</string>
+    <string name="widget_settings_text_size">Text size</string>
+
+    <string-array name="corner_sizes">
+        <item>None</item>
+        <item>Small</item>
+        <item>Medium</item>
+        <item>Large</item>
+        <item>X-Large</item>
+    </string-array>
 
     <bool name="is24">false</bool>
     <bool name="less24">true</bool>

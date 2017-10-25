@@ -60,6 +60,9 @@ public class CalendarWidgetProvider extends AppWidgetProvider {
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(widgetBean -> {
+                        Log.i(LOGCAT, "onUpdate. Corners " + widgetBean.getCorners());
+                        int backResId = WidgetHelper.getBackgroundRes(widgetBean.getCorners());
+                        rv.setImageViewResource(R.id.widgetBack, backResId);
                         rv.setInt(R.id.widgetBack, "setColorFilter", widgetBean.getBackgroundColor());
                         rv.setInt(R.id.widgetBack, "setImageAlpha", (widgetBean.getOpacity() * 0xFF) / 100);
 
@@ -73,7 +76,8 @@ public class CalendarWidgetProvider extends AppWidgetProvider {
                         rv.setEmptyView(R.id.listEvents, R.id.emptyView);
 
                         appWidgetManager.updateAppWidget(appWidgetId, rv);
-                    }, th -> {});
+                    }, th -> {
+                    });
         }
 
     }

@@ -10,6 +10,7 @@
         android:layout_width="@dimen/event_color_size"
         android:layout_height="@dimen/event_color_size"
         android:layout_marginTop="6dp"
+        android:layout_marginEnd="8dp"
         android:layout_alignTop="@id/txtEventTitle"
         android:src="@drawable/circle"
         android:tint="@color/colorPrimary" />
@@ -18,10 +19,10 @@
         android:id="@+id/txtDateRange"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
+        android:layout_toEndOf="@id/imgColor"
         android:text="@string/fish_date"
         android:textColor="@color/md_white_1000"
-        android:textSize="12sp" />
+        android:textSize="@dimen/widget_date_text" />
 
     <TextView
         android:id="@+id/txtEventTitle"
@@ -31,7 +32,7 @@
         android:layout_below="@id/txtDateRange"
         android:ellipsize="end"
         android:maxLines="2"
-        android:textSize="14sp"
+        android:textSize="@dimen/widget_event_title"
         android:text="@string/fish_short"
         android:textColor="@color/md_white_1000" />
 

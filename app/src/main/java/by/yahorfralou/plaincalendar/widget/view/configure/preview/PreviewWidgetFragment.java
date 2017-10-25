@@ -17,6 +17,7 @@ import java.util.Date;
 import by.yahorfralou.plaincalendar.widget.R;
 import by.yahorfralou.plaincalendar.widget.helper.DateHelper;
 import by.yahorfralou.plaincalendar.widget.helper.PrefHelper;
+import by.yahorfralou.plaincalendar.widget.helper.WidgetHelper;
 import by.yahorfralou.plaincalendar.widget.model.WidgetBean;
 
 public class PreviewWidgetFragment extends Fragment {
@@ -75,6 +76,8 @@ public class PreviewWidgetFragment extends Fragment {
         updateBackColor(initialParams.getBackgroundColor());
         updateOpacity(initialParams.getOpacity());
         updateTextColor(initialParams.getTextColor());
+        updateCorners(initialParams.getCorners());
+        updateTextSize(initialParams.getTextSizeDelta());
     }
 
     public void updateBackColor(int color) {
@@ -87,6 +90,18 @@ public class PreviewWidgetFragment extends Fragment {
         if (imgBack != null) {
             imgBack.setImageAlpha((perCent * 0xFF) / 100);
         }
+    }
+
+    public void updateCorners(WidgetBean.Corners corners) {
+        if (imgBack != null) {
+            int resId = WidgetHelper.getBackgroundRes(corners);
+            imgBack.setImageDrawable(ctx.getDrawable(resId));
+        }
+    }
+
+    public void updateTextSize(int sizeDelta) {
+        adapter.updateTextSizeDelta(sizeDelta);
+        adapter.notifyDataSetChanged();
     }
 
     public void updateTextColor(int color) {

@@ -22,4 +22,18 @@
     <string name="tomorrow">Заўтра</string>
     <string name="number_no_widgets">Не абрана</string>
     <string name="settings_show_event_color">Паказваць коляр падзеi</string>
+    <string name="increment_days">+1</string>
+    <string name="decrement_days">-1</string>
+    <string name="widget_settings_days">дзён</string>
+    <string name="fish_days">14</string>
+    <string name="widget_settings_corners">Зкругленьне</string>
+
+    <string-array name="corner_sizes">
+        <item>Вострае</item>
+        <item>Маленькае</item>
+        <item>Сярэдняе</item>
+        <item>Вялiкае</item>
+        <item>Вялiзарнае</item>
+    </string-array>
+    <string name="widget_settings_text_size">Тэкст</string>
 </resources>

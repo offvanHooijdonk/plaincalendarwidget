@@ -54,7 +54,7 @@ public class CalendarChangeJobService extends JobService {
 
         JobInfo.Builder builder = new JobInfo.Builder(JOB_CALENDAR_CHANGE_ID, new ComponentName(ctx, CalendarChangeJobService.class))
                 .addTriggerContentUri(new JobInfo.TriggerContentUri(uriTrigger, JobInfo.TriggerContentUri.FLAG_NOTIFY_FOR_DESCENDANTS))
-                .setTriggerContentMaxDelay(TRIGGER_MAX_DELAY_TIME);// Looks like it really affects time that Job is triggered
+                .setTriggerContentMaxDelay(TRIGGER_MAX_DELAY_TIME);
 
         JobScheduler jobScheduler = ctx.getSystemService(JobScheduler.class);
         if (jobScheduler != null) {

@@ -4,6 +4,7 @@ import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.util.TypedValue;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
@@ -15,6 +16,7 @@ import by.yahorfralou.plaincalendar.widget.R;
 import by.yahorfralou.plaincalendar.widget.app.PlainCalendarWidgetApp;
 import by.yahorfralou.plaincalendar.widget.data.calendars.CalendarDataSource;
 import by.yahorfralou.plaincalendar.widget.helper.DateHelper;
+import by.yahorfralou.plaincalendar.widget.helper.WidgetHelper;
 import by.yahorfralou.plaincalendar.widget.model.EventBean;
 import by.yahorfralou.plaincalendar.widget.model.WidgetBean;
 
@@ -78,6 +80,9 @@ public class EventsRemoteViewsFactory implements RemoteViewsService.RemoteViewsF
         if (widgetOptions != null) {
             rv.setTextColor(R.id.txtDateRange, widgetOptions.getTextColor());
             rv.setTextColor(R.id.txtEventTitle, widgetOptions.getTextColor());
+
+            rv.setTextViewTextSize(R.id.txtDateRange, TypedValue.COMPLEX_UNIT_SP, WidgetHelper.riseTextSizeBy(ctx, R.dimen.widget_date_text, widgetOptions.getTextSizeDelta()));
+            rv.setTextViewTextSize(R.id.txtEventTitle, TypedValue.COMPLEX_UNIT_SP, WidgetHelper.riseTextSizeBy(ctx, R.dimen.widget_event_title, widgetOptions.getTextSizeDelta()));
         }
 
         if (event.getEventColor() != null) {

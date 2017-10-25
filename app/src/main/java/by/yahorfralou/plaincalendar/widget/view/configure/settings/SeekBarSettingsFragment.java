@@ -17,7 +17,8 @@ public class SeekBarSettingsFragment extends Fragment {
     private static final String ARG_MAX_VALUE = "arg_max_value";
     private static final String ARG_CURR_VALUE = "arg_curr_value";
     private static final String ARG_STEP = "arg_step";
-    private static final String ARG_UNIT_TEXT = "arg_unit_text";
+    private static final String ARG_UNIT_FORMAT = "arg_unit_format";
+    private static final String ARG_VALUE_LABELS = "arg_value_labels";
 
     private static final int DEFAULT_STEP = 1;
 
@@ -27,17 +28,19 @@ public class SeekBarSettingsFragment extends Fragment {
 
     private OnValueChangeListener listener;
     private int minValue;
-    private String unitName;
+    private String unitFormat;
+    private String[] valueLabels;
     private int step;
 
-    public static SeekBarSettingsFragment newInstance(int minValue, int maxValue, int currentValue, int step, String unitText) {
+    public static SeekBarSettingsFragment newInstance(int minValue, int maxValue, int currentValue, int step, String unitFormat, String[] valueLabels) {
         SeekBarSettingsFragment fragment = new SeekBarSettingsFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_MIN_VALUE, minValue);
         args.putInt(ARG_MAX_VALUE, maxValue);
         args.putInt(ARG_CURR_VALUE, currentValue);
         args.putInt(ARG_STEP, step);
-        args.putString(ARG_UNIT_TEXT, unitText);
+        args.putString(ARG_UNIT_FORMAT, unitFormat);
+        args.putStringArray(ARG_VALUE_LABELS, valueLabels);
         fragment.setArguments(args);
 
         return fragment;
@@ -63,7 +66,8 @@ public class SeekBarSettingsFragment extends Fragment {
         int currValue = getArguments().getInt(ARG_CURR_VALUE);
         step = getArguments().getInt(ARG_STEP);
         step = step <= 0 ? DEFAULT_STEP : step;
-        unitName = getArguments().getString(ARG_UNIT_TEXT);
+        unitFormat = getArguments().getString(ARG_UNIT_FORMAT);
+        valueLabels = getArguments().getStringArray(ARG_VALUE_LABELS);
 
         seekBar = v.findViewById(R.id.seekBar);
         txtProgress = v.findViewById(R.id.txtProgress);
@@ -77,9 +81,11 @@ public class SeekBarSettingsFragment extends Fragment {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 updateProgress(progress);
             }
+
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
             }
+
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
@@ -100,7 +106,20 @@ public class SeekBarSettingsFragment extends Fragment {
     }
 
     private void updateLabel(int value) {
-        txtProgress.setText(String.format("%s%s", String.valueOf(value), unitName));
+        String valueLabel;
+        if (unitFormat != null) {
+            if (unitFormat.contains("%s")) {
+                valueLabel = String.format(unitFormat, String.valueOf(value));
+            } else {
+                valueLabel = String.format("%s%s", String.valueOf(value), unitFormat);
+            }
+        } else if (valueLabels != null && value < valueLabels.length && valueLabels[value] != null) {
+            valueLabel = valueLabels[value];
+        } else {
+            valueLabel = String.valueOf(value);
+        }
+
+        txtProgress.setText(valueLabel);
     }
 
     public interface OnValueChangeListener {

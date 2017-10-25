@@ -13,6 +13,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import by.yahorfralou.plaincalendar.widget.R;
+import by.yahorfralou.plaincalendar.widget.helper.WidgetHelper;
 import by.yahorfralou.plaincalendar.widget.model.EventBean;
 import by.yahorfralou.plaincalendar.widget.widget.EventsRemoteViewsFactory;
 
@@ -21,6 +22,7 @@ public class PreviewEventsAdapter extends BaseAdapter {
     private Context ctx;
     private List<EventBean> eventList;
     private int textColor;
+    private int textSizeDelta;
 
     public PreviewEventsAdapter(Context context, int textColor) {
         this.ctx = context;
@@ -56,11 +58,17 @@ public class PreviewEventsAdapter extends BaseAdapter {
         TextView txtEventTitle = v.findViewById(R.id.txtEventTitle);
         ImageView imgColor = v.findViewById(R.id.imgColor);
 
+        float textSizeDate = WidgetHelper.riseTextSizeBy(ctx, R.dimen.widget_date_text, textSizeDelta);
+        float textSizeEvent = WidgetHelper.riseTextSizeBy(ctx, R.dimen.widget_event_title, textSizeDelta);
+
         txtEventTitle.setText(eventBean.getTitle());
+        txtEventTitle.setTextSize(textSizeEvent);
+        txtEventTitle.setTextColor(textColor);
+
         String eventDateText = EventsRemoteViewsFactory.formatDateRange(ctx, eventBean.getDateStart(), eventBean.getDateEnd(), eventBean.isAllDay());
         txtDateRange.setText(eventDateText);
+        txtDateRange.setTextSize(textSizeDate);
         txtDateRange.setTextColor(textColor);
-        txtEventTitle.setTextColor(textColor);
 
         if (eventBean.getEventColor() != null) {
             imgColor.setColorFilter(eventBean.getEventColor());
@@ -72,6 +80,10 @@ public class PreviewEventsAdapter extends BaseAdapter {
     public void updateTextColor(int textColor) {
         this.textColor = textColor;
         notifyDataSetChanged();
+    }
+
+    public void updateTextSizeDelta(int textSizeDelta) {
+        this.textSizeDelta = textSizeDelta;
     }
 
     private void initStubEvents() {
@@ -98,4 +110,5 @@ public class PreviewEventsAdapter extends BaseAdapter {
         eventBean.setDateStart(calendar.getTime());
         eventList.add(eventBean);
     }
+
 }
