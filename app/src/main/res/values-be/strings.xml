@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Просты Вiджэт Каляндара</string>
     <string name="dialog_load_calendars_msg">Загружаем Каляндары…</string>
-    <string name="btn_pick_calendars">Выберыце Каляндары</string>
+    <string name="btn_pick_calendars">Выбярыце</string>
     <string name="empty_cal_list">Не знойдзена каляндароў</string>
     <string name="title_add_widget">Дадаем вiджэт</string>
     <string name="title_edit_widget">Вiджэт №%s</string>

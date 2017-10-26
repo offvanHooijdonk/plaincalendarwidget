@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
+import android.util.TypedValue;
 import android.widget.RemoteViews;
 
 import java.util.Arrays;
@@ -70,6 +71,7 @@ public class CalendarWidgetProvider extends AppWidgetProvider {
                         rv.setTextColor(R.id.txtWidgetDay, widgetBean.getTextColor());
                         rv.setInt(R.id.dividerDate, "setColorFilter", widgetBean.getTextColor());
                         rv.setTextColor(R.id.emptyView, widgetBean.getTextColor());
+                        rv.setTextViewTextSize(R.id.emptyView, TypedValue.COMPLEX_UNIT_SP, WidgetHelper.riseTextSizeBy(ctx, R.dimen.widget_event_title, widgetBean.getTextSizeDelta()));
 
                         updateDateViews(rv);
                         rv.setRemoteAdapter(R.id.listEvents, intent);
