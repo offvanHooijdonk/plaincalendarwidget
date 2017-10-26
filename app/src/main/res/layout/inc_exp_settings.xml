@@ -1,39 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
 
-    <CheckBox
-        android:id="@+id/chbShowColor"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/settings_show_event_color" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/chbShowColor"
-        android:layout_marginTop="16dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <EditText
-            android:id="@+id/inputDays"
-            android:layout_width="96dp"
-            android:layout_height="wrap_content"
-            android:hint="Days to show"
-            android:inputType="number"
-            android:text="14" />
-    </android.support.design.widget.TextInputLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/activity_h_padding"
+                android:orientation="vertical">
+
+                <CheckBox
+                    android:id="@+id/chbShowTodayDate"
+                    style="@style/OptionsInExpandable"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Show Today Date" />
+
+                <CheckBox
+                    android:id="@+id/chbShowDayOfWeek"
+                    style="@style/OptionsInExpandable"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Day of week" />
+
+                <CheckBox
+                    android:id="@+id/chbShowTodayLeadingZero"
+                    style="@style/OptionsInExpandable"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Leading zero for today" />
+
+                <CheckBox
+                    android:id="@+id/chbShowDivider"
+                    style="@style/OptionsInExpandable"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Line before events list" />
+
+                <TextView
+                    style="@style/OptionsInExpandable"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:labelFor="@id/spShowEventEnd"
+                    android:text="Display event end" />
+
+                <Spinner
+                    android:id="@+id/spShowEventEnd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/event_end_options" />
+
+                <CheckBox
+                    android:id="@+id/chbShowEventColor"
+                    style="@style/OptionsInExpandable"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_show_event_color" />
+
+                <CheckBox
+                    android:id="@+id/chbShowDateAsLabel"
+                    style="@style/OptionsInExpandable"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Show 'Today', 'Tomorrow'" />
+
+                <!--<TextView
+                    style="@style/OptionsInExpandable"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:labelFor="@id/spTimeEventPosition"
+                    android:text="Date and event position" />
+
+                <Spinner
+                    android:id="@+id/spTimeEventPosition"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/event_end_options" />-->
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </ScrollView>
 
     <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
+        android:layout_gravity="bottom|end"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
-        android:src="@drawable/ic_done_24dp"
+        android:onClick="toggleExpandableSettings"
+        android:src="@drawable/ic_close_24dp"
         app:fabSize="mini"
         app:useCompatPadding="true" />
-
-</RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

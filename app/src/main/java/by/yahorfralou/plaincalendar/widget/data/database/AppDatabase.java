@@ -13,7 +13,7 @@ import by.yahorfralou.plaincalendar.widget.model.WidgetCalendarBean;
 @Database(entities = {CalendarBean.class, WidgetBean.class, WidgetCalendarBean.class}, version = 1)
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
-    private static final String DB_NAME = "plain-calendar-widget-v0.3";
+    private static final String DB_NAME = "plain-calendar-widget-v0.4";
     public abstract CalendarDao calendarDao();
     public abstract WidgetDao widgetDao();
 

@@ -21,7 +21,7 @@
     <string name="today">Сёньня</string>
     <string name="tomorrow">Заўтра</string>
     <string name="number_no_widgets">Не абрана</string>
-    <string name="settings_show_event_color">Паказваць коляр падзеi</string>
+    <string name="settings_show_event_color">Коляр падзеi</string>
     <string name="increment_days">+1</string>
     <string name="decrement_days">-1</string>
     <string name="widget_settings_days">дзён</string>
@@ -35,5 +35,12 @@
         <item>Вялiкае</item>
         <item>Вялiзарнае</item>
     </string-array>
+
+    <string-array name="event_end_options">
+        <item>Нiколi</item>
+        <item>Калi больш за дзень</item>
+        <item>Заўсёды</item>
+    </string-array>
+
     <string name="widget_settings_text_size">Тэкст</string>
 </resources>

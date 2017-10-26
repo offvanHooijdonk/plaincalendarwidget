@@ -14,7 +14,7 @@
     <dimen name="widget_corner_radius_large">12dp</dimen>
     <dimen name="widget_corner_radius_xlarge">18dp</dimen>
     <dimen name="settings_block_minor_padding">8dp</dimen>
-    <dimen name="settings_titles_block_height">40dp</dimen>
+    <dimen name="settings_titles_block_height">48dp</dimen>
     <dimen name="seekbar_setting_width">200dp</dimen>
     <dimen name="calendar_icon_size">24dp</dimen>
     <dimen name="settings_btn_size">36dp</dimen>

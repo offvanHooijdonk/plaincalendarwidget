@@ -26,6 +26,20 @@ public class WidgetBean {
     private Corners corners;
     @ColumnInfo(name = "text_size_delta")
     private Integer textSizeDelta;
+    @ColumnInfo(name = "show_event_color")
+    private Boolean showEventColor;
+    @ColumnInfo(name = "show_today_date")
+    private Boolean showTodayDate;
+    @ColumnInfo(name = "show_today_day_of_week")
+    private Boolean showTodayDayOfWeek;
+    @ColumnInfo(name = "show_date_divide_line")
+    private Boolean showDateDivider;
+    @ColumnInfo(name = "show_end_date")
+    private ShowEndDate showEndDate;
+    @ColumnInfo(name = "show_today_leading_zero")
+    private Boolean showTodayLeadingZero;
+    @ColumnInfo(name = "show_date_text_label")
+    private Boolean showDateTextLabel;
 
     public List<CalendarBean> getCalendars() {
         return calendars;
@@ -96,6 +110,62 @@ public class WidgetBean {
         this.textSizeDelta = textSizeDelta;
     }
 
+    public Boolean getShowEventColor() {
+        return showEventColor;
+    }
+
+    public void setShowEventColor(Boolean showEventColor) {
+        this.showEventColor = showEventColor;
+    }
+
+    public Boolean getShowTodayDate() {
+        return showTodayDate;
+    }
+
+    public void setShowTodayDate(Boolean showTodayDate) {
+        this.showTodayDate = showTodayDate;
+    }
+
+    public Boolean getShowTodayDayOfWeek() {
+        return showTodayDayOfWeek;
+    }
+
+    public void setShowTodayDayOfWeek(Boolean showTodayDayOfWeek) {
+        this.showTodayDayOfWeek = showTodayDayOfWeek;
+    }
+
+    public Boolean getShowDateDivider() {
+        return showDateDivider;
+    }
+
+    public void setShowDateDivider(Boolean showDateDivider) {
+        this.showDateDivider = showDateDivider;
+    }
+
+    public ShowEndDate getShowEndDate() {
+        return showEndDate;
+    }
+
+    public void setShowEndDate(ShowEndDate showEndDate) {
+        this.showEndDate = showEndDate;
+    }
+
+    public Boolean getShowTodayLeadingZero() {
+        return showTodayLeadingZero;
+    }
+
+    public void setShowTodayLeadingZero(Boolean showTodayLeadingZero) {
+        this.showTodayLeadingZero = showTodayLeadingZero;
+    }
+
+    public Boolean getShowDateTextLabel() {
+        return showDateTextLabel;
+    }
+
+    public void setShowDateTextLabel(Boolean showDateTextLabel) {
+        this.showDateTextLabel = showDateTextLabel;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(id);
@@ -125,12 +195,23 @@ public class WidgetBean {
         public static Corners fromInt(int code) {
             Corners value;
             switch (code) {
-                case 0: value = NO_CORNER; break;
-                case 1: value = SMALL; break;
-                case 2: value = MEDIUM; break;
-                case 3: value = LARGE; break;
-                case 4: value = XLARGE; break;
-                default: value = getDefault();
+                case 0:
+                    value = NO_CORNER;
+                    break;
+                case 1:
+                    value = SMALL;
+                    break;
+                case 2:
+                    value = MEDIUM;
+                    break;
+                case 3:
+                    value = LARGE;
+                    break;
+                case 4:
+                    value = XLARGE;
+                    break;
+                default:
+                    value = getDefault();
             }
 
             return value;
@@ -139,5 +220,34 @@ public class WidgetBean {
         public static Corners getDefault() {
             return SMALL;
         }
+    }
+
+    public enum ShowEndDate {
+        NEVER(0), MORE_THAN_DAY(1), ALWAYS(2);
+        private int code;
+
+        ShowEndDate(int code) {
+            this.code = code;
+        }
+
+        public int getCode() {
+            return code;
+        }
+
+        public static ShowEndDate fromCode(int code) {
+            ShowEndDate value = getDefault();
+            for (ShowEndDate val : values()) {
+                if (val.getCode() == code) {
+                    value = val;
+                    break;
+                }
+            }
+            return value;
+        }
+
+        public static ShowEndDate getDefault() {
+            return NEVER;
+        }
+
     }
 }

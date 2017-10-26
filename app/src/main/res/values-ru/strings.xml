@@ -21,7 +21,7 @@
     <string name="tomorrow">Завтра</string>
     <string name="today">Сегодня</string>
     <string name="number_no_widgets">Не выборано</string>
-    <string name="settings_show_event_color">Показывать цвет события</string>
+    <string name="settings_show_event_color">Цвет события</string>
     <string name="increment_days">+1</string>
     <string name="decrement_days">-1</string>
     <string name="widget_settings_days">дней</string>
@@ -35,5 +35,12 @@
         <item>Большое</item>
         <item>Ещё больше</item>
     </string-array>
+
+    <string-array name="event_end_options">
+        <item>Никогда</item>
+        <item>Если больше дня</item>
+        <item>Всегда</item>
+    </string-array>
+
     <string name="widget_settings_text_size">Текст</string>
 </resources>

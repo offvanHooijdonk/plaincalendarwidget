@@ -19,10 +19,13 @@ import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -67,6 +70,13 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
     private ImageView imgSettings;
     private View blockBottomSettings;
     private View blockExpandableSettings;
+    private CheckBox chbShowTodayDate;
+    private CheckBox chbShowDayOfWeek;
+    private CheckBox chbShowTodayLeadingZero;
+    private CheckBox chbShowDivider;
+    private Spinner spShowEventEnd;
+    private CheckBox chbShowEventColor;
+    private CheckBox chbShowDateAsLabel;
 
     private SettingsSelection settingsOpened;
     private AlertDialog pickCalendarsDialog;
@@ -95,6 +105,13 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
         imgSettings = findViewById(R.id.imgSettings);
         blockBottomSettings = findViewById(R.id.blockBottomSettings);
         blockExpandableSettings = findViewById(R.id.blockExpandableSettings);
+        chbShowTodayDate = findViewById(R.id.chbShowTodayDate);
+        chbShowDayOfWeek = findViewById(R.id.chbShowDayOfWeek);
+        chbShowDivider = findViewById(R.id.chbShowDivider);
+        chbShowEventColor = findViewById(R.id.chbShowEventColor);
+        chbShowTodayLeadingZero = findViewById(R.id.chbShowTodayLeadingZero);
+        chbShowDateAsLabel = findViewById(R.id.chbShowDateAsLabel);
+        spShowEventEnd = findViewById(R.id.spShowEventEnd);
 
         if (getIntent().getExtras() != null && getIntent().getExtras().containsKey(AppWidgetManager.EXTRA_APPWIDGET_ID)) {
             widgetId = getIntent().getExtras().getInt(AppWidgetManager.EXTRA_APPWIDGET_ID);
@@ -102,7 +119,7 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
             isCreateMode = true;
 
             initWidgetWithDefaults();
-            inputDaysForEvents.setText(String.valueOf(widgetBean.getDays()));
+            fillOptions();
 
             widgetBean.setId(widgetId);
             getSupportActionBar().setTitle(getString(R.string.title_add_widget));
@@ -163,7 +180,18 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
             initPreview();
         }
 
-        imgSettings.setOnClickListener(v -> toggleExpandableSettings());
+        imgSettings.setOnClickListener(this::toggleExpandableSettings);
+    }
+
+    private void fillOptions() {
+        inputDaysForEvents.setText(String.valueOf(widgetBean.getDays()));
+        chbShowTodayDate.setChecked(widgetBean.getShowTodayDate());
+        chbShowDayOfWeek.setChecked(widgetBean.getShowTodayDayOfWeek());
+        chbShowTodayLeadingZero.setChecked(widgetBean.getShowTodayLeadingZero());
+        chbShowEventColor.setChecked(widgetBean.getShowEventColor());
+        chbShowDivider.setChecked(widgetBean.getShowDateDivider());
+        chbShowDateAsLabel.setChecked(widgetBean.getShowDateTextLabel());
+        spShowEventEnd.setSelection(WidgetBean.ShowEndDate.getDefault().getCode());
     }
 
     @Override
@@ -195,7 +223,7 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
             fabCreateWidget.setEnabled(true);
         }
 
-        inputDaysForEvents.setText(String.valueOf(widgetBean.getDays()));
+        fillOptions();
 
         openDefaultSettings();
         initPreview();
@@ -397,7 +425,7 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
         }
     }
 
-    private void toggleExpandableSettings() { // TODO move to some helper?
+    public void toggleExpandableSettings(View v) { // TODO move to some helper?
         int startHeight = isSettingsExpanded ? blockBottomSettings.getTop() - blockExpandableSettings.getTop() : 0;
         int endHeight = !isSettingsExpanded ? blockBottomSettings.getTop() - blockExpandableSettings.getTop() : 0;
 
@@ -408,7 +436,7 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
             layoutParams.height = value;
             blockExpandableSettings.setLayoutParams(layoutParams);
         });
-        heightAnim.setDuration(isSettingsExpanded ? 350 : 500);
+        heightAnim.setDuration(isSettingsExpanded ? 200 : 350);
         heightAnim.setInterpolator(new AccelerateDecelerateInterpolator());
         heightAnim.start();
 
@@ -431,6 +459,13 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
             widgetBean.setCorners(WidgetBean.Corners.getDefault());
             // TODO add Preferences
             widgetBean.setTextSizeDelta(0);
+            widgetBean.setShowTodayDate(true);
+            widgetBean.setShowTodayDayOfWeek(true);
+            widgetBean.setShowDateDivider(true);
+            widgetBean.setShowTodayLeadingZero(false);
+            widgetBean.setShowEndDate(WidgetBean.ShowEndDate.NEVER);
+            widgetBean.setShowDateTextLabel(true);
+            widgetBean.setShowEventColor(true);
         }
     }
 
@@ -456,7 +491,8 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
         return value >= 1 && value <= 1000;
     }
 
-    private class SettingsListener implements ColorsSettingsFragment.SettingClickListener, SeekBarSettingsFragment.OnValueChangeListener {
+    private class SettingsListener implements ColorsSettingsFragment.SettingClickListener,
+            SeekBarSettingsFragment.OnValueChangeListener, CheckBox.OnCheckedChangeListener{
 
         @Override
         public void onColorClick(int colorValue) {
@@ -486,6 +522,11 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
                     fragPreviewWidget.updateTextSize(value);
                     break;
             }
+        }
+
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
         }
     }
 

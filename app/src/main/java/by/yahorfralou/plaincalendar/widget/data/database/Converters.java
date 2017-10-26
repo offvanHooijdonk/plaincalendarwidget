@@ -15,4 +15,14 @@ public class Converters {
     public static WidgetBean.Corners cornersFromInt(int value) {
         return WidgetBean.Corners.fromInt(value);
     }
+
+    @TypeConverter
+    public static String showEndDateToString(WidgetBean.ShowEndDate showEndDate) {
+        return showEndDate.toString();
+    }
+
+    @TypeConverter
+    public static WidgetBean.ShowEndDate showEndDateFromString(String s) {
+        return WidgetBean.ShowEndDate.valueOf(s);
+    }
 }

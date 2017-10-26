@@ -45,23 +45,6 @@ public class ConfigurePresenter {
                 });
     }
 
-    /*public void updateCalendarsSettings(List<CalendarBean> calendars) {
-        Maybe.fromAction(() -> PlainCalendarWidgetApp.getAppDatabase().calendarDao().insertAll(calendars))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(o -> nth(), this::handleError, () -> {
-                    Log.d(LOGCAT, "Calendars settings saved");
-                    view.onCalendarSettingsSaved();
-                });
-    }*/
-
-    /*private void loadCalendarsSettings() {
-        PlainCalendarWidgetApp.getAppDatabase().calendarDao().getAllSelected()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(calendarBeans -> view.onCalendarSettingsSaved(calendarBeans));
-    }*/
-
     public void loadWidgetSettings(long widgetId) {
         PlainCalendarWidgetApp.getAppDatabase().widgetDao().getById(widgetId)
                 .flatMap(widgetBean -> PlainCalendarWidgetApp.getAppDatabase().calendarDao().getCalendarsForWidget(widgetId)
