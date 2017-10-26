@@ -26,7 +26,8 @@ public class CalendarIconView extends FrameLayout {
     private int imageSize;
     private int textSize;
     private char symbol = DEFAULT_CHAR;
-    private int backColor;
+    private int calendarColor;
+    private int borderColor;
 
     public CalendarIconView(@NonNull Context context) {
         super(context);
@@ -47,7 +48,8 @@ public class CalendarIconView extends FrameLayout {
                 symbol = symbolString.charAt(0);
             }
 
-            backColor = ta.getColor(R.styleable.CalendarIconView_backgroundColor, getContext().getResources().getColor(R.color.md_blue_400));
+            calendarColor = ta.getColor(R.styleable.CalendarIconView_calendarColor, getContext().getResources().getColor(R.color.md_blue_400));
+            borderColor = ta.getColor(R.styleable.CalendarIconView_borderColor, getContext().getResources().getColor(R.color.md_white_1000));
         } catch (Exception e) {
             Log.e(LOGCAT, "Error reading attributes for Calendar Icon", e);
         } finally {
@@ -67,7 +69,8 @@ public class CalendarIconView extends FrameLayout {
         updateImageSize();
         updateTextSize();
         updateSymbol();
-        updateBackColor();
+        updateColor();
+        updateBorderColor();
     }
 
     private void updateImageSize() {
@@ -87,8 +90,12 @@ public class CalendarIconView extends FrameLayout {
         txtSymbol.setText(String.valueOf(symbol));
     }
 
-    private void updateBackColor() {
-        imgColor.setColorFilter(backColor);
+    private void updateColor() {
+        imgColor.setColorFilter(calendarColor);
+    }
+
+    private void updateBorderColor() {
+        imgBack.setColorFilter(borderColor);
     }
 
     public int getImageSize() {
@@ -118,12 +125,21 @@ public class CalendarIconView extends FrameLayout {
         updateSymbol();
     }
 
-    public int getBackColor() {
-        return backColor;
+    public int getCalendarColor() {
+        return calendarColor;
     }
 
-    public void setBackColor(int backgroundColor) {
-        this.backColor = backgroundColor;
-        updateBackColor();
+    public void setCalendarColor(int calendarColor) {
+        this.calendarColor = calendarColor;
+        updateColor();
+    }
+
+    public int getBorderColor() {
+        return borderColor;
+    }
+
+    public void setBorderColor(int borderColor) {
+        this.borderColor = borderColor;
+        updateBorderColor();
     }
 }

@@ -84,6 +84,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/settings_block_minor_padding"
                         android:onClick="incrementDays"
+                        android:textSize="16sp"
                         android:text="@string/increment_days" />
 
                     <Button
@@ -91,6 +92,7 @@
                         android:layout_width="48dp"
                         android:layout_height="wrap_content"
                         android:onClick="decrementDays"
+                        android:textSize="16sp"
                         android:text="@string/decrement_days" />
                 </LinearLayout>
 
@@ -167,6 +169,9 @@
                             android:button="@null"
                             android:text="@string/widget_settings_background" />
 
+                        <View
+                            style="@style/SettingsDivider"/>
+
                         <RadioButton
                             android:id="@+id/radioOpac"
                             style="@style/SettingsItem"
@@ -174,6 +179,9 @@
                             android:layout_height="match_parent"
                             android:button="@null"
                             android:text="@string/widget_settings_opacity" />
+
+                        <View
+                            style="@style/SettingsDivider"/>
 
                         <RadioButton
                             android:id="@+id/radioCorners"
@@ -183,6 +191,9 @@
                             android:button="@null"
                             android:text="@string/widget_settings_corners" />
 
+                        <View
+                            style="@style/SettingsDivider"/>
+
                         <RadioButton
                             android:id="@+id/radioTextColor"
                             style="@style/SettingsItem"
@@ -190,6 +201,9 @@
                             android:layout_height="match_parent"
                             android:button="@null"
                             android:text="@string/widget_settings_date_color" />
+
+                        <View
+                            style="@style/SettingsDivider"/>
 
                         <RadioButton
                             android:id="@+id/radioTextSize"

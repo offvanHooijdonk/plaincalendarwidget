@@ -389,7 +389,7 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
                     .inflate(R.layout.inc_cal_icon, blockCalIcons, false);
 
             if (bean.getColor() != null) {
-                iconView.setBackColor(bean.getColor());
+                iconView.setCalendarColor(bean.getColor());
             }
             iconView.setSymbol(bean.getDisplayName().charAt(0));
 
@@ -428,7 +428,7 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
             widgetBean.setOpacity(PrefHelper.getDefaultOpacityPerCent(this));
             widgetBean.setTextColor(PrefHelper.getDefaultTextColor(this));
             // TODO add Preferences
-            widgetBean.setCorners(WidgetBean.Corners.MEDIUM);
+            widgetBean.setCorners(WidgetBean.Corners.getDefault());
             // TODO add Preferences
             widgetBean.setTextSizeDelta(0);
         }

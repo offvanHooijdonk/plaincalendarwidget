@@ -4,7 +4,8 @@
         <attr name="imageSize" format="dimension" />
         <attr name="textSize" format="dimension" />
         <attr name="symbol" format="string" />
-        <attr name="backgroundColor" format="color" />
+        <attr name="calendarColor" format="color" />
+        <attr name="borderColor" format="color" />
     </declare-styleable>
 
     <declare-styleable name="ColorSingleOptionView">

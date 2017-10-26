@@ -45,11 +45,13 @@ public class EventsRemoteViewsFactory implements RemoteViewsService.RemoteViewsF
     @Override
     public void onDataSetChanged() {
         Log.i(LOGCAT, "ViewsFactory::onDataSetChanged. Widget " + widgetId);
-        PlainCalendarWidgetApp.getAppDatabase().calendarDao().getCalendarsForWidget(widgetId)
-                .map(calendarBeans -> {
-                    /*Log.i(LOGCAT, "Found calendars: " + calendarBeans.toString());*/
-                    return calDataSource.getEvents(calendarBeans);
-                })
+        PlainCalendarWidgetApp.getAppDatabase().widgetDao().getById(widgetId)
+                .flatMap(wBean -> PlainCalendarWidgetApp.getAppDatabase().calendarDao().getCalendarsForWidget(widgetId)
+                        .map(calendarBeans -> {
+                            wBean.setCalendars(calendarBeans);
+                            return wBean;
+                        }))
+                .map(widgetBean -> calDataSource.getEvents(widgetBean.getCalendars(), widgetBean.getDays()))
                 .subscribe(this::displayEvents);
 
         PlainCalendarWidgetApp.getAppDatabase().widgetDao().getById(widgetId)

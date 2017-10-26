@@ -20,7 +20,6 @@ import static by.yahorfralou.plaincalendar.widget.app.PlainCalendarWidgetApp.LOG
 
 public class CalendarDataSource {
     private static final int BOOLEAN_TRUE = 1;
-    private static final int EVENTS_DAYS = 14;
     private Context ctx;
 
     public CalendarDataSource(Context context) {
@@ -60,12 +59,12 @@ public class CalendarDataSource {
         return calendarList;
     }
 
-    public List<EventBean> getEvents(List<CalendarBean> calendars) {
+    public List<EventBean> getEvents(List<CalendarBean> calendars, int daysAhead) {
         List<EventBean> eventBeans = new ArrayList<>();
         ContentResolver cr = ctx.getContentResolver();
         Log.i(LOGCAT, "Getting Events for " + calendars.size() + " calendars");
 
-        try (Cursor cur = prepareEventsCursor(cr, calendars)) {
+        try (Cursor cur = prepareEventsCursor(cr, calendars, daysAhead)) {
             while (cur != null && cur.moveToNext()) {
                 EventBean event = new EventBean();
 
@@ -117,10 +116,10 @@ public class CalendarDataSource {
                 CalendarContract.Calendars.ACCOUNT_NAME + ", " + CalendarContract.Calendars.IS_PRIMARY + " desc, " + CalendarContract.Calendars.CALENDAR_DISPLAY_NAME);
     }
 
-    private static Date prepareDateTo(Date dateFrom) {
+    private static Date prepareDateTo(Date dateFrom, int daysAhead) {
         Calendar calendarTo = Calendar.getInstance();
         calendarTo.setTime(dateFrom);
-        calendarTo.add(Calendar.DAY_OF_MONTH, EVENTS_DAYS);
+        calendarTo.add(Calendar.DAY_OF_MONTH, daysAhead);
 
         calendarTo.set(Calendar.HOUR_OF_DAY, 0);
         calendarTo.set(Calendar.MINUTE, 0);
@@ -130,9 +129,9 @@ public class CalendarDataSource {
         return calendarTo.getTime();
     }
 
-    private Cursor prepareEventsCursor(ContentResolver cr, List<CalendarBean> calendars) {
+    private Cursor prepareEventsCursor(ContentResolver cr, List<CalendarBean> calendars, int daysAhead) {
         Date dateFrom = new Date();
-        Date dateTo = prepareDateTo(dateFrom);
+        Date dateTo = prepareDateTo(dateFrom, daysAhead);
 
         return cr.query(makeEventsUriForDates(dateFrom, dateTo),
                 new String[]{

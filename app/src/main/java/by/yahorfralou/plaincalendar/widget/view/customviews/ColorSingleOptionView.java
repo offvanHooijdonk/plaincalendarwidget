@@ -35,8 +35,8 @@ public class ColorSingleOptionView extends FrameLayout {
         TypedArray ta = context.getTheme().obtainStyledAttributes(attrs, R.styleable.ColorSingleOptionView, 0, 0);
         try {
             checkSize = ta.getDimensionPixelSize(R.styleable.ColorSingleOptionView_checkSize, DIMENSION_UNSET);
-            color = ta.getColor(R.styleable.CalendarIconView_backgroundColor, COLOR_UNSET);
-            checked = ta.getBoolean(R.styleable.CalendarIconView_backgroundColor, false);
+            color = ta.getColor(R.styleable.CalendarIconView_calendarColor, COLOR_UNSET);
+            checked = ta.getBoolean(R.styleable.CalendarIconView_calendarColor, false);
         } catch (Exception e) {
             Log.e(LOGCAT, "Error reading attributes for Calendar Icon", e);
         } finally {

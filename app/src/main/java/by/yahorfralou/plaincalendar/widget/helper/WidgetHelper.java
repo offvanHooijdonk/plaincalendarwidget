@@ -38,7 +38,7 @@ public class WidgetHelper {
                 resId = R.drawable.widget_back_corner_xl;
                 break;
             default:
-                resId = R.drawable.widget_back_corner_m;
+                resId = R.drawable.widget_back_corner_s;
         }
 
         return resId;

@@ -137,7 +137,7 @@ public class WidgetBean {
         }
 
         public static Corners getDefault() {
-            return MEDIUM;
+            return SMALL;
         }
     }
 }
