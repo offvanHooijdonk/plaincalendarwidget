@@ -18,12 +18,20 @@
                 android:layout_marginStart="@dimen/activity_h_padding"
                 android:orientation="vertical">
 
+                <Switch
+                    android:id="@+id/switchShowTodayDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Show Today Date"
+                    android:thumbTextPadding="8dp"/>
+<!--
+
                 <CheckBox
                     android:id="@+id/chbShowTodayDate"
                     style="@style/OptionsInExpandable"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Show Today Date" />
+                    android:text="Show Today Date" />-->
 
                 <CheckBox
                     android:id="@+id/chbShowDayOfWeek"

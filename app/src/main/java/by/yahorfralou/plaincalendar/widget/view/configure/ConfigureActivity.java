@@ -26,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -70,7 +71,7 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
     private ImageView imgSettings;
     private View blockBottomSettings;
     private View blockExpandableSettings;
-    private CheckBox chbShowTodayDate;
+    private Switch switchShowTodayDate;
     private CheckBox chbShowDayOfWeek;
     private CheckBox chbShowTodayLeadingZero;
     private CheckBox chbShowDivider;
@@ -105,7 +106,7 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
         imgSettings = findViewById(R.id.imgSettings);
         blockBottomSettings = findViewById(R.id.blockBottomSettings);
         blockExpandableSettings = findViewById(R.id.blockExpandableSettings);
-        chbShowTodayDate = findViewById(R.id.chbShowTodayDate);
+        switchShowTodayDate = findViewById(R.id.switchShowTodayDate);
         chbShowDayOfWeek = findViewById(R.id.chbShowDayOfWeek);
         chbShowDivider = findViewById(R.id.chbShowDivider);
         chbShowEventColor = findViewById(R.id.chbShowEventColor);
@@ -185,7 +186,7 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
 
     private void fillOptions() {
         inputDaysForEvents.setText(String.valueOf(widgetBean.getDays()));
-        chbShowTodayDate.setChecked(widgetBean.getShowTodayDate());
+        switchShowTodayDate.setChecked(widgetBean.getShowTodayDate());
         chbShowDayOfWeek.setChecked(widgetBean.getShowTodayDayOfWeek());
         chbShowTodayLeadingZero.setChecked(widgetBean.getShowTodayLeadingZero());
         chbShowEventColor.setChecked(widgetBean.getShowEventColor());
@@ -216,6 +217,9 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
         this.widgetBean = widgetBean;
         calendarSettings.clear();
         calendarSettings.addAll(widgetBean.getCalendars());
+        for (CalendarBean c : calendarSettings) {
+            c.setSelected(true);
+        }
 
         if (calendarSettings.isEmpty()) {
             fabCreateWidget.setEnabled(false);
@@ -398,7 +402,17 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
     }
 
     private void applySettings() {
-        widgetBean.setCalendars(calendarSettings);
+        if (widgetBean.getCalendars() != null) {
+            widgetBean.getCalendars().clear();
+        } else {
+            widgetBean.setCalendars(new ArrayList<>());
+        }
+        for (CalendarBean c : calendarSettings) {
+            if (c.isSelected()) {
+                widgetBean.getCalendars().add(c);
+            }
+        }
+
         presenter.onApplySettings(widgetBean);
     }
 
