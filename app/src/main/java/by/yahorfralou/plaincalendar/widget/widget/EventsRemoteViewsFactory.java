@@ -91,6 +91,9 @@ public class EventsRemoteViewsFactory implements RemoteViewsService.RemoteViewsF
             rv.setInt(R.id.imgColor, "setColorFilter", event.getEventColor());
         }
 
+        Log.i(LOGCAT, "Set intent for event: " + event.getId());
+        rv.setOnClickFillInIntent(R.id.rootEventItem, WidgetHelper.createEventIntent(event.getEventId()));
+
         return rv;
     }
 

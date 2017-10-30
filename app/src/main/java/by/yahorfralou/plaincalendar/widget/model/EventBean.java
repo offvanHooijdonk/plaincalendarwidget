@@ -1,28 +1,26 @@
 package by.yahorfralou.plaincalendar.widget.model;
 
-import android.arch.persistence.room.ColumnInfo;
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.PrimaryKey;
-
 import java.util.Date;
 import java.util.Objects;
 
-@Entity(tableName = "events")
+//@Entity(tableName = "events")
 public class EventBean {
-    @PrimaryKey
+    //@PrimaryKey
     private long id;
-    @ColumnInfo(name = "title")
+    //@ColumnInfo(name = "title")
     private String title;
-    @ColumnInfo(name = "date_start")
+    //@ColumnInfo(name = "date_start")
     private Date dateStart;
-    @ColumnInfo(name = "date_end")
+    //@ColumnInfo(name = "date_end")
     private Date dateEnd;
-    @ColumnInfo(name = "is_all_day")
+    //@ColumnInfo(name = "is_all_day")
     private boolean allDay;
-    @ColumnInfo(name = "event_color")
+    //@ColumnInfo(name = "event_color")
     private Integer eventColor;
-    @ColumnInfo(name = "calendar_id")
+    //@ColumnInfo(name = "calendar_id")
     private long calendarId;
+    //@Ignore
+    private long eventId;
 
     public long getId() {
         return id;
@@ -80,9 +78,17 @@ public class EventBean {
         this.calendarId = calendarId;
     }
 
+    public long getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(long eventId) {
+        this.eventId = eventId;
+    }
+
     @Override
     public boolean equals(Object obj) {
-        return obj != null && obj instanceof EventBean && id == ((EventBean) obj).id;
+        return obj != null && obj instanceof EventBean && id == ((EventBean) obj).id && calendarId == ((EventBean) obj).getCalendarId();
     }
 
     @Override

@@ -1,8 +1,11 @@
 package by.yahorfralou.plaincalendar.widget.helper;
 
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.provider.CalendarContract;
 
 import by.yahorfralou.plaincalendar.widget.R;
 import by.yahorfralou.plaincalendar.widget.model.WidgetBean;
@@ -47,4 +50,20 @@ public class WidgetHelper {
     public static float riseTextSizeBy(Context ctx, int resId, int delta) {
         return ctx.getResources().getDimension(resId) / ctx.getResources().getDisplayMetrics().density + delta;
     }
+
+    public static PendingIntent createCalendarOpenIntent(Context ctx) {
+        long timeNow = System.currentTimeMillis();
+        Intent intentCalendar = new Intent(Intent.ACTION_VIEW);
+        intentCalendar.setData(CalendarContract.CONTENT_URI.buildUpon().appendPath("time").appendPath(String.valueOf(timeNow)).build());
+
+        return PendingIntent.getActivity(ctx, 0, intentCalendar, 0);
+    }
+
+    public static Intent createEventIntent(long eventId) {
+        Intent intent = new Intent();
+        intent.setData(CalendarContract.Events.CONTENT_URI.buildUpon().appendPath(String.valueOf(eventId)).build());
+
+        return intent;
+    }
+
 }

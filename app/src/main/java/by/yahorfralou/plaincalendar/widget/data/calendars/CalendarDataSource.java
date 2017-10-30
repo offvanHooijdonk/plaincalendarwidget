@@ -69,6 +69,7 @@ public class CalendarDataSource {
                 EventBean event = new EventBean();
 
                 event.setId(cur.getLong(cur.getColumnIndex(CalendarContract.Instances._ID)));
+                event.setEventId(cur.getLong(cur.getColumnIndex(CalendarContract.Instances.EVENT_ID)));
                 event.setTitle(cur.getString(cur.getColumnIndex(CalendarContract.Instances.TITLE)));
                 event.setDateStart(new Date(cur.getLong(cur.getColumnIndex(CalendarContract.Instances.BEGIN))));
                 event.setDateEnd(new Date(cur.getLong(cur.getColumnIndex(CalendarContract.Instances.END))));
@@ -136,6 +137,7 @@ public class CalendarDataSource {
         return cr.query(makeEventsUriForDates(dateFrom, dateTo),
                 new String[]{
                         CalendarContract.Instances._ID,
+                        CalendarContract.Instances.EVENT_ID,
                         CalendarContract.Instances.TITLE,
                         CalendarContract.Instances.BEGIN,
                         CalendarContract.Instances.END,

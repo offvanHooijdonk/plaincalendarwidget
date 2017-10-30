@@ -73,9 +73,12 @@ public class CalendarWidgetProvider extends AppWidgetProvider {
                         rv.setTextColor(R.id.emptyView, widgetBean.getTextColor());
                         rv.setTextViewTextSize(R.id.emptyView, TypedValue.COMPLEX_UNIT_SP, WidgetHelper.riseTextSizeBy(ctx, R.dimen.widget_event_title, widgetBean.getTextSizeDelta()));
 
-                        updateDateViews(rv);
+                        updateDateViews(ctx, rv);
                         rv.setRemoteAdapter(R.id.listEvents, intent);
                         rv.setEmptyView(R.id.listEvents, R.id.emptyView);
+
+                        Intent intentTemplate = new Intent(Intent.ACTION_VIEW);
+                        rv.setPendingIntentTemplate(R.id.listEvents, PendingIntent.getActivity(ctx, 0, intentTemplate, 0));
 
                         appWidgetManager.updateAppWidget(appWidgetId, rv);
                     }, th -> {
@@ -108,7 +111,7 @@ public class CalendarWidgetProvider extends AppWidgetProvider {
             for (int widgetId : widgetIds) {
                 Log.i(LOGCAT, "Widget " + widgetId);
                 RemoteViews rv = new RemoteViews(ctx.getPackageName(), R.layout.widget_calendars);
-                updateDateViews(rv);
+                updateDateViews(ctx, rv);
 
                 manager.partiallyUpdateAppWidget(widgetId, rv);
             }
@@ -150,10 +153,12 @@ public class CalendarWidgetProvider extends AppWidgetProvider {
         return PendingIntent.getBroadcast(ctx, 0, intent, 0);
     }
 
-    private void updateDateViews(RemoteViews rv) {
+    private void updateDateViews(Context ctx, RemoteViews rv) {
         Date now = new Date(System.currentTimeMillis());
         rv.setTextViewText(R.id.txtWidgetDate, DateHelper.formatDateOnly(now));
         rv.setTextViewText(R.id.txtWidgetDay, DateHelper.formatDay(now));
+
+        rv.setOnClickPendingIntent(R.id.txtWidgetDate, WidgetHelper.createCalendarOpenIntent(ctx));
     }
 
     private void setupDailyAlarm(Context ctx) {
