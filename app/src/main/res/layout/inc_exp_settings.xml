@@ -6,16 +6,16 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/settings_activity_blocks_back">
 
         <LinearLayout
+            style="@style/BlockWithBackground"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/transparent"
             android:orientation="vertical"
-            android:paddingBottom="@dimen/activity_v_padding"
-            android:paddingEnd="@dimen/activity_h_padding"
-            android:paddingStart="@dimen/activity_h_padding"
-            android:paddingTop="@dimen/activity_v_padding">
+            android:paddingBottom="40dp">
 
             <Switch
                 android:id="@+id/switchShowTodayDate"

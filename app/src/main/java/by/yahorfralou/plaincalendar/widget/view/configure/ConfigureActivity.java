@@ -72,12 +72,12 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
     private View blockBottomSettings;
     private View blockExpandableSettings;
     private Switch switchShowTodayDate;
-    private CheckBox chbShowDayOfWeek;
-    private CheckBox chbShowTodayLeadingZero;
-    private CheckBox chbShowDivider;
+    private Switch chbShowDayOfWeek;
+    private Switch chbShowTodayLeadingZero;
+    private Switch chbShowDivider;
     private Spinner spShowEventEnd;
-    private CheckBox chbShowEventColor;
-    private CheckBox chbShowDateAsLabel;
+    private Switch chbShowEventColor;
+    private Switch chbShowDateAsLabel;
 
     private SettingsSelection settingsOpened;
     private AlertDialog pickCalendarsDialog;

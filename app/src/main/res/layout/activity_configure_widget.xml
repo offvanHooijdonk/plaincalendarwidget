@@ -125,7 +125,6 @@
 
             <FrameLayout
                 android:id="@+id/blockExpandableSettings"
-                style="@style/BlockWithBackground"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_below="@id/blockIconAndSettings">
