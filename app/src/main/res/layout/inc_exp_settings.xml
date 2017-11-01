@@ -8,97 +8,92 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/activity_h_padding"
+            android:layout_marginStart="@dimen/activity_h_padding"
+            android:orientation="vertical">
 
-            <LinearLayout
+            <Switch
+                android:id="@+id/switchShowTodayDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:switchPadding="16dp"
+                android:text="Show Today Date" />
+            <!--
+
+                            <CheckBox
+                                android:id="@+id/chbShowTodayDate"
+                                style="@style/OptionsInExpandable"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Show Today Date" />-->
+
+            <CheckBox
+                android:id="@+id/chbShowDayOfWeek"
+                style="@style/OptionsInExpandable"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/activity_h_padding"
-                android:orientation="vertical">
+                android:text="Day of week" />
 
-                <Switch
-                    android:id="@+id/switchShowTodayDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Show Today Date"
-                    android:thumbTextPadding="8dp"/>
-<!--
+            <CheckBox
+                android:id="@+id/chbShowTodayLeadingZero"
+                style="@style/OptionsInExpandable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Leading zero for today" />
 
-                <CheckBox
-                    android:id="@+id/chbShowTodayDate"
-                    style="@style/OptionsInExpandable"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Show Today Date" />-->
+            <CheckBox
+                android:id="@+id/chbShowDivider"
+                style="@style/OptionsInExpandable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Line before events list" />
 
-                <CheckBox
-                    android:id="@+id/chbShowDayOfWeek"
-                    style="@style/OptionsInExpandable"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Day of week" />
+            <TextView
+                style="@style/OptionsInExpandable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:labelFor="@id/spShowEventEnd"
+                android:text="Display event end" />
 
-                <CheckBox
-                    android:id="@+id/chbShowTodayLeadingZero"
-                    style="@style/OptionsInExpandable"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Leading zero for today" />
+            <Spinner
+                android:id="@+id/spShowEventEnd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:entries="@array/event_end_options" />
 
-                <CheckBox
-                    android:id="@+id/chbShowDivider"
-                    style="@style/OptionsInExpandable"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Line before events list" />
+            <CheckBox
+                android:id="@+id/chbShowEventColor"
+                style="@style/OptionsInExpandable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_show_event_color" />
 
-                <TextView
-                    style="@style/OptionsInExpandable"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:labelFor="@id/spShowEventEnd"
-                    android:text="Display event end" />
+            <CheckBox
+                android:id="@+id/chbShowDateAsLabel"
+                style="@style/OptionsInExpandable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Show 'Today', 'Tomorrow'" />
 
-                <Spinner
-                    android:id="@+id/spShowEventEnd"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:entries="@array/event_end_options" />
+            <!--<TextView
+                style="@style/OptionsInExpandable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:labelFor="@id/spTimeEventPosition"
+                android:text="Date and event position" />
 
-                <CheckBox
-                    android:id="@+id/chbShowEventColor"
-                    style="@style/OptionsInExpandable"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/settings_show_event_color" />
+            <Spinner
+                android:id="@+id/spTimeEventPosition"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:entries="@array/event_end_options" />-->
 
-                <CheckBox
-                    android:id="@+id/chbShowDateAsLabel"
-                    style="@style/OptionsInExpandable"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Show 'Today', 'Tomorrow'" />
-
-                <!--<TextView
-                    style="@style/OptionsInExpandable"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:labelFor="@id/spTimeEventPosition"
-                    android:text="Date and event position" />
-
-                <Spinner
-                    android:id="@+id/spTimeEventPosition"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:entries="@array/event_end_options" />-->
-
-            </LinearLayout>
-
-        </RelativeLayout>
+        </LinearLayout>
 
     </ScrollView>
 
@@ -112,6 +107,8 @@
         android:layout_marginEnd="8dp"
         android:onClick="toggleExpandableSettings"
         android:src="@drawable/ic_close_24dp"
+        android:tint="@color/fab_icon_dark"
+        app:backgroundTint="@color/md_white_1000"
         app:fabSize="mini"
         app:useCompatPadding="true" />
 </android.support.design.widget.CoordinatorLayout>
