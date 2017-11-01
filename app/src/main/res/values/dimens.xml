@@ -20,4 +20,6 @@
     <dimen name="settings_btn_size">36dp</dimen>
     <dimen name="widget_date_text">12sp</dimen>
     <dimen name="widget_event_title">14sp</dimen>
+    <dimen name="exp_settings_margin_v">12dp</dimen>
+    <dimen name="exp_text_size">16sp</dimen>
 </resources>

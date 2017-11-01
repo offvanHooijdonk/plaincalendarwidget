@@ -32,6 +32,12 @@
     <string name="fish_days">14</string>
     <string name="widget_settings_corners">Radius</string>
     <string name="widget_settings_text_size">Text size</string>
+    <string name="settings_show_today_date">Show Today Date</string>
+    <string name="settings_show_day_of_week">Day of Week</string>
+    <string name="settings_leading_zero_today">Leading Zero for Today</string>
+    <string name="settings_show_line">Line Before Events List</string>
+    <string name="settings_show_event_end">Display Event End</string>
+    <string name="settings_show_today_tomorrow">Show \'Today\', \'Tomorrow\'</string>
 
     <string-array name="corner_sizes">
         <item>None</item>
@@ -43,7 +49,7 @@
 
     <string-array name="event_end_options">
         <item>Never</item>
-        <item>If more than day</item>
+        <item>If spans next day</item>
         <item>Always</item>
     </string-array>
 

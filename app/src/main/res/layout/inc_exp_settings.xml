@@ -11,88 +11,69 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/activity_h_padding"
-            android:layout_marginStart="@dimen/activity_h_padding"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/activity_v_padding"
+            android:paddingEnd="@dimen/activity_h_padding"
+            android:paddingStart="@dimen/activity_h_padding"
+            android:paddingTop="@dimen/activity_v_padding">
 
             <Switch
                 android:id="@+id/switchShowTodayDate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:switchPadding="16dp"
-                android:text="Show Today Date" />
-            <!--
+                style="@style/OptionsInExpandable"
+                android:text="@string/settings_show_today_date" />
 
-                            <CheckBox
-                                android:id="@+id/chbShowTodayDate"
-                                style="@style/OptionsInExpandable"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Show Today Date" />-->
-
-            <CheckBox
+            <Switch
                 android:id="@+id/chbShowDayOfWeek"
                 style="@style/OptionsInExpandable"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Day of week" />
+                android:text="@string/settings_show_day_of_week" />
 
-            <CheckBox
+            <Switch
                 android:id="@+id/chbShowTodayLeadingZero"
                 style="@style/OptionsInExpandable"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Leading zero for today" />
+                android:text="@string/settings_leading_zero_today" />
 
-            <CheckBox
+            <Switch
                 android:id="@+id/chbShowDivider"
                 style="@style/OptionsInExpandable"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Line before events list" />
+                android:text="@string/settings_show_line" />
 
-            <TextView
-                style="@style/OptionsInExpandable"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:labelFor="@id/spShowEventEnd"
-                android:text="Display event end" />
+            <!-- TODO set test size as in style for Switches -->
 
-            <Spinner
-                android:id="@+id/spShowEventEnd"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:entries="@array/event_end_options" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <CheckBox
+                <TextView
+                    android:id="@+id/txtLabelShowEventEnd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:labelFor="@id/spShowEventEnd"
+                    android:maxLines="1"
+                    android:text="@string/settings_show_event_end"
+                    android:textSize="@dimen/exp_text_size" />
+
+                <Spinner
+                    android:id="@+id/spShowEventEnd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@id/txtLabelShowEventEnd"
+                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="@dimen/exp_settings_margin_v"
+                    android:layout_marginTop="8dp"
+                    android:entries="@array/event_end_options" />
+            </RelativeLayout>
+
+            <Switch
                 android:id="@+id/chbShowEventColor"
                 style="@style/OptionsInExpandable"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:text="@string/settings_show_event_color" />
 
-            <CheckBox
+            <Switch
                 android:id="@+id/chbShowDateAsLabel"
                 style="@style/OptionsInExpandable"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Show 'Today', 'Tomorrow'" />
-
-            <!--<TextView
-                style="@style/OptionsInExpandable"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:labelFor="@id/spTimeEventPosition"
-                android:text="Date and event position" />
-
-            <Spinner
-                android:id="@+id/spTimeEventPosition"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:entries="@array/event_end_options" />-->
-
+                android:text="@string/settings_show_today_tomorrow" />
         </LinearLayout>
 
     </ScrollView>
