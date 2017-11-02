@@ -20,11 +20,22 @@ public class DateHelper {
     @SuppressLint("SimpleDateFormat")
     private static final SimpleDateFormat SDF_DATE_ONLY = new SimpleDateFormat("d");
     @SuppressLint("SimpleDateFormat")
+    private static final SimpleDateFormat SDF_DATE_ONLY_LEAD_ZERO = new SimpleDateFormat("dd");
+    @SuppressLint("SimpleDateFormat")
     private static final SimpleDateFormat SDF_DAY = new SimpleDateFormat("EE");
     //private static final SimpleDateFormat SDF_TIME_HH_MM = new SimpleDateFormat("HH:mm");
 
+    @Deprecated
     public static String formatDateOnly(Date date) {
-        return SDF_DATE_ONLY.format(date);
+        return formatDateOnly(date, false);
+    }
+
+    public static String formatDateOnly(Date date, boolean leadingZero) {
+        if (leadingZero) {
+            return SDF_DATE_ONLY_LEAD_ZERO.format(date);
+        } else {
+            return SDF_DATE_ONLY.format(date);
+        }
     }
 
     public static String formatDay(Date date) {
@@ -46,16 +57,16 @@ public class DateHelper {
         return calendar.getTimeInMillis();
     }
 
-    public static String formatEventDate(Context ctx, Date date) {
+    public static String formatEventDate(Context ctx, Date date, boolean useLabels) {
         Calendar calToday = Calendar.getInstance();
         Calendar calNextDay = Calendar.getInstance();
         calNextDay.add(Calendar.DAY_OF_MONTH, 1);
         Calendar calEvent = Calendar.getInstance();
         calEvent.setTime(date);
 
-        if (isSameDay(calToday, calEvent)) {
+        if (useLabels && isSameDay(calToday, calEvent)) {
             return ctx.getString(R.string.today);
-        } else if (isSameDay(calNextDay, calEvent)) {
+        } else if (useLabels && isSameDay(calNextDay, calEvent)) {
             return ctx.getString(R.string.tomorrow);
         } else {
 

@@ -98,7 +98,6 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
         blockBottomSettings = findViewById(R.id.blockBottomSettings);
         blockExpandableSettings = findViewById(R.id.blockExpandableSettings);
         fragExtendedSettings = (ExtendedSettingsFragment) getFragmentManager().findFragmentById(R.id.fragExtendedSettings);
-        fragExtendedSettings.setListener(settingsListener);
 
         if (getIntent().getExtras() != null && getIntent().getExtras().containsKey(AppWidgetManager.EXTRA_APPWIDGET_ID)) {
             widgetId = getIntent().getExtras().getInt(AppWidgetManager.EXTRA_APPWIDGET_ID);
@@ -308,7 +307,9 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
 
     private void initPreview() {
         fragPreviewWidget = (PreviewWidgetFragment) getFragmentManager().findFragmentById(R.id.fragPreviewWidget);
-        fragPreviewWidget.setInitialParametersFromWidgetBean(widgetBean);
+        fragPreviewWidget.attachWidgetSettings(widgetBean);
+
+        fragExtendedSettings.setListener(settingsListener);
     }
 
     private void openDefaultSettings() {
@@ -492,10 +493,10 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
         public void onColorClick(int colorValue) {
             if (settingsOpened == SettingsSelection.BACKGROUND) {
                 widgetBean.setBackgroundColor(colorValue);
-                fragPreviewWidget.updateBackColor(colorValue);
+                fragPreviewWidget.updatePreview();
             } else if (settingsOpened == SettingsSelection.TEXT_COLOR) {
                 widgetBean.setTextColor(colorValue);
-                fragPreviewWidget.updateTextColor(colorValue);
+                fragPreviewWidget.updatePreview();
             }
         }
 
@@ -504,16 +505,16 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
             switch (settingsOpened) {
                 case OPACITY:
                     widgetBean.setOpacity(value);
-                    fragPreviewWidget.updateOpacity(value);
+                    fragPreviewWidget.updatePreview();
                     break;
                 case CORNERS:
                     WidgetBean.Corners corners = WidgetBean.Corners.fromInt(value);
                     widgetBean.setCorners(corners);
-                    fragPreviewWidget.updateCorners(corners);
+                    fragPreviewWidget.updatePreview();
                     break;
                 case TEXT_SIZE:
                     widgetBean.setTextSizeDelta(value);
-                    fragPreviewWidget.updateTextSize(value);
+                    fragPreviewWidget.updatePreview();
                     break;
             }
         }
@@ -521,37 +522,44 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
         @Override
         public void onShowTodayDateChange(boolean isShow) {
             widgetBean.setShowTodayDate(isShow);
-            fragPreviewWidget.updateShowTodayDate(isShow);
+            fragPreviewWidget.updatePreview();
         }
 
         @Override
         public void onShowDayOfWeekChange(boolean isShow) {
             widgetBean.setShowTodayDayOfWeek(isShow);
+            fragPreviewWidget.updatePreview();
         }
 
         @Override
         public void onShowTodayLeadingZeroChange(boolean isShow) {
             widgetBean.setShowTodayLeadingZero(isShow);
+            fragPreviewWidget.updatePreview();
         }
 
         @Override
         public void onShowEventColorChange(boolean isShow) {
             widgetBean.setShowEventColor(isShow);
+            fragPreviewWidget.updatePreview();
         }
 
         @Override
         public void onShowDividerChange(boolean isShow) {
             widgetBean.setShowDateDivider(isShow);
+            fragPreviewWidget.updatePreview();
+            fragPreviewWidget.updatePreview();
         }
 
         @Override
         public void onShowDateAsLabelChange(boolean isShow) {
             widgetBean.setShowDateTextLabel(isShow);
+            fragPreviewWidget.updatePreview();
         }
 
         @Override
         public void onShowEventEndChange(WidgetBean.ShowEndDate endDateOption) {
             widgetBean.setShowEndDate(endDateOption);
+            fragPreviewWidget.updatePreview();
         }
     }
 

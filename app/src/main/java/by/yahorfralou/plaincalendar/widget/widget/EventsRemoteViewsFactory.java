@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
@@ -75,21 +76,31 @@ public class EventsRemoteViewsFactory implements RemoteViewsService.RemoteViewsF
         EventBean event = eventList.get(i);
 // TODO make beauty
         RemoteViews rv = new RemoteViews(ctx.getPackageName(), R.layout.item_event_widget);
-        String eventDateText = formatDateRange(ctx, event.getDateStart(), event.getDateStart(), event.isAllDay());
+        // TODO use defaults from PrefHelper also
+        String eventDateText = formatDateRange(ctx, event.getDateStart(), event.getDateStart(), event.isAllDay(),
+                widgetOptions != null ? widgetOptions.getShowDateTextLabel() : true);
 
         rv.setTextViewText(R.id.txtDateRange, eventDateText);
         rv.setTextViewText(R.id.txtEventTitle, event.getTitle());
+
         if (widgetOptions != null) {
             rv.setTextColor(R.id.txtDateRange, widgetOptions.getTextColor());
             rv.setTextColor(R.id.txtEventTitle, widgetOptions.getTextColor());
 
             rv.setTextViewTextSize(R.id.txtDateRange, TypedValue.COMPLEX_UNIT_SP, WidgetHelper.riseTextSizeBy(ctx, R.dimen.widget_date_text, widgetOptions.getTextSizeDelta()));
             rv.setTextViewTextSize(R.id.txtEventTitle, TypedValue.COMPLEX_UNIT_SP, WidgetHelper.riseTextSizeBy(ctx, R.dimen.widget_event_title, widgetOptions.getTextSizeDelta()));
+
+            if (widgetOptions.getShowEventColor()) {
+                if (event.getEventColor() != null) {
+                    rv.setInt(R.id.imgColor, "setColorFilter", event.getEventColor());
+                }
+                rv.setViewVisibility(R.id.imgColor, View.VISIBLE);
+            } else {
+                rv.setViewVisibility(R.id.imgColor, View.GONE);
+            }
         }
 
-        if (event.getEventColor() != null) {
-            rv.setInt(R.id.imgColor, "setColorFilter", event.getEventColor());
-        }
+
 
         Log.i(LOGCAT, "Set intent for event: " + event.getId());
         rv.setOnClickFillInIntent(R.id.rootEventItem, WidgetHelper.createEventIntent(event.getEventId()));
@@ -97,9 +108,9 @@ public class EventsRemoteViewsFactory implements RemoteViewsService.RemoteViewsF
         return rv;
     }
 
-    public static String formatDateRange(Context ctx, Date dateStart, Date dateEnd, boolean isAllDay) {
+    public static String formatDateRange(Context ctx, Date dateStart, Date dateEnd, boolean isAllDay, boolean useLabels) {
         return String.format("%s %s",
-                DateHelper.formatEventDate(ctx, dateStart),
+                DateHelper.formatEventDate(ctx, dateStart, useLabels),
                 (isAllDay ? "" : DateHelper.formatEventTime(dateStart)));
     }
 

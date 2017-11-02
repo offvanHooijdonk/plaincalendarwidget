@@ -16,7 +16,6 @@ import java.util.Date;
 
 import by.yahorfralou.plaincalendar.widget.R;
 import by.yahorfralou.plaincalendar.widget.helper.DateHelper;
-import by.yahorfralou.plaincalendar.widget.helper.PrefHelper;
 import by.yahorfralou.plaincalendar.widget.helper.WidgetHelper;
 import by.yahorfralou.plaincalendar.widget.model.WidgetBean;
 
@@ -25,6 +24,7 @@ public class PreviewWidgetFragment extends Fragment {
     private static final int DEFAULT_ROWS = 2;
 
     private Context ctx;
+    private WidgetBean widgetSettings;
 
     private ImageView imgBack;
     private TextView txtDate;
@@ -42,7 +42,7 @@ public class PreviewWidgetFragment extends Fragment {
         }
 
         ctx = getActivity();
-        adapter = new PreviewEventsAdapter(ctx, PrefHelper.getDefaultTextColor(ctx));
+        adapter = new PreviewEventsAdapter(ctx);
 
         return v;
     }
@@ -58,6 +58,10 @@ public class PreviewWidgetFragment extends Fragment {
         viewDivider = v.findViewById(R.id.dividerDate);
 
         lstEvents.setAdapter(adapter);
+
+        Date now = new Date();
+        txtDate.setText(DateHelper.formatDateOnly(now));
+        txtDay.setText(DateHelper.formatDay(now));
     }
 
     @Override
@@ -67,61 +71,85 @@ public class PreviewWidgetFragment extends Fragment {
         getView().getLayoutParams().width = calcWidthPx();
         getView().getLayoutParams().height = calcHeightPx();
 
-        Date now = new Date();
-        txtDate.setText(DateHelper.formatDateOnly(now));
-        txtDay.setText(DateHelper.formatDay(now));
+
     }
 
-    public void setInitialParametersFromWidgetBean(WidgetBean initialParams) {
-        updateBackColor(initialParams.getBackgroundColor());
-        updateOpacity(initialParams.getOpacity());
-        updateTextColor(initialParams.getTextColor());
-        updateCorners(initialParams.getCorners());
-        updateTextSize(initialParams.getTextSizeDelta());
-        updateShowTodayDate(initialParams.getShowTodayDate());
+    public void attachWidgetSettings(WidgetBean initialSettings) {
+        this.widgetSettings = initialSettings;
+        adapter.attachWidgetSettings(widgetSettings);
+        updatePreview();
     }
 
-    public void updateBackColor(int color) {
+    public void updatePreview() {
+        updateBackColor(widgetSettings.getBackgroundColor());
+        updateOpacity(widgetSettings.getOpacity());
+        updateTextColor(widgetSettings.getTextColor());
+        updateCorners(widgetSettings.getCorners());
+        updateShowTodayDate(widgetSettings.getShowTodayDate());
+        updateShowDayOfWeek(widgetSettings.getShowTodayDayOfWeek() && widgetSettings.getShowTodayDate());
+        updateShowDivider(widgetSettings.getShowDateDivider() && widgetSettings.getShowTodayDate());
+        updateShowTodayLeadingZeroChange(widgetSettings.getShowTodayLeadingZero());
+
+        adapter.notifyDataSetChanged();
+    }
+
+
+    private void updateBackColor(int color) {
         if (imgBack != null) {
             imgBack.setColorFilter(color);
         }
     }
 
-    public void updateOpacity(int perCent) {
+    private void updateOpacity(int perCent) {
         if (imgBack != null) {
             imgBack.setImageAlpha((perCent * 0xFF) / 100);
         }
     }
 
-    public void updateCorners(WidgetBean.Corners corners) {
+    private void updateCorners(WidgetBean.Corners corners) {
         if (imgBack != null) {
             int resId = WidgetHelper.getBackgroundRes(corners);
             imgBack.setImageDrawable(ctx.getDrawable(resId));
         }
     }
 
-    public void updateTextSize(int sizeDelta) {
-        adapter.updateTextSizeDelta(sizeDelta);
-        adapter.notifyDataSetChanged();
-    }
+    /*private void updateTextSize(int sizeDelta) {
 
-    public void updateTextColor(int color) {
+    }*/
+
+    private void updateTextColor(int color) {
         txtDate.setTextColor(color);
         txtDay.setTextColor(color);
         viewDivider.setColorFilter(color);
-        adapter.updateTextColor(color);
     }
 
-    public void updateShowTodayDate(boolean isShow) {
+    private void updateShowTodayDate(boolean isShow) {
         if (isShow) {
-            txtDay.setVisibility(View.VISIBLE);
             txtDate.setVisibility(View.VISIBLE);
+            txtDay.setVisibility(View.VISIBLE);
             viewDivider.setVisibility(View.VISIBLE);
         } else {
-            txtDay.setVisibility(View.GONE);
             txtDate.setVisibility(View.GONE);
+            txtDay.setVisibility(View.GONE);
             viewDivider.setVisibility(View.GONE);
         }
+    }
+
+    private void updateShowDayOfWeek(boolean isShow) {
+        txtDay.setVisibility(isShow ? View.VISIBLE : View.GONE);
+    }
+
+    private void updateShowTodayLeadingZeroChange(boolean isShow) {
+        Date now = new Date();
+        if (isShow) {
+            txtDate.setText(DateHelper.formatDateOnly(now, true));
+        } else {
+            txtDate.setText(DateHelper.formatDateOnly(now, false));
+        }
+    }
+
+    private void updateShowDivider(boolean isShow) {
+        viewDivider.setVisibility(isShow ? View.VISIBLE : View.GONE);
     }
 
     private int calcWidthPx() {

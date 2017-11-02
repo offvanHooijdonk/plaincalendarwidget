@@ -111,6 +111,7 @@ public class CalendarWidgetProvider extends AppWidgetProvider {
             for (int widgetId : widgetIds) {
                 Log.i(LOGCAT, "Widget " + widgetId);
                 RemoteViews rv = new RemoteViews(ctx.getPackageName(), R.layout.widget_calendars);
+                // TODO update views basing on WidgetBean
                 updateDateViews(ctx, rv);
 
                 manager.partiallyUpdateAppWidget(widgetId, rv);

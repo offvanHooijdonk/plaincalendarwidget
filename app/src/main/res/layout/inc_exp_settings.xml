@@ -25,16 +25,19 @@
             <Switch
                 android:id="@+id/switchShowDayOfWeek"
                 style="@style/OptionsInExpandable"
+                android:layout_marginStart="@dimen/activity_h_padding"
                 android:text="@string/settings_show_day_of_week" />
 
             <Switch
                 android:id="@+id/switchShowTodayLeadingZero"
                 style="@style/OptionsInExpandable"
+                android:layout_marginStart="@dimen/activity_h_padding"
                 android:text="@string/settings_leading_zero_today" />
 
             <Switch
                 android:id="@+id/switchShowDivider"
                 style="@style/OptionsInExpandable"
+                android:layout_marginStart="@dimen/activity_h_padding"
                 android:text="@string/settings_show_line" />
 
             <!-- TODO set test size as in style for Switches -->

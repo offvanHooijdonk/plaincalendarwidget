@@ -84,6 +84,7 @@ public class ExtendedSettingsFragment extends Fragment {
                 case R.id.switchShowTodayDate: {
                     swShowDayOfWeek.setEnabled(isChecked);
                     swShowDivider.setEnabled(isChecked);
+                    swShowTodayLeadingZero.setEnabled(isChecked);
                     listener.onShowTodayDateChange(isChecked);
                 }
                 break;

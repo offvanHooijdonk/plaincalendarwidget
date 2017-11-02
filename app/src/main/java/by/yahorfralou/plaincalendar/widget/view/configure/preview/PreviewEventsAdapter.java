@@ -15,18 +15,17 @@ import java.util.List;
 import by.yahorfralou.plaincalendar.widget.R;
 import by.yahorfralou.plaincalendar.widget.helper.WidgetHelper;
 import by.yahorfralou.plaincalendar.widget.model.EventBean;
+import by.yahorfralou.plaincalendar.widget.model.WidgetBean;
 import by.yahorfralou.plaincalendar.widget.widget.EventsRemoteViewsFactory;
 
 public class PreviewEventsAdapter extends BaseAdapter {
 
     private Context ctx;
     private List<EventBean> eventList;
-    private int textColor;
-    private int textSizeDelta;
+    private WidgetBean widgetSettings;
 
-    public PreviewEventsAdapter(Context context, int textColor) {
+    public PreviewEventsAdapter(Context context) {
         this.ctx = context;
-        this.textColor = textColor;
 
         initStubEvents();
     }
@@ -58,32 +57,40 @@ public class PreviewEventsAdapter extends BaseAdapter {
         TextView txtEventTitle = v.findViewById(R.id.txtEventTitle);
         ImageView imgColor = v.findViewById(R.id.imgColor);
 
-        float textSizeDate = WidgetHelper.riseTextSizeBy(ctx, R.dimen.widget_date_text, textSizeDelta);
-        float textSizeEvent = WidgetHelper.riseTextSizeBy(ctx, R.dimen.widget_event_title, textSizeDelta);
-
         txtEventTitle.setText(eventBean.getTitle());
-        txtEventTitle.setTextSize(textSizeEvent);
-        txtEventTitle.setTextColor(textColor);
 
-        String eventDateText = EventsRemoteViewsFactory.formatDateRange(ctx, eventBean.getDateStart(), eventBean.getDateEnd(), eventBean.isAllDay());
+        // TODO use PrefHelper for defaults
+        // TODO implement 'Show Event End' logic
+        String eventDateText = EventsRemoteViewsFactory.formatDateRange(ctx, eventBean.getDateStart(), eventBean.getDateEnd(), eventBean.isAllDay(),
+                widgetSettings != null ? widgetSettings.getShowDateTextLabel() : true);
         txtDateRange.setText(eventDateText);
-        txtDateRange.setTextSize(textSizeDate);
-        txtDateRange.setTextColor(textColor);
 
-        if (eventBean.getEventColor() != null) {
-            imgColor.setColorFilter(eventBean.getEventColor());
+        if (widgetSettings != null) {
+            float textSizeDate = WidgetHelper.riseTextSizeBy(ctx, R.dimen.widget_date_text, widgetSettings.getTextSizeDelta());
+            float textSizeEvent = WidgetHelper.riseTextSizeBy(ctx, R.dimen.widget_event_title, widgetSettings.getTextSizeDelta());
+
+            txtEventTitle.setTextSize(textSizeEvent);
+            txtEventTitle.setTextColor(widgetSettings.getTextColor());
+
+            txtDateRange.setTextSize(textSizeDate);
+            txtDateRange.setTextColor(widgetSettings.getTextColor());
+
+            if (widgetSettings.getShowEventColor()) {
+                if (eventBean.getEventColor() != null) {
+                    imgColor.setColorFilter(eventBean.getEventColor());
+                }
+                imgColor.setVisibility(View.VISIBLE);
+            } else {
+                imgColor.setVisibility(View.GONE);
+            }
         }
 
         return v;
     }
 
-    public void updateTextColor(int textColor) {
-        this.textColor = textColor;
+    public void attachWidgetSettings(WidgetBean widgetBean) {
+        this.widgetSettings = widgetBean;
         notifyDataSetChanged();
-    }
-
-    public void updateTextSizeDelta(int textSizeDelta) {
-        this.textSizeDelta = textSizeDelta;
     }
 
     private void initStubEvents() {
