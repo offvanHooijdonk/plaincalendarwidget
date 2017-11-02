@@ -19,14 +19,10 @@ import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -41,6 +37,7 @@ import by.yahorfralou.plaincalendar.widget.model.CalendarBean;
 import by.yahorfralou.plaincalendar.widget.model.WidgetBean;
 import by.yahorfralou.plaincalendar.widget.view.configure.preview.PreviewWidgetFragment;
 import by.yahorfralou.plaincalendar.widget.view.configure.settings.ColorsSettingsFragment;
+import by.yahorfralou.plaincalendar.widget.view.configure.settings.ExtendedSettingsFragment;
 import by.yahorfralou.plaincalendar.widget.view.configure.settings.SeekBarSettingsFragment;
 import by.yahorfralou.plaincalendar.widget.view.customviews.CalendarIconView;
 import by.yahorfralou.plaincalendar.widget.widget.CalendarWidgetProvider;
@@ -68,16 +65,10 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
     private View viewNoWidgets;
     private RadioGroup groupSettings;
     private PreviewWidgetFragment fragPreviewWidget;
+    private ExtendedSettingsFragment fragExtendedSettings;
     private ImageView imgSettings;
     private View blockBottomSettings;
     private View blockExpandableSettings;
-    private Switch switchShowTodayDate;
-    private Switch chbShowDayOfWeek;
-    private Switch chbShowTodayLeadingZero;
-    private Switch chbShowDivider;
-    private Spinner spShowEventEnd;
-    private Switch chbShowEventColor;
-    private Switch chbShowDateAsLabel;
 
     private SettingsSelection settingsOpened;
     private AlertDialog pickCalendarsDialog;
@@ -106,13 +97,8 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
         imgSettings = findViewById(R.id.imgSettings);
         blockBottomSettings = findViewById(R.id.blockBottomSettings);
         blockExpandableSettings = findViewById(R.id.blockExpandableSettings);
-        switchShowTodayDate = findViewById(R.id.switchShowTodayDate);
-        chbShowDayOfWeek = findViewById(R.id.chbShowDayOfWeek);
-        chbShowDivider = findViewById(R.id.chbShowDivider);
-        chbShowEventColor = findViewById(R.id.chbShowEventColor);
-        chbShowTodayLeadingZero = findViewById(R.id.chbShowTodayLeadingZero);
-        chbShowDateAsLabel = findViewById(R.id.chbShowDateAsLabel);
-        spShowEventEnd = findViewById(R.id.spShowEventEnd);
+        fragExtendedSettings = (ExtendedSettingsFragment) getFragmentManager().findFragmentById(R.id.fragExtendedSettings);
+        fragExtendedSettings.setListener(settingsListener);
 
         if (getIntent().getExtras() != null && getIntent().getExtras().containsKey(AppWidgetManager.EXTRA_APPWIDGET_ID)) {
             widgetId = getIntent().getExtras().getInt(AppWidgetManager.EXTRA_APPWIDGET_ID);
@@ -186,13 +172,7 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
 
     private void fillOptions() {
         inputDaysForEvents.setText(String.valueOf(widgetBean.getDays()));
-        switchShowTodayDate.setChecked(widgetBean.getShowTodayDate());
-        chbShowDayOfWeek.setChecked(widgetBean.getShowTodayDayOfWeek());
-        chbShowTodayLeadingZero.setChecked(widgetBean.getShowTodayLeadingZero());
-        chbShowEventColor.setChecked(widgetBean.getShowEventColor());
-        chbShowDivider.setChecked(widgetBean.getShowDateDivider());
-        chbShowDateAsLabel.setChecked(widgetBean.getShowDateTextLabel());
-        spShowEventEnd.setSelection(WidgetBean.ShowEndDate.getDefault().getCode());
+        fragExtendedSettings.setWidgetOptions(widgetBean);
     }
 
     @Override
@@ -506,7 +486,7 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
     }
 
     private class SettingsListener implements ColorsSettingsFragment.SettingClickListener,
-            SeekBarSettingsFragment.OnValueChangeListener, CheckBox.OnCheckedChangeListener{
+            SeekBarSettingsFragment.OnValueChangeListener, ExtendedSettingsFragment.ExtendedOptionsListener {
 
         @Override
         public void onColorClick(int colorValue) {
@@ -539,8 +519,39 @@ public class ConfigureActivity extends AppCompatActivity implements IConfigureVi
         }
 
         @Override
-        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        public void onShowTodayDateChange(boolean isShow) {
+            widgetBean.setShowTodayDate(isShow);
+            fragPreviewWidget.updateShowTodayDate(isShow);
+        }
 
+        @Override
+        public void onShowDayOfWeekChange(boolean isShow) {
+            widgetBean.setShowTodayDayOfWeek(isShow);
+        }
+
+        @Override
+        public void onShowTodayLeadingZeroChange(boolean isShow) {
+            widgetBean.setShowTodayLeadingZero(isShow);
+        }
+
+        @Override
+        public void onShowEventColorChange(boolean isShow) {
+            widgetBean.setShowEventColor(isShow);
+        }
+
+        @Override
+        public void onShowDividerChange(boolean isShow) {
+            widgetBean.setShowDateDivider(isShow);
+        }
+
+        @Override
+        public void onShowDateAsLabelChange(boolean isShow) {
+            widgetBean.setShowDateTextLabel(isShow);
+        }
+
+        @Override
+        public void onShowEventEndChange(WidgetBean.ShowEndDate endDateOption) {
+            widgetBean.setShowEndDate(endDateOption);
         }
     }
 

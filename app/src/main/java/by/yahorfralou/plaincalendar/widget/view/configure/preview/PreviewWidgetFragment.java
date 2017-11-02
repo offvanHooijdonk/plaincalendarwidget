@@ -78,6 +78,7 @@ public class PreviewWidgetFragment extends Fragment {
         updateTextColor(initialParams.getTextColor());
         updateCorners(initialParams.getCorners());
         updateTextSize(initialParams.getTextSizeDelta());
+        updateShowTodayDate(initialParams.getShowTodayDate());
     }
 
     public void updateBackColor(int color) {
@@ -109,6 +110,18 @@ public class PreviewWidgetFragment extends Fragment {
         txtDay.setTextColor(color);
         viewDivider.setColorFilter(color);
         adapter.updateTextColor(color);
+    }
+
+    public void updateShowTodayDate(boolean isShow) {
+        if (isShow) {
+            txtDay.setVisibility(View.VISIBLE);
+            txtDate.setVisibility(View.VISIBLE);
+            viewDivider.setVisibility(View.VISIBLE);
+        } else {
+            txtDay.setVisibility(View.GONE);
+            txtDate.setVisibility(View.GONE);
+            viewDivider.setVisibility(View.GONE);
+        }
     }
 
     private int calcWidthPx() {

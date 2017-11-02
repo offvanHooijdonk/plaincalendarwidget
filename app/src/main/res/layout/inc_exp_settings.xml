@@ -23,17 +23,17 @@
                 android:text="@string/settings_show_today_date" />
 
             <Switch
-                android:id="@+id/chbShowDayOfWeek"
+                android:id="@+id/switchShowDayOfWeek"
                 style="@style/OptionsInExpandable"
                 android:text="@string/settings_show_day_of_week" />
 
             <Switch
-                android:id="@+id/chbShowTodayLeadingZero"
+                android:id="@+id/switchShowTodayLeadingZero"
                 style="@style/OptionsInExpandable"
                 android:text="@string/settings_leading_zero_today" />
 
             <Switch
-                android:id="@+id/chbShowDivider"
+                android:id="@+id/switchShowDivider"
                 style="@style/OptionsInExpandable"
                 android:text="@string/settings_show_line" />
 
@@ -66,12 +66,12 @@
             </RelativeLayout>
 
             <Switch
-                android:id="@+id/chbShowEventColor"
+                android:id="@+id/switchShowEventColor"
                 style="@style/OptionsInExpandable"
                 android:text="@string/settings_show_event_color" />
 
             <Switch
-                android:id="@+id/chbShowDateAsLabel"
+                android:id="@+id/switchShowDateAsLabel"
                 style="@style/OptionsInExpandable"
                 android:text="@string/settings_show_today_tomorrow" />
         </LinearLayout>

@@ -129,7 +129,11 @@
                 android:layout_height="0dp"
                 android:layout_below="@id/blockIconAndSettings">
 
-                <include layout="@layout/inc_exp_settings" />
+                <fragment
+                    android:id="@+id/fragExtendedSettings"
+                    class="by.yahorfralou.plaincalendar.widget.view.configure.settings.ExtendedSettingsFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
 
             </FrameLayout>
 
