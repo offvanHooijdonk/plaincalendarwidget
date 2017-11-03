@@ -13,10 +13,10 @@ import java.util.Calendar;
 import java.util.List;
 
 import by.yahorfralou.plaincalendar.widget.R;
+import by.yahorfralou.plaincalendar.widget.helper.DateHelper;
 import by.yahorfralou.plaincalendar.widget.helper.WidgetHelper;
 import by.yahorfralou.plaincalendar.widget.model.EventBean;
 import by.yahorfralou.plaincalendar.widget.model.WidgetBean;
-import by.yahorfralou.plaincalendar.widget.widget.EventsRemoteViewsFactory;
 
 public class PreviewEventsAdapter extends BaseAdapter {
 
@@ -61,8 +61,9 @@ public class PreviewEventsAdapter extends BaseAdapter {
 
         // TODO use PrefHelper for defaults
         // TODO implement 'Show Event End' logic
-        String eventDateText = EventsRemoteViewsFactory.formatDateRange(ctx, eventBean.getDateStart(), eventBean.getDateEnd(), eventBean.isAllDay(),
-                widgetSettings != null ? widgetSettings.getShowDateTextLabel() : true);
+        String eventDateText = DateHelper.formatEventDateRange(ctx, eventBean.getDateStart(), eventBean.getDateEnd(), eventBean.isAllDay(),
+                widgetSettings != null ? widgetSettings.getShowDateTextLabel() : true,
+                widgetSettings != null ? widgetSettings.getShowEndDate() : WidgetBean.ShowEndDate.NEVER);
         txtDateRange.setText(eventDateText);
 
         if (widgetSettings != null) {

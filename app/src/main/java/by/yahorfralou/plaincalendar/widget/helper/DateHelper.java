@@ -10,6 +10,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import by.yahorfralou.plaincalendar.widget.R;
+import by.yahorfralou.plaincalendar.widget.model.WidgetBean;
 
 public class DateHelper {
     public static long MILLIS_IN_DAY = 24 * 60 * 60 * 1000;
@@ -57,7 +58,31 @@ public class DateHelper {
         return calendar.getTimeInMillis();
     }
 
-    public static String formatEventDate(Context ctx, Date date, boolean useLabels) {
+    public static String formatEventDateRange(Context ctx, Date dateStart, Date dateEnd, boolean isAllDay, boolean useLabels, WidgetBean.ShowEndDate endDateRule) {
+        StringBuilder strDateRange = new StringBuilder();
+
+        String textDateStart = ctx.getString(R.string.format_date_plus_time,
+                DateHelper.formatEventDate(ctx, dateStart, useLabels),
+                (isAllDay ? "" : DateHelper.formatEventTime(dateStart)));
+        strDateRange.append(textDateStart);
+
+        boolean isShowEndDate = dateEnd != null && !isSameDay(dateStart, dateEnd) &&
+                (endDateRule == WidgetBean.ShowEndDate.ALWAYS || endDateRule == WidgetBean.ShowEndDate.MORE_THAN_DAY);
+
+        if (isShowEndDate) {
+            String textDateEnd = isSameDay(dateStart, dateEnd) ?
+                    DateHelper.formatEventTime(dateEnd) :
+                    ctx.getString(R.string.format_date_plus_time,
+                            DateHelper.formatEventDate(ctx, dateEnd, useLabels),
+                            (isAllDay ? "" : DateHelper.formatEventTime(dateEnd)));
+
+            strDateRange.append(ctx.getString(R.string.date_range_separator)).append(textDateEnd);
+        }
+
+        return strDateRange.toString();
+    }
+
+    private static String formatEventDate(Context ctx, Date date, boolean useLabels) {
         Calendar calToday = Calendar.getInstance();
         Calendar calNextDay = Calendar.getInstance();
         calNextDay.add(Calendar.DAY_OF_MONTH, 1);
@@ -76,8 +101,17 @@ public class DateHelper {
         }
     }
 
-    public static String formatEventTime(Date date) {
+    private static String formatEventTime(Date date) {
         return EVENT_TIME_FORMAT.format(date);
+    }
+
+    private static boolean isSameDay(Date date1, Date date2) {
+        Calendar cal1 = Calendar.getInstance();
+        cal1.setTime(date1);
+        Calendar cal2 = Calendar.getInstance();
+        cal2.setTime(date2);
+
+        return isSameDay(cal1, cal2);
     }
 
     private static boolean isSameDay(Calendar cal1, Calendar cal2) {

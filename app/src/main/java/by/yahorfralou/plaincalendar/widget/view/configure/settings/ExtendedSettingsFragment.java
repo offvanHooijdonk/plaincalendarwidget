@@ -3,6 +3,7 @@ package by.yahorfralou.plaincalendar.widget.view.configure.settings;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,8 @@ import android.widget.Switch;
 
 import by.yahorfralou.plaincalendar.widget.R;
 import by.yahorfralou.plaincalendar.widget.model.WidgetBean;
+
+import static by.yahorfralou.plaincalendar.widget.app.PlainCalendarWidgetApp.LOGCAT;
 
 public class ExtendedSettingsFragment extends Fragment {
     //private Context ctx;
@@ -52,6 +55,7 @@ public class ExtendedSettingsFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (listener != null) {
+                    Log.i(LOGCAT, "Event End option selected:" + position + ", id=" + id);
                     listener.onShowEventEndChange(WidgetBean.ShowEndDate.fromCode(position));
                 }
             }

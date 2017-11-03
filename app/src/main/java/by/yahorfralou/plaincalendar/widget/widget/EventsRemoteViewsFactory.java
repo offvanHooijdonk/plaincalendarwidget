@@ -10,7 +10,6 @@ import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import by.yahorfralou.plaincalendar.widget.R;
@@ -77,8 +76,9 @@ public class EventsRemoteViewsFactory implements RemoteViewsService.RemoteViewsF
 // TODO make beauty
         RemoteViews rv = new RemoteViews(ctx.getPackageName(), R.layout.item_event_widget);
         // TODO use defaults from PrefHelper also
-        String eventDateText = formatDateRange(ctx, event.getDateStart(), event.getDateStart(), event.isAllDay(),
-                widgetOptions != null ? widgetOptions.getShowDateTextLabel() : true);
+        String eventDateText = DateHelper.formatEventDateRange(ctx, event.getDateStart(), event.getDateStart(), event.isAllDay(),
+                widgetOptions != null ? widgetOptions.getShowDateTextLabel() : true,
+                widgetOptions != null ? widgetOptions.getShowEndDate() : WidgetBean.ShowEndDate.NEVER);
 
         rv.setTextViewText(R.id.txtDateRange, eventDateText);
         rv.setTextViewText(R.id.txtEventTitle, event.getTitle());
@@ -106,12 +106,6 @@ public class EventsRemoteViewsFactory implements RemoteViewsService.RemoteViewsF
         rv.setOnClickFillInIntent(R.id.rootEventItem, WidgetHelper.createEventIntent(event.getEventId()));
 
         return rv;
-    }
-
-    public static String formatDateRange(Context ctx, Date dateStart, Date dateEnd, boolean isAllDay, boolean useLabels) {
-        return String.format("%s %s",
-                DateHelper.formatEventDate(ctx, dateStart, useLabels),
-                (isAllDay ? "" : DateHelper.formatEventTime(dateStart)));
     }
 
     @Override
