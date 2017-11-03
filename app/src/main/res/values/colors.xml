@@ -13,34 +13,93 @@
 
     <integer-array name="settings_back_colors">
         <item>@color/md_white_1000</item>
-        <item>@color/md_pink_500</item>
-        <item>@color/md_pink_A400</item>
-        <item>@color/md_red_400</item>
-        <item>@color/md_red_500</item>
-        <item>@color/md_deep_orange_A400</item>
-        <item>@color/md_deep_orange_500</item>
-        <item>@color/md_light_green_A200</item>
-        <item>@color/md_green_A200</item>
-        <item>@color/md_green_400</item>
-        <item>@color/md_green_700</item>
         <item>@color/md_blue_400</item>
-        <item>@color/md_blue_A700</item>
-        <item>@color/md_blue_grey_300</item>
-        <item>@color/md_blue_grey_500</item>
-        <item>@color/md_purple_A200</item>
         <item>@color/md_purple_400</item>
         <item>@color/md_grey_300</item>
-        <item>@color/md_grey_400</item>
         <item>@color/md_grey_500</item>
         <item>@color/md_black_1000</item>
+
+        <item>@color/back_1</item>
+        <item>@color/back_2</item>
+
+        <item>@color/back_3</item>
+        <item>@color/back_4</item>
+        <item>@color/back_5</item>
+        <item>@color/back_6</item>
+        <item>@color/back_7</item>
+        <item>@color/back_8</item>
+
+        <item>@color/back_9</item>
+        <item>@color/back_10</item>
+        <item>@color/back_11</item>
+        <item>@color/back_12</item>
+        <item>@color/back_13</item>
+
+        <item>@color/back_14</item>
+        <item>@color/back_15</item>
+        <item>@color/back_16</item>
+        <item>@color/back_17</item>
+        <item>@color/back_18</item>
+        <item>@color/back_19</item>
+
+        <item>@color/back_20</item>
+        <item>@color/back_21</item>
+        <item>@color/back_22</item>
+        <item>@color/back_23</item>
+        <item>@color/back_24</item>
+
+        <item>@color/back_25</item>
+        <item>@color/back_26</item>
+        <item>@color/back_27</item>
+        <item>@color/back_28</item>
+        <item>@color/back_29</item>
+        <item>@color/back_30</item>
+        <item>@color/back_31</item>
+        <item>@color/back_32</item>
+        <item>@color/back_33</item>
+        <item>@color/back_34</item>
+        <item>@color/back_35</item>
+        <item>@color/back_36</item>
+        <item>@color/back_37</item>
+        <item>@color/back_38</item>
+        <item>@color/back_39</item>
+        <item>@color/back_40</item>
+        <item>@color/back_41</item>
+        <item>@color/back_42</item>
+        <item>@color/back_43</item>
+        <item>@color/back_44</item>
+        <item>@color/back_45</item>
+
+        <item>@color/back_46</item>
+        <item>@color/back_47</item>
+        <item>@color/back_48</item>
+        <item>@color/back_49</item>
+        <item>@color/back_50</item>
+        <item>@color/back_51</item>
+        <item>@color/back_52</item>
+        <item>@color/back_53</item>
+        <item>@color/back_54</item>
+        <item>@color/back_55</item>
+        <item>@color/back_56</item>
+        <item>@color/back_57</item>
+
+        <item>@color/back_58</item>
+        <item>@color/back_59</item>
+        <item>@color/back_60</item>
+        <item>@color/back_61</item>
+        <item>@color/back_62</item>
+        <item>@color/back_63</item>
+        <item>@color/back_64</item>
     </integer-array>
 
     <integer-array name="settings_text_colors">
         <item>@color/md_white_1000</item>
+        <item>@android:color/primary_text_dark</item>
         <item>@color/md_yellow_A400</item>
         <item>@color/md_grey_300</item>
         <item>@color/md_grey_500</item>
         <item>@color/md_grey_700</item>
+        <item>@android:color/primary_text_light</item>
         <item>@color/md_black_1000</item>
     </integer-array>
 </resources>

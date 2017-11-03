@@ -55,7 +55,7 @@ public class PreviewWidgetFragment extends Fragment {
         txtDate = v.findViewById(R.id.txtWidgetDate);
         txtDay = v.findViewById(R.id.txtWidgetDay);
         lstEvents = v.findViewById(R.id.listEvents);
-        viewDivider = v.findViewById(R.id.dividerDate);
+        viewDivider = v.findViewById(R.id.viewDivider);
 
         lstEvents.setAdapter(adapter);
 

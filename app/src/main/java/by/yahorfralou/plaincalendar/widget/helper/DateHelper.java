@@ -61,13 +61,15 @@ public class DateHelper {
     public static String formatEventDateRange(Context ctx, Date dateStart, Date dateEnd, boolean isAllDay, boolean useLabels, WidgetBean.ShowEndDate endDateRule) {
         StringBuilder strDateRange = new StringBuilder();
 
-        String textDateStart = ctx.getString(R.string.format_date_plus_time,
-                DateHelper.formatEventDate(ctx, dateStart, useLabels),
-                (isAllDay ? "" : DateHelper.formatEventTime(dateStart)));
+        String textDateStart = isAllDay ?
+                DateHelper.formatEventDate(ctx, dateStart, useLabels) :
+                ctx.getString(R.string.format_date_plus_time,
+                        DateHelper.formatEventDate(ctx, dateStart, useLabels),
+                        DateHelper.formatEventTime(dateStart));
         strDateRange.append(textDateStart);
 
-        boolean isShowEndDate = dateEnd != null && !isSameDay(dateStart, dateEnd) &&
-                (endDateRule == WidgetBean.ShowEndDate.ALWAYS || endDateRule == WidgetBean.ShowEndDate.MORE_THAN_DAY);
+        boolean isShowEndDate = dateEnd != null &&
+                (endDateRule == WidgetBean.ShowEndDate.ALWAYS || endDateRule == WidgetBean.ShowEndDate.MORE_THAN_DAY && !isSameDay(dateStart, dateEnd));
 
         if (isShowEndDate) {
             String textDateEnd = isSameDay(dateStart, dateEnd) ?

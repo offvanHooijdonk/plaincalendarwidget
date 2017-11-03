@@ -21,6 +21,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@id/imgColor"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:text="@string/fish_date"
         android:textColor="@color/md_white_1000"
         android:textSize="@dimen/widget_date_text" />

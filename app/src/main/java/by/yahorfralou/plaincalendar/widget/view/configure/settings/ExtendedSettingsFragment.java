@@ -74,7 +74,7 @@ public class ExtendedSettingsFragment extends Fragment {
             swShowEventColor.setChecked(widgetBean.getShowEventColor());
             swShowDivider.setChecked(widgetBean.getShowDateDivider());
             swShowDateAsLabel.setChecked(widgetBean.getShowDateTextLabel());
-            spShowEventEnd.setSelection(WidgetBean.ShowEndDate.getDefault().getCode());
+            spShowEventEnd.setSelection(widgetBean.getShowEndDate().getCode());
         }
     }
 

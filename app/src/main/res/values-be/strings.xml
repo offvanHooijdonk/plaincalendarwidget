@@ -43,4 +43,12 @@
     </string-array>
 
     <string name="widget_settings_text_size">Тэкст</string>
+    <string name="format_date_plus_time">%s, %s</string>
+    <string name="date_range_separator">" - "</string>
+    <string name="settings_show_today_date">Паказваць дату</string>
+    <string name="settings_show_day_of_week">Дзень у тыднi</string>
+    <string name="settings_leading_zero_today">Нуль у даце</string>
+    <string name="settings_show_line">Падзельник пасля даты</string>
+    <string name="settings_show_event_end">Час заканчэньня падзеi</string>
+    <string name="settings_show_today_tomorrow">Паказваць \"Сёньня\", \"Заўтра\"</string>
 </resources>

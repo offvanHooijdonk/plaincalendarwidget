@@ -76,7 +76,7 @@ public class EventsRemoteViewsFactory implements RemoteViewsService.RemoteViewsF
 // TODO make beauty
         RemoteViews rv = new RemoteViews(ctx.getPackageName(), R.layout.item_event_widget);
         // TODO use defaults from PrefHelper also
-        String eventDateText = DateHelper.formatEventDateRange(ctx, event.getDateStart(), event.getDateStart(), event.isAllDay(),
+        String eventDateText = DateHelper.formatEventDateRange(ctx, event.getDateStart(), event.getDateEnd(), event.isAllDay(),
                 widgetOptions != null ? widgetOptions.getShowDateTextLabel() : true,
                 widgetOptions != null ? widgetOptions.getShowEndDate() : WidgetBean.ShowEndDate.NEVER);
 

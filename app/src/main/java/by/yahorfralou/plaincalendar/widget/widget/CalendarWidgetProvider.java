@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.View;
 import android.widget.RemoteViews;
 
 import java.util.Arrays;
@@ -69,16 +70,21 @@ public class CalendarWidgetProvider extends AppWidgetProvider {
 
                         rv.setTextColor(R.id.txtWidgetDate, widgetBean.getTextColor());
                         rv.setTextColor(R.id.txtWidgetDay, widgetBean.getTextColor());
-                        rv.setInt(R.id.dividerDate, "setColorFilter", widgetBean.getTextColor());
+                        rv.setInt(R.id.viewDivider, "setColorFilter", widgetBean.getTextColor());
                         rv.setTextColor(R.id.emptyView, widgetBean.getTextColor());
                         rv.setTextViewTextSize(R.id.emptyView, TypedValue.COMPLEX_UNIT_SP, WidgetHelper.riseTextSizeBy(ctx, R.dimen.widget_event_title, widgetBean.getTextSizeDelta()));
 
-                        updateDateViews(ctx, rv);
+                        updateDateViews(ctx, rv, widgetBean.getShowTodayLeadingZero());
                         rv.setRemoteAdapter(R.id.listEvents, intent);
                         rv.setEmptyView(R.id.listEvents, R.id.emptyView);
 
                         Intent intentTemplate = new Intent(Intent.ACTION_VIEW);
                         rv.setPendingIntentTemplate(R.id.listEvents, PendingIntent.getActivity(ctx, 0, intentTemplate, 0));
+
+                        boolean showDate = widgetBean.getShowTodayDate();
+                        rv.setViewVisibility(R.id.txtWidgetDate, showDate ? View.VISIBLE : View.GONE);
+                        rv.setViewVisibility(R.id.txtWidgetDay, showDate && widgetBean.getShowTodayDayOfWeek() ? View.VISIBLE : View.GONE);
+                        rv.setViewVisibility(R.id.viewDivider, showDate && widgetBean.getShowDateDivider() ? View.VISIBLE : View.GONE);
 
                         appWidgetManager.updateAppWidget(appWidgetId, rv);
                     }, th -> {
@@ -112,7 +118,7 @@ public class CalendarWidgetProvider extends AppWidgetProvider {
                 Log.i(LOGCAT, "Widget " + widgetId);
                 RemoteViews rv = new RemoteViews(ctx.getPackageName(), R.layout.widget_calendars);
                 // TODO update views basing on WidgetBean
-                updateDateViews(ctx, rv);
+                updateDateViews(ctx, rv, false);
 
                 manager.partiallyUpdateAppWidget(widgetId, rv);
             }
@@ -154,9 +160,9 @@ public class CalendarWidgetProvider extends AppWidgetProvider {
         return PendingIntent.getBroadcast(ctx, 0, intent, 0);
     }
 
-    private void updateDateViews(Context ctx, RemoteViews rv) {
+    private void updateDateViews(Context ctx, RemoteViews rv, boolean showLeadingZero) {
         Date now = new Date(System.currentTimeMillis());
-        rv.setTextViewText(R.id.txtWidgetDate, DateHelper.formatDateOnly(now));
+        rv.setTextViewText(R.id.txtWidgetDate, DateHelper.formatDateOnly(now, showLeadingZero));
         rv.setTextViewText(R.id.txtWidgetDay, DateHelper.formatDay(now));
 
         rv.setOnClickPendingIntent(R.id.txtWidgetDate, WidgetHelper.createCalendarOpenIntent(ctx));

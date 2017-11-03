@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="back_1">#60bdaf</color>
+    <color name="back_2">#a1d8b1</color>
+
+    <color name="back_3">#edfcc2</color>
+    <color name="back_4">#f88aaf</color>
+    <color name="back_5">#455655</color>
+    <color name="back_6">#d92405</color>
+    <color name="back_7">#eac124</color>
+    <color name="back_8">#3563eb</color>
+
+    <color name="back_9">#d7dddb</color>
+    <color name="back_10">#4f8a83</color>
+    <color name="back_11">#e76278</color>
+    <color name="back_12">#fac699</color>
+    <color name="back_13">#712164</color>
+
+    <color name="back_14">#54a992</color>
+    <color name="back_15">#8fb59c</color>
+    <color name="back_16">#eddbc3</color>
+    <color name="back_17">#e8c571</color>
+    <color name="back_18">#d94c3a</color>
+    <color name="back_19">#813a26</color>
+
+    <color name="back_20">#fbefc4</color>
+    <color name="back_21">#52696f</color>
+    <color name="back_22">#e57b7f</color>
+    <color name="back_23">#9e3150</color>
+    <color name="back_24">#88baa4</color>
+
+    <color name="back_25">#51574a</color>
+    <color name="back_26">#447c69</color>
+    <color name="back_27">#74c493</color>
+    <color name="back_28">#8e8c6d</color>
+    <color name="back_29">#e4bf80</color>
+    <color name="back_30">#e9d78e</color>
+    <color name="back_31">#e2975d</color>
+    <color name="back_32">#f19670</color>
+    <color name="back_33">#e16552</color>
+    <color name="back_34">#c94a53</color>
+    <color name="back_35">#be5168</color>
+    <color name="back_36">#a34974</color>
+    <color name="back_37">#993767</color>
+    <color name="back_38">#65387d</color>
+    <color name="back_39">#4e2472</color>
+    <color name="back_40">#9163b6</color>
+    <color name="back_41">#e279a3</color>
+    <color name="back_42">#e0598b</color>
+    <color name="back_43">#7c9fb0</color>
+    <color name="back_44">#5698c4</color>
+    <color name="back_45">#9abf88</color>
+
+    <color name="back_46">#1a1334</color>
+    <color name="back_47">#26294a</color>
+    <color name="back_48">#01545a</color>
+    <color name="back_49">#017351</color>
+    <color name="back_50">#03c383</color>
+    <color name="back_51">#aad962</color>
+    <color name="back_52">#fbbf45</color>
+    <color name="back_53">#ef6a32</color>
+    <color name="back_54">#ed0345</color>
+    <color name="back_55">#a12a5e</color>
+    <color name="back_56">#710162</color>
+    <color name="back_57">#110141</color>
+
+    <color name="back_58">#f7fcf0</color>
+    <color name="back_59">#e0f3db</color>
+    <color name="back_60">#a8ddb5</color>
+    <color name="back_61">#7bccc4</color>
+    <color name="back_62">#4eb3d3</color>
+    <color name="back_63">#0868ac</color>
+    <color name="back_64">#084081</color>
+</resources>
