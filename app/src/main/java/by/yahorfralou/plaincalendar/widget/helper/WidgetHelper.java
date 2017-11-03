@@ -22,6 +22,11 @@ public class WidgetHelper {
         manager.notifyAppWidgetViewDataChanged(widgetIds, R.id.listEvents);
     }
 
+    public static void notifyWidgetDataChanged(Context ctx, int widgetId) {
+        AppWidgetManager manager = AppWidgetManager.getInstance(ctx);
+        manager.notifyAppWidgetViewDataChanged(widgetId, R.id.listEvents);
+    }
+
     public static int getBackgroundRes(WidgetBean.Corners corners) {
         int resId;
         switch (corners) {

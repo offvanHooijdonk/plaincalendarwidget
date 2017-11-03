@@ -87,6 +87,7 @@ public class CalendarWidgetProvider extends AppWidgetProvider {
                         rv.setViewVisibility(R.id.viewDivider, showDate && widgetBean.getShowDateDivider() ? View.VISIBLE : View.GONE);
 
                         appWidgetManager.updateAppWidget(appWidgetId, rv);
+                        WidgetHelper.notifyWidgetDataChanged(ctx, (int) widgetBean.getId());
                     }, th -> {
                     });
         }
