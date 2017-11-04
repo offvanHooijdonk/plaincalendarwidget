@@ -100,8 +100,10 @@ public class ColorsSettingsFragment extends Fragment {
         super.onResume();
 // TODO fix right side
         if (selectedView != null) {
-            scrollView.post(() -> scrollView.scrollTo(selectedView.getLeft(), 0));
-            scrollView.post(() -> scrollView.scrollBy(- (screeWidth / 2 - selectedView.getWidth()), 0));
+            scrollView.post(() -> {
+                int scrollX = selectedView.getLeft() - (screeWidth / 2 - selectedView.getWidth() / 2);
+                scrollView.scrollTo(scrollX, 0);
+            });
         }
     }
 
