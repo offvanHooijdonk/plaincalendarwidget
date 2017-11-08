@@ -26,11 +26,6 @@ public class DateHelper {
     private static final SimpleDateFormat SDF_DAY = new SimpleDateFormat("EE");
     //private static final SimpleDateFormat SDF_TIME_HH_MM = new SimpleDateFormat("HH:mm");
 
-    @Deprecated
-    public static String formatDateOnly(Date date) {
-        return formatDateOnly(date, false);
-    }
-
     public static String formatDateOnly(Date date, boolean leadingZero) {
         if (leadingZero) {
             return SDF_DATE_ONLY_LEAD_ZERO.format(date);

@@ -60,7 +60,7 @@ public class PreviewWidgetFragment extends Fragment {
         lstEvents.setAdapter(adapter);
 
         Date now = new Date();
-        txtDate.setText(DateHelper.formatDateOnly(now));
+        txtDate.setText(DateHelper.formatDateOnly(now, false));
         txtDay.setText(DateHelper.formatDay(now));
     }
 
