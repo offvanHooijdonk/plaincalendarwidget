@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="by.yahorfralou.plaincalendar.widget">
+    package="by.offvanhooijdonk.plaincalendar.widget">
 
     <uses-permission android:name="android.permission.READ_CALENDAR" />
-    <uses-permission android:name="android.permission.READ_LOGS" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
-        android:name=".app.PlainCalendarWidgetApp"
+        android:name="by.offvanhooijdonk.plaincalendar.widget.app.App"
         android:allowBackup="true"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
@@ -17,7 +16,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".view.configure.ConfigureActivity"
+            android:name="by.offvanhooijdonk.plaincalendar.widget.view.configure.ConfigureActivity"
             android:label="@string/app_name"
             android:windowSoftInputMode="stateHidden|adjustPan">
             <intent-filter>
@@ -30,7 +29,7 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".widget.CalendarWidgetProvider">
+        <receiver android:name="by.offvanhooijdonk.plaincalendar.widget.widget.CalendarWidgetProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="android.intent.action.DATE_CHANGED" />
@@ -44,11 +43,11 @@
         </receiver>
 
         <service
-            android:name=".data.calendars.CalendarsRemoteService"
+            android:name="by.offvanhooijdonk.plaincalendar.widget.data.calendars.CalendarsRemoteService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
 
         <receiver
-            android:name=".data.calendars.receiver.CalendarsChangeReceiver"
+            android:name="by.offvanhooijdonk.plaincalendar.widget.data.calendars.receiver.CalendarsChangeReceiver"
             android:enabled="@bool/less24">
             <intent-filter>
                 <action android:name="android.intent.action.PROVIDER_CHANGED" />
@@ -59,7 +58,7 @@
         </receiver>
 
         <service
-            android:name=".data.calendars.job.CalendarChangeJobService"
+            android:name="by.offvanhooijdonk.plaincalendar.widget.data.calendars.job.CalendarChangeJobService"
             android:enabled="@bool/is24"
             android:permission="android.permission.BIND_JOB_SERVICE" />
     </application>
