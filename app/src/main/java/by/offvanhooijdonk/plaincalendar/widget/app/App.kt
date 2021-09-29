@@ -1,8 +1,8 @@
 package by.offvanhooijdonk.plaincalendar.widget.app
 
 import android.app.Application
-import android.util.Log
 import by.offvanhooijdonk.plaincalendar.widget.data.database.AppDatabase
+import by.offvanhooijdonk.plaincalendar.widget.di.allModules
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.GlobalContext.startKoin
 
@@ -12,7 +12,7 @@ class App : Application() {
 
         startKoin {
             androidContext(this@App)
-            modules()
+            modules(allModules)
         }
 
         appDatabase = AppDatabase.buildDatabase(applicationContext)

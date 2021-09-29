@@ -1,5 +1,6 @@
 package by.offvanhooijdonk.plaincalendar.widget.widget
 
+import android.app.AlarmManager
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
@@ -17,6 +18,7 @@ import by.offvanhooijdonk.plaincalendar.widget.data.calendars.CalendarsRemoteSer
 import by.offvanhooijdonk.plaincalendar.widget.data.calendars.job.CalendarChangeJobService
 import by.offvanhooijdonk.plaincalendar.widget.data.calendars.observer.EventsContentObserver
 import by.offvanhooijdonk.plaincalendar.widget.data.database.WidgetDao
+import by.offvanhooijdonk.plaincalendar.widget.helper.DateHelper
 import by.offvanhooijdonk.plaincalendar.widget.helper.WidgetHelper
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -27,10 +29,11 @@ class CalendarWidgetProvider : AppWidgetProvider(), KoinComponent {
     private val contentObserver: EventsContentObserver? = null
 
     private val widgetDao: WidgetDao by inject()
+    private val alarmManager: AlarmManager by inject()
 
     override fun onEnabled(ctx: Context) {
         super.onEnabled(ctx)
-        Log.i(App.Companion.LOGCAT, "Enabled")
+        Log.d(App.LOGCAT, "Enabled")
         setupDailyAlarm(ctx)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             CalendarChangeJobService.scheduleCalendarChangeJob(ctx)
@@ -39,7 +42,7 @@ class CalendarWidgetProvider : AppWidgetProvider(), KoinComponent {
 
     override fun onUpdate(ctx: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
         super.onUpdate(ctx, appWidgetManager, appWidgetIds)
-        Log.i(App.Companion.LOGCAT, "Update " + Arrays.toString(appWidgetIds))
+        Log.d(App.Companion.LOGCAT, "Update " + appWidgetIds.contentToString())
         for (appWidgetId in appWidgetIds) {
             val intent = Intent(ctx, CalendarsRemoteService::class.java)
             // Add the app widget ID to the intent extras.
@@ -112,10 +115,8 @@ class CalendarWidgetProvider : AppWidgetProvider(), KoinComponent {
         if (contentObserver != null) {
             ctx.contentResolver.unregisterContentObserver(contentObserver)
         }
-        val alarmManager: AlarmManager = ctx.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        if (alarmManager != null) {
-            alarmManager.cancel(getNewDayPendingIntent(ctx))
-        }
+
+        alarmManager.cancel(getNewDayPendingIntent(ctx))
     }
 
     private fun getNewDayPendingIntent(ctx: Context): PendingIntent {
@@ -133,12 +134,7 @@ class CalendarWidgetProvider : AppWidgetProvider(), KoinComponent {
     }
 
     private fun setupDailyAlarm(ctx: Context) {
-        val alarmManager: AlarmManager = ctx.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        if (alarmManager != null) {
-            alarmManager.setRepeating(AlarmManager.RTC, DateHelper.getClosestMidnightMillis(), DateHelper.MILLIS_IN_DAY, getNewDayPendingIntent(ctx))
-        } else {
-            // TODO handle
-        }
+        alarmManager.setRepeating(AlarmManager.RTC, DateHelper.getClosestMidnightMillis(), DateHelper.MILLIS_IN_DAY, getNewDayPendingIntent(ctx))
     }
 
     companion object {
