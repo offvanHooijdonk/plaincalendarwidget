@@ -15,6 +15,7 @@ import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.util.Log
 import android.view.View
+import by.offvanhooijdonk.plaincalendar.widget.data.database.CalendarDao
 import by.offvanhooijdonk.plaincalendar.widget.data.database.WidgetDao
 import org.koin.core.component.KoinComponent
 import java.util.ArrayList
@@ -22,11 +23,13 @@ import java.util.ArrayList
 class EventsRemoteViewsFactory(
     private val ctx: Context,
     private val widgetDao: WidgetDao,
+    private val calendarDao: CalendarDao,
     private val intent: Intent,
 ) : RemoteViewsFactory, KoinComponent {
-    private val widgetId: Int
+    private val widgetId: Int =
+        intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
     private var widgetOptions: WidgetModel? = null
-    private val calDataSource: CalendarDataSource
+    private val calDataSource: CalendarDataSource = CalendarDataSource(ctx)
     private val eventList: MutableList<EventModel> = ArrayList()
     override fun onCreate() {
         Log.i(App.LOGCAT, "ViewsFactory::onCreate")
@@ -36,7 +39,7 @@ class EventsRemoteViewsFactory(
         Log.i(App.LOGCAT, "ViewsFactory::onDataSetChanged. Widget $widgetId")
         widgetDao.getById(widgetId.toLong())
             .flatMap { wBean ->
-                App.getAppDatabase().calendarDao().getCalendarsForWidget(widgetId)
+               calendarDao.getCalendarsForWidget(widgetId.toLong())
                     .map { calendarBeans ->
                         wBean.setCalendars(calendarBeans)
                         wBean
@@ -44,7 +47,7 @@ class EventsRemoteViewsFactory(
             }
             .map { widgetBean -> calDataSource.getEvents(widgetBean.getCalendars(), widgetBean.getDays()) }
             .subscribe { list: List<EventModel> -> displayEvents(list) }
-        App.getAppDatabase().widgetDao().getById(widgetId)
+        widgetDao.getById(widgetId.toLong())
             .subscribe { widgetBean -> widgetOptions = widgetBean }
     }
 
@@ -100,15 +103,10 @@ class EventsRemoteViewsFactory(
         return 1
     }
 
-    override fun getLoadingView(): RemoteViews {
+    override fun getLoadingView(): RemoteViews? { // todo can implement this
         return null
     }
 
     override fun onDestroy() {}
 
-    init {
-        calDataSource = CalendarDataSource(ctx)
-        widgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
-            AppWidgetManager.INVALID_APPWIDGET_ID)
-    }
 }

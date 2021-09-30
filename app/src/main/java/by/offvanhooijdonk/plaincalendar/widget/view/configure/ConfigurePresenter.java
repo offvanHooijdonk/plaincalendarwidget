@@ -11,9 +11,6 @@ import by.offvanhooijdonk.plaincalendar.widget.data.calendars.CalendarDataSource
 import by.offvanhooijdonk.plaincalendar.widget.model.CalendarModel;
 import by.offvanhooijdonk.plaincalendar.widget.model.WidgetModel;
 import by.offvanhooijdonk.plaincalendar.widget.model.WidgetCalendarModel;
-import io.reactivex.Maybe;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 
 import static by.offvanhooijdonk.plaincalendar.widget.app.App.LOGCAT;
 
