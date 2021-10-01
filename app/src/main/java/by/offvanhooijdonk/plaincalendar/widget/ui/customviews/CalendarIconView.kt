@@ -1,10 +1,8 @@
-package by.offvanhooijdonk.plaincalendar.widget.view.customviews
+package by.offvanhooijdonk.plaincalendar.widget.ui.customviews
 
 import android.content.Context
 import android.widget.FrameLayout
 import android.widget.TextView
-import by.offvanhooijdonk.plaincalendar.widget.view.customviews.CalendarIconView
-import android.content.res.TypedArray
 import android.util.AttributeSet
 import android.util.Log
 import by.offvanhooijdonk.plaincalendar.widget.R

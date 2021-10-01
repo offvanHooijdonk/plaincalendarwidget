@@ -1,4 +1,4 @@
-package by.offvanhooijdonk.plaincalendar.widget.view.configure.settings;
+package by.offvanhooijdonk.plaincalendar.widget.ui.configure.settings;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -14,7 +14,7 @@ import android.widget.LinearLayout;
 
 import by.offvanhooijdonk.plaincalendar.widget.R;
 import by.offvanhooijdonk.plaincalendar.widget.helper.PrefHelper;
-import by.offvanhooijdonk.plaincalendar.widget.view.customviews.ColorSingleOptionView;
+import by.offvanhooijdonk.plaincalendar.widget.ui.customviews.ColorSingleOptionView;
 
 public class ColorsSettingsFragment extends Fragment {
     private static final String ARG_COLORS_LIST = "arg_colors_list";

@@ -20,7 +20,7 @@ class CalendarChangeJobService : JobService() {
     override fun onStartJob(params: JobParameters): Boolean {
         val ctx: Context = applicationContext
         Log.d(App.LOGCAT, "JOB Service#onStartJob")
-        val widgetIds = widgetHelper.getWidgetIds(CalendarWidgetProvider::class.java)
+        val widgetIds = widgetHelper.getExistingWidgetsIds(CalendarWidgetProvider::class.java)
         Log.d(App.LOGCAT, "Widgets to update in JobService: " + widgetIds.contentToString())
         widgetHelper.notifyWidgetsDataChanged(widgetIds)
         if (widgetIds.isNotEmpty()) {

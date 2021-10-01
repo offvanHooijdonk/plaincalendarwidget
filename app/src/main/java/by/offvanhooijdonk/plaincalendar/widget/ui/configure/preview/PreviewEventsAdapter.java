@@ -1,4 +1,4 @@
-package by.offvanhooijdonk.plaincalendar.widget.view.configure.preview;
+package by.offvanhooijdonk.plaincalendar.widget.ui.configure.preview;
 
 import android.content.Context;
 import android.view.LayoutInflater;

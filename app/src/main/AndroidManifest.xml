@@ -16,7 +16,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name="by.offvanhooijdonk.plaincalendar.widget.view.configure.ConfigureActivity"
+            android:name="by.offvanhooijdonk.plaincalendar.widget.ui.configure.ConfigurationActivity"
             android:label="@string/app_name"
             android:windowSoftInputMode="stateHidden|adjustPan">
             <intent-filter>

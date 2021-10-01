@@ -4,7 +4,7 @@
     android:updatePeriodMillis="0"
     android:previewImage="@drawable/calendar_preview"
     android:initialLayout="@layout/widget_calendars"
-    android:configure="by.offvanhooijdonk.plaincalendar.widget.view.configure.ConfigureActivity"
+    android:configure="by.offvanhooijdonk.plaincalendar.widget.ui.configure.ConfigurationActivity"
     android:resizeMode="horizontal|vertical"
 
     android:widgetCategory="home_screen">

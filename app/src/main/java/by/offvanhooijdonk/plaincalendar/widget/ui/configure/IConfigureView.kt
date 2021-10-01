@@ -1,4 +1,4 @@
-package by.offvanhooijdonk.plaincalendar.widget.view.configure
+package by.offvanhooijdonk.plaincalendar.widget.ui.configure
 
 import by.offvanhooijdonk.plaincalendar.widget.model.CalendarModel
 import by.offvanhooijdonk.plaincalendar.widget.model.WidgetModel

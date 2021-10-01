@@ -8,6 +8,7 @@
 
     <string name="title_add_widget">Adding a Widget</string>
     <string name="title_edit_widget">Widget #%s</string>
+    <string name="title_no_widget">No Widgets</string>
 
     <string name="widget_empty_events_list">No Events</string>
     <string name="fish_day_of_week">su</string>

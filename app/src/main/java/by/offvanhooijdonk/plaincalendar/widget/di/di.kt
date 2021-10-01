@@ -1,3 +1,3 @@
 package by.offvanhooijdonk.plaincalendar.widget.di
 
-val allModules = listOf(appModule, daoModule, helperModule)
+val allModules = listOf(appModule, daoModule, helperModule, uiModule)

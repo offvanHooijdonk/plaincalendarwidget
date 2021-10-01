@@ -1,4 +1,4 @@
-package by.offvanhooijdonk.plaincalendar.widget.view.configure.settings;
+package by.offvanhooijdonk.plaincalendar.widget.ui.configure.settings;
 
 import android.app.Fragment;
 import android.content.Context;

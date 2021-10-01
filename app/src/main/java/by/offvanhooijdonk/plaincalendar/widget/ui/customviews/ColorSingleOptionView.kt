@@ -1,16 +1,13 @@
-package by.offvanhooijdonk.plaincalendar.widget.view.customviews
+package by.offvanhooijdonk.plaincalendar.widget.ui.customviews
 
 import android.content.Context
-import android.widget.FrameLayout
-import by.offvanhooijdonk.plaincalendar.widget.view.customviews.ColorSingleOptionView
-import android.content.res.TypedArray
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
+import android.widget.FrameLayout
 import androidx.core.content.res.ResourcesCompat
 import by.offvanhooijdonk.plaincalendar.widget.R
 import by.offvanhooijdonk.plaincalendar.widget.app.App
-import java.lang.Exception
 
 class ColorSingleOptionView : FrameLayout {
     private var checkSize = DIMENSION_UNSET

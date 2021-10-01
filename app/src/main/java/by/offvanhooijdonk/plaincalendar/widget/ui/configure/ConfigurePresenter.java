@@ -1,4 +1,4 @@
-package by.offvanhooijdonk.plaincalendar.widget.view.configure;
+package by.offvanhooijdonk.plaincalendar.widget.ui.configure;
 
 import android.content.Context;
 import android.util.Log;
