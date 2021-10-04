@@ -3,7 +3,6 @@
     <string name="fish_short" translatable="false">Lorem Ipsum</string>
     <string name="fish_date" translatable="false">8/16/2017</string>
     <string name="dialog_load_calendars_msg">Loading Calendars…</string>
-    <string name="btn_pick_calendars">Pick Calendars</string>
     <string name="empty_cal_list">No calendars found</string>
 
     <string name="title_add_widget">Adding a Widget</string>
@@ -31,7 +30,7 @@
     <string name="settings_show_event_color">Show Event Color</string>
     <string name="increment_days">+1</string>
     <string name="decrement_days">-1</string>
-    <string name="widget_settings_days">days</string>
+    <string name="widget_settings_days">Days</string>
     <string name="fish_days">14</string>
     <string name="widget_settings_corners">Radius</string>
     <string name="widget_settings_text_size">Text size</string>

@@ -2,7 +2,6 @@
 <resources>
     <string name="app_name">Просто Виджет Календаря</string>
     <string name="dialog_load_calendars_msg">Загружаем Календари…</string>
-    <string name="btn_pick_calendars">Выберите</string>
     <string name="widget_empty_events_list">Ничего</string>
     <string name="fish_day_of_week">вс</string>
     <string name="date_default">31</string>
@@ -24,7 +23,7 @@
     <string name="settings_show_event_color">Цвет события</string>
     <string name="increment_days">+1</string>
     <string name="decrement_days">-1</string>
-    <string name="widget_settings_days">дней</string>
+    <string name="widget_settings_days">Дней</string>
     <string name="fish_days">14</string>
     <string name="widget_settings_corners">Скругление</string>
 
@@ -51,4 +50,5 @@
     <string name="settings_show_today_tomorrow">Показывать \"Сегодня\", \"Завтра\"</string>
     <string name="format_date_plus_time">%s, %s</string>
     <string name="date_range_separator">" - "</string>
+    <string name="title_no_widget">Нет Виджетов</string>
 </resources>

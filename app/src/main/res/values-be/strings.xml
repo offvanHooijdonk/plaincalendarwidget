@@ -2,7 +2,6 @@
 <resources>
     <string name="app_name">Просты Вiджэт Каляндара</string>
     <string name="dialog_load_calendars_msg">Загружаем Каляндары…</string>
-    <string name="btn_pick_calendars">Выбярыце</string>
     <string name="empty_cal_list">Не знойдзена каляндароў</string>
     <string name="title_add_widget">Дадаем вiджэт</string>
     <string name="title_edit_widget">Вiджэт №%s</string>
@@ -24,7 +23,7 @@
     <string name="settings_show_event_color">Коляр падзеi</string>
     <string name="increment_days">+1</string>
     <string name="decrement_days">-1</string>
-    <string name="widget_settings_days">дзён</string>
+    <string name="widget_settings_days">Дзён</string>
     <string name="fish_days">14</string>
     <string name="widget_settings_corners">Зкругленьне</string>
 
@@ -51,4 +50,5 @@
     <string name="settings_show_line">Падзельник пасля даты</string>
     <string name="settings_show_event_end">Час заканчэньня падзеi</string>
     <string name="settings_show_today_tomorrow">Паказваць \"Сёньня\", \"Заўтра\"</string>
+    <string name="title_no_widget">Няма Вiджэтаў</string>
 </resources>

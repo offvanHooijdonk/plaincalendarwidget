@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data class="ConfActivityBinding">
 
@@ -8,8 +10,7 @@
             type="by.offvanhooijdonk.plaincalendar.widget.ui.configure.ConfigureViewModel" />
     </data>
 
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -46,14 +47,12 @@
                         android:text="@string/number_no_widgets"
                         android:textSize="16sp" />
 
-                    <Button
-                        android:id="@+id/btnPickCalendars"
-                        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                    <com.google.android.material.button.MaterialButton
+                        style="@style/Widget.App.Button.OutlinedButton.IconOnly"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:text="@string/btn_pick_calendars" />
+                        app:icon="@drawable/ic_edit_calendar_24" />
 
                 </RelativeLayout>
 
@@ -72,49 +71,44 @@
                         android:focusableInTouchMode="true"
                         android:orientation="horizontal">
 
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:labelFor="@id/inputDaysForEvents"
+                            android:text="@string/widget_settings_days" />
+
                         <EditText
                             android:id="@+id/inputDaysForEvents"
                             android:layout_width="32dp"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
                             android:inputType="number"
                             android:text="@string/fish_days"
                             android:textAlignment="textEnd" />
 
-                        <TextView
+                        <com.google.android.material.button.MaterialButton
+                            style="@style/Widget.App.Button.OutlinedButton.IconOnly"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/settings_block_minor_padding"
-                            android:labelFor="@id/inputDaysForEvents"
-                            android:text="@string/widget_settings_days" />
-
-                        <Button
-                            style="@style/Widget.AppCompat.Button.Borderless.Colored"
-                            android:layout_width="48dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/settings_block_minor_padding"
-                            android:onClick="incrementDays"
+                            android:layout_marginStart="4dp"
                             android:text="@string/increment_days"
-                            android:textSize="16sp" />
+                            android:textSize="18sp" />
 
-                        <Button
-                            style="@style/Widget.AppCompat.Button.Borderless.Colored"
-                            android:layout_width="48dp"
+                        <com.google.android.material.button.MaterialButton
+                            style="@style/Widget.App.Button.OutlinedButton.IconOnly"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:onClick="decrementDays"
+                            android:layout_marginStart="4dp"
                             android:text="@string/decrement_days"
-                            android:textSize="16sp" />
+                            android:textSize="18sp" />
                     </LinearLayout>
 
-                    <ImageView
-                        android:id="@+id/imgSettings"
-                        android:layout_width="@dimen/settings_btn_size"
-                        android:layout_height="@dimen/settings_btn_size"
+                    <com.google.android.material.button.MaterialButton
+                        style="@style/Widget.App.Button.OutlinedButton.IconOnly"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:background="?android:selectableItemBackgroundBorderless"
-                        android:padding="6dp"
-                        android:src="@drawable/ic_tune_36dp"
-                        android:tint="@color/colorAccent" />
+                        app:icon="@drawable/ic_tune_24" />
                 </RelativeLayout>
 
                 <LinearLayout
@@ -239,12 +233,12 @@
 
         <LinearLayout
             android:id="@+id/viewNoWidgets"
+            visible="@{model.widgetId == null}"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/md_white_1000"
             android:gravity="center"
             android:orientation="vertical"
-            visible="@{model.widgetId == null}"
             tools:visibility="gone">
 
             <TextView
