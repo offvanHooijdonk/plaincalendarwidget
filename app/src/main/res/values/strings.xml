@@ -40,6 +40,8 @@
     <string name="settings_show_line">Line Before Events List</string>
     <string name="settings_show_event_end">Display Event End</string>
     <string name="settings_show_today_tomorrow">Show \'Today\', \'Tomorrow\'</string>
+    <string name="btn_settings">Settings</string>
+    <string name="btn_apply_all">Apply</string>
 
     <string-array name="corner_sizes">
         <item>None</item>

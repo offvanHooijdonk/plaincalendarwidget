@@ -19,7 +19,7 @@
     <string name="fish_event_title_2">День рождения - Вася Пупкин</string>
     <string name="tomorrow">Завтра</string>
     <string name="today">Сегодня</string>
-    <string name="number_no_widgets">Не выборано</string>
+    <string name="number_no_widgets">Не выбрано</string>
     <string name="settings_show_event_color">Цвет события</string>
     <string name="increment_days">+1</string>
     <string name="decrement_days">-1</string>
@@ -51,4 +51,6 @@
     <string name="format_date_plus_time">%s, %s</string>
     <string name="date_range_separator">" - "</string>
     <string name="title_no_widget">Нет Виджетов</string>
+    <string name="btn_settings">Настройки</string>
+    <string name="btn_apply_all">Применить</string>
 </resources>

@@ -18,24 +18,29 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <RelativeLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent">
 
-                <RelativeLayout
-                    android:id="@+id/blockPickCalendars"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/blockTopSettings"
                     style="@style/BlockWithBackground"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="0dp">
+                    android:paddingBottom="8dp"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <LinearLayout
                         android:id="@+id/blockCalendarsIcons"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_toStartOf="@id/btnPickCalendars"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        app:layout_constraintBottom_toBottomOf="@id/btnPickCalendars"
+                        app:layout_constraintEnd_toStartOf="@id/btnPickCalendars"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/btnPickCalendars">
 
                     </LinearLayout>
 
@@ -45,88 +50,79 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:text="@string/number_no_widgets"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="@id/btnPickCalendars"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/btnPickCalendars" />
 
                     <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnPickCalendars"
                         style="@style/Widget.App.Button.OutlinedButton.IconOnly"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        app:icon="@drawable/ic_edit_calendar_24" />
+                        app:icon="@drawable/ic_edit_calendar_24"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/blockIconAndSettings"
-                    style="@style/BlockWithBackground"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/blockPickCalendars"
-                    android:paddingTop="0dp">
-
-                    <LinearLayout
+                    <TextView
+                        android:id="@+id/txtDaysLabel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:focusableInTouchMode="true"
-                        android:orientation="horizontal">
+                        android:labelFor="@id/inputDaysForEvents"
+                        android:text="@string/widget_settings_days"
+                        android:textSize="18sp"
+                        app:layout_constraintBaseline_toBaselineOf="@id/inputDaysForEvents"
+                        app:layout_constraintStart_toStartOf="parent" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:labelFor="@id/inputDaysForEvents"
-                            android:text="@string/widget_settings_days" />
-
-                        <EditText
-                            android:id="@+id/inputDaysForEvents"
-                            android:layout_width="32dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="4dp"
-                            android:inputType="number"
-                            android:text="@string/fish_days"
-                            android:textAlignment="textEnd" />
-
-                        <com.google.android.material.button.MaterialButton
-                            style="@style/Widget.App.Button.OutlinedButton.IconOnly"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="4dp"
-                            android:text="@string/increment_days"
-                            android:textSize="18sp" />
-
-                        <com.google.android.material.button.MaterialButton
-                            style="@style/Widget.App.Button.OutlinedButton.IconOnly"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="4dp"
-                            android:text="@string/decrement_days"
-                            android:textSize="18sp" />
-                    </LinearLayout>
+                    <EditText
+                        android:id="@+id/inputDaysForEvents"
+                        android:layout_width="64dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="36dp"
+                        android:inputType="number"
+                        android:text="@string/fish_days"
+                        android:textAlignment="textEnd"
+                        app:layout_constraintBottom_toBottomOf="@id/btnDecrementDays"
+                        app:layout_constraintEnd_toStartOf="@id/btnIncrementDays"
+                        app:layout_constraintTop_toTopOf="@id/btnDecrementDays" />
 
                     <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnIncrementDays"
                         style="@style/Widget.App.Button.OutlinedButton.IconOnly"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        app:icon="@drawable/ic_tune_24" />
-                </RelativeLayout>
+                        android:layout_marginStart="4dp"
+                        android:layout_marginEnd="4dp"
+                        android:text="@string/increment_days"
+                        android:textSize="18sp"
+                        app:layout_constraintEnd_toStartOf="@id/btnDecrementDays"
+                        app:layout_constraintTop_toTopOf="@id/btnDecrementDays" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_above="@id/blockBottomSettings"
-                    android:layout_below="@id/blockIconAndSettings"
-                    android:gravity="center_horizontal|center_vertical">
-
-                    <fragment
-                        android:id="@+id/fragPreviewWidget"
-                        class="by.offvanhooijdonk.plaincalendar.widget.ui.configure.preview.PreviewWidgetFragment"
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnDecrementDays"
+                        style="@style/Widget.App.Button.OutlinedButton.IconOnly"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:text="@string/decrement_days"
+                        android:textSize="18sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/btnPickCalendars" />
 
-                </LinearLayout>
+                    <com.google.android.material.button.MaterialButton
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="@string/btn_settings"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/inputDaysForEvents" />
 
-                <FrameLayout
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <!--<FrameLayout
                     android:id="@+id/blockExpandableSettings"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
@@ -138,17 +134,34 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent" />
 
-                </FrameLayout>
+                </FrameLayout>-->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:gravity="center_horizontal|center_vertical"
+                    app:layout_constraintBottom_toTopOf="@id/blockBottomSettings"
+                    app:layout_constraintTop_toBottomOf="@id/blockTopSettings"
+                    app:layout_constraintVertical_bias="0.0"
+                    tools:layout_editor_absoluteX="0dp">
+
+                    <fragment
+                        android:id="@+id/fragPreviewWidget"
+                        class="by.offvanhooijdonk.plaincalendar.widget.ui.configure.preview.PreviewWidgetFragment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/blockBottomSettings"
                     style="@style/BlockWithBackground"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
                     android:orientation="vertical"
                     android:paddingTop="@dimen/settings_block_minor_padding"
-                    android:paddingBottom="@dimen/settings_block_minor_padding">
+                    android:paddingBottom="@dimen/settings_block_minor_padding"
+                    app:layout_constraintBottom_toBottomOf="parent">
 
                     <FrameLayout
                         android:id="@+id/placeholderSettings"
@@ -218,17 +231,16 @@
                     </HorizontalScrollView>
                 </LinearLayout>
 
-            </RelativeLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <android.support.design.widget.FloatingActionButton
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
                 android:id="@+id/fabCreateWidget"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|end"
                 android:layout_marginEnd="@dimen/activity_h_padding"
                 android:layout_marginBottom="128dp"
-                android:src="@drawable/ic_done_24dp"
-                app:fabSize="normal" />
+                android:text="@string/btn_apply_all" />
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
         <LinearLayout
