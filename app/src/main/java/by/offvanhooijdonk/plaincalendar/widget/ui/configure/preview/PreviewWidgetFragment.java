@@ -106,13 +106,6 @@ public class PreviewWidgetFragment extends Fragment {
         }
     }
 
-    private void updateCorners(WidgetModel.Corners corners) {
-        if (imgBack != null) {
-            int resId = WidgetHelper.getBackgroundRes(corners);
-            imgBack.setImageDrawable(ctx.getDrawable(resId));
-        }
-    }
-
     /*private void updateTextSize(int sizeDelta) {
 
     }*/

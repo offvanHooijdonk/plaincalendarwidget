@@ -19,8 +19,6 @@ data class WidgetModel(
     val textColor: Int? = null,
     @ColumnInfo(name = "opacity")
     val opacity: Int? = null,
-    @ColumnInfo(name = "corners_radius")
-    val corners: Corners? = null,
     @ColumnInfo(name = "text_size_delta")
     val textSizeDelta: Int? = null,
     @ColumnInfo(name = "show_event_color")

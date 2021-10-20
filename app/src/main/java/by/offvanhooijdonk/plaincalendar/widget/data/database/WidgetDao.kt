@@ -11,13 +11,13 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface WidgetDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun saveWidget(widgetModel: WidgetModel)
+    fun saveWidget(widgetModel: WidgetModel): Flow<Long>
 
     @Query("SELECT * FROM widgets WHERE id = :widgetId")
-    suspend fun getById(widgetId: Long): WidgetModel?
+    fun getById(widgetId: Long): Flow<WidgetModel?>
 
     @Query("DELETE FROM widget_calendar WHERE widget_id = :widgetId")
-    suspend fun deleteAllWidgetCalendars(widgetId: Long)
+    fun deleteAllWidgetCalendars(widgetId: Long)
 
     @Insert
     suspend fun saveWidgetCalendars(list: List<WidgetCalendarModel>)
