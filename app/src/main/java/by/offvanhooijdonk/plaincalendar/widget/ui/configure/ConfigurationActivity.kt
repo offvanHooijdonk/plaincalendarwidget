@@ -1,8 +1,10 @@
 package by.offvanhooijdonk.plaincalendar.widget.ui.configure
 
-import android.app.Dialog
+import android.Manifest
 import android.appwidget.AppWidgetManager
+import android.content.pm.PackageManager
 import android.os.Bundle
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -40,16 +42,43 @@ class ConfigurationActivity : AppCompatActivity() {
             }
         })
 
-        viewModel.isShowCalendarsPick.addOnPropertyChangedCallback(object: Observable.OnPropertyChangedCallback() {
+        viewModel.isShowCalendarsPick.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
             override fun onPropertyChanged(sender: Observable, propertyId: Int) {
                 if (viewModel.isShowCalendarsPick.get()) {
-                    // todo create
-
+                    checkPermissionAndPickCalendars()
                 } else {
                     closeDialogPickCalendars()
                 }
             }
         })
+    }
+
+    private fun checkPermissionAndPickCalendars() {
+        when {
+            checkSelfPermission(Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_GRANTED -> {
+                startDialogPickCalendars()
+            }
+            shouldShowRequestPermissionRationale(Manifest.permission.READ_CALENDAR) -> {
+                // todo snack showing need permission
+            }
+            else -> {
+                requestCalendarPermission()
+            }
+        }
+    }
+
+    private fun startDialogPickCalendars() {
+
+    }
+
+    private fun requestCalendarPermission() {
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                startDialogPickCalendars()
+            } else {
+                // todo snack showing need permission
+            }
+        }
     }
 
     private fun closeDialogPickCalendars() {

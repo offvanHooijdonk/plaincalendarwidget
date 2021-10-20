@@ -62,6 +62,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:onClick="@{() -> model.onPickCalendars()}"
+                        android:enabled="@{!model.isShowCalendarsPick}"
                         app:icon="@drawable/ic_edit_calendar_24"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
