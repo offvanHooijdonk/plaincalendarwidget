@@ -11,6 +11,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.Observable
 import by.offvanhooijdonk.plaincalendar.widget.R
 import by.offvanhooijdonk.plaincalendar.widget.databinding.ConfActivityBinding
+import by.offvanhooijdonk.plaincalendar.widget.model.CalendarModel
+import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ConfigurationActivity : AppCompatActivity() {
@@ -18,6 +20,10 @@ class ConfigurationActivity : AppCompatActivity() {
     private lateinit var bind: ConfActivityBinding
 
     private var dialogPickCalendars: AlertDialog? = null
+    private val calendarsList = mutableListOf<CalendarModel>()
+    private val calendarsAdapter = CalendarsChoiceAdapter(this, calendarsList) { index, isChecked ->
+        onCalendarToggle(index, isChecked)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,13 +59,17 @@ class ConfigurationActivity : AppCompatActivity() {
         })
     }
 
+    private fun onCalendarToggle(index: Int, checked: Boolean) {
+        TODO("Not yet implemented")
+    }
+
     private fun checkPermissionAndPickCalendars() {
         when {
-            checkSelfPermission(Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_GRANTED -> {
+            checkSelfPermission(CALENDAR_PERMISSION) == PackageManager.PERMISSION_GRANTED -> {
                 startDialogPickCalendars()
             }
-            shouldShowRequestPermissionRationale(Manifest.permission.READ_CALENDAR) -> {
-                // todo snack showing need permission
+            shouldShowRequestPermissionRationale(CALENDAR_PERMISSION) -> {
+                showPermissionRationale()
             }
             else -> {
                 requestCalendarPermission()
@@ -68,7 +78,17 @@ class ConfigurationActivity : AppCompatActivity() {
     }
 
     private fun startDialogPickCalendars() {
-
+        dialogPickCalendars = AlertDialog.Builder(this)
+            .setAdapter(calendarsAdapter, null)
+            .setTitle(R.string.app_name)
+            .setPositiveButton(android.R.string.ok) { _, _ ->
+                // todo save selection
+                viewModel.onCalendarsPicked()
+            }
+            .setNegativeButton(android.R.string.cancel) { _, _ ->
+                viewModel.onCalendarPickCancel()
+            }
+            .create()
     }
 
     private fun requestCalendarPermission() {
@@ -76,9 +96,15 @@ class ConfigurationActivity : AppCompatActivity() {
             if (isGranted) {
                 startDialogPickCalendars()
             } else {
-                // todo snack showing need permission
+                showPermissionRationale()
             }
-        }
+        }.launch(CALENDAR_PERMISSION)
+    }
+
+    private fun showPermissionRationale() {
+        Snackbar.make(bind.blockBottomSettings, R.string.permission_rationale_calendar, Snackbar.LENGTH_LONG)
+            .setAction(R.string.permission_rationale_calendar_action) { requestCalendarPermission() }
+            .show()
     }
 
     private fun closeDialogPickCalendars() {
@@ -88,4 +114,8 @@ class ConfigurationActivity : AppCompatActivity() {
 
     private fun extractWidgetId(): Int? =
         intent.extras?.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID)
+
+    companion object {
+        private const val CALENDAR_PERMISSION = Manifest.permission.READ_CALENDAR
+    }
 }

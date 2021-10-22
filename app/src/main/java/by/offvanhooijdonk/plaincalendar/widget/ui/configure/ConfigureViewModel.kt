@@ -49,4 +49,12 @@ class ConfigureViewModel(
     private fun onNoWidget() {
         TODO("Not yet implemented")
     }
+
+    fun onCalendarsPicked() {
+        isShowCalendarsPick.set(false)
+    }
+
+    fun onCalendarPickCancel() {
+        isShowCalendarsPick.set(false)
+    }
 }

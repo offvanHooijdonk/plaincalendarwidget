@@ -53,4 +53,7 @@
     <string name="title_no_widget">Няма Вiджэтаў</string>
     <string name="btn_settings">Налады</string>
     <string name="btn_apply_all">Прымянiць</string>
+    <string name="permission_rationale_calendar">Калi ласка, дазвольце доступ да вашых календароў, каб вiджэт мог адлюстраваць вашыя падзеi</string>
+    <string name="permission_rationale_calendar_action">Дазволiць</string>
+    <string name="dialog_pick_calendars_title">Абярыце Календары</string>
 </resources>

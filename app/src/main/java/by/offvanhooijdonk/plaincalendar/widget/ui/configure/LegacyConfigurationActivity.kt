@@ -98,7 +98,7 @@ class LegacyConfigurationActivity : AppCompatActivity(), IConfigureView, Permiss
         blockExpandableSettings = findViewById(R.id.blockExpandableSettings)
         fragExtendedSettings = fragmentManager.findFragmentById(R.id.fragExtendedSettings) as ExtendedSettingsFragment*/
 
-        if (intent.extras != null && intent.extras!!.containsKey(AppWidgetManager.EXTRA_APPWIDGET_ID)) {
+        /*if (intent.extras != null && intent.extras!!.containsKey(AppWidgetManager.EXTRA_APPWIDGET_ID)) {
             widgetId = intent.extras!!.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID)
             widgetModel = WidgetModel()
             isCreateMode = true
@@ -120,7 +120,7 @@ class LegacyConfigurationActivity : AppCompatActivity(), IConfigureView, Permiss
                 return
             }
         }
-        btnPickCalendars.setOnClickListener(View.OnClickListener { view: View? -> pickCalendars() })
+        btnPickCalendars.setOnClickListener(View.OnClickListener { view: View? -> pickCalendars() })*/
         calSettingsAdapter = CalendarsChoiceAdapter(this, calendarSettings) { index: Int, isSelected: Boolean -> calendarSettings.get(index).isSelected = isSelected }
         pickCalendarsDialog = AlertDialog.Builder(this)
             .setAdapter(calSettingsAdapter, null)

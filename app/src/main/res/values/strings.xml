@@ -17,6 +17,9 @@
     <string name="widget_settings_background">Background</string>
     <string name="widget_settings_date_color">Text color</string>
     <string name="widget_settings_opacity">Opacity</string>
+    <string name="permission_rationale_calendar">Please allow access to your Calendars so widget can read your events.</string>
+    <string name="permission_rationale_calendar_action">Allow</string>
+    <string name="dialog_pick_calendars_title">Pick Calendars</string>
 
     <string name="date_all_day">All day</string>
     <string name="per_cent_sign">%</string>
