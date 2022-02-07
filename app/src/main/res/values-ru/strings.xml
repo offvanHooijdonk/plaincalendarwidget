@@ -53,4 +53,7 @@
     <string name="title_no_widget">Нет Виджетов</string>
     <string name="btn_settings">Настройки</string>
     <string name="btn_apply_all">Применить</string>
+    <string name="permission_rationale_calendar">Разрешите, пожалуйста, доступ к вашим Календарям, чтобы виджет мог отобразить Ваши события</string>
+    <string name="permission_rationale_calendar_action">Разрешить</string>
+    <string name="dialog_pick_calendars_title">Выберите Календари</string>
 </resources>

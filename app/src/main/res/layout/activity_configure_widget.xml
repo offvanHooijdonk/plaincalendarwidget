@@ -61,6 +61,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
+                        android:onClick="@{() -> model.onPickCalendars()}"
+                        android:enabled="@{!model.isShowCalendarsPick}"
                         app:icon="@drawable/ic_edit_calendar_24"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -201,16 +203,6 @@
                             <View style="@style/SettingsDivider" />
 
                             <RadioButton
-                                android:id="@+id/radioCorners"
-                                style="@style/SettingsItem"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:button="@null"
-                                android:text="@string/widget_settings_corners" />
-
-                            <View style="@style/SettingsDivider" />
-
-                            <RadioButton
                                 android:id="@+id/radioTextColor"
                                 style="@style/SettingsItem"
                                 android:layout_width="wrap_content"
@@ -245,7 +237,7 @@
 
         <LinearLayout
             android:id="@+id/viewNoWidgets"
-            visible="@{model.widgetId == null}"
+            visible="@{model.widgetId == null || model.widget == null}"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/md_white_1000"

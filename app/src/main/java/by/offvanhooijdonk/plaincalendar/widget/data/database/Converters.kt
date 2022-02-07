@@ -4,7 +4,6 @@ import androidx.room.TypeConverter
 import by.offvanhooijdonk.plaincalendar.widget.model.WidgetModel
 
 object Converters {
-
     @TypeConverter
     fun showEndDateToString(showEndDate: WidgetModel.ShowEndDate?): String? {
         return showEndDate?.name
