@@ -1,22 +1,9 @@
 package by.offvanhooijdonk.plaincalendar.widget.ui.configure;
 
-import android.content.Context;
-import android.util.Log;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import by.offvanhooijdonk.plaincalendar.widget.app.App;
-import by.offvanhooijdonk.plaincalendar.widget.data.calendars.CalendarDataSource;
-import by.offvanhooijdonk.plaincalendar.widget.model.CalendarModel;
-import by.offvanhooijdonk.plaincalendar.widget.model.WidgetModel;
-import by.offvanhooijdonk.plaincalendar.widget.model.WidgetCalendarModel;
-
-import static by.offvanhooijdonk.plaincalendar.widget.app.App.LOGCAT;
-
+@Deprecated
 public class ConfigurePresenter {
 
-    private Context ctx;
+    /*private Context ctx;
     private IConfigureView view;
 
     public ConfigurePresenter(Context ctx, IConfigureView view) {
@@ -68,8 +55,8 @@ public class ConfigurePresenter {
 
     public void onApplySettings(WidgetModel widgetModel) {
         List<WidgetCalendarModel> widgetCalendars = new ArrayList<>();
-        /*Log.i(LOGCAT, "Apply widget " + widgetBean);
-        Log.i(LOGCAT, "Apply with calendars " + widgetBean.getCalendars());*/
+        *//*Log.i(LOGCAT, "Apply widget " + widgetBean);
+        Log.i(LOGCAT, "Apply with calendars " + widgetBean.getCalendars());*//*
         for (CalendarModel cal : widgetModel.getCalendars()) {
             widgetCalendars.add(new WidgetCalendarModel(widgetModel.getId(), cal.getId()));
         }
@@ -85,5 +72,5 @@ public class ConfigurePresenter {
                 .subscribe(o -> nth(), this::handleError, () -> {
                     view.notifyChangesAndFinish();
                 });
-    }
+    }*/
 }

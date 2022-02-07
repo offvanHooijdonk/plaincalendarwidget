@@ -3,7 +3,6 @@ package by.offvanhooijdonk.plaincalendar.widget.ui.configure.preview;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,9 +13,9 @@ import android.widget.TextView;
 
 import java.util.Date;
 
+import androidx.appcompat.content.res.AppCompatResources;
 import by.offvanhooijdonk.plaincalendar.widget.R;
-import by.offvanhooijdonk.plaincalendar.widget.helper.DateHelper;
-import by.offvanhooijdonk.plaincalendar.widget.helper.WidgetHelper;
+import by.offvanhooijdonk.plaincalendar.widget.helper.DateHelperKt;
 import by.offvanhooijdonk.plaincalendar.widget.model.WidgetModel;
 
 public class PreviewWidgetFragment extends Fragment {
@@ -33,9 +32,8 @@ public class PreviewWidgetFragment extends Fragment {
     private ImageView viewDivider;
     private PreviewEventsAdapter adapter;
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = super.onCreateView(inflater, container, savedInstanceState);
         if (v == null) {
             v = inflater.inflate(R.layout.widget_calendars, container, false);
@@ -48,7 +46,7 @@ public class PreviewWidgetFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View v, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(View v, Bundle savedInstanceState) {
         super.onViewCreated(v, savedInstanceState);
 
         imgBack = v.findViewById(R.id.widgetBack);
@@ -60,8 +58,8 @@ public class PreviewWidgetFragment extends Fragment {
         lstEvents.setAdapter(adapter);
 
         Date now = new Date();
-        txtDate.setText(DateHelper.formatDateOnly(now, false));
-        txtDay.setText(DateHelper.formatDay(now));
+        txtDate.setText(DateHelperKt.formatDateOnly(now, false));
+        txtDay.setText(DateHelperKt.formatDay(now));
     }
 
     @Override
@@ -84,7 +82,7 @@ public class PreviewWidgetFragment extends Fragment {
         updateBackColor(widgetSettings.getBackgroundColor());
         updateOpacity(widgetSettings.getOpacity());
         updateTextColor(widgetSettings.getTextColor());
-        updateCorners(widgetSettings.getCorners());
+        updateCorners();
         updateShowTodayDate(widgetSettings.getShowTodayDate());
         updateShowDayOfWeek(widgetSettings.getShowTodayDayOfWeek() && widgetSettings.getShowTodayDate());
         updateShowDivider(widgetSettings.getShowDateDivider() && widgetSettings.getShowTodayDate());
@@ -106,10 +104,9 @@ public class PreviewWidgetFragment extends Fragment {
         }
     }
 
-    private void updateCorners(WidgetModel.Corners corners) {
+    private void updateCorners() {
         if (imgBack != null) {
-            int resId = WidgetHelper.getBackgroundRes(corners);
-            imgBack.setImageDrawable(ctx.getDrawable(resId));
+            imgBack.setImageDrawable(AppCompatResources.getDrawable(ctx, R.drawable.widget_back_no_corner));
         }
     }
 
@@ -142,9 +139,9 @@ public class PreviewWidgetFragment extends Fragment {
     private void updateShowTodayLeadingZeroChange(boolean isShow) {
         Date now = new Date();
         if (isShow) {
-            txtDate.setText(DateHelper.formatDateOnly(now, true));
+            txtDate.setText(DateHelperKt.formatDateOnly(now, true));
         } else {
-            txtDate.setText(DateHelper.formatDateOnly(now, false));
+            txtDate.setText(DateHelperKt.formatDateOnly(now, false));
         }
     }
 

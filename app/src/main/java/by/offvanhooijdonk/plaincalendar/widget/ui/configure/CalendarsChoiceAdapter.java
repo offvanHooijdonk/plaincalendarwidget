@@ -1,7 +1,6 @@
 package by.offvanhooijdonk.plaincalendar.widget.ui.configure;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +19,7 @@ public class CalendarsChoiceAdapter extends BaseAdapter {
     private List<CalendarModel> calendars;
     private SelectionListener listener;
 
-    public CalendarsChoiceAdapter(@NonNull Context context, @NonNull List<CalendarModel> calendars, SelectionListener l) {
+    public CalendarsChoiceAdapter(Context context, List<CalendarModel> calendars, SelectionListener l) {
         this.ctx = context;
         this.calendars = calendars;
         this.listener = l;

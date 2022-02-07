@@ -1,13 +1,12 @@
 package by.offvanhooijdonk.plaincalendar.widget.helper
 
+import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.content.ComponentName
-import by.offvanhooijdonk.plaincalendar.widget.R
-import by.offvanhooijdonk.plaincalendar.widget.model.WidgetModel.Corners
-import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.provider.CalendarContract
+import by.offvanhooijdonk.plaincalendar.widget.R
 import by.offvanhooijdonk.plaincalendar.widget.widget.CalendarWidgetProvider
 
 class WidgetHelper(
@@ -20,22 +19,6 @@ class WidgetHelper(
     fun notifyWidgetsDataChanged(widgetIds: IntArray) {
         widgetsManager.notifyAppWidgetViewDataChanged(widgetIds, R.id.listEvents)
     }
-
-/*
-    fun notifyWidgetDataChanged(widgetId: Int) {
-        widgetsManager.notifyAppWidgetViewDataChanged(widgetId, R.id.listEvents)
-    }
-*/
-
-    fun getBackgroundRes(corners: Corners?): Int =
-        when (corners) {
-            Corners.NO_CORNER -> R.drawable.widget_back_no_corner
-            Corners.SMALL -> R.drawable.widget_back_corner_s
-            Corners.MEDIUM -> R.drawable.widget_back_corner_m
-            Corners.LARGE -> R.drawable.widget_back_corner_l
-            Corners.XLARGE -> R.drawable.widget_back_corner_xl
-            else -> R.drawable.widget_back_corner_s
-        }
 
     fun riseTextSizeBy(resId: Int, delta: Int): Float {
         return ctx.resources.getDimension(resId) / ctx.resources.displayMetrics.density + delta

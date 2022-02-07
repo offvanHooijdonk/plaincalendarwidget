@@ -1,56 +1,11 @@
 package by.offvanhooijdonk.plaincalendar.widget.ui.configure
 
-import android.Manifest
 import androidx.appcompat.app.AppCompatActivity
 import pub.devrel.easypermissions.EasyPermissions.PermissionCallbacks
-import by.offvanhooijdonk.plaincalendar.widget.model.CalendarModel
-import by.offvanhooijdonk.plaincalendar.widget.model.WidgetModel
-import android.widget.TextView
-import android.view.ViewGroup
-import android.widget.EditText
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import android.widget.RadioGroup
-import by.offvanhooijdonk.plaincalendar.widget.ui.configure.preview.PreviewWidgetFragment
-import by.offvanhooijdonk.plaincalendar.widget.ui.configure.settings.ExtendedSettingsFragment
-import android.widget.BaseAdapter
-import android.os.Bundle
-import by.offvanhooijdonk.plaincalendar.widget.R
-import android.appwidget.AppWidgetManager
-import by.offvanhooijdonk.plaincalendar.widget.app.App
-import by.offvanhooijdonk.plaincalendar.widget.helper.WidgetHelper
-import by.offvanhooijdonk.plaincalendar.widget.widget.CalendarWidgetProvider
-import android.view.View.OnFocusChangeListener
-import pub.devrel.easypermissions.EasyPermissions
-import pub.devrel.easypermissions.AfterPermissionGranted
-import android.content.Intent
-import by.offvanhooijdonk.plaincalendar.widget.ui.configure.settings.ColorsSettingsFragment
-import by.offvanhooijdonk.plaincalendar.widget.ui.configure.settings.SeekBarSettingsFragment
-import by.offvanhooijdonk.plaincalendar.widget.ui.customviews.CalendarIconView
-import android.view.LayoutInflater
-import android.animation.ValueAnimator
-import android.app.Fragment
-import android.app.ProgressDialog
-import android.content.DialogInterface
-import android.util.Log
-import android.view.View
-import android.view.animation.AccelerateDecelerateInterpolator
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.RadioButton
-import androidx.appcompat.app.AlertDialog
-import androidx.databinding.DataBindingUtil
-import by.offvanhooijdonk.plaincalendar.widget.databinding.ConfActivityBinding
-import by.offvanhooijdonk.plaincalendar.widget.helper.PrefHelper
-import by.offvanhooijdonk.plaincalendar.widget.ui.configure.settings.ColorsSettingsFragment.SettingClickListener
-import by.offvanhooijdonk.plaincalendar.widget.ui.configure.settings.ExtendedSettingsFragment.ExtendedOptionsListener
-import by.offvanhooijdonk.plaincalendar.widget.model.WidgetModel.Corners
-import by.offvanhooijdonk.plaincalendar.widget.model.WidgetModel.ShowEndDate
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.util.ArrayList
 
 @Deprecated(message = "Old implementation, replaced with new refactored Activity")
-class LegacyConfigurationActivity : AppCompatActivity(), IConfigureView, PermissionCallbacks {
-    private var presenter: ConfigurePresenter? = null
+abstract class LegacyConfigurationActivity : AppCompatActivity(), IConfigureView, PermissionCallbacks {
+    /*private var presenter: ConfigurePresenter? = null
     private var calendarSettings: MutableList<CalendarModel>? = null
     private var widgetModel: WidgetModel? = null
     private var widgetId: Int? = null
@@ -85,10 +40,10 @@ class LegacyConfigurationActivity : AppCompatActivity(), IConfigureView, Permiss
 
         //presenter = ConfigurePresenter(applicationContext, this)
         calendarSettings = ArrayList()
-        /*viewNoWidgets = findViewById(R.id.viewNoWidgets)*/
+        *//*viewNoWidgets = findViewById(R.id.viewNoWidgets)*//*
         dialogProgress = ProgressDialog(this)
         dialogProgress?.setMessage(getString(R.string.dialog_load_calendars_msg))
-        /*txtNoCalSelected = findViewById(R.id.txtNoCalSelected)
+        *//*txtNoCalSelected = findViewById(R.id.txtNoCalSelected)
         btnPickCalendars = findViewById(R.id.btnPickCalendars)
         blockCalIcons = findViewById(R.id.blockCalendarsIcons)
         inputDaysForEvents = findViewById(R.id.inputDaysForEvents)
@@ -97,7 +52,7 @@ class LegacyConfigurationActivity : AppCompatActivity(), IConfigureView, Permiss
         imgSettings = findViewById(R.id.imgSettings)
         blockBottomSettings = findViewById(R.id.blockBottomSettings)
         blockExpandableSettings = findViewById(R.id.blockExpandableSettings)
-        fragExtendedSettings = fragmentManager.findFragmentById(R.id.fragExtendedSettings) as ExtendedSettingsFragment*/
+        fragExtendedSettings = fragmentManager.findFragmentById(R.id.fragExtendedSettings) as ExtendedSettingsFragment*//*
 
         if (intent.extras != null && intent.extras!!.containsKey(AppWidgetManager.EXTRA_APPWIDGET_ID)) {
             widgetId = intent.extras!!.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID)
@@ -521,5 +476,5 @@ class LegacyConfigurationActivity : AppCompatActivity(), IConfigureView, Permiss
 
     companion object {
         private const val REQUEST_PERMISSION_GET_ACCOUNTS = 1003
-    }
+    }*/
 }

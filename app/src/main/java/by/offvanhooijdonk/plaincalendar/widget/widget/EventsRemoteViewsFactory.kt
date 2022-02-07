@@ -8,7 +8,6 @@ import by.offvanhooijdonk.plaincalendar.widget.model.EventModel
 import by.offvanhooijdonk.plaincalendar.widget.app.App
 import android.widget.RemoteViews
 import by.offvanhooijdonk.plaincalendar.widget.R
-import by.offvanhooijdonk.plaincalendar.widget.helper.DateHelper
 import android.util.TypedValue
 import by.offvanhooijdonk.plaincalendar.widget.helper.WidgetHelper
 import android.appwidget.AppWidgetManager
@@ -36,7 +35,7 @@ class EventsRemoteViewsFactory(
     }
 
     override fun onDataSetChanged() {
-        Log.i(App.LOGCAT, "ViewsFactory::onDataSetChanged. Widget $widgetId")
+        /*Log.i(App.LOGCAT, "ViewsFactory::onDataSetChanged. Widget $widgetId")
         widgetDao.getById(widgetId.toLong())
             .flatMap { wBean ->
                calendarDao.getCalendarsForWidget(widgetId.toLong())
@@ -48,7 +47,7 @@ class EventsRemoteViewsFactory(
             .map { widgetBean -> calDataSource.getEvents(widgetBean.getCalendars(), widgetBean.getDays()) }
             .subscribe { list: List<EventModel> -> displayEvents(list) }
         widgetDao.getById(widgetId.toLong())
-            .subscribe { widgetBean -> widgetOptions = widgetBean }
+            .subscribe { widgetBean -> widgetOptions = widgetBean }*/
     }
 
     private fun displayEvents(list: List<EventModel>) {
@@ -67,7 +66,7 @@ class EventsRemoteViewsFactory(
         // TODO make beauty
         val rv = RemoteViews(ctx.packageName, R.layout.item_event_widget)
         // TODO use defaults from PrefHelper also
-        val eventDateText = DateHelper.formatEventDateRange(ctx, dateStart, dateEnd, isAllDay,
+        /*val eventDateText = DateHelper.formatEventDateRange(ctx, dateStart, dateEnd, isAllDay,
             (if (widgetOptions != null) widgetOptions!!.showDateTextLabel else true)!!,
             if (widgetOptions != null) widgetOptions!!.showEndDate else WidgetModel.ShowEndDate.NEVER)
         rv.setTextViewText(R.id.txtDateRange, eventDateText)
@@ -87,7 +86,7 @@ class EventsRemoteViewsFactory(
             }
         }
         Log.i(App.LOGCAT, "Set intent for event: $id")
-        rv.setOnClickFillInIntent(R.id.rootEventItem, WidgetHelper.createEventIntent(eventId))
+        rv.setOnClickFillInIntent(R.id.rootEventItem, WidgetHelper.createEventIntent(eventId))*/
         return rv
     }
 
