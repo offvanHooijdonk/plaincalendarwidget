@@ -18,12 +18,10 @@ import by.offvanhooijdonk.plaincalendar.widget.data.calendars.CalendarsRemoteSer
 import by.offvanhooijdonk.plaincalendar.widget.data.calendars.job.CalendarChangeJobService
 import by.offvanhooijdonk.plaincalendar.widget.data.calendars.observer.EventsContentObserver
 import by.offvanhooijdonk.plaincalendar.widget.data.database.WidgetDao
-import by.offvanhooijdonk.plaincalendar.widget.helper.DateHelper
 import by.offvanhooijdonk.plaincalendar.widget.helper.WidgetHelper
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import java.util.Arrays
-import java.util.Date
+import java.util.*
 
 class CalendarWidgetProvider : AppWidgetProvider(), KoinComponent {
     private val contentObserver: EventsContentObserver? = null
@@ -49,7 +47,7 @@ class CalendarWidgetProvider : AppWidgetProvider(), KoinComponent {
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
             intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)))
             val rv = RemoteViews(ctx.packageName, R.layout.widget_calendars)
-            widgetDao.getById(appWidgetId.toLong())
+            /*widgetDao.getById(appWidgetId.toLong())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ widgetBean ->
@@ -74,7 +72,7 @@ class CalendarWidgetProvider : AppWidgetProvider(), KoinComponent {
                     rv.setViewVisibility(R.id.viewDivider, if (showDate && widgetBean.getShowDateDivider()) View.VISIBLE else View.GONE)
                     appWidgetManager.updateAppWidget(appWidgetId, rv)
                     WidgetHelper.notifyWidgetDataChanged(ctx, widgetBean.getId() as Int)
-                }) { th -> }
+                }) { th -> }*/
         }
     }
 
@@ -83,7 +81,7 @@ class CalendarWidgetProvider : AppWidgetProvider(), KoinComponent {
         Log.d(App.Companion.LOGCAT, "onReceive")
         Log.d(App.Companion.LOGCAT, "Got " + intent.getAction() + " action")
         if (Intent.ACTION_DATE_CHANGED == intent.getAction() || Intent.ACTION_TIME_CHANGED == intent.getAction() || Intent.ACTION_TIMEZONE_CHANGED == intent.getAction() || INTENT_ACTION_NEW_DAY == intent.getAction() || Intent.ACTION_BOOT_COMPLETED == intent.getAction()) {
-            val widgetIds: IntArray = WidgetHelper.getWidgetIds(ctx, CalendarWidgetProvider::class.java)
+            /*val widgetIds: IntArray = WidgetHelper.getWidgetIds(ctx, CalendarWidgetProvider::class.java)
             Log.i(App.Companion.LOGCAT, "Applying current date on Widgets")
 
             // TODO send update Broadcast instead?
@@ -98,7 +96,7 @@ class CalendarWidgetProvider : AppWidgetProvider(), KoinComponent {
             }
             if (Intent.ACTION_BOOT_COMPLETED == intent.getAction()) {
                 setupDailyAlarm(ctx)
-            }
+            }*/
         }
     }
 
@@ -126,15 +124,15 @@ class CalendarWidgetProvider : AppWidgetProvider(), KoinComponent {
         return PendingIntent.getBroadcast(ctx, 0, intent, 0)
     }
 
-    private fun updateDateViews(ctx: Context, rv: RemoteViews, showLeadingZero: Boolean) {
+    /*private fun updateDateViews(ctx: Context, rv: RemoteViews, showLeadingZero: Boolean) {
         val now = Date(System.currentTimeMillis())
         rv.setTextViewText(R.id.txtWidgetDate, DateHelper.formatDateOnly(now, showLeadingZero))
         rv.setTextViewText(R.id.txtWidgetDay, DateHelper.formatDay(now))
         rv.setOnClickPendingIntent(R.id.txtWidgetDate, WidgetHelper.createCalendarOpenIntent(ctx))
-    }
+    }*/
 
     private fun setupDailyAlarm(ctx: Context) {
-        alarmManager.setRepeating(AlarmManager.RTC, DateHelper.getClosestMidnightMillis(), DateHelper.MILLIS_IN_DAY, getNewDayPendingIntent(ctx))
+        //alarmManager.setRepeating(AlarmManager.RTC, DateHelper.getClosestMidnightMillis(), DateHelper.MILLIS_IN_DAY, getNewDayPendingIntent(ctx))
     }
 
     companion object {

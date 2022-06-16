@@ -1,55 +1,11 @@
 package by.offvanhooijdonk.plaincalendar.widget.ui.configure
 
-import android.Manifest
-import android.animation.ValueAnimator
-import android.app.Fragment
-import android.app.ProgressDialog
-import android.appwidget.AppWidgetManager
-import android.content.DialogInterface
-import android.content.Intent
-import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.View.OnFocusChangeListener
-import android.view.ViewGroup
-import android.view.animation.AccelerateDecelerateInterpolator
-import android.widget.BaseAdapter
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.RadioButton
-import android.widget.RadioGroup
-import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
-import by.offvanhooijdonk.plaincalendar.widget.R
-import by.offvanhooijdonk.plaincalendar.widget.app.App
-import by.offvanhooijdonk.plaincalendar.widget.databinding.ConfActivityBinding
-import by.offvanhooijdonk.plaincalendar.widget.helper.PrefHelper
-import by.offvanhooijdonk.plaincalendar.widget.helper.WidgetHelper
-import by.offvanhooijdonk.plaincalendar.widget.model.CalendarModel
-import by.offvanhooijdonk.plaincalendar.widget.model.WidgetModel
-import by.offvanhooijdonk.plaincalendar.widget.model.WidgetModel.ShowEndDate
-import by.offvanhooijdonk.plaincalendar.widget.ui.configure.preview.PreviewWidgetFragment
-import by.offvanhooijdonk.plaincalendar.widget.ui.configure.settings.ColorsSettingsFragment
-import by.offvanhooijdonk.plaincalendar.widget.ui.configure.settings.ColorsSettingsFragment.SettingClickListener
-import by.offvanhooijdonk.plaincalendar.widget.ui.configure.settings.ExtendedSettingsFragment
-import by.offvanhooijdonk.plaincalendar.widget.ui.configure.settings.ExtendedSettingsFragment.ExtendedOptionsListener
-import by.offvanhooijdonk.plaincalendar.widget.ui.configure.settings.SeekBarSettingsFragment
-import by.offvanhooijdonk.plaincalendar.widget.ui.customviews.CalendarIconView
-import by.offvanhooijdonk.plaincalendar.widget.widget.CalendarWidgetProvider
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import pub.devrel.easypermissions.AfterPermissionGranted
-import pub.devrel.easypermissions.EasyPermissions
 import pub.devrel.easypermissions.EasyPermissions.PermissionCallbacks
-import java.util.ArrayList
 
 @Deprecated(message = "Old implementation, replaced with new refactored Activity")
-class LegacyConfigurationActivity : AppCompatActivity(), IConfigureView, PermissionCallbacks {
-    private var presenter: ConfigurePresenter? = null
+abstract class LegacyConfigurationActivity : AppCompatActivity(), IConfigureView, PermissionCallbacks {
+    /*private var presenter: ConfigurePresenter? = null
     private var calendarSettings: MutableList<CalendarModel>? = null
     private var widgetModel: WidgetModel? = null
     private var widgetId: Int? = null
@@ -84,10 +40,10 @@ class LegacyConfigurationActivity : AppCompatActivity(), IConfigureView, Permiss
 
         //presenter = ConfigurePresenter(applicationContext, this)
         calendarSettings = ArrayList()
-        /*viewNoWidgets = findViewById(R.id.viewNoWidgets)*/
+        *//*viewNoWidgets = findViewById(R.id.viewNoWidgets)*//*
         dialogProgress = ProgressDialog(this)
         dialogProgress?.setMessage(getString(R.string.dialog_load_calendars_msg))
-        /*txtNoCalSelected = findViewById(R.id.txtNoCalSelected)
+        *//*txtNoCalSelected = findViewById(R.id.txtNoCalSelected)
         btnPickCalendars = findViewById(R.id.btnPickCalendars)
         blockCalIcons = findViewById(R.id.blockCalendarsIcons)
         inputDaysForEvents = findViewById(R.id.inputDaysForEvents)
@@ -96,9 +52,9 @@ class LegacyConfigurationActivity : AppCompatActivity(), IConfigureView, Permiss
         imgSettings = findViewById(R.id.imgSettings)
         blockBottomSettings = findViewById(R.id.blockBottomSettings)
         blockExpandableSettings = findViewById(R.id.blockExpandableSettings)
-        fragExtendedSettings = fragmentManager.findFragmentById(R.id.fragExtendedSettings) as ExtendedSettingsFragment*/
+        fragExtendedSettings = fragmentManager.findFragmentById(R.id.fragExtendedSettings) as ExtendedSettingsFragment*//*
 
-        /*if (intent.extras != null && intent.extras!!.containsKey(AppWidgetManager.EXTRA_APPWIDGET_ID)) {
+        if (intent.extras != null && intent.extras!!.containsKey(AppWidgetManager.EXTRA_APPWIDGET_ID)) {
             widgetId = intent.extras!!.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID)
             widgetModel = WidgetModel()
             isCreateMode = true
@@ -120,7 +76,7 @@ class LegacyConfigurationActivity : AppCompatActivity(), IConfigureView, Permiss
                 return
             }
         }
-        btnPickCalendars.setOnClickListener(View.OnClickListener { view: View? -> pickCalendars() })*/
+        btnPickCalendars.setOnClickListener(View.OnClickListener { view: View? -> pickCalendars() })
         calSettingsAdapter = CalendarsChoiceAdapter(this, calendarSettings) { index: Int, isSelected: Boolean -> calendarSettings.get(index).isSelected = isSelected }
         pickCalendarsDialog = AlertDialog.Builder(this)
             .setAdapter(calSettingsAdapter, null)
@@ -316,6 +272,16 @@ class LegacyConfigurationActivity : AppCompatActivity(), IConfigureView, Permiss
                 fr = fragment
                 settingsOpened = SettingsSelection.OPACITY
             }
+            R.id.radioCorners -> {
+                val fragment = SeekBarSettingsFragment.newInstance(Corners.NO_CORNER.code,
+                    Corners.XLARGE.code,
+                    widgetModel!!.corners!!.code,
+                    1,
+                    null, resources.getStringArray(R.array.corner_sizes))
+                fragment.setListener(settingsListener)
+                fr = fragment
+                settingsOpened = SettingsSelection.CORNERS
+            }
             R.id.radioTextColor -> {
                 val colorsBackground = resources.getIntArray(R.array.settings_text_colors)
                 val fragment = ColorsSettingsFragment.getNewInstance(colorsBackground, widgetModel!!.textColor!!)
@@ -403,6 +369,8 @@ class LegacyConfigurationActivity : AppCompatActivity(), IConfigureView, Permiss
             widgetModel.setOpacity(PrefHelper.getDefaultOpacityPerCent(this))
             widgetModel.setTextColor(PrefHelper.getDefaultTextColor(this))
             // TODO add Preferences
+            widgetModel.setCorners(Corners.getDefault())
+            // TODO add Preferences
             widgetModel.setTextSizeDelta(0)
             widgetModel.setShowTodayDate(true)
             widgetModel.setShowTodayDayOfWeek(true)
@@ -453,6 +421,11 @@ class LegacyConfigurationActivity : AppCompatActivity(), IConfigureView, Permiss
                     widgetModel.setOpacity(value)
                     fragPreviewWidget!!.updatePreview()
                 }
+                SettingsSelection.CORNERS -> {
+                    val corners: Corners = Corners.fromInt(value)
+                    widgetModel.setCorners(corners)
+                    fragPreviewWidget!!.updatePreview()
+                }
                 SettingsSelection.TEXT_SIZE -> {
                     widgetModel.setTextSizeDelta(value)
                     fragPreviewWidget!!.updatePreview()
@@ -498,10 +471,10 @@ class LegacyConfigurationActivity : AppCompatActivity(), IConfigureView, Permiss
     }
 
     private enum class SettingsSelection {
-        BACKGROUND, OPACITY, TEXT_COLOR, TEXT_SIZE
+        BACKGROUND, OPACITY, CORNERS, TEXT_COLOR, TEXT_SIZE
     }
 
     companion object {
         private const val REQUEST_PERMISSION_GET_ACCOUNTS = 1003
-    }
+    }*/
 }

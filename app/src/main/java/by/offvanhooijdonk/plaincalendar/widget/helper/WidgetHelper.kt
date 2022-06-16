@@ -20,12 +20,6 @@ class WidgetHelper(
         widgetsManager.notifyAppWidgetViewDataChanged(widgetIds, R.id.listEvents)
     }
 
-/*
-    fun notifyWidgetDataChanged(widgetId: Int) {
-        widgetsManager.notifyAppWidgetViewDataChanged(widgetId, R.id.listEvents)
-    }
-*/
-
     fun riseTextSizeBy(resId: Int, delta: Int): Float {
         return ctx.resources.getDimension(resId) / ctx.resources.displayMetrics.density + delta
     }
