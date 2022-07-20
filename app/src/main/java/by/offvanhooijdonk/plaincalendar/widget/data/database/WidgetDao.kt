@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface WidgetDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun saveWidget(widgetModel: WidgetModel): Flow<Long>
+    fun saveWidget(widgetModel: WidgetModel)
 
     @Query("SELECT * FROM widgets WHERE id = :widgetId")
     fun getById(widgetId: Long): Flow<WidgetModel?>

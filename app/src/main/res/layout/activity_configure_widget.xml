@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data class="ConfActivityBinding">
+    <!--<data class="ConfActivityBinding">
 
         <variable
             name="model"
@@ -124,7 +124,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-                <!--<FrameLayout
+                &lt;!&ndash;<FrameLayout
                     android:id="@+id/blockExpandableSettings"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
@@ -136,7 +136,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent" />
 
-                </FrameLayout>-->
+                </FrameLayout>&ndash;&gt;
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -250,5 +250,5 @@
                 android:layout_height="wrap_content"
                 android:text="@string/no_widgets_yet" />
         </LinearLayout>
-    </FrameLayout>
+    </FrameLayout>-->
 </layout>

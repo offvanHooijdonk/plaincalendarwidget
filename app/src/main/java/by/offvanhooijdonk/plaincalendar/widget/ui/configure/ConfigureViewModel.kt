@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import by.offvanhooijdonk.plaincalendar.widget.data.database.WidgetDao
-import by.offvanhooijdonk.plaincalendar.widget.helper.WidgetHelper
 import by.offvanhooijdonk.plaincalendar.widget.model.WidgetModel
 import by.offvanhooijdonk.plaincalendar.widget.ui.configure.Result.Empty
 import by.offvanhooijdonk.plaincalendar.widget.ui.configure.Result.Idle
@@ -32,12 +31,8 @@ class ConfigureViewModel(
         _widgetResponse.value = Progress
 
         viewModelScope.launch(Dispatchers.IO) {
-            val widget = widgetDao.getById(id.toLong())
-
-            if (widget != null) {
-                _widgetResponse.postValue(Success(widget))
-            } else {
-                _widgetResponse.postValue(Empty)
+            widgetDao.getById(id.toLong()).collect { widget ->
+                _widgetResponse.postValue(if (widget != null) Success(widget) else Empty)
             }
         }
     }
