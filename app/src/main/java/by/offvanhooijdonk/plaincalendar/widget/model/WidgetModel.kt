@@ -18,7 +18,7 @@ data class WidgetModel(
     @ColumnInfo(name = "date_color")
     var textColor: Int? = null,
     @ColumnInfo(name = "opacity")
-    var opacity: Int? = null,
+    var opacity: Float = 1.0f,
     @ColumnInfo(name = "text_size_delta")
     var textSizeDelta: Int? = null,
     @ColumnInfo(name = "show_event_color")
