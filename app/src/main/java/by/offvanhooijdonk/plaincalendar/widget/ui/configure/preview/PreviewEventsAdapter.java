@@ -1,24 +1,30 @@
 package by.offvanhooijdonk.plaincalendar.widget.ui.configure.preview;
 
-import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-
-import by.offvanhooijdonk.plaincalendar.widget.R;
-import by.offvanhooijdonk.plaincalendar.widget.helper.DateHelper;
-import by.offvanhooijdonk.plaincalendar.widget.helper.WidgetHelper;
-import by.offvanhooijdonk.plaincalendar.widget.model.EventModel;
-import by.offvanhooijdonk.plaincalendar.widget.model.WidgetModel;
 
 public class PreviewEventsAdapter extends BaseAdapter {
+    @Override
+    public int getCount() {
+        return 0;
+    }
+
+    @Override
+    public Object getItem(int i) {
+        return null;
+    }
+
+    @Override
+    public long getItemId(int i) {
+        return 0;
+    }
+
+    @Override
+    public View getView(int i, View view, ViewGroup viewGroup) {
+        return null;
+    }
+/*
 
     private Context ctx;
     private List<EventModel> eventList;
@@ -118,5 +124,6 @@ public class PreviewEventsAdapter extends BaseAdapter {
         eventModel.setDateStart(calendar.getTime());
         eventList.add(eventModel);
     }
+*/
 
 }

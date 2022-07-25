@@ -1,23 +1,9 @@
 package by.offvanhooijdonk.plaincalendar.widget.ui.configure.settings;
 
 import android.app.Fragment;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.Spinner;
-import android.widget.Switch;
-
-import by.offvanhooijdonk.plaincalendar.widget.R;
-import by.offvanhooijdonk.plaincalendar.widget.model.WidgetModel;
-
-import static by.offvanhooijdonk.plaincalendar.widget.app.App.LOGCAT;
 
 public class ExtendedSettingsFragment extends Fragment {
-    //private Context ctx;
+/*    //private Context ctx;
     private ExtendedOptionsListener listener;
 
     private Switch swShowTodayDate;
@@ -121,5 +107,5 @@ public class ExtendedSettingsFragment extends Fragment {
         void onShowDateAsLabelChange(boolean isShow);
 
         void onShowEventEndChange(WidgetModel.ShowEndDate endDateOption);
-    }
+    }*/
 }

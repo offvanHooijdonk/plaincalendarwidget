@@ -1,19 +1,9 @@
 package by.offvanhooijdonk.plaincalendar.widget.ui.configure.settings;
 
 import android.app.Fragment;
-import android.content.Context;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.SeekBar;
-import android.widget.TextView;
-
-import by.offvanhooijdonk.plaincalendar.widget.R;
 
 public class SeekBarSettingsFragment extends Fragment {
-    private static final String ARG_MIN_VALUE = "arg_min_value";
+    /*private static final String ARG_MIN_VALUE = "arg_min_value";
     private static final String ARG_MAX_VALUE = "arg_max_value";
     private static final String ARG_CURR_VALUE = "arg_curr_value";
     private static final String ARG_STEP = "arg_step";
@@ -124,5 +114,5 @@ public class SeekBarSettingsFragment extends Fragment {
 
     public interface OnValueChangeListener {
         void onSeekValueChanged(int value);
-    }
+    }*/
 }

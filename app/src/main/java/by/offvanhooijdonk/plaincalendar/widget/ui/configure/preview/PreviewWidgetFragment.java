@@ -1,25 +1,9 @@
 package by.offvanhooijdonk.plaincalendar.widget.ui.configure.preview;
 
 import android.app.Fragment;
-import android.content.Context;
-import android.os.Bundle;
-import android.util.TypedValue;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
-
-import java.util.Date;
-
-import androidx.appcompat.content.res.AppCompatResources;
-import by.offvanhooijdonk.plaincalendar.widget.R;
-import by.offvanhooijdonk.plaincalendar.widget.helper.DateHelperKt;
-import by.offvanhooijdonk.plaincalendar.widget.model.WidgetModel;
 
 public class PreviewWidgetFragment extends Fragment {
-    private static final int DEFAULT_COLUMNS = 4;
+    /*private static final int DEFAULT_COLUMNS = 4;
     private static final int DEFAULT_ROWS = 2;
 
     private Context ctx;
@@ -110,9 +94,9 @@ public class PreviewWidgetFragment extends Fragment {
         }
     }
 
-    /*private void updateTextSize(int sizeDelta) {
+    *//*private void updateTextSize(int sizeDelta) {
 
-    }*/
+    }*//*
 
     private void updateTextColor(int color) {
         txtDate.setTextColor(color);
@@ -157,5 +141,5 @@ public class PreviewWidgetFragment extends Fragment {
     private int calcHeightPx() {
         int heightDp = 84 * DEFAULT_ROWS;
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, heightDp, getResources().getDisplayMetrics());
-    }
+    }*/
 }

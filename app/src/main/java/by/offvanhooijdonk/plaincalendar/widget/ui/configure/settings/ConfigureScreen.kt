@@ -45,6 +45,7 @@ import by.offvanhooijdonk.plaincalendar.widget.ui.configure.Result.Empty
 import by.offvanhooijdonk.plaincalendar.widget.ui.configure.Result.Error
 import by.offvanhooijdonk.plaincalendar.widget.ui.configure.Result.Progress
 import by.offvanhooijdonk.plaincalendar.widget.ui.configure.Result.Success
+import by.offvanhooijdonk.plaincalendar.widget.ui.configure.settings.preview.WidgetPreview
 import by.offvanhooijdonk.plaincalendar.widget.ui.configure.settings.tabs.ColorTab
 import by.offvanhooijdonk.plaincalendar.widget.ui.configure.settings.tabs.OpacityTab
 import by.offvanhooijdonk.plaincalendar.widget.ui.configure.settings.tabs.SettingTab
@@ -96,6 +97,14 @@ private fun ConfigureScreen(widget: WidgetModel) {
                 CalendarsForm(widget.calendars) {/*todo*/ }
                 DaysNumberForm(widget.days) {/*todo*/ }
             }
+
+            WidgetPreview(
+                modifier = Modifier.constrainAs(preview) {
+                    top.linkTo(topSettings.bottom)
+                    bottom.linkTo(bottomSettings.top)
+                },
+                widget = WidgetModel(opacity = 0.5f),
+            )
 
             Box(modifier = Modifier
                 .background(color = MaterialTheme.colors.surface)
@@ -177,9 +186,11 @@ private fun SettingsBottomPanel(widget: WidgetModel) {
                 )
             }
         }
-        Box(modifier = Modifier
-            .fillMaxWidth()
-            .height(56.dp)) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(56.dp)
+        ) {
             // todo add some animation, like CrossFade ?
             when (SettingTabsList[selectedIndex.value]) {
                 SettingTab.ColorTab -> ColorTab()

@@ -1,23 +1,9 @@
 package by.offvanhooijdonk.plaincalendar.widget.ui.configure.settings;
 
 import android.app.Fragment;
-import android.content.Context;
-import android.graphics.Point;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.HorizontalScrollView;
-import android.widget.LinearLayout;
-
-import by.offvanhooijdonk.plaincalendar.widget.R;
-import by.offvanhooijdonk.plaincalendar.widget.helper.PrefHelper;
-import by.offvanhooijdonk.plaincalendar.widget.ui.customviews.ColorSingleOptionView;
 
 public class ColorsSettingsFragment extends Fragment {
-    private static final String ARG_COLORS_LIST = "arg_colors_list";
+    /*private static final String ARG_COLORS_LIST = "arg_colors_list";
     private static final String ARG_COLOR_SELECTED = "arg_color_selected";
 
     private Context ctx;
@@ -127,5 +113,5 @@ public class ColorsSettingsFragment extends Fragment {
 
     public interface SettingClickListener {
         void onColorClick(int colorValue);
-    }
+    }*/
 }
