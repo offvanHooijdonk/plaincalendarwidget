@@ -88,6 +88,7 @@ private fun ConfigureScreen(widget: WidgetModel) {
                     }
             ) {
                 CalendarsForm(widget.calendars) {/*todo*/ }
+                Spacer(modifier = Modifier.height(4.dp))
                 DaysNumberForm(widget.days) {/*todo*/ }
             }
 
@@ -114,16 +115,21 @@ private fun ConfigureScreen(widget: WidgetModel) {
 @Composable
 private fun CalendarsForm(list: List<CalendarModel>, onChangeBtnClick: () -> Unit) {
     ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
-        val (rowList, btn) = createRefs()
+        val (caption, rowList, btn) = createRefs()
 
+        Text(
+            modifier = Modifier.constrainAs(caption) {
+                start.linkTo(parent.start)
+                top.linkTo(parent.top)
+            },
+            text = "Calendars".uppercase(),
+            color = MaterialTheme.colors.primary,
+        )
         LazyRow(modifier = Modifier.constrainAs(rowList) {
             start.linkTo(parent.start); end.linkTo(btn.start)
             this.width = Dimension.fillToConstraints
-            centerVerticallyTo(parent)
+            top.linkTo(caption.bottom, 4.dp)
         }) {
-            stickyHeader {
-                Text(text = "Calendars:")
-            }
             items(items = list, key = { it.id }) {
                 Text(
                     modifier = Modifier.padding(4.dp),
@@ -132,7 +138,7 @@ private fun CalendarsForm(list: List<CalendarModel>, onChangeBtnClick: () -> Uni
             }
         }
         IconButton(
-            modifier = Modifier.constrainAs(btn) { end.linkTo(parent.end); centerVerticallyTo(parent) },
+            modifier = Modifier.constrainAs(btn) { end.linkTo(parent.end); centerVerticallyTo(rowList) },
             onClick = onChangeBtnClick,
         ) {
             Icon(painter = painterResource(R.drawable.ic_edit_calendar_24), null)
@@ -142,21 +148,22 @@ private fun CalendarsForm(list: List<CalendarModel>, onChangeBtnClick: () -> Uni
 
 @Composable
 private fun DaysNumberForm(daySelected: Int, onDaysChange: (Int) -> Unit) {
-    Column(modifier = Modifier
-        .fillMaxWidth().systemGestureExclusion()) {
+    Column(modifier = Modifier.fillMaxWidth()) {
+        Text(text = "Days to show".uppercase(), color = MaterialTheme.colors.primary)
+
         val daysPick = remember(daySelected) { mutableStateOf(daySelected.toFloat()) }
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Text(text = "Days to show:")
+            Text(text = daysPick.value.roundToInt().toString(), fontSize = 20.sp)
             Spacer(modifier = Modifier.width(8.dp))
-            Text(text = daysPick.value.roundToInt().toString(), fontSize = 18.sp)
+            Slider(
+                modifier = Modifier.systemGestureExclusion(),
+                value = daysPick.value,
+                valueRange = DAYS_RANGE_MIN.toFloat()..DAYS_RANGE_MAX.toFloat(),
+                steps = DAYS_RANGE_STEPS,
+                onValueChange = { daysPick.value = it },
+                onValueChangeFinished = { onDaysChange(daysPick.value.roundToInt()) },
+            )
         }
-        Slider(
-            value = daysPick.value,
-            valueRange = DAYS_RANGE_MIN.toFloat()..DAYS_RANGE_MAX.toFloat(),
-            steps = DAYS_RANGE_STEPS,
-            onValueChange = { daysPick.value = it },
-            onValueChangeFinished = { onDaysChange(daysPick.value.roundToInt()) },
-        )
     }
 }
 

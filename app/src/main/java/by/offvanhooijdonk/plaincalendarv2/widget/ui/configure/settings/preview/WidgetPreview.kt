@@ -55,7 +55,10 @@ private fun WidgetBlueprint(widget: WidgetModel) {
     ) {
         LazyColumn(modifier = Modifier.fillMaxWidth()) {
             items(previewEvents, key = { it.id }) {
-                WidgetEventItem(it)
+                Column {
+                    WidgetEventItem(it)
+                    Divider()
+                }
             }
         }
     }
@@ -64,7 +67,9 @@ private fun WidgetBlueprint(widget: WidgetModel) {
 @Composable
 private fun WidgetEventItem(event: EventModel) {
     Surface(onClick = { /* todo */ }) {
-        Column(modifier = Modifier.fillMaxWidth()) {
+        Column(modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp).padding(top = 4.dp, bottom = 8.dp)) {
             Text(text = Calendar.getInstance().apply { time = event.dateStart }
                 .getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()) ?: "Soon")
 
@@ -78,7 +83,6 @@ private fun WidgetEventItem(event: EventModel) {
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(text = event.title)
             }
-            Divider()
         }
     }
 }
