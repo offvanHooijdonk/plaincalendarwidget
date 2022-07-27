@@ -1,24 +1,21 @@
 package by.offvanhooijdonk.plaincalendar.widget.widget
 
-import android.content.Intent
-import android.widget.RemoteViewsService.RemoteViewsFactory
-import by.offvanhooijdonk.plaincalendar.widget.model.WidgetModel
-import by.offvanhooijdonk.plaincalendar.widget.data.calendars.CalendarDataSource
-import by.offvanhooijdonk.plaincalendar.widget.model.EventModel
-import by.offvanhooijdonk.plaincalendar.widget.app.App
-import android.widget.RemoteViews
-import by.offvanhooijdonk.plaincalendar.widget.R
-import android.util.TypedValue
-import by.offvanhooijdonk.plaincalendar.widget.helper.WidgetHelper
 import android.appwidget.AppWidgetManager
 import android.content.Context
+import android.content.Intent
 import android.util.Log
-import android.view.View
+import android.widget.RemoteViews
+import android.widget.RemoteViewsService.RemoteViewsFactory
+import by.offvanhooijdonk.plaincalendar.widget.R
+import by.offvanhooijdonk.plaincalendar.widget.data.calendars.CalendarDataSource
 import by.offvanhooijdonk.plaincalendar.widget.data.database.CalendarDao
 import by.offvanhooijdonk.plaincalendar.widget.data.database.WidgetDao
+import by.offvanhooijdonk.plaincalendar.widget.model.EventModel
+import by.offvanhooijdonk.plaincalendar.widget.model.WidgetModel
+import by.offvanhooijdonk.plaincalendarv2.widget.app.App
 import org.koin.core.component.KoinComponent
-import java.util.ArrayList
 
+@Deprecated("")
 class EventsRemoteViewsFactory(
     private val ctx: Context,
     private val widgetDao: WidgetDao,

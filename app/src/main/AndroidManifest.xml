@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="by.offvanhooijdonk.plaincalendar.widget">
+    package="by.offvanhooijdonk.plaincalendarv2.widget">
 
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
-        android:name="by.offvanhooijdonk.plaincalendar.widget.app.App"
+        android:name="by.offvanhooijdonk.plaincalendarv2.widget.app.App"
         android:allowBackup="true"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
@@ -16,7 +16,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name="by.offvanhooijdonk.plaincalendar.widget.ui.configure.ConfigurationActivity"
+            android:name="by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.ConfigurationActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:windowSoftInputMode="stateHidden|adjustPan">

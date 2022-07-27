@@ -2,6 +2,7 @@ package by.offvanhooijdonk.plaincalendar.widget.ui.configure.settings;
 
 import android.app.Fragment;
 
+@Deprecated
 public class SeekBarSettingsFragment extends Fragment {
     /*private static final String ARG_MIN_VALUE = "arg_min_value";
     private static final String ARG_MAX_VALUE = "arg_max_value";

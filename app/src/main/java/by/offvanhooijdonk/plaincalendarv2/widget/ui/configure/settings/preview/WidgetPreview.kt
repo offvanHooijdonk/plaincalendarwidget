@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalMaterialApi::class)
 
-package by.offvanhooijdonk.plaincalendar.widget.ui.configure.settings.preview
+package by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.preview
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

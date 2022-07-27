@@ -9,20 +9,17 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.util.Log
-import android.util.TypedValue
-import android.view.View
 import android.widget.RemoteViews
 import by.offvanhooijdonk.plaincalendar.widget.R
-import by.offvanhooijdonk.plaincalendar.widget.app.App
 import by.offvanhooijdonk.plaincalendar.widget.data.calendars.CalendarsRemoteService
 import by.offvanhooijdonk.plaincalendar.widget.data.calendars.job.CalendarChangeJobService
 import by.offvanhooijdonk.plaincalendar.widget.data.calendars.observer.EventsContentObserver
 import by.offvanhooijdonk.plaincalendar.widget.data.database.WidgetDao
-import by.offvanhooijdonk.plaincalendar.widget.helper.WidgetHelper
+import by.offvanhooijdonk.plaincalendarv2.widget.app.App
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import java.util.*
 
+@Deprecated("")
 class CalendarWidgetProvider : AppWidgetProvider(), KoinComponent {
     private val contentObserver: EventsContentObserver? = null
 

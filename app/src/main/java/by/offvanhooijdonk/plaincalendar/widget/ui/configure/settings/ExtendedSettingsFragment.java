@@ -2,6 +2,7 @@ package by.offvanhooijdonk.plaincalendar.widget.ui.configure.settings;
 
 import android.app.Fragment;
 
+@Deprecated
 public class ExtendedSettingsFragment extends Fragment {
 /*    //private Context ctx;
     private ExtendedOptionsListener listener;

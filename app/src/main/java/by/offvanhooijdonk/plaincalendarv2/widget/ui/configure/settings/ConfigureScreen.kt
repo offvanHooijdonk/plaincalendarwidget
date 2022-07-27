@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalFoundationApi::class)
 
-package by.offvanhooijdonk.plaincalendar.widget.ui.configure.settings
+package by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -40,25 +40,17 @@ import androidx.constraintlayout.compose.Dimension
 import by.offvanhooijdonk.plaincalendar.widget.R
 import by.offvanhooijdonk.plaincalendar.widget.model.CalendarModel
 import by.offvanhooijdonk.plaincalendar.widget.model.WidgetModel
-import by.offvanhooijdonk.plaincalendar.widget.ui.configure.ConfigureViewModel
-import by.offvanhooijdonk.plaincalendar.widget.ui.configure.Result.Empty
-import by.offvanhooijdonk.plaincalendar.widget.ui.configure.Result.Error
-import by.offvanhooijdonk.plaincalendar.widget.ui.configure.Result.Progress
-import by.offvanhooijdonk.plaincalendar.widget.ui.configure.Result.Success
-import by.offvanhooijdonk.plaincalendar.widget.ui.configure.settings.preview.WidgetPreview
-import by.offvanhooijdonk.plaincalendar.widget.ui.configure.settings.tabs.ColorTab
-import by.offvanhooijdonk.plaincalendar.widget.ui.configure.settings.tabs.OpacityTab
-import by.offvanhooijdonk.plaincalendar.widget.ui.configure.settings.tabs.SettingTab
-import by.offvanhooijdonk.plaincalendar.widget.ui.configure.settings.tabs.SettingTabsList
-import by.offvanhooijdonk.plaincalendar.widget.ui.configure.settings.tabs.TextColorTab
-import by.offvanhooijdonk.plaincalendar.widget.ui.configure.settings.tabs.TextSizeTab
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.tabs.*
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.ConfigureViewModel
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.Result
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.preview.WidgetPreview
 import kotlin.math.roundToInt
 
 @Composable
 fun MainScreen(viewModel: ConfigureViewModel) {
     val title = when (val result = viewModel.widgetResponse.observeAsState().value) {
-        is Success -> "Widget #${result.data.id}"
-        Empty -> "New widget"
+        is Result.Success -> "Widget #${result.data.id}"
+        Result.Empty -> "New widget"
         else -> "..."
     }
     Scaffold(
@@ -71,10 +63,10 @@ fun MainScreen(viewModel: ConfigureViewModel) {
 @Composable
 private fun ConfigureScreenWrap(viewModel: ConfigureViewModel) {
     when (val result = viewModel.widgetResponse.observeAsState().value) {
-        is Success -> ConfigureScreen(result.data)
-        Empty -> ConfigureScreen(WidgetModel())
-        is Error -> ErrorScreen(result.msg ?: "Default error")
-        Progress -> LoadingScreen()
+        is Result.Success -> ConfigureScreen(result.data)
+        Result.Empty -> ConfigureScreen(WidgetModel())
+        is Result.Error -> ErrorScreen(result.msg ?: "Default error")
+        Result.Progress -> LoadingScreen()
         else -> Unit
     }
 }

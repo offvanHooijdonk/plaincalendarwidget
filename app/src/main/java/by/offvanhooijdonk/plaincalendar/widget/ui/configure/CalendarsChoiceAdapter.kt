@@ -11,6 +11,7 @@ import android.widget.TextView
 import by.offvanhooijdonk.plaincalendar.widget.R
 import by.offvanhooijdonk.plaincalendar.widget.model.CalendarModel
 
+@Deprecated("")
 class CalendarsChoiceAdapter(
     private val ctx: Context,
     private val calendars: List<CalendarModel>,

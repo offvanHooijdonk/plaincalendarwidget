@@ -1,4 +1,4 @@
-package by.offvanhooijdonk.plaincalendar.widget.app
+package by.offvanhooijdonk.plaincalendarv2.widget.app
 
 import android.app.Application
 import by.offvanhooijdonk.plaincalendar.widget.data.database.AppDatabase

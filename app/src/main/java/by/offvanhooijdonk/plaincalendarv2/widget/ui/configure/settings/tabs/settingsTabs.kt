@@ -1,4 +1,4 @@
-package by.offvanhooijdonk.plaincalendar.widget.ui.configure.settings.tabs
+package by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.tabs
 
 import androidx.annotation.DrawableRes
 import by.offvanhooijdonk.plaincalendar.widget.R

@@ -2,6 +2,7 @@ package by.offvanhooijdonk.plaincalendar.widget.ui.configure.settings;
 
 import android.app.Fragment;
 
+@Deprecated
 public class ColorsSettingsFragment extends Fragment {
     /*private static final String ARG_COLORS_LIST = "arg_colors_list";
     private static final String ARG_COLOR_SELECTED = "arg_color_selected";

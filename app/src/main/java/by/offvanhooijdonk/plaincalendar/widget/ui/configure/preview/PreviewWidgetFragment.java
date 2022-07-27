@@ -2,6 +2,7 @@ package by.offvanhooijdonk.plaincalendar.widget.ui.configure.preview;
 
 import android.app.Fragment;
 
+@Deprecated
 public class PreviewWidgetFragment extends Fragment {
     /*private static final int DEFAULT_COLUMNS = 4;
     private static final int DEFAULT_ROWS = 2;
