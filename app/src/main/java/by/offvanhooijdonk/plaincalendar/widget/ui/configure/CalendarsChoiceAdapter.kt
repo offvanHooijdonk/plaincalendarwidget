@@ -8,7 +8,7 @@ import android.widget.BaseAdapter
 import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
-import by.offvanhooijdonk.plaincalendar.widget.R
+import by.offvanhooijdonk.plaincalendarv2.widget.R
 import by.offvanhooijdonk.plaincalendar.widget.model.CalendarModel
 
 @Deprecated("")

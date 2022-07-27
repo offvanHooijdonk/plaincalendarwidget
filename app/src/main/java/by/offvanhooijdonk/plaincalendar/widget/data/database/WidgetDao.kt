@@ -20,5 +20,5 @@ interface WidgetDao {
     fun deleteAllWidgetCalendars(widgetId: Long)
 
     @Insert
-    suspend fun saveWidgetCalendars(list: List<WidgetCalendarModel>)
+    fun saveWidgetCalendars(list: List<WidgetCalendarModel>)
 }

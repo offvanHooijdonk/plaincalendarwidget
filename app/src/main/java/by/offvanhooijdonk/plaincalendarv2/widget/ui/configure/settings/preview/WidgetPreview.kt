@@ -27,7 +27,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import by.offvanhooijdonk.plaincalendar.widget.R
+import by.offvanhooijdonk.plaincalendarv2.widget.R
 import by.offvanhooijdonk.plaincalendar.widget.model.EventModel
 import by.offvanhooijdonk.plaincalendar.widget.model.WidgetModel
 import java.util.*

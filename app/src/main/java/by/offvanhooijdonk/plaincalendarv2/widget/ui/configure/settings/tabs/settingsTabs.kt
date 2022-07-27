@@ -1,7 +1,7 @@
 package by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.tabs
 
 import androidx.annotation.DrawableRes
-import by.offvanhooijdonk.plaincalendar.widget.R
+import by.offvanhooijdonk.plaincalendarv2.widget.R
 
 sealed class SettingTab(
     @DrawableRes val iconRes: Int,

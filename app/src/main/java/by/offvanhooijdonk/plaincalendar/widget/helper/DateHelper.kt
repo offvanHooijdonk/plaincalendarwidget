@@ -3,7 +3,7 @@ package by.offvanhooijdonk.plaincalendar.widget.helper
 import android.annotation.SuppressLint
 import android.content.Context
 import android.text.format.DateUtils
-import by.offvanhooijdonk.plaincalendar.widget.R
+import by.offvanhooijdonk.plaincalendarv2.widget.R
 import by.offvanhooijdonk.plaincalendar.widget.model.WidgetModel.ShowEndDate
 import java.text.DateFormat
 import java.text.SimpleDateFormat

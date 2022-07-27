@@ -6,7 +6,7 @@ import android.content.Intent
 import android.util.Log
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService.RemoteViewsFactory
-import by.offvanhooijdonk.plaincalendar.widget.R
+import by.offvanhooijdonk.plaincalendarv2.widget.R
 import by.offvanhooijdonk.plaincalendar.widget.data.calendars.CalendarDataSource
 import by.offvanhooijdonk.plaincalendar.widget.data.database.CalendarDao
 import by.offvanhooijdonk.plaincalendar.widget.data.database.WidgetDao

@@ -8,10 +8,9 @@ import android.content.ComponentName
 import android.content.Context
 import android.net.Uri
 import android.util.Log
-import by.offvanhooijdonk.plaincalendar.widget.app.App
 import by.offvanhooijdonk.plaincalendar.widget.data.calendars.CalendarDataSource
 import by.offvanhooijdonk.plaincalendar.widget.helper.WidgetHelper
-import by.offvanhooijdonk.plaincalendar.widget.widget.CalendarWidgetProvider
+import by.offvanhooijdonk.plaincalendarv2.widget.app.App
 import org.koin.android.ext.android.inject
 
 class CalendarChangeJobService : JobService() {

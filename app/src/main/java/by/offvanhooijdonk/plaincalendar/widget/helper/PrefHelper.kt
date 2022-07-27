@@ -3,7 +3,7 @@ package by.offvanhooijdonk.plaincalendar.widget.helper
 import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
-import by.offvanhooijdonk.plaincalendar.widget.R
+import by.offvanhooijdonk.plaincalendarv2.widget.R
 
 class PrefHelper(private val ctx: Context) { // todo convert to DataStore
     private val prefs: SharedPreferences = getSharedPreference()

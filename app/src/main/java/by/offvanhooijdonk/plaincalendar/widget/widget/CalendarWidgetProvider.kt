@@ -10,7 +10,7 @@ import android.net.Uri
 import android.os.Build
 import android.util.Log
 import android.widget.RemoteViews
-import by.offvanhooijdonk.plaincalendar.widget.R
+import by.offvanhooijdonk.plaincalendarv2.widget.R
 import by.offvanhooijdonk.plaincalendar.widget.data.calendars.CalendarsRemoteService
 import by.offvanhooijdonk.plaincalendar.widget.data.calendars.job.CalendarChangeJobService
 import by.offvanhooijdonk.plaincalendar.widget.data.calendars.observer.EventsContentObserver

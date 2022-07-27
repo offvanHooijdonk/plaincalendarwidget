@@ -9,8 +9,6 @@ import androidx.room.PrimaryKey
 data class WidgetModel(
     @PrimaryKey
     var id: Long = 0,
-    @Ignore
-    var calendars: List<CalendarModel> = emptyList(),
     @ColumnInfo(name = "days")
     var days: Int = 0,
     @ColumnInfo(name = "back_color")
@@ -36,6 +34,9 @@ data class WidgetModel(
     @ColumnInfo(name = "show_date_text_label")
     var showDateTextLabel: Boolean? = null,
 ) {
+    @Ignore
+    var calendars: List<CalendarModel> = emptyList()
+
     enum class ShowEndDate(val code: Int) {
         NEVER(0), MORE_THAN_DAY(1), ALWAYS(2);
 

@@ -4,7 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import by.offvanhooijdonk.plaincalendar.widget.app.App
+import by.offvanhooijdonk.plaincalendarv2.widget.app.App
 
 class CalendarsChangeReceiver : BroadcastReceiver() { // todo remove ?
     override fun onReceive(ctx: Context, intent: Intent) {

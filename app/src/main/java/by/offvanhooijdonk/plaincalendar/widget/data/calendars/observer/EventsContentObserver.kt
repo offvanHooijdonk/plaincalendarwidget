@@ -3,7 +3,7 @@ package by.offvanhooijdonk.plaincalendar.widget.data.calendars.observer
 import android.database.ContentObserver
 import android.os.Handler
 import android.util.Log
-import by.offvanhooijdonk.plaincalendar.widget.app.App
+import by.offvanhooijdonk.plaincalendarv2.widget.app.App
 
 class EventsContentObserver(handler: Handler, private val onDataChanged: () -> Unit) : ContentObserver(handler) {
 
