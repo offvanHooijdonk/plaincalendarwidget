@@ -3,6 +3,7 @@
 package by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.preview
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -28,9 +29,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import by.offvanhooijdonk.plaincalendarv2.widget.R
 import by.offvanhooijdonk.plaincalendar.widget.model.EventModel
 import by.offvanhooijdonk.plaincalendar.widget.model.WidgetModel
+import by.offvanhooijdonk.plaincalendarv2.widget.R
 import java.util.*
 
 @Composable
@@ -50,11 +51,16 @@ private fun WidgetBlueprint(widget: WidgetModel) {
     Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color.White.copy(alpha = widget.opacity))
             .padding(vertical = 4.dp),
+        color = Color(widget.backgroundColor.toULong()).copy(alpha = widget.opacity),
         shape = RoundedCornerShape(12.dp),
     ) {
-        LazyColumn(modifier = Modifier.fillMaxWidth(), contentPadding = PaddingValues(all = 4.dp)) {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(color = Color.Transparent, RoundedCornerShape(12.dp)),
+            contentPadding = PaddingValues(all = 4.dp)
+        ) {
             items(previewEvents, key = { it.id }) {
                 Column {
                     WidgetEventItem(it)
@@ -67,10 +73,18 @@ private fun WidgetBlueprint(widget: WidgetModel) {
 
 @Composable
 private fun WidgetEventItem(event: EventModel) {
-    Surface(onClick = { /* todo */ }) {
-        Column(modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 8.dp).padding(top = 4.dp, bottom = 8.dp)) {
+    Surface(
+        modifier = Modifier.padding(2.dp),
+        onClick = { /**/ },
+        shape = RoundedCornerShape(8.dp),
+        color = Color.Transparent
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 8.dp)
+                .padding(top = 4.dp, bottom = 8.dp)
+        ) {
             Text(text = Calendar.getInstance().apply { time = event.dateStart }
                 .getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()) ?: "Soon")
 

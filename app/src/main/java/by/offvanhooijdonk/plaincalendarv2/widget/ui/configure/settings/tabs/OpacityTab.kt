@@ -19,14 +19,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun OpacityTab() {
+fun OpacityTab(opacitySelected: Float, onPickOpacity: (Float) -> Unit) {
     Row(
         modifier = Modifier
             .padding(horizontal = 16.dp, vertical = 8.dp)
             .fillMaxSize(),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        val sliderValue = remember { mutableStateOf(OPACITY_RANGE_MAX.toFloat()) }
+        val sliderValue = remember(opacitySelected) { mutableStateOf(opacitySelected * 100 / OPACITY_VALUE_STEP) }
         Text(
             modifier = Modifier.width(32.dp),
             text = (sliderValue.value.toInt() * OPACITY_VALUE_STEP).toString(),
@@ -39,7 +39,10 @@ fun OpacityTab() {
             value = sliderValue.value,
             valueRange = OPACITY_RANGE_MIN.toFloat()..OPACITY_RANGE_MAX.toFloat(),
             steps = OPACITY_RANGE_STEPS,
-            onValueChange = { sliderValue.value = it },
+            onValueChange = {
+                sliderValue.value = it
+                onPickOpacity(it / 100 * OPACITY_VALUE_STEP)
+            },
         )
     }
 }
@@ -52,5 +55,5 @@ private const val OPACITY_RANGE_STEPS = OPACITY_RANGE_MAX - OPACITY_RANGE_MIN - 
 @Preview
 @Composable
 private fun Preview_OpacityTab() {
-    OpacityTab()
+    OpacityTab(0.5f) {}
 }

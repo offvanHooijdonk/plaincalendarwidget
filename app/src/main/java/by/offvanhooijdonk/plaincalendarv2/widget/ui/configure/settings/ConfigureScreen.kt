@@ -82,6 +82,7 @@ private fun ConfigureScreen(widget: WidgetModel) {
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
+        val widgetPreview = remember(widget) { mutableStateOf(widget) }
         ConstraintLayout(modifier = Modifier.fillMaxSize()) {
             val (topSettings, preview, bottomSettings) = createRefs()
             Column(
@@ -92,9 +93,12 @@ private fun ConfigureScreen(widget: WidgetModel) {
                         top.linkTo(parent.top)
                     }
             ) {
-                CalendarsForm(widget.calendars) {/*todo*/ }
+                val calendarsList = remember(widget) { mutableStateOf(widget.calendars) }
+                CalendarsForm(calendarsList.value) { /* todo call for calendars picker */ }
                 Spacer(modifier = Modifier.height(4.dp))
-                DaysNumberForm(widget.days) {/*todo*/ }
+
+                val daysNumber = remember(widget) { mutableStateOf(widget.days) }
+                DaysNumberForm(daysNumber.value) { daysNumber.value = it }
             }
 
             WidgetPreview(
@@ -102,7 +106,7 @@ private fun ConfigureScreen(widget: WidgetModel) {
                     top.linkTo(topSettings.bottom)
                     bottom.linkTo(bottomSettings.top)
                 },
-                widget = WidgetModel(opacity = 0.5f),
+                widget = widgetPreview.value,
             )
 
             Box(modifier = Modifier
@@ -111,7 +115,7 @@ private fun ConfigureScreen(widget: WidgetModel) {
                 .constrainAs(bottomSettings) {
                     bottom.linkTo(parent.bottom)
                 }) {
-                SettingsBottomPanel(widget)
+                SettingsBottomPanel(widgetPreview.value) { widgetPreview.value = it }
             }
         }
     }
@@ -133,8 +137,11 @@ private fun CalendarsForm(list: List<CalendarModel>, onChangeBtnClick: () -> Uni
         LazyRow(modifier = Modifier.constrainAs(rowList) {
             start.linkTo(parent.start); end.linkTo(btn.start)
             this.width = Dimension.fillToConstraints
-            top.linkTo(caption.bottom, 4.dp)
+            top.linkTo(caption.bottom, 8.dp)
         }) {
+            if (list.isEmpty()) {
+                item { Text(modifier = Modifier.padding(start = 4.dp), text = "No calendars picked") }
+            }
             items(items = list, key = { it.id }) {
                 Text(
                     modifier = Modifier.padding(4.dp),
@@ -182,7 +189,7 @@ private const val DAYS_RANGE_MAX = 31
 private const val DAYS_RANGE_STEPS = DAYS_RANGE_MAX - DAYS_RANGE_MIN - 1
 
 @Composable
-private fun SettingsBottomPanel(widget: WidgetModel) {
+private fun SettingsBottomPanel(widget: WidgetModel, onPreviewSettingsChange: (WidgetModel) -> Unit) {
     Column(modifier = Modifier.fillMaxWidth()) {
         val selectedIndex = remember { mutableStateOf(0) }
         TabRow(selectedTabIndex = selectedIndex.value) {
@@ -204,8 +211,20 @@ private fun SettingsBottomPanel(widget: WidgetModel) {
         ) {
             // todo add some animation, like CrossFade ?
             when (SettingTabsList[selectedIndex.value]) {
-                SettingTab.ColorTab -> ColorTab()
-                SettingTab.OpacityTab -> OpacityTab()
+                SettingTab.ColorTab -> {
+                    val color = remember(widget) { mutableStateOf(Color(widget.backgroundColor.toULong())) }
+                    ColorTab(color.value) {
+                        color.value = it
+                        onPreviewSettingsChange(widget.copy(backgroundColor = it.value.toLong()))
+                    }
+                }
+                SettingTab.OpacityTab -> {
+                    val opacity = remember(widget) { mutableStateOf(widget.opacity) }
+                    OpacityTab(opacity.value) {
+                        opacity.value = it
+                        onPreviewSettingsChange(widget.copy(opacity = it))
+                    }
+                }
                 SettingTab.TextColorTab -> TextColorTab()
                 SettingTab.TextSizeTab -> TextSizeTab()
             }

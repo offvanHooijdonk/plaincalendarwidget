@@ -1,5 +1,6 @@
 package by.offvanhooijdonk.plaincalendar.widget.model
 
+import androidx.compose.ui.graphics.Color
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
@@ -12,7 +13,7 @@ data class WidgetModel(
     @ColumnInfo(name = "days")
     var days: Int = 0,
     @ColumnInfo(name = "back_color")
-    var backgroundColor: Int? = null,
+    var backgroundColor: Long = Color.White.value.toLong(),
     @ColumnInfo(name = "date_color")
     var textColor: Int? = null,
     @ColumnInfo(name = "opacity")
