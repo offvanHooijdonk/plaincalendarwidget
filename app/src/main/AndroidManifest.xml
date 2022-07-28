@@ -8,7 +8,6 @@
     <application
         android:name="by.offvanhooijdonk.plaincalendarv2.widget.app.App"
         android:allowBackup="true"
-        android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -18,7 +17,6 @@
         <activity
             android:name="by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.ConfigurationActivity"
             android:exported="true"
-            android:label="@string/app_name"
             android:windowSoftInputMode="stateHidden|adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

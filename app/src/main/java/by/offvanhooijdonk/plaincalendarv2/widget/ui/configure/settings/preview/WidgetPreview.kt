@@ -5,6 +5,7 @@ package by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.preview
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -53,7 +54,7 @@ private fun WidgetBlueprint(widget: WidgetModel) {
             .padding(vertical = 4.dp),
         shape = RoundedCornerShape(12.dp),
     ) {
-        LazyColumn(modifier = Modifier.fillMaxWidth()) {
+        LazyColumn(modifier = Modifier.fillMaxWidth(), contentPadding = PaddingValues(all = 4.dp)) {
             items(previewEvents, key = { it.id }) {
                 Column {
                     WidgetEventItem(it)

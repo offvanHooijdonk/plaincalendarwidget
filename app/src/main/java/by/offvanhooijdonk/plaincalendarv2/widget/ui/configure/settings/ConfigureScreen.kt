@@ -1,8 +1,5 @@
-@file:OptIn(ExperimentalFoundationApi::class)
-
 package by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -32,19 +29,26 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import by.offvanhooijdonk.plaincalendarv2.widget.R
 import by.offvanhooijdonk.plaincalendar.widget.model.CalendarModel
 import by.offvanhooijdonk.plaincalendar.widget.model.WidgetModel
-import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.tabs.*
+import by.offvanhooijdonk.plaincalendarv2.widget.R
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.ConfigureViewModel
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.Result
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.preview.WidgetPreview
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.tabs.ColorTab
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.tabs.OpacityTab
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.tabs.SettingTab
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.tabs.SettingTabsList
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.tabs.TextColorTab
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.tabs.TextSizeTab
 import kotlin.math.roundToInt
 
 @Composable
@@ -55,7 +59,8 @@ fun MainScreen(viewModel: ConfigureViewModel) {
         else -> "..."
     }
     Scaffold(
-        topBar = { TopAppBar(title = { Text(title) }) }
+        backgroundColor = Color.Transparent,
+        topBar = { TopAppBar(title = { Text(title) }) },
     ) {
         ConfigureScreenWrap(viewModel)
     }
@@ -153,7 +158,12 @@ private fun DaysNumberForm(daySelected: Int, onDaysChange: (Int) -> Unit) {
 
         val daysPick = remember(daySelected) { mutableStateOf(daySelected.toFloat()) }
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Text(text = daysPick.value.roundToInt().toString(), fontSize = 20.sp)
+            Text(
+                modifier = Modifier.width(28.dp),
+                text = daysPick.value.roundToInt().toString(),
+                fontSize = 20.sp,
+                textAlign = TextAlign.End,
+            )
             Spacer(modifier = Modifier.width(8.dp))
             Slider(
                 modifier = Modifier.systemGestureExclusion(),
@@ -190,7 +200,7 @@ private fun SettingsBottomPanel(widget: WidgetModel) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(56.dp)
+                .height(80.dp)
         ) {
             // todo add some animation, like CrossFade ?
             when (SettingTabsList[selectedIndex.value]) {
@@ -224,5 +234,5 @@ private fun ErrorScreen(msg: String) {
 @Preview(showSystemUi = true)
 @Composable
 fun Preview_ConfigureNew() {
-    ConfigureScreen(WidgetModel(days = 5))
+    ConfigureScreen(WidgetModel(days = 25))
 }
