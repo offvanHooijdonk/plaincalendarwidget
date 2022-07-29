@@ -47,20 +47,13 @@
             android:layout_toEndOf="@id/txtWidgetDate"
             android:src="@drawable/divider_white" />
 
-        <ListView
-            android:id="@+id/listEvents"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_toEndOf="@id/viewDivider"
-            android:divider="@null" />
-
         <TextView
             android:id="@+id/emptyView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="@dimen/widget_margin"
             android:layout_marginTop="@dimen/widget_margin"
-            android:visibility="gone"
+            android:visibility="visible"
             android:layout_toEndOf="@id/viewDivider"
             android:text="@string/widget_empty_events_list"
             android:textColor="@color/md_white_1000" />

@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Просто Виджет Календаря</string>
     <string name="dialog_load_calendars_msg">Загружаем Календари…</string>
-    <string name="widget_empty_events_list">Ничего</string>
+    <string name="widget_empty_events_list">Событий нет</string>
     <string name="fish_day_of_week">вс</string>
     <string name="date_default">31</string>
     <string name="fish_digit_value">48</string>

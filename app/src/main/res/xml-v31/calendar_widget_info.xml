@@ -7,5 +7,7 @@
     android:configure="by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.ConfigurationActivity"
     android:resizeMode="horizontal|vertical"
     android:description="@string/widget_description"
+    android:targetCellHeight="2"
+    android:targetCellWidth="3"
     android:widgetCategory="home_screen">
 </appwidget-provider>

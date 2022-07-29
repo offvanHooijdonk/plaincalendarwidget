@@ -30,9 +30,8 @@ class CalendarWidgetProvider : AppWidgetProvider(), KoinComponent {
         super.onEnabled(ctx)
         Log.d(App.LOGCAT, "Enabled")
         setupDailyAlarm(ctx)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            CalendarChangeJobService.scheduleCalendarChangeJob(ctx)
-        }
+
+        CalendarChangeJobService.scheduleCalendarChangeJob(ctx)
     }
 
     override fun onUpdate(ctx: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {

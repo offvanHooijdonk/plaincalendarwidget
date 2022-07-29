@@ -5,7 +5,7 @@
     <string name="empty_cal_list">Не знойдзена каляндароў</string>
     <string name="title_add_widget">Дадаем вiджэт</string>
     <string name="title_edit_widget">Вiджэт №%s</string>
-    <string name="widget_empty_events_list">Нiчога няма</string>
+    <string name="widget_empty_events_list">Падзей няма</string>
     <string name="fish_day_of_week">ня</string>
     <string name="fish_digit_value">48</string>
     <string name="date_default">31</string>

@@ -1,6 +1,7 @@
 package by.offvanhooijdonk.plaincalendarv2.widget.ui.configure
 
 import android.appwidget.AppWidgetManager
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
@@ -18,6 +19,18 @@ class ConfigurationActivity : AppCompatActivity() {
         setContent {
             MaterialTheme {
                 MainScreen(viewModel)
+            }
+        }
+
+        viewModel.finishScreen.observe({ lifecycle }) {
+            if (it) {
+                viewModel.widgetId?.let { widgetId ->
+                    val intent = Intent().apply {
+                        putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId)
+                    }
+                    setResult(RESULT_OK, intent)
+                    finish()
+                }
             }
         }
     }

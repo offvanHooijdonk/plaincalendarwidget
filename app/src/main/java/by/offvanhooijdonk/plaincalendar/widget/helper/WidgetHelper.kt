@@ -6,7 +6,6 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.provider.CalendarContract
-import by.offvanhooijdonk.plaincalendarv2.widget.R
 import by.offvanhooijdonk.plaincalendar.widget.widget.CalendarWidgetProvider
 
 class WidgetHelper(
@@ -17,7 +16,7 @@ class WidgetHelper(
         widgetsManager.getAppWidgetIds(ComponentName(ctx, CalendarWidgetProvider::class.java))
 
     fun notifyWidgetsDataChanged(widgetIds: IntArray) {
-        widgetsManager.notifyAppWidgetViewDataChanged(widgetIds, R.id.listEvents)
+        //widgetsManager.notifyAppWidgetViewDataChanged(widgetIds, R.id.listEvents)
     }
 
     fun riseTextSizeBy(resId: Int, delta: Int): Float {

@@ -14,6 +14,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.systemGestureExclusion
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.ExtendedFloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.LeadingIconTab
@@ -31,6 +32,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -69,8 +71,8 @@ fun MainScreen(viewModel: ConfigureViewModel) {
 @Composable
 private fun ConfigureScreenWrap(viewModel: ConfigureViewModel) {
     when (val result = viewModel.widgetResponse.observeAsState().value) {
-        is Result.Success -> ConfigureScreen(result.data)
-        Result.Empty -> ConfigureScreen(WidgetModel())
+        is Result.Success -> ConfigureScreen(result.data) { viewModel.updateWidget(it) }
+        Result.Empty -> ConfigureScreen(WidgetModel()) { viewModel.updateWidget(it) }
         is Result.Error -> ErrorScreen(result.msg ?: "Default error")
         Result.Progress -> LoadingScreen()
         else -> Unit
@@ -78,13 +80,13 @@ private fun ConfigureScreenWrap(viewModel: ConfigureViewModel) {
 }
 
 @Composable
-private fun ConfigureScreen(widget: WidgetModel) {
+private fun ConfigureScreen(widget: WidgetModel, onSaveChanges: (WidgetModel) -> Unit) {
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
         val widgetPreview = remember(widget) { mutableStateOf(widget) }
         ConstraintLayout(modifier = Modifier.fillMaxSize()) {
-            val (topSettings, preview, bottomSettings) = createRefs()
+            val (topSettings, preview, btn, bottomSettings) = createRefs()
             Column(
                 Modifier
                     .background(color = MaterialTheme.colors.surface)
@@ -107,6 +109,15 @@ private fun ConfigureScreen(widget: WidgetModel) {
                     bottom.linkTo(bottomSettings.top)
                 },
                 widget = widgetPreview.value,
+            )
+
+            ExtendedFloatingActionButton(
+                modifier = Modifier.constrainAs(btn) {
+                    bottom.linkTo(bottomSettings.top, 16.dp)
+                    centerHorizontallyTo(parent)
+                },
+                text = { Text(text = stringResource(R.string.btn_save_widget_settings), color = Color.White) },
+                onClick = { onSaveChanges(widgetPreview.value) },
             )
 
             Box(modifier = Modifier
@@ -253,5 +264,5 @@ private fun ErrorScreen(msg: String) {
 @Preview(showSystemUi = true)
 @Composable
 fun Preview_ConfigureNew() {
-    ConfigureScreen(WidgetModel(days = 25))
+    ConfigureScreen(WidgetModel(days = 25)) {}
 }
