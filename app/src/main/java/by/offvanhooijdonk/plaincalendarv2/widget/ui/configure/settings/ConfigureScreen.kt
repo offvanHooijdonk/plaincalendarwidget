@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterialApi::class)
+
 package by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings
 
 import androidx.compose.foundation.background
@@ -12,8 +14,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.systemGestureExclusion
+import androidx.compose.material.Chip
+import androidx.compose.material.ChipDefaults
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ExtendedFloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -56,8 +62,8 @@ import kotlin.math.roundToInt
 @Composable
 fun MainScreen(viewModel: ConfigureViewModel) {
     val title = when (val result = viewModel.widgetResponse.observeAsState().value) {
-        is Result.Success -> "Widget #${result.data.id}"
-        Result.Empty -> "New widget"
+        is Result.Widget.Success -> "Widget #${result.data.id}"
+        Result.Widget.New -> "New widget"
         else -> "..."
     }
     Scaffold(
@@ -71,8 +77,18 @@ fun MainScreen(viewModel: ConfigureViewModel) {
 @Composable
 private fun ConfigureScreenWrap(viewModel: ConfigureViewModel) {
     when (val result = viewModel.widgetResponse.observeAsState().value) {
-        is Result.Success -> ConfigureScreen(result.data) { viewModel.updateWidget(it) }
-        Result.Empty -> ConfigureScreen(WidgetModel()) { viewModel.updateWidget(it) }
+        is Result.Widget.Success -> ConfigureScreen(
+            result.data,
+            viewModel.calendarsResponse.observeAsState().value ?: Result.Idle,
+            { viewModel.loadCalendars()/*todo calendars permissions*/ },
+            { viewModel.updateWidget(it) },
+        )
+        Result.Widget.New -> ConfigureScreen(
+            WidgetModel(),
+            viewModel.calendarsResponse.observeAsState().value ?: Result.Idle,
+            { viewModel.loadCalendars() },
+            { viewModel.updateWidget(it) },
+        )
         is Result.Error -> ErrorScreen(result.msg ?: "Default error")
         Result.Progress -> LoadingScreen()
         else -> Unit
@@ -80,7 +96,12 @@ private fun ConfigureScreenWrap(viewModel: ConfigureViewModel) {
 }
 
 @Composable
-private fun ConfigureScreen(widget: WidgetModel, onSaveChanges: (WidgetModel) -> Unit) {
+private fun ConfigureScreen(
+    widget: WidgetModel,
+    allCalendars: Result,
+    onCalendarsRequested: () -> Unit,
+    onSaveChanges: (WidgetModel) -> Unit
+) {
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -95,8 +116,13 @@ private fun ConfigureScreen(widget: WidgetModel, onSaveChanges: (WidgetModel) ->
                         top.linkTo(parent.top)
                     }
             ) {
-                val calendarsList = remember(widget) { mutableStateOf(widget.calendars) }
-                CalendarsForm(calendarsList.value) { /* todo call for calendars picker */ }
+                //val calendarsList = remember(widget) { mutableStateOf(widget.calendars) }
+                CalendarsForm(
+                    widgetPreview.value.calendars,
+                    allCalendars,
+                    onChangeBtnClick = { onCalendarsRequested() },
+                    onCalendarsSelected = { widgetPreview.value = widgetPreview.value.copy(calendars = it) },
+                )
                 Spacer(modifier = Modifier.height(4.dp))
 
                 val daysNumber = remember(widget) { mutableStateOf(widget.days) }
@@ -133,7 +159,14 @@ private fun ConfigureScreen(widget: WidgetModel, onSaveChanges: (WidgetModel) ->
 }
 
 @Composable
-private fun CalendarsForm(list: List<CalendarModel>, onChangeBtnClick: () -> Unit) {
+private fun CalendarsForm(
+    pickedCalendars: List<CalendarModel>,
+    allCalendars: Result,
+    onChangeBtnClick: () -> Unit,
+    onCalendarsSelected: (List<CalendarModel>) -> Unit,
+) {
+    val isDialogCanShow = remember { mutableStateOf(false) }
+
     ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
         val (caption, rowList, btn) = createRefs()
 
@@ -142,7 +175,7 @@ private fun CalendarsForm(list: List<CalendarModel>, onChangeBtnClick: () -> Uni
                 start.linkTo(parent.start)
                 top.linkTo(parent.top)
             },
-            text = "Calendars".uppercase(),
+            text = "Calendars".uppercase() + pickedCalendars.size.let { if (it == 0) "" else ": $it" },
             color = MaterialTheme.colors.primary,
         )
         LazyRow(modifier = Modifier.constrainAs(rowList) {
@@ -150,22 +183,51 @@ private fun CalendarsForm(list: List<CalendarModel>, onChangeBtnClick: () -> Uni
             this.width = Dimension.fillToConstraints
             top.linkTo(caption.bottom, 8.dp)
         }) {
-            if (list.isEmpty()) {
+            if (pickedCalendars.isEmpty()) {
                 item { Text(modifier = Modifier.padding(start = 4.dp), text = "No calendars picked") }
+            } else {
+                items(items = pickedCalendars, key = { it.id }) {
+                    Chip(
+                        onClick = { },
+                        shape = RoundedCornerShape(percent = 50),
+                        colors = ChipDefaults.chipColors(
+                            backgroundColor = it.color?.let { color -> Color(color) } ?: MaterialTheme.colors.primary,
+                            contentColor = MaterialTheme.colors.onPrimary
+                        ),
+                    ) {
+                        Text(text = it.displayName.calendarName/*.uppercase()*/, fontSize = 14.sp)
+                    }
+                    Spacer(modifier = Modifier.width(2.dp))
+                }
             }
-            items(items = list, key = { it.id }) {
-                Text(
-                    modifier = Modifier.padding(4.dp),
-                    text = it.displayName.substring(0..1), fontSize = 18.sp
-                )
-            }
+        }
+        val showPermissionCheck = remember { mutableStateOf(false) }
+        if (showPermissionCheck.value) {
+            permissionCheck(
+                ifGranted = {
+                    onChangeBtnClick()
+                    isDialogCanShow.value = true
+                },
+                ifDenied = { /*todo*/ },
+                ifShowRationale = { /*todo*/ },
+            )
+            showPermissionCheck.value = false
         }
         IconButton(
             modifier = Modifier.constrainAs(btn) { end.linkTo(parent.end); centerVerticallyTo(rowList) },
-            onClick = onChangeBtnClick,
+            onClick = { showPermissionCheck.value = true },
         ) {
             Icon(painter = painterResource(R.drawable.ic_edit_calendar_24), null)
         }
+    }
+
+    if (allCalendars is Result.Calendars.Success && isDialogCanShow.value) {
+        CalendarsPickDialog(
+            pickedCalendars = pickedCalendars,
+            allCalendars = allCalendars.list,
+            onDismissRequest = { isDialogCanShow.value = false },
+            onSelectionSave = { list -> onCalendarsSelected(list); isDialogCanShow.value = false },
+        )
     }
 }
 
@@ -250,6 +312,9 @@ private fun LoadingScreen() {
     }
 }
 
+private val String.calendarName: String
+    get() = this.substringBefore('@')
+
 @Composable
 private fun ErrorScreen(msg: String) {
     Box(
@@ -264,5 +329,5 @@ private fun ErrorScreen(msg: String) {
 @Preview(showSystemUi = true)
 @Composable
 fun Preview_ConfigureNew() {
-    ConfigureScreen(WidgetModel(days = 25)) {}
+    ConfigureScreen(WidgetModel(days = 25), Result.Idle, {}) {}
 }

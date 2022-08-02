@@ -59,7 +59,7 @@ fun ColorTab(colorSelected: Color, onColorPick: (Color) -> Unit) {
                     if (colorItem == colorSelected) {
                         Icon(
                             modifier = Modifier.padding(2.dp),
-                            painter = painterResource(id = R.drawable.ic_round_check_circle_24),
+                            painter = painterResource(id = R.drawable.ic_check),
                             tint = Color.White,
                             contentDescription = null
                         )

@@ -59,10 +59,10 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/calendar_widget_info" />
         </receiver>
-
+<!--
         <service
             android:name="by.offvanhooijdonk.plaincalendar.widget.data.calendars.CalendarsRemoteService"
-            android:permission="android.permission.BIND_REMOTEVIEWS" />
+            android:permission="android.permission.BIND_REMOTEVIEWS" />-->
 
         <service
             android:name="by.offvanhooijdonk.plaincalendar.widget.data.calendars.job.CalendarChangeJobService"

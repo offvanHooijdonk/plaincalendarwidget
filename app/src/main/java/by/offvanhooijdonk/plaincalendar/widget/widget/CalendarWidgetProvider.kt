@@ -36,7 +36,7 @@ class CalendarWidgetProvider : AppWidgetProvider(), KoinComponent {
 
     override fun onUpdate(ctx: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
         super.onUpdate(ctx, appWidgetManager, appWidgetIds)
-        Log.d(App.Companion.LOGCAT, "Update " + appWidgetIds.contentToString())
+        Log.d(App.LOGCAT, "Update " + appWidgetIds.contentToString())
         for (appWidgetId in appWidgetIds) {
             val intent = Intent(ctx, CalendarsRemoteService::class.java)
             // Add the app widget ID to the intent extras.

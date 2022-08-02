@@ -1,24 +1,19 @@
 package by.offvanhooijdonk.plaincalendar.widget.model
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.Ignore
-import androidx.room.PrimaryKey
-
-@Entity(tableName = "calendars")
+//@Entity(tableName = "calendars")
 data class CalendarModel(
-    @PrimaryKey
+    //@PrimaryKey
     val id: Long,
-    @ColumnInfo(name = "display_name")
+    //@ColumnInfo(name = "display_name")
     val displayName: String,
-    @ColumnInfo(name = "account_name")
+    //@ColumnInfo(name = "account_name")
     val accountName: String,
-    @ColumnInfo(name = "color")
+    //@ColumnInfo(name = "color")
     val color: Int?,
-    @ColumnInfo(name = "primary_on_account")
+    //@ColumnInfo(name = "primary_on_account")
     val isPrimaryOnAccount: Boolean = false,
 ) {
-    @Ignore
+    //@Ignore
     var isSelected = false
 
     override fun equals(other: Any?): Boolean =

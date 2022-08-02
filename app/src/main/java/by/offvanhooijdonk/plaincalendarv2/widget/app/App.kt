@@ -15,12 +15,12 @@ class App : Application() {
             modules(allModules)
         }
 
-        appDatabase = AppDatabase.buildDatabase(applicationContext)
+        //appDatabase = AppDatabase.buildDatabase(applicationContext)
     }
 
     companion object {
-        const val LOGCAT = "=== PCW ==="
-        var appDatabase: AppDatabase? = null
-            private set
+        const val LOGCAT = "PLNCLDWDG"
+        /*var appDatabase: AppDatabase? = null
+            private set*/
     }
 }

@@ -11,6 +11,7 @@ import android.util.Log
 import by.offvanhooijdonk.plaincalendar.widget.data.calendars.CalendarDataSource
 import by.offvanhooijdonk.plaincalendar.widget.helper.WidgetHelper
 import by.offvanhooijdonk.plaincalendarv2.widget.app.App
+import by.offvanhooijdonk.plaincalendarv2.widget.glance.PlainGlanceWidget
 import org.koin.android.ext.android.inject
 
 class CalendarChangeJobService : JobService() {
@@ -19,12 +20,13 @@ class CalendarChangeJobService : JobService() {
     override fun onStartJob(params: JobParameters): Boolean {
         val ctx: Context = applicationContext
         Log.d(App.LOGCAT, "JOB Service#onStartJob")
-        val widgetIds = widgetHelper.getExistingWidgetsIds()
-        Log.d(App.LOGCAT, "Widgets to update in JobService: " + widgetIds.contentToString())
-        widgetHelper.notifyWidgetsDataChanged(widgetIds)
-        if (widgetIds.isNotEmpty()) {
+        //val widgetIds = widgetHelper.getExistingWidgetsIds()
+        //Log.d(App.LOGCAT, "Widgets to update in JobService: " + widgetIds.contentToString())
+        //widgetHelper.notifyWidgetsDataChanged(widgetIds)
+        PlainGlanceWidget().loadData()
+        /*if (widgetIds.isNotEmpty()) {
             scheduleCalendarChangeJob(ctx)
-        }
+        }*/
         return true
     }
 

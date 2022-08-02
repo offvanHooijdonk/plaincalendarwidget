@@ -16,18 +16,14 @@ import java.util.Calendar
 import java.util.Date
 
 class CalendarDataSource(private val ctx: Context) {
-    fun requestCalendarList(): List<CalendarModel> {
-        return loadCalendars()
-    }
 
-    private fun loadCalendars(): List<CalendarModel> {
-        val calendarList: MutableList<CalendarModel> = ArrayList<CalendarModel>()
-        val cr: ContentResolver = ctx.contentResolver
-        val uri: Uri = CalendarContract.Calendars.CONTENT_URI
+    fun loadCalendars(): List<CalendarModel> {
+        val calendarList: MutableList<CalendarModel> = mutableListOf()
         try {
-            prepareCalendarsCursor(cr, uri)?.use { cur ->
+            prepareCalendarsCursor(ctx.contentResolver, CalendarContract.Calendars.CONTENT_URI)?.use { cur ->
                 while (cur.moveToNext()) {
-                    val calendar = CalendarModel( // todo check for nulls
+                    val calendar = CalendarModel(
+                        // todo check for nulls
                         id = cur.getLong(cur.getColumnIndex(CalendarContract.Calendars._ID)),
                         displayName = cur.getString(cur.getColumnIndex(CalendarContract.Calendars.CALENDAR_DISPLAY_NAME)),
                         accountName = cur.getString(cur.getColumnIndex(CalendarContract.Calendars.ACCOUNT_NAME)),
@@ -54,7 +50,8 @@ class CalendarDataSource(private val ctx: Context) {
         try {
             prepareEventsCursor(cr, calendars, daysAhead)?.use { cur ->
                 while (cur.moveToNext()) {
-                    val event = EventModel(// todo check for nulls
+                    val event = EventModel(
+// todo check for nulls
                         id = cur.getLong(cur.getColumnIndex(CalendarContract.Instances._ID)),
                         title = cur.getString(cur.getColumnIndex(CalendarContract.Instances.TITLE)),
                         dateStart = Date(cur.getLong(cur.getColumnIndex(CalendarContract.Instances.BEGIN))),
@@ -88,7 +85,8 @@ class CalendarDataSource(private val ctx: Context) {
             ),
             null,
             null,
-            CalendarContract.Calendars.ACCOUNT_NAME + ", " + CalendarContract.Calendars.IS_PRIMARY + " desc, " + CalendarContract.Calendars.CALENDAR_DISPLAY_NAME)
+            CalendarContract.Calendars.ACCOUNT_NAME + ", " + CalendarContract.Calendars.IS_PRIMARY + " desc, " + CalendarContract.Calendars.CALENDAR_DISPLAY_NAME
+        )
     }
 
     private fun prepareEventsCursor(cr: ContentResolver, calendars: List<CalendarModel>, daysAhead: Int): Cursor? {
@@ -108,7 +106,8 @@ class CalendarDataSource(private val ctx: Context) {
             ),
             CalendarContract.Instances.CALENDAR_ID + " IN (" + prepareMultipleSubsPlaceholders(calendars.size) + ")",
             prepareEventsArgs(calendars),
-            CalendarContract.Instances.BEGIN + ", " + CalendarContract.Instances.END + ", " + CalendarContract.Instances.TITLE)
+            CalendarContract.Instances.BEGIN + ", " + CalendarContract.Instances.END + ", " + CalendarContract.Instances.TITLE
+        )
     }
 
     private fun prepareMultipleSubsPlaceholders(n: Int): String {
