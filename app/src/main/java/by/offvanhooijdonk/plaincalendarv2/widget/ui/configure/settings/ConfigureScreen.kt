@@ -84,7 +84,7 @@ private fun ConfigureScreenWrap(viewModel: ConfigureViewModel) {
             { viewModel.updateWidget(it) },
         )
         Result.Widget.New -> ConfigureScreen(
-            WidgetModel(),
+            WidgetModel.createDefault().copy(id = viewModel.widgetId?.toLong() ?: 0),
             viewModel.calendarsResponse.observeAsState().value ?: Result.Idle,
             { viewModel.loadCalendars() },
             { viewModel.updateWidget(it) },
@@ -98,7 +98,7 @@ private fun ConfigureScreenWrap(viewModel: ConfigureViewModel) {
 @Composable
 private fun ConfigureScreen(
     widget: WidgetModel,
-    allCalendars: Result,
+    allCalendars: Result, // todo don't like it
     onCalendarsRequested: () -> Unit,
     onSaveChanges: (WidgetModel) -> Unit
 ) {
@@ -121,12 +121,14 @@ private fun ConfigureScreen(
                     widgetPreview.value.calendars,
                     allCalendars,
                     onChangeBtnClick = { onCalendarsRequested() },
-                    onCalendarsSelected = { widgetPreview.value = widgetPreview.value.copy(calendars = it) },
+                    onCalendarsSelected = { list ->
+                        widgetPreview.value = widgetPreview.value.copy(calendars = list, calendarIds = list.map { it.id })
+                    },
                 )
-                Spacer(modifier = Modifier.height(4.dp))
+                Spacer(modifier = Modifier.height(16.dp))
 
-                val daysNumber = remember(widget) { mutableStateOf(widget.days) }
-                DaysNumberForm(daysNumber.value) { daysNumber.value = it }
+                //val daysNumber = remember(widget) { mutableStateOf(widget.days) }
+                DaysNumberForm(widgetPreview.value.days) { widgetPreview.value = widgetPreview.value.copy(days = it) }
             }
 
             WidgetPreview(
@@ -135,16 +137,18 @@ private fun ConfigureScreen(
                     bottom.linkTo(bottomSettings.top)
                 },
                 widget = widgetPreview.value,
+                eventPreviewColor = widgetPreview.value.calendars.getOrNull(0)?.color?.let { Color(it.toLong()) } ?: Color.Blue,
             )
-
-            ExtendedFloatingActionButton(
-                modifier = Modifier.constrainAs(btn) {
-                    bottom.linkTo(bottomSettings.top, 16.dp)
-                    centerHorizontallyTo(parent)
-                },
-                text = { Text(text = stringResource(R.string.btn_save_widget_settings), color = Color.White) },
-                onClick = { onSaveChanges(widgetPreview.value) },
-            )
+            if (widget.id != 0L) {
+                ExtendedFloatingActionButton(
+                    modifier = Modifier.constrainAs(btn) {
+                        bottom.linkTo(bottomSettings.top, 16.dp)
+                        centerHorizontallyTo(parent)
+                    },
+                    text = { Text(text = stringResource(R.string.btn_save_widget_settings), color = Color.White) },
+                    onClick = { onSaveChanges(widgetPreview.value) },
+                )
+            }
 
             Box(modifier = Modifier
                 .background(color = MaterialTheme.colors.surface)
@@ -179,12 +183,13 @@ private fun CalendarsForm(
             color = MaterialTheme.colors.primary,
         )
         LazyRow(modifier = Modifier.constrainAs(rowList) {
-            start.linkTo(parent.start); end.linkTo(btn.start)
-            this.width = Dimension.fillToConstraints
+            //start.linkTo(parent.start); end.linkTo(parent.end)
+            width = Dimension.matchParent
+            //this.width = Dimension.fillToConstraints
             top.linkTo(caption.bottom, 8.dp)
         }) {
             if (pickedCalendars.isEmpty()) {
-                item { Text(modifier = Modifier.padding(start = 4.dp), text = "No calendars picked") }
+                item { Text(modifier = Modifier.padding(4.dp), text = "No calendars picked") }
             } else {
                 items(items = pickedCalendars, key = { it.id }) {
                     Chip(
@@ -214,10 +219,14 @@ private fun CalendarsForm(
             showPermissionCheck.value = false
         }
         IconButton(
-            modifier = Modifier.constrainAs(btn) { end.linkTo(parent.end); centerVerticallyTo(rowList) },
+            modifier = Modifier.constrainAs(btn) { end.linkTo(parent.end); centerVerticallyTo(caption) },
             onClick = { showPermissionCheck.value = true },
         ) {
-            Icon(painter = painterResource(R.drawable.ic_edit_calendar_24), null)
+            Icon(
+                painter = painterResource(R.drawable.ic_edit_calendar_24),
+                tint = MaterialTheme.colors.primary,
+                contentDescription = null
+            )
         }
     }
 
@@ -226,7 +235,7 @@ private fun CalendarsForm(
             pickedCalendars = pickedCalendars,
             allCalendars = allCalendars.list,
             onDismissRequest = { isDialogCanShow.value = false },
-            onSelectionSave = { list -> onCalendarsSelected(list); isDialogCanShow.value = false },
+            onSelectionSave = { list -> isDialogCanShow.value = false; onCalendarsSelected(list) },
         )
     }
 }
@@ -283,6 +292,7 @@ private fun SettingsBottomPanel(widget: WidgetModel, onPreviewSettingsChange: (W
                 .height(80.dp)
         ) {
             // todo add some animation, like CrossFade ?
+            // todo do not remove closed tabs, just make invisible
             when (SettingTabsList[selectedIndex.value]) {
                 SettingTab.ColorTab -> {
                     val color = remember(widget) { mutableStateOf(Color(widget.backgroundColor.toULong())) }
@@ -329,5 +339,5 @@ private fun ErrorScreen(msg: String) {
 @Preview(showSystemUi = true)
 @Composable
 fun Preview_ConfigureNew() {
-    ConfigureScreen(WidgetModel(days = 25), Result.Idle, {}) {}
+    ConfigureScreen(WidgetModel.createDefault().copy(id = 1L, days = 25), Result.Idle, {}) {}
 }

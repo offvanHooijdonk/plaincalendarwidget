@@ -43,12 +43,12 @@ class CalendarDataSource(private val ctx: Context) {
         return calendarList
     }
 
-    fun getEvents(calendars: List<CalendarModel>, daysAhead: Int): List<EventModel> {
+    fun getEvents(calendarsIds: List<Long>, daysAhead: Int): List<EventModel> {
         val eventModels: MutableList<EventModel> = ArrayList<EventModel>()
         val cr: ContentResolver = ctx.contentResolver
-        Log.i(App.LOGCAT, "Getting Events for " + calendars.size + " calendars")
+        Log.i(App.LOGCAT, "Getting Events for " + calendarsIds.size + " calendars")
         try {
-            prepareEventsCursor(cr, calendars, daysAhead)?.use { cur ->
+            prepareEventsCursor(cr, calendarsIds, daysAhead)?.use { cur ->
                 while (cur.moveToNext()) {
                     val event = EventModel(
 // todo check for nulls
@@ -89,7 +89,7 @@ class CalendarDataSource(private val ctx: Context) {
         )
     }
 
-    private fun prepareEventsCursor(cr: ContentResolver, calendars: List<CalendarModel>, daysAhead: Int): Cursor? {
+    private fun prepareEventsCursor(cr: ContentResolver, calendarsIds: List<Long>, daysAhead: Int): Cursor? {
         val dateFrom = Date()
         val dateTo = prepareDateTo(dateFrom, daysAhead)
         return cr.query(
@@ -104,8 +104,8 @@ class CalendarDataSource(private val ctx: Context) {
                 CalendarContract.Instances.DISPLAY_COLOR,
                 CalendarContract.Instances.CALENDAR_ID
             ),
-            CalendarContract.Instances.CALENDAR_ID + " IN (" + prepareMultipleSubsPlaceholders(calendars.size) + ")",
-            prepareEventsArgs(calendars),
+            CalendarContract.Instances.CALENDAR_ID + " IN (" + prepareMultipleSubsPlaceholders(calendarsIds.size) + ")",
+            calendarsIds.map { it.toString() }.toTypedArray(),
             CalendarContract.Instances.BEGIN + ", " + CalendarContract.Instances.END + ", " + CalendarContract.Instances.TITLE
         )
     }
@@ -119,16 +119,6 @@ class CalendarDataSource(private val ctx: Context) {
             }
         }
         return stringBuilder.toString()
-    }
-
-    private fun prepareEventsArgs(calendars: List<CalendarModel>): Array<String?> {
-        val args = arrayOfNulls<String>(calendars.size)
-        var i = 0
-        for (bean in calendars) {
-            args[i] = bean.id.toString()
-            i++
-        }
-        return args
     }
 
     companion object {

@@ -34,19 +34,19 @@ import by.offvanhooijdonk.plaincalendarv2.widget.R
 import java.util.*
 
 @Composable
-fun WidgetPreview(modifier: Modifier = Modifier, widget: WidgetModel) {
+fun WidgetPreview(modifier: Modifier = Modifier, widget: WidgetModel, eventPreviewColor: Color) {
     Box(
         modifier = Modifier
             .then(modifier)
             .padding(horizontal = 32.dp),
         contentAlignment = Alignment.Center,
     ) {
-        WidgetBlueprint(widget)
+        WidgetBlueprint(widget, eventPreviewColor)
     }
 }
 
 @Composable
-private fun WidgetBlueprint(widget: WidgetModel) {
+private fun WidgetBlueprint(widget: WidgetModel, eventPreviewColor: Color) {
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -62,7 +62,7 @@ private fun WidgetBlueprint(widget: WidgetModel) {
         ) {
             items(previewEvents, key = { it.id }) {
                 Column {
-                    WidgetEventItem(it)
+                    WidgetEventItem(it, eventPreviewColor)
                     Divider()
                 }
             }
@@ -71,7 +71,7 @@ private fun WidgetBlueprint(widget: WidgetModel) {
 }
 
 @Composable
-private fun WidgetEventItem(event: EventModel) {
+private fun WidgetEventItem(event: EventModel, eventPreviewColor: Color) {
     Surface(
         modifier = Modifier.padding(2.dp),
         onClick = { /**/ },
@@ -91,7 +91,7 @@ private fun WidgetEventItem(event: EventModel) {
                 Icon(
                     modifier = Modifier.size(12.dp),
                     painter = painterResource(R.drawable.ic_circle),
-                    tint = Color.Blue, // todo widget color
+                    tint = eventPreviewColor,
                     contentDescription = null,
                 )
                 Spacer(modifier = Modifier.width(8.dp))
@@ -105,7 +105,7 @@ private fun WidgetEventItem(event: EventModel) {
 @Composable
 private fun Preview_WidgetBlueprint() {
     MaterialTheme {
-        WidgetBlueprint(WidgetModel(opacity = 0.5f))
+        WidgetBlueprint(WidgetModel.createDefault().copy(opacity = 0.5f), Color.Blue)
     }
 }
 

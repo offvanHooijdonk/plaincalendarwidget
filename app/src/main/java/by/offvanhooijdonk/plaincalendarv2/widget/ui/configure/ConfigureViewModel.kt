@@ -12,7 +12,7 @@ import by.offvanhooijdonk.plaincalendar.widget.data.calendars.CalendarDataSource
 import by.offvanhooijdonk.plaincalendar.widget.model.CalendarModel
 import by.offvanhooijdonk.plaincalendar.widget.model.WidgetModel
 import by.offvanhooijdonk.plaincalendarv2.widget.glance.PlainGlanceWidget
-import by.offvanhooijdonk.plaincalendarv2.widget.glance.WidgetPrefsKeys
+import by.offvanhooijdonk.plaincalendarv2.widget.glance.prefs.WidgetPrefsKeys
 import kotlinx.coroutines.launch
 
 class ConfigureViewModel(

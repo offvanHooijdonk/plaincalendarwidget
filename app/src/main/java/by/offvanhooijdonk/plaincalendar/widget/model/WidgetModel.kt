@@ -1,37 +1,39 @@
 package by.offvanhooijdonk.plaincalendar.widget.model
 
+import androidx.compose.material.MaterialTheme
 import androidx.compose.ui.graphics.Color
 
 //@Entity(tableName = "widgets")
 data class WidgetModel(
     //@PrimaryKey
-    var id: Long = 0,
+    val id: Long = 0,
     //@ColumnInfo(name = "days")
-    var days: Int = 0,
+    val days: Int,
     //@ColumnInfo(name = "back_color")
-    var backgroundColor: Long = Color.White.value.toLong(),
+    val backgroundColor: Long,
     //@ColumnInfo(name = "date_color")
-    var textColor: Int? = null,
+    val textColor: Long,
     //@ColumnInfo(name = "opacity")
-    var opacity: Float = 1.0f,
+    val opacity: Float,
     //@ColumnInfo(name = "text_size_delta")
-    var textSizeDelta: Int? = null,
+    val textSizeDelta: Int,
     //@ColumnInfo(name = "show_event_color")
-    var showEventColor: Boolean? = null,
+    val showEventColor: Boolean,
     //@ColumnInfo(name = "show_today_date")
-    var showTodayDate: Boolean? = null,
+    val showTodayDate: Boolean,
     //@ColumnInfo(name = "show_today_day_of_week")
-    var showTodayDayOfWeek: Boolean? = null,
+    val showTodayDayOfWeek: Boolean,
     //@ColumnInfo(name = "show_date_divide_line")
-    var showDateDivider: Boolean? = null,
+    val showDateDivider: Boolean,
     //@ColumnInfo(name = "show_end_date")
-    var showEndDate: ShowEndDate? = null,
+    val showEndDate: ShowEndDate,
     //@ColumnInfo(name = "show_today_leading_zero")
-    var showTodayLeadingZero: Boolean? = null,
+    val showTodayLeadingZero: Boolean,
     //@ColumnInfo(name = "show_date_text_label")
-    var showDateTextLabel: Boolean? = null,
+    val showDateTextLabel: Boolean,
     //@Ignore
-    var calendars: List<CalendarModel> = emptyList()
+    val calendars: List<CalendarModel> = emptyList(), // use to present on preview todo remove and use Calendars list on preview as an independent val
+    val calendarIds: List<Long> = emptyList(), // use to store with widget info
 ) {
     enum class ShowEndDate(val code: Int) {
         NEVER(0), MORE_THAN_DAY(1), ALWAYS(2);
@@ -41,5 +43,22 @@ data class WidgetModel(
 
             val default = NEVER
         }
+    }
+
+    companion object {
+        fun createDefault() = WidgetModel(
+            days = 7,
+            backgroundColor = Color.White.value.toLong(),
+            opacity = 1.0f,
+            textColor = Color.Black.value.toLong(),
+            textSizeDelta = 0,
+            showEventColor = true,
+            showDateTextLabel = true,
+            showDateDivider = true,
+            showEndDate = ShowEndDate.MORE_THAN_DAY,
+            showTodayDate = true,
+            showTodayDayOfWeek = true,
+            showTodayLeadingZero = false,
+        )
     }
 }
