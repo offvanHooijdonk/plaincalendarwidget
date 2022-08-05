@@ -23,11 +23,9 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ExtendedFloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.material.LeadingIconTab
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Slider
-import androidx.compose.material.TabRow
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
@@ -50,13 +48,9 @@ import by.offvanhooijdonk.plaincalendar.widget.model.WidgetModel
 import by.offvanhooijdonk.plaincalendarv2.widget.R
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.ConfigureViewModel
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.Result
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.layouts.LayoutsPickPanel
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.preview.WidgetPreview
-import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.tabs.ColorTab
-import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.tabs.OpacityTab
-import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.tabs.SettingTab
-import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.tabs.SettingTabsList
-import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.tabs.TextColorTab
-import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.tabs.TextSizeTab
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.tabs.StylesTabsPanel
 import kotlin.math.roundToInt
 
 @Composable
@@ -107,7 +101,7 @@ private fun ConfigureScreen(
     ) {
         val widgetPreview = remember(widget) { mutableStateOf(widget) }
         ConstraintLayout(modifier = Modifier.fillMaxSize()) {
-            val (topSettings, preview, btn, bottomSettings) = createRefs()
+            val (topSettings, layouts, preview, btn, bottomSettings) = createRefs()
             Column(
                 Modifier
                     .background(color = MaterialTheme.colors.surface)
@@ -127,13 +121,19 @@ private fun ConfigureScreen(
                 )
                 Spacer(modifier = Modifier.height(16.dp))
 
-                //val daysNumber = remember(widget) { mutableStateOf(widget.days) }
                 DaysNumberForm(widgetPreview.value.days) { widgetPreview.value = widgetPreview.value.copy(days = it) }
             }
+            LayoutsPickPanel(
+                modifier = Modifier.constrainAs(layouts) {
+                    top.linkTo(topSettings.bottom)
+                },
+                widget = widgetPreview.value,
+                onLayoutPick = { widgetPreview.value = widgetPreview.value.copy(layoutType = it) },
+            )
 
             WidgetPreview(
                 modifier = Modifier.constrainAs(preview) {
-                    top.linkTo(topSettings.bottom)
+                    top.linkTo(layouts.bottom)
                     bottom.linkTo(bottomSettings.top)
                 },
                 widget = widgetPreview.value,
@@ -156,7 +156,7 @@ private fun ConfigureScreen(
                 .constrainAs(bottomSettings) {
                     bottom.linkTo(parent.bottom)
                 }) {
-                SettingsBottomPanel(widgetPreview.value) { widgetPreview.value = it }
+                StylesTabsPanel(widgetPreview.value) { widgetPreview.value = it }
             }
         }
     }
@@ -189,7 +189,7 @@ private fun CalendarsForm(
             top.linkTo(caption.bottom, 8.dp)
         }) {
             if (pickedCalendars.isEmpty()) {
-                item { Text(modifier = Modifier.padding(4.dp), text = "No calendars picked") }
+                item { Text(modifier = Modifier.padding(6.dp), text = "No calendars picked") }
             } else {
                 items(items = pickedCalendars, key = { it.id }) {
                     Chip(
@@ -269,51 +269,6 @@ private fun DaysNumberForm(daySelected: Int, onDaysChange: (Int) -> Unit) {
 private const val DAYS_RANGE_MIN = 1
 private const val DAYS_RANGE_MAX = 31
 private const val DAYS_RANGE_STEPS = DAYS_RANGE_MAX - DAYS_RANGE_MIN - 1
-
-@Composable
-private fun SettingsBottomPanel(widget: WidgetModel, onPreviewSettingsChange: (WidgetModel) -> Unit) {
-    Column(modifier = Modifier.fillMaxWidth()) {
-        val selectedIndex = remember { mutableStateOf(0) }
-        TabRow(selectedTabIndex = selectedIndex.value) {
-            SettingTabsList.forEachIndexed { index, tab ->
-                LeadingIconTab(
-                    selected = index == selectedIndex.value,
-                    onClick = { selectedIndex.value = index },
-                    text = { },
-                    icon = {
-                        Icon(painterResource(tab.iconRes), contentDescription = null)
-                    }
-                )
-            }
-        }
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(80.dp)
-        ) {
-            // todo add some animation, like CrossFade ?
-            // todo do not remove closed tabs, just make invisible
-            when (SettingTabsList[selectedIndex.value]) {
-                SettingTab.ColorTab -> {
-                    val color = remember(widget) { mutableStateOf(Color(widget.backgroundColor.toULong())) }
-                    ColorTab(color.value) {
-                        color.value = it
-                        onPreviewSettingsChange(widget.copy(backgroundColor = it.value.toLong()))
-                    }
-                }
-                SettingTab.OpacityTab -> {
-                    val opacity = remember(widget) { mutableStateOf(widget.opacity) }
-                    OpacityTab(opacity.value) {
-                        opacity.value = it
-                        onPreviewSettingsChange(widget.copy(opacity = it))
-                    }
-                }
-                SettingTab.TextColorTab -> TextColorTab()
-                SettingTab.TextSizeTab -> TextSizeTab()
-            }
-        }
-    }
-}
 
 @Composable
 private fun LoadingScreen() {

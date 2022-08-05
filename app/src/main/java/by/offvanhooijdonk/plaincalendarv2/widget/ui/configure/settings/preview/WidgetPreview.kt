@@ -1,7 +1,9 @@
-@file:OptIn(ExperimentalMaterialApi::class)
+@file:OptIn(ExperimentalMaterialApi::class, ExperimentalAnimationApi::class)
 
 package by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.preview
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -31,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import by.offvanhooijdonk.plaincalendar.widget.model.EventModel
 import by.offvanhooijdonk.plaincalendar.widget.model.WidgetModel
 import by.offvanhooijdonk.plaincalendarv2.widget.R
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.layouts.LayoutType
 import java.util.*
 
 @Composable
@@ -41,7 +44,12 @@ fun WidgetPreview(modifier: Modifier = Modifier, widget: WidgetModel, eventPrevi
             .padding(horizontal = 32.dp),
         contentAlignment = Alignment.Center,
     ) {
-        WidgetBlueprint(widget, eventPreviewColor)
+        AnimatedContent(targetState = widget.layoutType) { layout ->
+            when (layout) {
+                LayoutType.DEFAULT -> WidgetBlueprint(widget, eventPreviewColor)
+                LayoutType.EXTENDED -> Text(text = "Nothing to show yet")//WidgetBlueprint(widget, eventPreviewColor)
+            }
+        }
     }
 }
 

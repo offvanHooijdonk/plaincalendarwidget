@@ -62,5 +62,7 @@
     </string-array>
 
     <!-- V2 -->
-    <string name="btn_save_widget_settings">Apply</string>
+    <string name="btn_save_widget_settings">Apply settings</string>
+    <string name="layout_title_default">Default</string>
+    <string name="layout_title_extended">Extended</string>
 </resources>
