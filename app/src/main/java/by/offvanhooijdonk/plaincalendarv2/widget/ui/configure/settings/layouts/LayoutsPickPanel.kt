@@ -33,21 +33,17 @@ fun LayoutsPickPanel(modifier: Modifier = Modifier, widget: WidgetModel, onLayou
             backgroundColor = MaterialTheme.colors.background
         ) {
             val textAlpha = ContentAlpha.medium
-            //val contentColor = LocalContentColor.current
             val primaryColor = MaterialTheme.colors.primary
-            val onSelectedColor = MaterialTheme.colors.background
-            val selectedBackColor = remember(LocalContentColor.current) { primaryColor }
-            val selectedTextColor = remember(MaterialTheme.colors.primary) { onSelectedColor/*.copy(alpha = textAlpha)*/ }
             val unselectedTextColor = remember(LocalContentColor.current) { primaryColor.copy(alpha = textAlpha) }
 
             LayoutsList.forEachIndexed { index, layoutItem ->
-                val backColor = if (index == selected) selectedBackColor else Color.Transparent
+                val backColor = if (index == selected) MaterialTheme.colors.primary else Color.Transparent
                 Box(modifier = Modifier.padding(vertical = 8.dp)) {
                     Tab(
                         modifier = Modifier.background(backColor, RoundedCornerShape(8.dp)),
                         selected = index == selected,
                         onClick = { onLayoutPick(LayoutType.values().getOrNull(index) ?: LayoutType.default) },
-                        selectedContentColor = selectedTextColor,
+                        selectedContentColor = MaterialTheme.colors.background,
                         unselectedContentColor = unselectedTextColor,
                         text = {
                             Text(text = stringResource(layoutItem.titleRes))
