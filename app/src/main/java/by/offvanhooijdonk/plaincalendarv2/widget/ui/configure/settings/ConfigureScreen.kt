@@ -43,8 +43,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import by.offvanhooijdonk.plaincalendar.widget.model.CalendarModel
-import by.offvanhooijdonk.plaincalendar.widget.model.WidgetModel
+import by.offvanhooijdonk.plaincalendarv2.widget.model.CalendarModel
+import by.offvanhooijdonk.plaincalendarv2.widget.model.WidgetModel
 import by.offvanhooijdonk.plaincalendarv2.widget.R
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.ConfigureViewModel
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.Result

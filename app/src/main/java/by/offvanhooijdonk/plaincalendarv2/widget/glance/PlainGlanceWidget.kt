@@ -4,8 +4,6 @@ import android.content.Context
 import android.util.Log
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
@@ -39,7 +37,7 @@ import androidx.glance.state.PreferencesGlanceStateDefinition
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
-import by.offvanhooijdonk.plaincalendar.widget.model.EventModel
+import by.offvanhooijdonk.plaincalendarv2.widget.model.EventModel
 import by.offvanhooijdonk.plaincalendarv2.widget.app.App
 import by.offvanhooijdonk.plaincalendarv2.widget.glance.prefs.WidgetPrefsKeys
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.ConfigurationActivity
@@ -60,13 +58,12 @@ class PlainGlanceWidget : GlanceAppWidget(), KoinComponent {
     override fun Content() {
         val state = currentState<Preferences>()
 
-        val events = remember { mutableStateOf(emptyList<EventModel>()) }//viewModel.eventLiveData.observeAsState(emptyList())
-        //LaunchedEffect(key1 = Unit) {
-            events.value = viewModel.loadEvent(
-                WidgetPrefsKeys.readCalendars(state),
-                WidgetPrefsKeys.readDays(state)
-            )
-        //}
+        val events = remember { mutableStateOf(emptyList<EventModel>()) }
+
+        events.value = viewModel.loadEvents(
+            WidgetPrefsKeys.readCalendars(state),
+            WidgetPrefsKeys.readDays(state)
+        )
 
         WidgetBody(events.value)
     }

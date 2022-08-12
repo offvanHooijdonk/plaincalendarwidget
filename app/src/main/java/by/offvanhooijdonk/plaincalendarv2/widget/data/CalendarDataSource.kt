@@ -1,4 +1,4 @@
-package by.offvanhooijdonk.plaincalendar.widget.data.calendars
+package by.offvanhooijdonk.plaincalendarv2.widget.data
 
 import android.content.ContentResolver
 import android.content.Context
@@ -6,14 +6,14 @@ import android.database.Cursor
 import android.net.Uri
 import android.provider.CalendarContract
 import android.util.Log
+import by.offvanhooijdonk.plaincalendarv2.widget.ext.millis
+import by.offvanhooijdonk.plaincalendarv2.widget.ext.toMidnightAtDay
+import by.offvanhooijdonk.plaincalendarv2.widget.model.CalendarModel
+import by.offvanhooijdonk.plaincalendarv2.widget.model.EventModel
 import by.offvanhooijdonk.plaincalendarv2.widget.app.App
-import by.offvanhooijdonk.plaincalendar.widget.model.CalendarModel
-import by.offvanhooijdonk.plaincalendar.widget.model.EventModel
-import java.lang.Exception
-import java.lang.StringBuilder
-import java.util.ArrayList
-import java.util.Calendar
-import java.util.Date
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneId
 
 class CalendarDataSource(private val ctx: Context) {
 
@@ -43,7 +43,7 @@ class CalendarDataSource(private val ctx: Context) {
         return calendarList
     }
 
-    fun getEvents(calendarsIds: List<Long>, daysAhead: Int): List<EventModel> {
+    fun getEvents(calendarsIds: List<Long>, daysAhead: Long): List<EventModel> {
         val eventModels: MutableList<EventModel> = ArrayList<EventModel>()
         val cr: ContentResolver = ctx.contentResolver
         Log.i(App.LOGCAT, "Getting Events for " + calendarsIds.size + " calendars")
@@ -54,8 +54,8 @@ class CalendarDataSource(private val ctx: Context) {
 // todo check for nulls
                         id = cur.getLong(cur.getColumnIndex(CalendarContract.Instances._ID)),
                         title = cur.getString(cur.getColumnIndex(CalendarContract.Instances.TITLE)),
-                        dateStart = Date(cur.getLong(cur.getColumnIndex(CalendarContract.Instances.BEGIN))),
-                        dateEnd = Date(cur.getLong(cur.getColumnIndex(CalendarContract.Instances.END))),
+                        dateStart = cur.getLong(cur.getColumnIndex(CalendarContract.Instances.BEGIN)).toLocalDateTime(),
+                        dateEnd = cur.getLong(cur.getColumnIndex(CalendarContract.Instances.END)).toLocalDateTime(),
                         isAllDay = cur.getInt(cur.getColumnIndex(CalendarContract.Instances.ALL_DAY)) == BOOLEAN_TRUE,
                         eventColor = cur.getInt(cur.getColumnIndex(CalendarContract.Instances.DISPLAY_COLOR)),
                         calendarId = cur.getLong(cur.getColumnIndex(CalendarContract.Instances.CALENDAR_ID)),
@@ -89,8 +89,8 @@ class CalendarDataSource(private val ctx: Context) {
         )
     }
 
-    private fun prepareEventsCursor(cr: ContentResolver, calendarsIds: List<Long>, daysAhead: Int): Cursor? {
-        val dateFrom = Date()
+    private fun prepareEventsCursor(cr: ContentResolver, calendarsIds: List<Long>, daysAhead: Long): Cursor? {
+        val dateFrom = LocalDateTime.now()
         val dateTo = prepareDateTo(dateFrom, daysAhead)
         return cr.query(
             makeEventsUriForDates(dateFrom, dateTo),
@@ -123,31 +123,23 @@ class CalendarDataSource(private val ctx: Context) {
 
     companion object {
         private const val BOOLEAN_TRUE = 1
+
         fun makeEventsObservationUri(): Uri {
-            return makeEventsUriForDates(Date(), null)
+            return makeEventsUriForDates(LocalDateTime.now(), null)
         }
 
-        private fun makeEventsUriForDates(dateFrom: Date?, dateTo: Date?): Uri {
-            var uri: Uri = CalendarContract.Instances.CONTENT_URI
-            if (dateFrom != null) {
-                val uriBuilder = uri.buildUpon().appendPath(dateFrom.time.toString())
-                if (dateTo != null) {
-                    uriBuilder.appendPath(dateTo.time.toString())
+        private fun makeEventsUriForDates(dateFrom: LocalDateTime, dateTo: LocalDateTime?): Uri =
+            CalendarContract.Instances.CONTENT_URI.apply {
+                buildUpon().appendPath(dateFrom.millis.toString()).apply {
+                    dateTo?.let { appendPath(dateTo.millis.toString()) }
                 }
-                uri = uriBuilder.build()
             }
-            return uri
-        }
 
-        private fun prepareDateTo(dateFrom: Date, daysAhead: Int): Date {
-            val calendarTo = Calendar.getInstance()
-            calendarTo.time = dateFrom
-            calendarTo.add(Calendar.DAY_OF_MONTH, daysAhead)
-            calendarTo[Calendar.HOUR_OF_DAY] = 0
-            calendarTo[Calendar.MINUTE] = 0
-            calendarTo[Calendar.SECOND] = 0
-            calendarTo.add(Calendar.SECOND, -1)
-            return calendarTo.time
-        }
+
+        private fun Long.toLocalDateTime() =
+            LocalDateTime.ofInstant(Instant.ofEpochMilli(this), ZoneId.systemDefault())
+
+
+        private fun prepareDateTo(dateFrom: LocalDateTime, daysAhead: Long): LocalDateTime = dateFrom.toMidnightAtDay(daysAhead)
     }
 }

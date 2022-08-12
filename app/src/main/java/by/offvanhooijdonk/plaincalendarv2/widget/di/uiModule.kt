@@ -1,4 +1,4 @@
-package by.offvanhooijdonk.plaincalendar.widget.di
+package by.offvanhooijdonk.plaincalendarv2.widget.di
 
 import by.offvanhooijdonk.plaincalendarv2.widget.glance.WidgetViewModel
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.ConfigureViewModel

@@ -30,10 +30,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import by.offvanhooijdonk.plaincalendar.widget.model.EventModel
-import by.offvanhooijdonk.plaincalendar.widget.model.WidgetModel
+import by.offvanhooijdonk.plaincalendarv2.widget.model.EventModel
+import by.offvanhooijdonk.plaincalendarv2.widget.model.WidgetModel
 import by.offvanhooijdonk.plaincalendarv2.widget.R
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.layouts.LayoutType
+import java.time.DayOfWeek
+import java.time.LocalDateTime
+import java.time.format.TextStyle
+import java.time.temporal.ChronoField
 import java.util.*
 
 @Composable
@@ -92,8 +96,7 @@ private fun WidgetEventItem(event: EventModel, eventPreviewColor: Color) {
                 .padding(horizontal = 8.dp)
                 .padding(top = 4.dp, bottom = 8.dp)
         ) {
-            Text(text = Calendar.getInstance().apply { time = event.dateStart }
-                .getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()) ?: "Soon")
+            Text(text = event.dateStart.dayOfWeek.getDisplayName(TextStyle.FULL, Locale.getDefault()))
 
             Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                 Icon(
@@ -121,19 +124,19 @@ private val previewEvents = listOf(
     EventModel(
         1,
         "Bicycling on every Wednesday evening",
-        Calendar.getInstance().apply { set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY); set(Calendar.HOUR_OF_DAY, 11) }.time,
-        Calendar.getInstance().apply { set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY); set(Calendar.HOUR_OF_DAY, 12) }.time,
+        LocalDateTime.now().with(ChronoField.DAY_OF_WEEK, DayOfWeek.WEDNESDAY.value.toLong()),
+        LocalDateTime.now().with(ChronoField.DAY_OF_WEEK, DayOfWeek.THURSDAY.value.toLong()),
     ),
     EventModel(
         2,
         "Go waltzing to the zoo",
-        Calendar.getInstance().apply { set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY); set(Calendar.HOUR_OF_DAY, 12) }.time,
-        Calendar.getInstance().apply { set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY); set(Calendar.HOUR_OF_DAY, 14) }.time,
+        LocalDateTime.now().with(ChronoField.DAY_OF_WEEK, DayOfWeek.THURSDAY.value.toLong()),
+        LocalDateTime.now().with(ChronoField.DAY_OF_WEEK, DayOfWeek.FRIDAY.value.toLong()),
     ),
     EventModel(
         3,
         "Lazing on a Sunday afternoon",
-        Calendar.getInstance().apply { set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY); set(Calendar.HOUR_OF_DAY, 12) }.time,
-        Calendar.getInstance().apply { set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY); set(Calendar.HOUR_OF_DAY, 14) }.time,
+        LocalDateTime.now().with(ChronoField.DAY_OF_WEEK, DayOfWeek.SUNDAY.value.toLong()),
+        LocalDateTime.now().with(ChronoField.DAY_OF_WEEK, DayOfWeek.MONDAY.value.toLong()),
     ),
 )

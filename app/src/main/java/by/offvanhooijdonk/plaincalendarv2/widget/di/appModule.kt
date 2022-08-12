@@ -1,4 +1,4 @@
-package by.offvanhooijdonk.plaincalendar.widget.di
+package by.offvanhooijdonk.plaincalendarv2.widget.di
 
 import android.app.AlarmManager
 import android.appwidget.AppWidgetManager

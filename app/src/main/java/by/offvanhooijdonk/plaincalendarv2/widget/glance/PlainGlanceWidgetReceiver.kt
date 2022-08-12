@@ -7,13 +7,13 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import androidx.glance.appwidget.GlanceAppWidgetReceiver
-import by.offvanhooijdonk.plaincalendar.widget.data.calendars.job.CalendarChangeJobService
-import by.offvanhooijdonk.plaincalendar.widget.helper.MILLIS_IN_DAY
-import by.offvanhooijdonk.plaincalendar.widget.helper.closestMidnightMillis
+import by.offvanhooijdonk.plaincalendarv2.widget.data.CalendarChangeJobService
+import by.offvanhooijdonk.plaincalendarv2.widget.ext.MILLIS_IN_DAY
+import by.offvanhooijdonk.plaincalendarv2.widget.ext.closestMidnightMillis
 import by.offvanhooijdonk.plaincalendarv2.widget.app.App.Companion.LOGCAT
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import java.util.*
+import java.time.LocalDateTime
 
 class PlainGlanceWidgetReceiver : GlanceAppWidgetReceiver(), KoinComponent {
     override val glanceAppWidget: PlainGlanceWidget = PlainGlanceWidget()
@@ -61,7 +61,7 @@ class PlainGlanceWidgetReceiver : GlanceAppWidgetReceiver(), KoinComponent {
     private fun setupDailyAlarm(ctx: Context) {
         alarmManager.setRepeating(
             AlarmManager.RTC,
-            Calendar.getInstance().closestMidnightMillis,
+            LocalDateTime.now().closestMidnightMillis,
             MILLIS_IN_DAY,
             getNewDayPendingIntent(ctx)
         )
@@ -78,7 +78,7 @@ class PlainGlanceWidgetReceiver : GlanceAppWidgetReceiver(), KoinComponent {
         }
 
 
-companion object {
-    private const val INTENT_ACTION_NEW_DAY = "NEW_DAY_STARTED"
-}
+    companion object {
+        private const val INTENT_ACTION_NEW_DAY = "NEW_DAY_STARTED"
+    }
 }

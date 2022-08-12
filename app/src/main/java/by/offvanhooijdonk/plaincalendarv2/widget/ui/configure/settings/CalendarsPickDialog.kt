@@ -17,6 +17,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Checkbox
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
@@ -28,10 +29,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import by.offvanhooijdonk.plaincalendar.widget.model.CalendarModel
 import by.offvanhooijdonk.plaincalendarv2.widget.R
+import by.offvanhooijdonk.plaincalendarv2.widget.model.CalendarModel
 
 @Composable
 fun CalendarsPickDialog(
@@ -52,35 +54,20 @@ fun CalendarsPickDialog(
                 LazyColumn(modifier = Modifier.fillMaxWidth(), contentPadding = PaddingValues(vertical = 4.dp)) {
                     items(items = allCalendars, key = { it.id }) { calendar ->
                         val isChecked = remember { mutableStateOf(pickedCalendars.contains(calendar)) }
-                        fun onSelection(isSelected: Boolean, calendar: CalendarModel) {
-                            isChecked.value = isSelected
-                            selection.apply { if (isSelected) add(calendar) else remove(calendar) }
-                        }
 
-                        Box(modifier = Modifier.clickable { onSelection(!isChecked.value, calendar) }) {
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(horizontal = 8.dp, vertical = 4.dp),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Checkbox(
-                                    checked = isChecked.value, onCheckedChange = /*{ onSelection(!isChecked.value, calendar) }*/null,
-                                )
-                                Spacer(modifier = Modifier.width(8.dp))
-                                Icon(
-                                    modifier = Modifier.size(16.dp),
-                                    painter = painterResource(R.drawable.ic_circle),
-                                    tint = calendar.color?.let { Color(it.toLong()) } ?: Color.White,
-                                    contentDescription = null)
-                                Spacer(modifier = Modifier.width(4.dp))
-                                Text(text = calendar.displayName)
-                            }
+                        CalendarsListItem(calendar = calendar, isChecked = isChecked.value) {
+                            isChecked.value = !isChecked.value
+                            selection.apply { if (isChecked.value) add(calendar) else remove(calendar) }
                         }
                     }
                 }
                 Spacer(modifier = Modifier.height(16.dp))
-                Row(modifier = Modifier.fillMaxWidth().padding(8.dp), horizontalArrangement = Arrangement.End) {
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp), horizontalArrangement = Arrangement.End
+                ) {
                     TextButton(onClick = { onDismissRequest() }) {
                         Text(text = stringResource(android.R.string.cancel))
                     }
@@ -90,6 +77,58 @@ fun CalendarsPickDialog(
                     }
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun CalendarsListItem(calendar: CalendarModel, isChecked: Boolean, onItemClick: () -> Unit) {
+    Box(modifier = Modifier.clickable { onItemClick() }) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 8.dp, vertical = 4.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Checkbox(
+                checked = isChecked, onCheckedChange = null,
+            )
+            Spacer(modifier = Modifier.width(12.dp))
+            Icon(
+                modifier = Modifier.size(16.dp),
+                painter = painterResource(R.drawable.ic_circle),
+                tint = calendar.color?.let { Color(it.toLong()) } ?: Color.White,
+                contentDescription = null)
+            Spacer(modifier = Modifier.width(8.dp))
+            Column {
+                Text(text = calendar.displayName)
+            }
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun Preview_CalendarListItemPrimary() {
+    MaterialTheme {
+        Surface {
+            CalendarsListItem(
+                calendar = CalendarModel(1, "temporal.email.@gmail.com", "temporal.user", null, true),
+                isChecked = true
+            ) { }
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun Preview_CalendarListItem() {
+    MaterialTheme {
+        Surface {
+            CalendarsListItem(
+                calendar = CalendarModel(1, "temporal.email.@gmail.com", "temporal.user", null, false),
+                isChecked = true
+            ) { }
         }
     }
 }

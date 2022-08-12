@@ -8,9 +8,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import by.offvanhooijdonk.plaincalendar.widget.data.calendars.CalendarDataSource
-import by.offvanhooijdonk.plaincalendar.widget.model.CalendarModel
-import by.offvanhooijdonk.plaincalendar.widget.model.WidgetModel
+import by.offvanhooijdonk.plaincalendarv2.widget.data.CalendarDataSource
+import by.offvanhooijdonk.plaincalendarv2.widget.model.CalendarModel
+import by.offvanhooijdonk.plaincalendarv2.widget.model.WidgetModel
 import by.offvanhooijdonk.plaincalendarv2.widget.glance.PlainGlanceWidget
 import by.offvanhooijdonk.plaincalendarv2.widget.glance.prefs.WidgetPrefsKeys
 import kotlinx.coroutines.launch

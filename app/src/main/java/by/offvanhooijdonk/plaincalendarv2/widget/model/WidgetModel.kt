@@ -1,4 +1,4 @@
-package by.offvanhooijdonk.plaincalendar.widget.model
+package by.offvanhooijdonk.plaincalendarv2.widget.model
 
 import androidx.compose.ui.graphics.Color
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.layouts.LayoutType

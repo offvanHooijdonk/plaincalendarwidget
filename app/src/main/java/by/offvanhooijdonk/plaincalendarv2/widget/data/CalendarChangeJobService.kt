@@ -1,4 +1,4 @@
-package by.offvanhooijdonk.plaincalendar.widget.data.calendars.job
+package by.offvanhooijdonk.plaincalendarv2.widget.data
 
 import android.app.job.JobInfo
 import android.app.job.JobParameters
@@ -8,18 +8,14 @@ import android.content.ComponentName
 import android.content.Context
 import android.net.Uri
 import android.util.Log
-import by.offvanhooijdonk.plaincalendar.widget.data.calendars.CalendarDataSource
 import by.offvanhooijdonk.plaincalendarv2.widget.app.App
 import by.offvanhooijdonk.plaincalendarv2.widget.glance.PlainGlanceWidget
 
 class CalendarChangeJobService : JobService() {
-    /*private val widgetHelper: WidgetHelper by inject()*/
 
     override fun onStartJob(params: JobParameters): Boolean {
         Log.d(App.LOGCAT, "JOB Service#onStartJob")
-        //val widgetIds = widgetHelper.getExistingWidgetsIds()
-        //Log.d(App.LOGCAT, "Widgets to update in JobService: " + widgetIds.contentToString())
-        //widgetHelper.notifyWidgetsDataChanged(widgetIds)
+
         PlainGlanceWidget().loadData()
 
         scheduleCalendarChangeJob(applicationContext)
@@ -41,7 +37,6 @@ class CalendarChangeJobService : JobService() {
                 .addTriggerContentUri(JobInfo.TriggerContentUri(uriTrigger, JobInfo.TriggerContentUri.FLAG_NOTIFY_FOR_DESCENDANTS))
                 .setTriggerContentMaxDelay(TRIGGER_MAX_DELAY_TIME)
             ctx.getSystemService(JobScheduler::class.java)?.schedule(builder.build())
-                ?: run { Log.e(App.LOGCAT, "Job Scheduler received from ctx is null!") }
         }
 
         fun cancelCalendarChangeJob(ctx: Context) {

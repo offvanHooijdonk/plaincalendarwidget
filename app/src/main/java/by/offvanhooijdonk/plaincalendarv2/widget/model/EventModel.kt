@@ -1,12 +1,12 @@
-package by.offvanhooijdonk.plaincalendar.widget.model
+package by.offvanhooijdonk.plaincalendarv2.widget.model
 
-import java.util.Date
+import java.time.LocalDateTime
 
 data class EventModel(
     val id: Long = 0,
     val title: String,
-    val dateStart: Date,
-    val dateEnd: Date,
+    val dateStart: LocalDateTime,
+    val dateEnd: LocalDateTime,
     val isAllDay: Boolean = false,
     val eventColor: Int? = null,
     val calendarId: Long = 0,
