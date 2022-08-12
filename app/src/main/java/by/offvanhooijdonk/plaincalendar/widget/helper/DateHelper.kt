@@ -35,14 +35,14 @@ fun formatDay(date: Date): String {
     return SDF_DAY.format(date)
 }
 
-val closestMidnightMillis: Long // todo extension to Calendar instance
+val Calendar.closestMidnightMillis: Long // todo extension to Calendar instance
     get() {
-        val calendar = Calendar.getInstance()
-        calendar[Calendar.HOUR] = 0
-        calendar[Calendar.MINUTE] = 0
-        calendar[Calendar.SECOND] = 0
-        calendar.add(Calendar.DAY_OF_MONTH, 1)
-        return calendar.timeInMillis
+        /*val calendar = Calendar.getInstance()*/
+        this[Calendar.HOUR] = 0
+        this[Calendar.MINUTE] = 0
+        this[Calendar.SECOND] = 0
+        this.add(Calendar.DAY_OF_MONTH, 1)
+        return timeInMillis
     }
 
 // todo improve code readability
