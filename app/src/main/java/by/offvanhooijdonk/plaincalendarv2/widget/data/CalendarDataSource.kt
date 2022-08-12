@@ -6,14 +6,15 @@ import android.database.Cursor
 import android.net.Uri
 import android.provider.CalendarContract
 import android.util.Log
+import by.offvanhooijdonk.plaincalendarv2.widget.app.App
 import by.offvanhooijdonk.plaincalendarv2.widget.ext.millis
 import by.offvanhooijdonk.plaincalendarv2.widget.ext.toMidnightAtDay
 import by.offvanhooijdonk.plaincalendarv2.widget.model.CalendarModel
 import by.offvanhooijdonk.plaincalendarv2.widget.model.EventModel
-import by.offvanhooijdonk.plaincalendarv2.widget.app.App
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
+import kotlin.math.max
 
 class CalendarDataSource(private val ctx: Context) {
 
@@ -104,22 +105,13 @@ class CalendarDataSource(private val ctx: Context) {
                 CalendarContract.Instances.DISPLAY_COLOR,
                 CalendarContract.Instances.CALENDAR_ID
             ),
-            CalendarContract.Instances.CALENDAR_ID + " IN (" + prepareMultipleSubsPlaceholders(calendarsIds.size) + ")",
+            CalendarContract.Instances.CALENDAR_ID + " IN (" + preparePlaceholders(calendarsIds.size) + ")",
             calendarsIds.map { it.toString() }.toTypedArray(),
             CalendarContract.Instances.BEGIN + ", " + CalendarContract.Instances.END + ", " + CalendarContract.Instances.TITLE
         )
     }
 
-    private fun prepareMultipleSubsPlaceholders(n: Int): String {
-        val stringBuilder = StringBuilder()
-        for (i in 0 until n) {
-            stringBuilder.append("?")
-            if (i < n - 1) {
-                stringBuilder.append(",")
-            }
-        }
-        return stringBuilder.toString()
-    }
+    private fun preparePlaceholders(n: Int): String = "?,".repeat(max(n - 1, 0)).plus("?")
 
     companion object {
         private const val BOOLEAN_TRUE = 1
@@ -129,11 +121,11 @@ class CalendarDataSource(private val ctx: Context) {
         }
 
         private fun makeEventsUriForDates(dateFrom: LocalDateTime, dateTo: LocalDateTime?): Uri =
-            CalendarContract.Instances.CONTENT_URI.apply {
-                buildUpon().appendPath(dateFrom.millis.toString()).apply {
+            CalendarContract.Instances.CONTENT_URI
+                .buildUpon()
+                .appendPath(dateFrom.millis.toString()).apply {
                     dateTo?.let { appendPath(dateTo.millis.toString()) }
-                }
-            }
+                }.build()
 
 
         private fun Long.toLocalDateTime() =

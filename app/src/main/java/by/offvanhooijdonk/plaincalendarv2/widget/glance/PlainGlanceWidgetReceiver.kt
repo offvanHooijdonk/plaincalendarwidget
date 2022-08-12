@@ -74,7 +74,7 @@ class PlainGlanceWidgetReceiver : GlanceAppWidgetReceiver(), KoinComponent {
     private fun getNewDayPendingIntent(ctx: Context): PendingIntent =
         Intent(ctx, PlainGlanceWidgetReceiver::class.java).let {
             it.action = INTENT_ACTION_NEW_DAY
-            PendingIntent.getBroadcast(ctx, 0, it, 0)
+            PendingIntent.getBroadcast(ctx, 0, it, PendingIntent.FLAG_IMMUTABLE)
         }
 
 

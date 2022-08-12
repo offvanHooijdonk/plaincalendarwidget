@@ -16,17 +16,6 @@ fun LocalDateTime.toMidnightAtDay(days: Long): LocalDateTime = plusDays(days).wi
 val LocalDateTime.millis: Long get() = atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
 
 /*
-@SuppressLint("SimpleDateFormat")
-private val SDF_DATE_ONLY = SimpleDateFormat("d") // todo improve code
-
-@SuppressLint("SimpleDateFormat")
-private val SDF_DATE_ONLY_LEAD_ZERO = SimpleDateFormat("dd") // todo improve code
-
-@SuppressLint("SimpleDateFormat")
-private val SDF_DAY = SimpleDateFormat("EE") // todo improve code
-*/
-
-/*
 fun formatDateOnly(date: Date, leadingZero: Boolean): String {
     return if (leadingZero) {
         SDF_DATE_ONLY_LEAD_ZERO.format(date)
@@ -40,9 +29,6 @@ fun formatDay(date: Date): String {
 }
 */
 
-
-
-// todo improve code readability
 /*fun formatEventDateRange(
     ctx: Context,
     dateStart: Date,

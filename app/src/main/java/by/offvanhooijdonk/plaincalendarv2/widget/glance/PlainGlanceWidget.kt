@@ -1,6 +1,8 @@
 package by.offvanhooijdonk.plaincalendarv2.widget.glance
 
 import android.content.Context
+import android.content.Intent
+import android.provider.CalendarContract
 import android.util.Log
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -12,10 +14,9 @@ import androidx.compose.ui.unit.dp
 import androidx.datastore.preferences.core.Preferences
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
-import androidx.glance.action.actionParametersOf
-import androidx.glance.action.actionStartActivity
 import androidx.glance.action.clickable
 import androidx.glance.appwidget.GlanceAppWidget
+import androidx.glance.appwidget.action.actionStartActivity
 import androidx.glance.appwidget.appWidgetBackground
 import androidx.glance.appwidget.cornerRadius
 import androidx.glance.appwidget.lazy.LazyColumn
@@ -40,12 +41,12 @@ import androidx.glance.unit.ColorProvider
 import by.offvanhooijdonk.plaincalendarv2.widget.model.EventModel
 import by.offvanhooijdonk.plaincalendarv2.widget.app.App
 import by.offvanhooijdonk.plaincalendarv2.widget.glance.prefs.WidgetPrefsKeys
-import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.ConfigurationActivity
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import java.util.*
 
 class PlainGlanceWidget : GlanceAppWidget(), KoinComponent {
     override val stateDefinition: GlanceStateDefinition<Preferences> = PreferencesGlanceStateDefinition
@@ -91,16 +92,24 @@ private fun WidgetBody(events: List<EventModel>) {
     val textColor = ColorProvider(MaterialTheme.colors.onSurface)
 
     Box(modifier = GlanceModifier.background(color.copy(alpha = opacity)).appWidgetBackground().fillMaxSize()) {
-        LazyColumn() {
+        LazyColumn {
             items(events, itemId = { it.hashCode().toLong() }) { event ->
                 Column(
-                    modifier = GlanceModifier.clickable(actionStartActivity<ConfigurationActivity>(actionParametersOf())).padding(8.dp)
+                    modifier = GlanceModifier.clickable(actionStartActivity(createOpenEventIntent(event.eventId))).padding(8.dp)
                 ) {
-                    Text(text = "Today at 12:30", style = TextStyle(color = textColor))
+                    Text(
+                        text = event.dateStart.dayOfWeek.getDisplayName(java.time.format.TextStyle.FULL, Locale.getDefault()),
+                        style = TextStyle(color = textColor) // todo use 1 object
+                    )
                     Row(modifier = GlanceModifier.padding(horizontal = 8.dp), verticalAlignment = Alignment.CenterVertically) {
-                        Box(modifier = GlanceModifier.size(12.dp).background(Color.White).cornerRadius(6.dp)) {}
+                        Box(
+                            modifier = GlanceModifier
+                                .size(10.dp)
+                                .background(event.eventColor?.let { Color(it.toLong()) } ?: Color.White)
+                                .cornerRadius(6.dp)
+                        ) {}
                         Spacer(modifier = GlanceModifier.width(8.dp))
-                        Text(text = event.title, style = TextStyle(color = textColor))
+                        Text(text = event.title, style = TextStyle(color = textColor), maxLines = 1)
                     }
                 }
             }
@@ -108,18 +117,11 @@ private fun WidgetBody(events: List<EventModel>) {
     }
 }
 
+private fun createOpenEventIntent(eventId: Long) =
+    Intent(Intent.ACTION_VIEW).apply { data = CalendarContract.Events.CONTENT_URI.buildUpon().appendPath(eventId.toString()).build() }
+
 @Preview
 @Composable
 private fun Preview_WidgetBody() {
     //WidgetBody()
 }
-
-/*class WidgetSettingsStateDefinition : GlanceStateDefinition<WidgetModel> {
-    override suspend fun getDataStore(context: Context, fileKey: String): DataStore<WidgetModel> {
-        TODO("Not yet implemented")
-    }
-
-    override fun getLocation(context: Context, fileKey: String): File {
-        TODO("Not yet implemented")
-    }
-}*/
