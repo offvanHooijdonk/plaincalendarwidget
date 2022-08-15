@@ -28,10 +28,20 @@ import androidx.compose.ui.unit.dp
 import by.offvanhooijdonk.plaincalendarv2.widget.R
 
 @Composable
-fun ColorTab(colorSelected: Color, onColorPick: (Color) -> Unit) {
+fun BackgroundColorTab(colorSelected: Color, onColorPick: (Color) -> Unit) {
+    ColorTab(BackgroundColors, colorSelected, onColorPick)
+}
+
+@Composable
+fun TextColorTab(colorSelected: Color, onColorPick: (Color) -> Unit) {
+    ColorTab(TextColors, colorSelected, onColorPick)
+}
+
+@Composable
+private fun ColorTab(colorsList: List<Color>, colorSelected: Color, onColorPick: (Color) -> Unit) {
     val listState = rememberLazyListState()
     LaunchedEffect(key1 = Unit) {
-        listState.scrollToItem(BackgroundColors.indexOf(colorSelected).let { if (it == -1) 0 else it }, 0)
+        listState.scrollToItem(colorsList.indexOf(colorSelected).let { if (it == -1) 0 else it }, 0)
     }
     LazyRow(
         modifier = Modifier.fillMaxSize(),
@@ -39,7 +49,7 @@ fun ColorTab(colorSelected: Color, onColorPick: (Color) -> Unit) {
         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        items(items = BackgroundColors, key = { it.value.toLong() }) { colorItem ->
+        items(items = colorsList, key = { it.value.toLong() }) { colorItem ->
             Box(modifier = Modifier.padding(end = 8.dp)) {
                 Box(
                     modifier = Modifier
@@ -70,25 +80,8 @@ fun ColorTab(colorSelected: Color, onColorPick: (Color) -> Unit) {
     }
 }
 
-private val BackgroundColors = listOf(
-    Color.Blue,
-    Color.Gray,
-    Color.Cyan,
-    Color.Black,
-    Color.DarkGray,
-    Color.LightGray,
-    Color.Red,
-    Color.Green,
-    Color.Yellow,
-    Color(0xFF6750A4),
-    Color(0xFFB58392),
-    Color(0xFF958DA5),
-    Color.White,
-    Color(0xFF939094),
-)
-
 @Preview
 @Composable
 private fun Preview_ColorsTab() {
-    ColorTab(Color.White) {}
+    BackgroundColorTab(Color.White) {}
 }

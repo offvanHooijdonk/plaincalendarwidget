@@ -137,7 +137,6 @@ private fun ConfigureScreen(
                     bottom.linkTo(bottomSettings.top)
                 },
                 widget = widgetPreview.value,
-                eventPreviewColor = widgetPreview.value.calendars.getOrNull(0)?.color?.let { Color(it.toLong()) } ?: Color.Blue,
             )
             if (widget.id != 0L) {
                 ExtendedFloatingActionButton(

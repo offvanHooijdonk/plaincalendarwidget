@@ -40,7 +40,10 @@ import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
 import by.offvanhooijdonk.plaincalendarv2.widget.model.EventModel
 import by.offvanhooijdonk.plaincalendarv2.widget.app.App
-import by.offvanhooijdonk.plaincalendarv2.widget.glance.prefs.WidgetPrefsKeys
+import by.offvanhooijdonk.plaincalendarv2.widget.ext.toColor
+import by.offvanhooijdonk.plaincalendarv2.widget.glance.prefs.WidgetPrefsReaderWriter
+import by.offvanhooijdonk.plaincalendarv2.widget.model.WidgetModel
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.preview.previewEvents
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
@@ -61,12 +64,13 @@ class PlainGlanceWidget : GlanceAppWidget(), KoinComponent {
 
         val events = remember { mutableStateOf(emptyList<EventModel>()) }
 
+        val widgetModel = WidgetPrefsReaderWriter.readWidgetModel(state)
         events.value = viewModel.loadEvents(
-            WidgetPrefsKeys.readCalendars(state),
-            WidgetPrefsKeys.readDays(state)
+            widgetModel.calendarIds,
+            widgetModel.days
         )
 
-        WidgetBody(events.value)
+        WidgetBody(events.value, widgetModel)
     }
 
     fun loadData() {
@@ -84,32 +88,32 @@ class PlainGlanceWidget : GlanceAppWidget(), KoinComponent {
 }
 
 @Composable
-private fun WidgetBody(events: List<EventModel>) {
-    val state = currentState<Preferences>()
+private fun WidgetBody(events: List<EventModel>, model: WidgetModel) {
+    val backColor = model.backgroundColor.toColor()
+    val opacity = model.opacity
+    val textColorStyle = TextStyle(color = ColorProvider(model.textColor.toColor()))
 
-    val color = WidgetPrefsKeys.readBackgroundColor(state)
-    val opacity = WidgetPrefsKeys.readBackgroundOpacity(state)
-    val textColor = ColorProvider(MaterialTheme.colors.onSurface)
-
-    Box(modifier = GlanceModifier.background(color.copy(alpha = opacity)).appWidgetBackground().fillMaxSize()) {
+    Box(modifier = GlanceModifier.background(backColor.copy(alpha = opacity)).appWidgetBackground().fillMaxSize()) {
         LazyColumn {
             items(events, itemId = { it.hashCode().toLong() }) { event ->
                 Column(
-                    modifier = GlanceModifier.clickable(actionStartActivity(createOpenEventIntent(event.eventId))).padding(8.dp)
+                    modifier = GlanceModifier
+                        .clickable(actionStartActivity(createOpenEventIntent(event.eventId)))
+                        .padding(horizontal = 8.dp, vertical = 4.dp)
                 ) {
                     Text(
                         text = event.dateStart.dayOfWeek.getDisplayName(java.time.format.TextStyle.FULL, Locale.getDefault()),
-                        style = TextStyle(color = textColor) // todo use 1 object
+                        style = textColorStyle
                     )
-                    Row(modifier = GlanceModifier.padding(horizontal = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Row(modifier = GlanceModifier.padding(start = 2.dp), verticalAlignment = Alignment.CenterVertically) {
                         Box(
                             modifier = GlanceModifier
                                 .size(10.dp)
                                 .background(event.eventColor?.let { Color(it.toLong()) } ?: Color.White)
-                                .cornerRadius(6.dp)
+                                .cornerRadius(5.dp)
                         ) {}
-                        Spacer(modifier = GlanceModifier.width(8.dp))
-                        Text(text = event.title, style = TextStyle(color = textColor), maxLines = 1)
+                        Spacer(modifier = GlanceModifier.width(4.dp))
+                        Text(text = event.title, style = textColorStyle, maxLines = 1)
                     }
                 }
             }
@@ -123,5 +127,5 @@ private fun createOpenEventIntent(eventId: Long) =
 @Preview
 @Composable
 private fun Preview_WidgetBody() {
-    //WidgetBody()
+    WidgetBody(previewEvents, WidgetModel.createDefault())
 }

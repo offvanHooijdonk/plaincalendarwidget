@@ -49,9 +49,9 @@ fun StylesTabsPanel(widget: WidgetModel, onPreviewSettingsChange: (WidgetModel) 
             AnimatedContent(targetState = selectedIndex.value, transitionSpec = { transitionFade }) { state ->
                 when (SettingTabsList[state]) {
                     SettingTab.ColorTab -> {
-                        val color = remember(widget) { mutableStateOf(Color(widget.backgroundColor.toULong())) }
-                        ColorTab(color.value) {
-                            color.value = it
+                        val backColor = remember(widget) { mutableStateOf(Color(widget.backgroundColor.toULong())) }
+                        BackgroundColorTab(backColor.value) {
+                            backColor.value = it
                             onPreviewSettingsChange(widget.copy(backgroundColor = it.value.toLong()))
                         }
                     }
@@ -62,8 +62,17 @@ fun StylesTabsPanel(widget: WidgetModel, onPreviewSettingsChange: (WidgetModel) 
                             onPreviewSettingsChange(widget.copy(opacity = it))
                         }
                     }
-                    SettingTab.TextColorTab -> TextColorTab()
-                    SettingTab.TextSizeTab -> TextSizeTab()
+                    SettingTab.TextColorTab -> {
+                        val textColor = remember(widget) { mutableStateOf(Color(widget.textColor.toULong())) }
+                        TextColorTab(textColor.value) {
+                            textColor.value = it
+                            onPreviewSettingsChange(widget.copy(textColor = it.value.toLong()))
+                        }
+                    }
+                    SettingTab.TextSizeTab -> {
+                        val textSizeDelta = remember(widget) { mutableStateOf(widget.textSizeDelta) }
+                        TextSizeTab(textSizeDelta.value) { onPreviewSettingsChange(widget.copy(textSizeDelta = it)) } // TODO add restrictions to min/max
+                    }
                 }
             }
         }

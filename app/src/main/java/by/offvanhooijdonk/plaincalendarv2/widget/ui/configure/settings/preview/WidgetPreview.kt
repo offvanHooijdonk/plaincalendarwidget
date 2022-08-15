@@ -30,9 +30,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import by.offvanhooijdonk.plaincalendarv2.widget.model.EventModel
 import by.offvanhooijdonk.plaincalendarv2.widget.model.WidgetModel
 import by.offvanhooijdonk.plaincalendarv2.widget.R
+import by.offvanhooijdonk.plaincalendarv2.widget.ext.toColor
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.layouts.LayoutType
 import java.time.DayOfWeek
 import java.time.LocalDateTime
@@ -41,7 +43,7 @@ import java.time.temporal.ChronoField
 import java.util.*
 
 @Composable
-fun WidgetPreview(modifier: Modifier = Modifier, widget: WidgetModel, eventPreviewColor: Color) {
+fun WidgetPreview(modifier: Modifier = Modifier, widget: WidgetModel) {
     Box(
         modifier = Modifier
             .then(modifier)
@@ -50,7 +52,7 @@ fun WidgetPreview(modifier: Modifier = Modifier, widget: WidgetModel, eventPrevi
     ) {
         AnimatedContent(targetState = widget.layoutType) { layout ->
             when (layout) {
-                LayoutType.DEFAULT -> WidgetBlueprint(widget, eventPreviewColor)
+                LayoutType.DEFAULT -> WidgetBlueprint(widget)
                 LayoutType.EXTENDED -> Text(text = "Nothing to show yet")//WidgetBlueprint(widget, eventPreviewColor)
             }
         }
@@ -58,7 +60,7 @@ fun WidgetPreview(modifier: Modifier = Modifier, widget: WidgetModel, eventPrevi
 }
 
 @Composable
-private fun WidgetBlueprint(widget: WidgetModel, eventPreviewColor: Color) {
+private fun WidgetBlueprint(widget: WidgetModel) {
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -74,7 +76,7 @@ private fun WidgetBlueprint(widget: WidgetModel, eventPreviewColor: Color) {
         ) {
             items(previewEvents, key = { it.id }) {
                 Column {
-                    WidgetEventItem(it, eventPreviewColor)
+                    WidgetEventItem(it, widget)
                     Divider()
                 }
             }
@@ -83,30 +85,37 @@ private fun WidgetBlueprint(widget: WidgetModel, eventPreviewColor: Color) {
 }
 
 @Composable
-private fun WidgetEventItem(event: EventModel, eventPreviewColor: Color) {
+private fun WidgetEventItem(event: EventModel, widgetModel: WidgetModel) {// replace widget with raw style values
     Surface(
         modifier = Modifier.padding(2.dp),
         onClick = { /**/ },
         shape = RoundedCornerShape(8.dp),
         color = Color.Transparent
     ) {
+        val textColor = widgetModel.textColor.toColor()
+        val textSize = (14 + widgetModel.textSizeDelta).sp
+
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 8.dp)
                 .padding(top = 4.dp, bottom = 8.dp)
         ) {
-            Text(text = event.dateStart.dayOfWeek.getDisplayName(TextStyle.FULL, Locale.getDefault()))
+            Text(
+                text = event.dateStart.dayOfWeek.getDisplayName(TextStyle.FULL, Locale.getDefault()),
+                color = textColor,
+                fontSize = textSize,
+            )
 
             Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                 Icon(
                     modifier = Modifier.size(12.dp),
                     painter = painterResource(R.drawable.ic_circle),
-                    tint = eventPreviewColor,
+                    tint = widgetModel.calendars.firstOrNull()?.color?.let { Color(it.toLong()) } ?: Color.Blue,
                     contentDescription = null,
                 )
                 Spacer(modifier = Modifier.width(8.dp))
-                Text(text = event.title)
+                Text(text = event.title, color = textColor, fontSize = textSize, maxLines = 1)
             }
         }
     }
@@ -116,11 +125,11 @@ private fun WidgetEventItem(event: EventModel, eventPreviewColor: Color) {
 @Composable
 private fun Preview_WidgetBlueprint() {
     MaterialTheme {
-        WidgetBlueprint(WidgetModel.createDefault().copy(opacity = 0.5f), Color.Blue)
+        WidgetBlueprint(WidgetModel.createDefault().copy(opacity = 0.5f))
     }
 }
 
-private val previewEvents = listOf(
+val previewEvents = listOf(
     EventModel(
         1,
         "Bicycling on every Wednesday evening",

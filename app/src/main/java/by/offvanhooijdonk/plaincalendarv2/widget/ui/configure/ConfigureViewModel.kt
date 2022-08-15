@@ -12,7 +12,7 @@ import by.offvanhooijdonk.plaincalendarv2.widget.data.CalendarDataSource
 import by.offvanhooijdonk.plaincalendarv2.widget.model.CalendarModel
 import by.offvanhooijdonk.plaincalendarv2.widget.model.WidgetModel
 import by.offvanhooijdonk.plaincalendarv2.widget.glance.PlainGlanceWidget
-import by.offvanhooijdonk.plaincalendarv2.widget.glance.prefs.WidgetPrefsKeys
+import by.offvanhooijdonk.plaincalendarv2.widget.glance.prefs.WidgetPrefsReaderWriter
 import kotlinx.coroutines.launch
 
 class ConfigureViewModel(
@@ -48,7 +48,7 @@ class ConfigureViewModel(
                 if (glanceId.toIntId() == widgetId) {
                     updateGlanceId = glanceId
                     updateAppWidgetState(ctx, glanceId) { prefs ->
-                        WidgetPrefsKeys.writeToPrefs(prefs, widgetModel)
+                        WidgetPrefsReaderWriter.writeToPrefs(prefs, widgetModel)
                     }
                 }
             }
