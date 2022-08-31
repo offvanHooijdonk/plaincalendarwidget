@@ -4,7 +4,6 @@ package by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.preview
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -15,7 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.ExperimentalMaterialApi
@@ -35,6 +34,7 @@ import by.offvanhooijdonk.plaincalendarv2.widget.model.EventModel
 import by.offvanhooijdonk.plaincalendarv2.widget.model.WidgetModel
 import by.offvanhooijdonk.plaincalendarv2.widget.R
 import by.offvanhooijdonk.plaincalendarv2.widget.ext.toColor
+import by.offvanhooijdonk.plaincalendarv2.widget.model.DummyWidget
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.layouts.LayoutType
 import java.time.DayOfWeek
 import java.time.LocalDateTime
@@ -46,8 +46,7 @@ import java.util.*
 fun WidgetPreview(modifier: Modifier = Modifier, widget: WidgetModel) {
     Box(
         modifier = Modifier
-            .then(modifier)
-            .padding(horizontal = 32.dp),
+            .then(modifier),
         contentAlignment = Alignment.Center,
     ) {
         AnimatedContent(targetState = widget.layoutType) { layout ->
@@ -63,21 +62,23 @@ fun WidgetPreview(modifier: Modifier = Modifier, widget: WidgetModel) {
 private fun WidgetBlueprint(widget: WidgetModel) {
     Surface(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 4.dp),
+            .fillMaxWidth(),
         color = Color(widget.backgroundColor.toULong()).copy(alpha = widget.opacity),
         shape = RoundedCornerShape(28.dp),
     ) {
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(color = Color.Transparent, RoundedCornerShape(12.dp)),
-            contentPadding = PaddingValues(all = 4.dp)
-        ) {
-            items(previewEvents, key = { it.id }) {
-                Column {
-                    WidgetEventItem(it, widget)
-                    Divider()
+        Box(modifier = Modifier.padding(vertical = 8.dp)) {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                contentPadding = PaddingValues(vertical = 4.dp, horizontal = 8.dp)
+            ) {
+                itemsIndexed(previewEvents, key = { _, item -> item.id }) { index, item ->
+                    Column {
+                        WidgetEventItem(item, widget)
+                        if (widget.showEventDividers && (index < previewEvents.size - 1)) {
+                            Divider()
+                        }
+                    }
                 }
             }
         }
@@ -98,7 +99,7 @@ private fun WidgetEventItem(event: EventModel, widgetModel: WidgetModel) {// rep
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 8.dp)
+                .padding(horizontal = 6.dp)
                 .padding(top = 4.dp, bottom = 8.dp)
         ) {
             Text(
@@ -108,13 +109,20 @@ private fun WidgetEventItem(event: EventModel, widgetModel: WidgetModel) {// rep
             )
 
             Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                Icon(
-                    modifier = Modifier.size(12.dp),
-                    painter = painterResource(R.drawable.ic_circle),
-                    tint = widgetModel.calendars.firstOrNull()?.color?.let { Color(it.toLong()) } ?: Color.Blue,
-                    contentDescription = null,
-                )
-                Spacer(modifier = Modifier.width(8.dp))
+                AnimatedContent(targetState = widgetModel.showEventColor) { showColor ->
+                    when (showColor) {
+                        true -> Row {
+                            Icon(
+                                modifier = Modifier.size(12.dp),
+                                painter = painterResource(R.drawable.ic_circle),
+                                tint = widgetModel.calendars.firstOrNull()?.color?.let { Color(it.toLong()) } ?: Color.Blue,
+                                contentDescription = null,
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                        }
+                        false -> Unit
+                    }
+                }
                 Text(text = event.title, color = textColor, fontSize = textSize, maxLines = 1)
             }
         }
@@ -125,7 +133,7 @@ private fun WidgetEventItem(event: EventModel, widgetModel: WidgetModel) {// rep
 @Composable
 private fun Preview_WidgetBlueprint() {
     MaterialTheme {
-        WidgetBlueprint(WidgetModel.createDefault().copy(opacity = 0.5f))
+        WidgetBlueprint(DummyWidget.copy(opacity = 0.5f))
     }
 }
 

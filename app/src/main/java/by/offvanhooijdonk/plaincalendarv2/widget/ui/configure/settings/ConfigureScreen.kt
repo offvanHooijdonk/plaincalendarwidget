@@ -21,14 +21,19 @@ import androidx.compose.material.ChipDefaults
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ExtendedFloatingActionButton
+import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.ModalBottomSheetLayout
+import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Slider
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
+import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -43,48 +48,64 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import by.offvanhooijdonk.plaincalendarv2.widget.model.CalendarModel
-import by.offvanhooijdonk.plaincalendarv2.widget.model.WidgetModel
 import by.offvanhooijdonk.plaincalendarv2.widget.R
+import by.offvanhooijdonk.plaincalendarv2.widget.model.CalendarModel
+import by.offvanhooijdonk.plaincalendarv2.widget.model.DummyWidget
+import by.offvanhooijdonk.plaincalendarv2.widget.model.WidgetModel
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.ConfigureViewModel
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.Result
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.layouts.LayoutsPickPanel
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.preview.WidgetPreview
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.tabs.StylesTabsPanel
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.PlainTheme
 import kotlin.math.roundToInt
 
 @Composable
 fun MainScreen(viewModel: ConfigureViewModel) {
-    val title = when (val result = viewModel.widgetResponse.observeAsState().value) {
-        is Result.Widget.Success -> "Widget #${result.data.id}"
+    val widget = viewModel.widgetModel.observeAsState(DummyWidget).value
+    val title = when (viewModel.loadResult.observeAsState().value) {
+        is Result.Widget.Success -> "Widget #${widget.id}"
         Result.Widget.New -> "New widget"
         else -> "..."
     }
-    Scaffold(
-        backgroundColor = Color.Transparent,
-        topBar = { TopAppBar(title = { Text(title) }) },
+
+    val sheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
+    val isShowSettings = viewModel.showSettingsSheet.observeAsState().value
+    LaunchedEffect(key1 = isShowSettings) {
+        if (isShowSettings?.value == true) {
+            sheetState.show()
+        }
+    }
+
+    ModalBottomSheetLayout(
+        sheetState = sheetState,
+        sheetContent = {
+            SettingsScreen(viewModel.widgetModel.observeAsState(DummyWidget).value, viewModel::onWidgetChange)
+        },
     ) {
-        ConfigureScreenWrap(viewModel)
+        Scaffold(
+            backgroundColor = Color.Transparent,
+            topBar = { TopAppBar(title = { Text(title) }) },
+        ) {
+            ConfigureScreenWrap(viewModel)
+        }
     }
 }
 
 @Composable
 private fun ConfigureScreenWrap(viewModel: ConfigureViewModel) {
-    when (val result = viewModel.widgetResponse.observeAsState().value) {
-        is Result.Widget.Success -> ConfigureScreen(
-            result.data,
+    val widget = viewModel.widgetModel.observeAsState(DummyWidget)
+    when (val result = viewModel.loadResult.observeAsState().value) {
+        Result.Widget.New, Result.Widget.Success -> ConfigureScreen(
+            widget.value,
             viewModel.calendarsResponse.observeAsState().value ?: Result.Idle,
-            { viewModel.loadCalendars()/*todo calendars permissions*/ },
-            { viewModel.updateWidget(it) },
-        )
-        Result.Widget.New -> ConfigureScreen(
-            WidgetModel.createDefault().copy(id = viewModel.widgetId?.toLong() ?: 0),
-            viewModel.calendarsResponse.observeAsState().value ?: Result.Idle,
-            { viewModel.loadCalendars() },
-            { viewModel.updateWidget(it) },
+            onCalendarsRequested = viewModel::loadCalendars,
+            onWidgetChange = viewModel::onWidgetChange,
+            onSaveChanges = viewModel::updateWidget,
+            onSettingsClick = viewModel::onSettingsClick,
         )
         is Result.Error -> ErrorScreen(result.msg ?: "Default error")
-        Result.Progress -> LoadingScreen()
+        Result.Progress, Result.Idle -> LoadingScreen()
         else -> Unit
     }
 }
@@ -94,14 +115,16 @@ private fun ConfigureScreen(
     widget: WidgetModel,
     allCalendars: Result, // todo don't like it
     onCalendarsRequested: () -> Unit,
-    onSaveChanges: (WidgetModel) -> Unit
+    onWidgetChange: (WidgetModel) -> Unit,
+    onSaveChanges: () -> Unit,
+    onSettingsClick: () -> Unit,
 ) {
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
-        val widgetPreview = remember(widget) { mutableStateOf(widget) }
+        //val widgetPreview = remember(widget) { mutableStateOf(widget) }
         ConstraintLayout(modifier = Modifier.fillMaxSize()) {
-            val (topSettings, layouts, preview, btn, bottomSettings) = createRefs()
+            val (topSettings, layouts, preview, btnSave, btnSettings, bottomSettings) = createRefs()
             Column(
                 Modifier
                     .background(color = MaterialTheme.colors.surface)
@@ -112,41 +135,57 @@ private fun ConfigureScreen(
             ) {
                 //val calendarsList = remember(widget) { mutableStateOf(widget.calendars) }
                 CalendarsForm(
-                    widgetPreview.value.calendars,
+                    widget.calendars,
                     allCalendars,
                     onChangeBtnClick = { onCalendarsRequested() },
                     onCalendarsSelected = { list ->
-                        widgetPreview.value = widgetPreview.value.copy(calendars = list, calendarIds = list.map { it.id })
+                        onWidgetChange(widget.copy(calendars = list, calendarIds = list.map { it.id }))
                     },
                 )
                 Spacer(modifier = Modifier.height(16.dp))
 
-                DaysNumberForm(widgetPreview.value.days) { widgetPreview.value = widgetPreview.value.copy(days = it) }
+                DaysNumberForm(widget.days) { onWidgetChange(widget.copy(days = it)) }
             }
             LayoutsPickPanel(
                 modifier = Modifier.constrainAs(layouts) {
                     top.linkTo(topSettings.bottom)
                 },
-                widget = widgetPreview.value,
-                onLayoutPick = { widgetPreview.value = widgetPreview.value.copy(layoutType = it) },
+                widget = widget,
+                onLayoutPick = { onWidgetChange(widget.copy(layoutType = it)) },
             )
 
             WidgetPreview(
                 modifier = Modifier.constrainAs(preview) {
                     top.linkTo(layouts.bottom)
                     bottom.linkTo(bottomSettings.top)
+                    start.linkTo(parent.start, 32.dp)
+                    end.linkTo(parent.end, 32.dp)
+                    width = Dimension.fillToConstraints
                 },
-                widget = widgetPreview.value,
+                widget = widget,
             )
+
             if (widget.id != 0L) {
                 ExtendedFloatingActionButton(
-                    modifier = Modifier.constrainAs(btn) {
-                        bottom.linkTo(bottomSettings.top, 16.dp)
-                        centerHorizontallyTo(parent)
+                    modifier = Modifier.constrainAs(btnSave) {
+                        top.linkTo(btnSettings.top)
+                        bottom.linkTo(btnSettings.bottom)
+                        start.linkTo(preview.start)
                     },
                     text = { Text(text = stringResource(R.string.btn_save_widget_settings), color = Color.White) },
-                    onClick = { onSaveChanges(widgetPreview.value) },
+                    onClick = { onSaveChanges() },
                 )
+            }
+
+            FloatingActionButton(
+                modifier = Modifier.constrainAs(btnSettings) {
+                    bottom.linkTo(bottomSettings.top, 16.dp)
+                    end.linkTo(preview.end)
+                },
+                onClick = { onSettingsClick() },
+                backgroundColor = MaterialTheme.colors.primary,
+            ) {
+                Icon(painterResource(R.drawable.ic_settings), contentDescription = null)
             }
 
             Box(modifier = Modifier
@@ -155,7 +194,7 @@ private fun ConfigureScreen(
                 .constrainAs(bottomSettings) {
                     bottom.linkTo(parent.bottom)
                 }) {
-                StylesTabsPanel(widgetPreview.value) { widgetPreview.value = it }
+                StylesTabsPanel(widget) { onWidgetChange(it) }
             }
         }
     }
@@ -267,7 +306,7 @@ private fun DaysNumberForm(daySelected: Int, onDaysChange: (Int) -> Unit) {
 
 private const val DAYS_RANGE_MIN = 1
 private const val DAYS_RANGE_MAX = 31
-private const val DAYS_RANGE_STEPS = DAYS_RANGE_MAX - DAYS_RANGE_MIN - 1
+private const val DAYS_RANGE_STEPS = DAYS_RANGE_MAX - DAYS_RANGE_MIN
 
 @Composable
 private fun LoadingScreen() {
@@ -293,5 +332,7 @@ private fun ErrorScreen(msg: String) {
 @Preview(showSystemUi = true)
 @Composable
 fun Preview_ConfigureNew() {
-    ConfigureScreen(WidgetModel.createDefault().copy(id = 1L, days = 25), Result.Idle, {}) {}
+    PlainTheme {
+        ConfigureScreen(DummyWidget.copy(id = 1L, days = 25), Result.Idle, {}, {}, {}, {})
+    }
 }

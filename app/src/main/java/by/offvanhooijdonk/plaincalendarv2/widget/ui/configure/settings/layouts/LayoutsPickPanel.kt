@@ -20,6 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import by.offvanhooijdonk.plaincalendarv2.widget.model.WidgetModel
 import by.offvanhooijdonk.plaincalendarv2.widget.R
+import by.offvanhooijdonk.plaincalendarv2.widget.model.DummyWidget
 
 @Composable
 fun LayoutsPickPanel(modifier: Modifier = Modifier, widget: WidgetModel, onLayoutPick: (LayoutType) -> Unit) {
@@ -75,5 +76,5 @@ enum class LayoutType {
 @Preview
 @Composable
 private fun Preview_LayoutsPickPanel() {
-    LayoutsPickPanel(widget = WidgetModel.createDefault()) {}
+    LayoutsPickPanel(widget = DummyWidget) {}
 }

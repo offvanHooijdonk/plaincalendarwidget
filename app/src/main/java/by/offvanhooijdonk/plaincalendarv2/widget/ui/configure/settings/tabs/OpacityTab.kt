@@ -50,7 +50,7 @@ fun OpacityTab(opacitySelected: Float, onPickOpacity: (Float) -> Unit) {
 private const val OPACITY_VALUE_STEP = 5
 private const val OPACITY_RANGE_MIN = 0
 private const val OPACITY_RANGE_MAX = 100 / OPACITY_VALUE_STEP
-private const val OPACITY_RANGE_STEPS = OPACITY_RANGE_MAX - OPACITY_RANGE_MIN - 1
+private const val OPACITY_RANGE_STEPS = OPACITY_RANGE_MAX - OPACITY_RANGE_MIN
 
 @Preview
 @Composable

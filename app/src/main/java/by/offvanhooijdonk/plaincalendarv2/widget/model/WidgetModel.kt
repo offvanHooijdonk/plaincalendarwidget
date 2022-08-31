@@ -1,6 +1,9 @@
 package by.offvanhooijdonk.plaincalendarv2.widget.model
 
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import by.offvanhooijdonk.plaincalendarv2.widget.R
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.layouts.LayoutType
 
 data class WidgetModel(
@@ -13,16 +16,23 @@ data class WidgetModel(
     val showEventColor: Boolean,
     val showTodayDate: Boolean,
     val showTodayDayOfWeek: Boolean,
-    val showDateDivider: Boolean,
+    val showEventDividers: Boolean,
     val showEndDate: ShowEndDate,
-    val showTodayLeadingZero: Boolean,
-    val showDateTextLabel: Boolean,
+    /** Show 'today'/'tomorrow' dates as corresponding text */
+    val showDateAsTextLabel: Boolean,
     val layoutType: LayoutType,
     val calendars: List<CalendarModel> = emptyList(), // use to present on preview todo remove and use Calendars list on preview as an independent val
     val calendarIds: List<Long> = emptyList(), // use to store with widget info
 ) {
-    enum class ShowEndDate(val code: Int) {
-        NEVER(0), MORE_THAN_DAY(1), ALWAYS(2);
+    enum class ShowEndDate {
+        NEVER, MORE_THAN_DAY, ALWAYS;
+
+        val title: String
+            @Composable get() = when (this) {
+                NEVER -> R.string.event_end_option_never
+                MORE_THAN_DAY -> R.string.event_end_option_if_next_day
+                ALWAYS -> R.string.event_end_option_always
+            }.let { stringResource(it) }
     }
 
     companion object {
@@ -33,13 +43,14 @@ data class WidgetModel(
             textColor = Color.Black.value.toLong(),
             textSizeDelta = 0,
             showEventColor = true,
-            showDateTextLabel = true,
-            showDateDivider = true,
+            showDateAsTextLabel = true,
+            showEventDividers = true,
             showEndDate = ShowEndDate.MORE_THAN_DAY,
             showTodayDate = true,
             layoutType = LayoutType.default,
             showTodayDayOfWeek = true,
-            showTodayLeadingZero = false,
         )
     }
 }
+
+val DummyWidget = WidgetModel.createDefault()

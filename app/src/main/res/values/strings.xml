@@ -55,11 +55,9 @@
         <item>X-Large</item>
     </string-array>
 
-    <string-array name="event_end_options">
-        <item>Never</item>
-        <item>If spans next day</item>
-        <item>Always</item>
-    </string-array>
+    <string name="event_end_option_never">Never</string>
+    <string name="event_end_option_if_next_day">If finishes next day</string>
+    <string name="event_end_option_always">Always</string>
 
     <!-- V2 -->
     <string name="btn_save_widget_settings">Apply settings</string>

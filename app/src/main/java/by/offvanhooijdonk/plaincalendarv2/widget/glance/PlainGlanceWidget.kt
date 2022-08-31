@@ -42,6 +42,7 @@ import by.offvanhooijdonk.plaincalendarv2.widget.model.EventModel
 import by.offvanhooijdonk.plaincalendarv2.widget.app.App
 import by.offvanhooijdonk.plaincalendarv2.widget.ext.toColor
 import by.offvanhooijdonk.plaincalendarv2.widget.glance.prefs.WidgetPrefsReaderWriter
+import by.offvanhooijdonk.plaincalendarv2.widget.model.DummyWidget
 import by.offvanhooijdonk.plaincalendarv2.widget.model.WidgetModel
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.preview.previewEvents
 import kotlinx.coroutines.MainScope
@@ -127,5 +128,5 @@ private fun createOpenEventIntent(eventId: Long) =
 @Preview
 @Composable
 private fun Preview_WidgetBody() {
-    WidgetBody(previewEvents, WidgetModel.createDefault())
+    WidgetBody(previewEvents, DummyWidget)
 }

@@ -13,6 +13,7 @@ import by.offvanhooijdonk.plaincalendarv2.widget.model.CalendarModel
 import by.offvanhooijdonk.plaincalendarv2.widget.model.WidgetModel
 import by.offvanhooijdonk.plaincalendarv2.widget.glance.PlainGlanceWidget
 import by.offvanhooijdonk.plaincalendarv2.widget.glance.prefs.WidgetPrefsReaderWriter
+import by.offvanhooijdonk.plaincalendarv2.widget.model.DummyWidget
 import kotlinx.coroutines.launch
 
 class ConfigureViewModel(
@@ -20,14 +21,20 @@ class ConfigureViewModel(
     /*private val widgetDao: WidgetDao,*/
     private val calendarDataSource: CalendarDataSource,
 ) : ViewModel() {
-    private val _widgetResponse = MutableLiveData<Result>(Result.Idle)
-    val widgetResponse: LiveData<Result> = _widgetResponse
+    private val _loadResult = MutableLiveData<Result>(Result.Idle)
+    val loadResult: LiveData<Result> = _loadResult
+
+    private val _widgetModel = MutableLiveData(DummyWidget)
+    val widgetModel: LiveData<WidgetModel> = _widgetModel
 
     private val _allCalendarsResponse = MutableLiveData<Result>(Result.Idle)
     val calendarsResponse: LiveData<Result> = _allCalendarsResponse
 
     private val _finishScreen = MutableLiveData(false)
     val finishScreen: LiveData<Boolean> = _finishScreen
+
+    private val _showSettingsSheet = MutableLiveData(Flag(false))
+    val showSettingsSheet: LiveData<Flag> = _showSettingsSheet
 
     var widgetId: Int? = null
 
@@ -36,19 +43,18 @@ class ConfigureViewModel(
         //widgetId?.let {
             //loadWidgetConfig(it)
         //} ?: run {
-            _widgetResponse.postValue(Result.Widget.New)
+            _loadResult.postValue(Result.Widget.New)
         //}
     }
 
-    fun updateWidget(widgetModel: WidgetModel) {
-        // todo update settings
+    fun updateWidget() {
         viewModelScope.launch { // todo add ability to call update from other places?
             var updateGlanceId: GlanceId? = null
             GlanceAppWidgetManager(ctx).getGlanceIds(PlainGlanceWidget::class.java).forEach { glanceId ->
                 if (glanceId.toIntId() == widgetId) {
                     updateGlanceId = glanceId
                     updateAppWidgetState(ctx, glanceId) { prefs ->
-                        WidgetPrefsReaderWriter.writeToPrefs(prefs, widgetModel)
+                        _widgetModel.value?.let { WidgetPrefsReaderWriter.writeToPrefs(prefs, it) }
                     }
                 }
             }
@@ -65,6 +71,14 @@ class ConfigureViewModel(
             _allCalendarsResponse.postValue(Result.Calendars.Success(calendars))
         }
     }
+
+    fun onSettingsClick() {
+        _showSettingsSheet.postValue(Flag(true))
+    }
+
+    fun onWidgetChange(widget: WidgetModel) {
+        _widgetModel.value = widget
+    }
 }
 
 // current implementation while now match between GlanceId and WidgetId can be made
@@ -79,11 +93,13 @@ sealed interface Result { // todo remove cause configuration will be loaded from
     class Error(val msg: String?) : Result
 
     sealed interface Widget : Result {
-        class Success(val data: WidgetModel) : Result
+        object Success : Result
         object New : Result
     }
 
     sealed interface Calendars : Result {
-        class Success(val list: List<CalendarModel>) : Result
+        class Success(val list: List<CalendarModel>) : Result // todo convert to object as Widget
     }
 }
+
+class Flag(val value: Boolean)

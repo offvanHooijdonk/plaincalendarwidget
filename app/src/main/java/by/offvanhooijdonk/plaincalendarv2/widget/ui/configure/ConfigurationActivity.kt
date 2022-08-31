@@ -7,6 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material.MaterialTheme
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.MainScreen
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.PlainTheme
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ConfigurationActivity : AppCompatActivity() {
@@ -17,7 +18,7 @@ class ConfigurationActivity : AppCompatActivity() {
         viewModel.passWidgetId(extractWidgetId())
 
         setContent {
-            MaterialTheme {
+            PlainTheme {
                 MainScreen(viewModel)
             }
         }
