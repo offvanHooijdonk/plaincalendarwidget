@@ -183,7 +183,8 @@ private fun ConfigureScreen(
                     end.linkTo(preview.end)
                 },
                 onClick = { onSettingsClick() },
-                backgroundColor = MaterialTheme.colors.primary,
+                backgroundColor = MaterialTheme.colors.surface,
+                contentColor = MaterialTheme.colors.primary,
             ) {
                 Icon(painterResource(R.drawable.ic_settings), contentDescription = null)
             }

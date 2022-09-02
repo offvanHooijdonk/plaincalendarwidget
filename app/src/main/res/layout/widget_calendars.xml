@@ -2,17 +2,20 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
+<!-- TODO refactor -->
     <ImageView
         android:id="@+id/widgetBack"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/widget_back_corner_m" />
+        android:src="@drawable/widget_back_corner" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/widget_margin">
+        android:paddingStart="@dimen/widget_padding_h"
+        android:paddingEnd="@dimen/widget_padding_h"
+        android:paddingTop="@dimen/widget_padding_v"
+        android:paddingBottom="@dimen/widget_padding_v">
 
         <TextView
             android:id="@+id/txtWidgetDate"
@@ -51,11 +54,10 @@
             android:id="@+id/emptyView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/widget_margin"
-            android:layout_marginTop="@dimen/widget_margin"
+            android:layout_marginStart="@dimen/widget_padding_h"
+            android:layout_marginTop="@dimen/widget_padding_v"
             android:visibility="visible"
             android:layout_toEndOf="@id/viewDivider"
-            android:text="@string/widget_empty_events_list"
-            android:textColor="@color/md_white_1000" />
+            android:text="@string/widget_empty_events_list" />
     </RelativeLayout>
 </FrameLayout>

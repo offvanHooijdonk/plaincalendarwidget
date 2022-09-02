@@ -1,18 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="widget_margin">8dp</dimen>
-    <dimen name="choice_list_padding">16dp</dimen>
-    <dimen name="activity_v_padding">16dp</dimen>
-    <dimen name="activity_h_padding">16dp</dimen>
+    <dimen name="spacing_xs">2dp</dimen>
+    <dimen name="spacing_s">4dp</dimen>
+    <dimen name="spacing_m">8dp</dimen>
+    <dimen name="spacing_l">16dp</dimen>
 
+    <dimen name="screen_padding_v">@dimen/spacing_l</dimen>
+    <dimen name="screen_padding_h">@dimen/spacing_l</dimen>
+
+    <dimen name="widget_corner_radius">28dp</dimen>
+    <dimen name="widget_padding_h">@dimen/spacing_m</dimen>
+    <dimen name="widget_padding_v">@dimen/spacing_m</dimen>
+    <dimen name="event_color_mark_size">12dp</dimen>
+
+<!-- Obsolete fixme remove when all done -->
     <dimen name="cal_icon_sibling_margin">0dp</dimen>
     <dimen name="settings_values_block_height">48dp</dimen>
     <dimen name="color_option_size">@dimen/settings_values_block_height</dimen>
     <dimen name="event_color_size">6dp</dimen>
-    <dimen name="widget_corner_radius_small">4dp</dimen>
-    <dimen name="widget_corner_radius_medium">8dp</dimen>
-    <dimen name="widget_corner_radius_large">12dp</dimen>
-    <dimen name="widget_corner_radius_xlarge">18dp</dimen>
     <dimen name="settings_block_minor_padding">8dp</dimen>
     <dimen name="settings_titles_block_height">48dp</dimen>
     <dimen name="seekbar_setting_width">200dp</dimen>

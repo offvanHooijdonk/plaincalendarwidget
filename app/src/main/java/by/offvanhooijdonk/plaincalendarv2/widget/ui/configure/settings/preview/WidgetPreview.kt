@@ -28,14 +28,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import by.offvanhooijdonk.plaincalendarv2.widget.model.EventModel
-import by.offvanhooijdonk.plaincalendarv2.widget.model.WidgetModel
 import by.offvanhooijdonk.plaincalendarv2.widget.R
 import by.offvanhooijdonk.plaincalendarv2.widget.ext.toColor
 import by.offvanhooijdonk.plaincalendarv2.widget.model.DummyWidget
+import by.offvanhooijdonk.plaincalendarv2.widget.model.EventModel
+import by.offvanhooijdonk.plaincalendarv2.widget.model.WidgetModel
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.layouts.LayoutType
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.D
 import java.time.DayOfWeek
 import java.time.LocalDateTime
 import java.time.format.TextStyle
@@ -45,14 +45,13 @@ import java.util.*
 @Composable
 fun WidgetPreview(modifier: Modifier = Modifier, widget: WidgetModel) {
     Box(
-        modifier = Modifier
-            .then(modifier),
+        modifier = Modifier.then(modifier),
         contentAlignment = Alignment.Center,
     ) {
         AnimatedContent(targetState = widget.layoutType) { layout ->
             when (layout) {
                 LayoutType.DEFAULT -> WidgetBlueprint(widget)
-                LayoutType.EXTENDED -> Text(text = "Nothing to show yet")//WidgetBlueprint(widget, eventPreviewColor)
+                LayoutType.EXTENDED -> Text(text = "Nothing to show yet")
             }
         }
     }
@@ -64,13 +63,13 @@ private fun WidgetBlueprint(widget: WidgetModel) {
         modifier = Modifier
             .fillMaxWidth(),
         color = Color(widget.backgroundColor.toULong()).copy(alpha = widget.opacity),
-        shape = RoundedCornerShape(28.dp),
+        shape = RoundedCornerShape(D.widgetCornerRadius),
     ) {
-        Box(modifier = Modifier.padding(vertical = 8.dp)) {
+        Box(modifier = Modifier.padding(horizontal = D.widgetPaddingH, vertical = D.widgetPaddingV)) {
             LazyColumn(
                 modifier = Modifier
                     .fillMaxWidth(),
-                contentPadding = PaddingValues(vertical = 4.dp, horizontal = 8.dp)
+                contentPadding = PaddingValues(vertical = D.spacingS/*, horizontal = 8.dp*/)
             ) {
                 itemsIndexed(previewEvents, key = { _, item -> item.id }) { index, item ->
                     Column {
@@ -88,9 +87,8 @@ private fun WidgetBlueprint(widget: WidgetModel) {
 @Composable
 private fun WidgetEventItem(event: EventModel, widgetModel: WidgetModel) {// replace widget with raw style values
     Surface(
-        modifier = Modifier.padding(2.dp),
-        onClick = { /**/ },
-        shape = RoundedCornerShape(8.dp),
+        onClick = {},
+        shape = RoundedCornerShape(D.spacingM), // todo implement shapes
         color = Color.Transparent
     ) {
         val textColor = widgetModel.textColor.toColor()
@@ -98,12 +96,11 @@ private fun WidgetEventItem(event: EventModel, widgetModel: WidgetModel) {// rep
 
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 6.dp)
-                .padding(top = 4.dp, bottom = 8.dp)
+                .fillMaxWidth() // todo use widget-named Dimens here
+                .padding(start = D.spacingM, end = D.spacingM, top = D.spacingS, bottom = D.spacingM)
         ) {
             Text(
-                text = event.dateStart.dayOfWeek.getDisplayName(TextStyle.FULL, Locale.getDefault()),
+                text = event.dateStart.dayOfWeek.getDisplayName(TextStyle.FULL, Locale.getDefault()).capitalize(Locale.getDefault()),
                 color = textColor,
                 fontSize = textSize,
             )
@@ -113,12 +110,12 @@ private fun WidgetEventItem(event: EventModel, widgetModel: WidgetModel) {// rep
                     when (showColor) {
                         true -> Row {
                             Icon(
-                                modifier = Modifier.size(12.dp),
+                                modifier = Modifier.size(D.eventColorMarlSize),
                                 painter = painterResource(R.drawable.ic_circle),
                                 tint = widgetModel.calendars.firstOrNull()?.color?.let { Color(it.toLong()) } ?: Color.Blue,
                                 contentDescription = null,
                             )
-                            Spacer(modifier = Modifier.width(8.dp))
+                            Spacer(modifier = Modifier.width(D.spacingM))
                         }
                         false -> Unit
                     }

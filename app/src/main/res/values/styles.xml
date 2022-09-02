@@ -1,54 +1,8 @@
 <resources>
 
-    <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-
         <item name="android:colorBackgroundCacheHint">@null</item>
-        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowBackground">#00000000</item>
         <item name="android:windowShowWallpaper">true</item>
-    </style>
-
-    <style name="Widget.App.Button.OutlinedButton.IconOnly" parent="Widget.MaterialComponents.Button.OutlinedButton">
-        <item name="iconPadding">0dp</item>
-        <item name="android:insetTop">0dp</item>
-        <item name="android:insetBottom">0dp</item>
-        <item name="android:paddingLeft">12dp</item>
-        <item name="android:paddingRight">12dp</item>
-        <item name="android:minWidth">48dp</item>
-        <item name="android:minHeight">48dp</item>
-    </style>
-
-    <style name="BlockWithBackground">
-        <item name="android:paddingStart">@dimen/activity_h_padding</item>
-        <item name="android:paddingEnd">@dimen/activity_h_padding</item>
-        <item name="android:paddingTop">@dimen/activity_v_padding</item>
-        <item name="android:paddingBottom">@dimen/activity_v_padding</item>
-        <item name="android:background">@color/settings_activity_blocks_back</item>
-    </style>
-
-    <style name="SettingsItem">
-        <item name="android:textColor">@color/settings_select</item>
-        <item name="android:textSize">16sp</item>
-        <item name="android:paddingStart">12dp</item>
-        <item name="android:paddingEnd">12dp</item>
-    </style>
-
-    <style name="SettingsDivider">
-        <item name="android:layout_width">1dp</item>
-        <item name="android:layout_height">16dp</item>
-        <item name="android:layout_gravity">center_vertical</item>
-        <item name="android:background">@color/md_blue_grey_100</item>
-    </style>
-
-    <style name="OptionsInExpandable">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:switchPadding">@dimen/activity_h_padding</item>
-        <item name="android:layout_marginBottom">@dimen/exp_settings_margin_v</item>
-        <item name="android:textSize">@dimen/exp_text_size</item>
     </style>
 </resources>
