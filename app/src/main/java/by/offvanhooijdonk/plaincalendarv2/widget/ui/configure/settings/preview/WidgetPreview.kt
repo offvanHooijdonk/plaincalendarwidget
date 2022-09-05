@@ -36,6 +36,7 @@ import by.offvanhooijdonk.plaincalendarv2.widget.model.EventModel
 import by.offvanhooijdonk.plaincalendarv2.widget.model.WidgetModel
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.layouts.LayoutType
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.D
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.WidgetItemShape
 import java.time.DayOfWeek
 import java.time.LocalDateTime
 import java.time.format.TextStyle
@@ -69,7 +70,7 @@ private fun WidgetBlueprint(widget: WidgetModel) {
             LazyColumn(
                 modifier = Modifier
                     .fillMaxWidth(),
-                contentPadding = PaddingValues(vertical = D.spacingS/*, horizontal = 8.dp*/)
+                contentPadding = PaddingValues(vertical = D.listSpacingV)
             ) {
                 itemsIndexed(previewEvents, key = { _, item -> item.id }) { index, item ->
                     Column {
@@ -85,22 +86,23 @@ private fun WidgetBlueprint(widget: WidgetModel) {
 }
 
 @Composable
-private fun WidgetEventItem(event: EventModel, widgetModel: WidgetModel) {// replace widget with raw style values
+private fun WidgetEventItem(event: EventModel, widgetModel: WidgetModel) {
     Surface(
         onClick = {},
-        shape = RoundedCornerShape(D.spacingM), // todo implement shapes
+        shape = WidgetItemShape,
         color = Color.Transparent
     ) {
         val textColor = widgetModel.textColor.toColor()
-        val textSize = (14 + widgetModel.textSizeDelta).sp
+        val textSize = (WidgetModel.INITIAL_FONT_SIZE + widgetModel.textSizeDelta).sp
 
         Column(
             modifier = Modifier
-                .fillMaxWidth() // todo use widget-named Dimens here
-                .padding(start = D.spacingM, end = D.spacingM, top = D.spacingS, bottom = D.spacingM)
+                .fillMaxWidth()
+                .padding(horizontal = D.eventItemPaddingH, vertical = D.eventItemPaddingV)
         ) {
             Text(
-                text = event.dateStart.dayOfWeek.getDisplayName(TextStyle.FULL, Locale.getDefault()).capitalize(Locale.getDefault()),
+                text = event.dateStart.dayOfWeek.getDisplayName(TextStyle.FULL, Locale.getDefault())
+                    .replaceFirstChar { it.uppercase() },
                 color = textColor,
                 fontSize = textSize,
             )
@@ -110,12 +112,12 @@ private fun WidgetEventItem(event: EventModel, widgetModel: WidgetModel) {// rep
                     when (showColor) {
                         true -> Row {
                             Icon(
-                                modifier = Modifier.size(D.eventColorMarlSize),
+                                modifier = Modifier.size(D.eventColorMarkSize),
                                 painter = painterResource(R.drawable.ic_circle),
                                 tint = widgetModel.calendars.firstOrNull()?.color?.let { Color(it.toLong()) } ?: Color.Blue,
                                 contentDescription = null,
                             )
-                            Spacer(modifier = Modifier.width(D.spacingM))
+                            Spacer(modifier = Modifier.width(D.eventColorSpacing))
                         }
                         false -> Unit
                     }

@@ -13,6 +13,7 @@ data class WidgetModel(
     val textColor: Long,
     val opacity: Float,
     val textSizeDelta: Int,
+    /** Show marks (circles) with event color */
     val showEventColor: Boolean,
     val showTodayDate: Boolean,
     val showTodayDayOfWeek: Boolean,
@@ -36,7 +37,8 @@ data class WidgetModel(
     }
 
     companion object {
-        fun createDefault() = WidgetModel(
+        fun createDefault(id: Long? = null) = WidgetModel(
+            id = id ?: 0,
             days = 7,
             backgroundColor = Color.White.value.toLong(),
             opacity = 1.0f,
@@ -50,6 +52,8 @@ data class WidgetModel(
             layoutType = LayoutType.default,
             showTodayDayOfWeek = true,
         )
+
+        const val INITIAL_FONT_SIZE = 14
     }
 }
 

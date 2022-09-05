@@ -165,7 +165,7 @@ private fun ConfigureScreen(
                 widget = widget,
             )
 
-            if (widget.id != 0L) {
+            if (widget.id != 0L && widget.calendars.isNotEmpty()) {
                 ExtendedFloatingActionButton(
                     modifier = Modifier.constrainAs(btnSave) {
                         top.linkTo(btnSettings.top)
@@ -311,7 +311,12 @@ private const val DAYS_RANGE_STEPS = DAYS_RANGE_MAX - DAYS_RANGE_MIN
 
 @Composable
 private fun LoadingScreen() {
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colors.surface),
+        contentAlignment = Alignment.Center
+    ) {
         CircularProgressIndicator(strokeWidth = 4.dp)
     }
 }

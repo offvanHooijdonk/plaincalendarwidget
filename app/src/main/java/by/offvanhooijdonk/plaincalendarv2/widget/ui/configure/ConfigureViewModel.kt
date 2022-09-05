@@ -40,11 +40,14 @@ class ConfigureViewModel(
 
     fun passWidgetId(id: Int?) {
         widgetId = id
-        //widgetId?.let {
-            //loadWidgetConfig(it)
-        //} ?: run {
+        widgetId?.let {
             _loadResult.postValue(Result.Widget.New)
-        //}
+            _widgetModel.postValue(WidgetModel.createDefault(it.toLong()))
+        } ?: run {
+            // todo check user has active widgets and show edit screen
+            _loadResult.postValue(Result.Widget.Success)
+            _widgetModel.postValue(WidgetModel.createDefault())
+        }
     }
 
     fun updateWidget() {
