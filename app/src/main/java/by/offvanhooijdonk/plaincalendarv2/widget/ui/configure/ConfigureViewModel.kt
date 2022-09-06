@@ -9,11 +9,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import by.offvanhooijdonk.plaincalendarv2.widget.data.CalendarDataSource
-import by.offvanhooijdonk.plaincalendarv2.widget.model.CalendarModel
-import by.offvanhooijdonk.plaincalendarv2.widget.model.WidgetModel
 import by.offvanhooijdonk.plaincalendarv2.widget.glance.PlainGlanceWidget
-import by.offvanhooijdonk.plaincalendarv2.widget.glance.prefs.WidgetPrefsReaderWriter
+import by.offvanhooijdonk.plaincalendarv2.widget.glance.prefs.writeToPrefs
+import by.offvanhooijdonk.plaincalendarv2.widget.model.CalendarModel
 import by.offvanhooijdonk.plaincalendarv2.widget.model.DummyWidget
+import by.offvanhooijdonk.plaincalendarv2.widget.model.WidgetModel
 import kotlinx.coroutines.launch
 
 class ConfigureViewModel(
@@ -57,7 +57,7 @@ class ConfigureViewModel(
                 if (glanceId.toIntId() == widgetId) {
                     updateGlanceId = glanceId
                     updateAppWidgetState(ctx, glanceId) { prefs ->
-                        _widgetModel.value?.let { WidgetPrefsReaderWriter.writeToPrefs(prefs, it) }
+                        _widgetModel.value?.let { it.writeToPrefs(prefs) }
                     }
                 }
             }

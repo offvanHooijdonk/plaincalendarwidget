@@ -20,7 +20,6 @@ import androidx.compose.material.Chip
 import androidx.compose.material.ChipDefaults
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.ExtendedFloatingActionButton
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -58,6 +57,7 @@ import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.layouts.L
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.preview.WidgetPreview
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.tabs.StylesTabsPanel
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.PlainTheme
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.views.ExtendedFAB
 import kotlin.math.roundToInt
 
 @Composable
@@ -165,22 +165,25 @@ private fun ConfigureScreen(
                 widget = widget,
             )
 
-            if (widget.id != 0L && widget.calendars.isNotEmpty()) {
-                ExtendedFloatingActionButton(
-                    modifier = Modifier.constrainAs(btnSave) {
-                        top.linkTo(btnSettings.top)
-                        bottom.linkTo(btnSettings.bottom)
-                        start.linkTo(preview.start)
-                    },
-                    text = { Text(text = stringResource(R.string.btn_save_widget_settings), color = Color.White) },
-                    onClick = { onSaveChanges() },
-                )
+            val isSaveEnabled = widget.id != 0L && widget.calendars.isNotEmpty()
+            ExtendedFAB(
+                modifier = Modifier.constrainAs(btnSave) {
+                    top.linkTo(btnSettings.top)
+                    bottom.linkTo(btnSettings.bottom)
+                    /*start.linkTo(preview.start)*/
+                    end.linkTo(preview.end)
+                },
+                onClick = { onSaveChanges() },
+                enabled = isSaveEnabled,
+            ) {
+                Text(text = stringResource(R.string.btn_save_widget_settings))
             }
 
             FloatingActionButton(
                 modifier = Modifier.constrainAs(btnSettings) {
                     bottom.linkTo(bottomSettings.top, 16.dp)
-                    end.linkTo(preview.end)
+                    /*end.linkTo(preview.end)*/
+                    start.linkTo(preview.start)
                 },
                 onClick = { onSettingsClick() },
                 backgroundColor = MaterialTheme.colors.surface,

@@ -26,6 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
@@ -93,7 +94,7 @@ private fun WidgetEventItem(event: EventModel, widgetModel: WidgetModel) {
         color = Color.Transparent
     ) {
         val textColor = widgetModel.textColor.toColor()
-        val textSize = (WidgetModel.INITIAL_FONT_SIZE + widgetModel.textSizeDelta).sp
+        val textSize = (LocalContext.current.resources.getInteger(R.integer.default_font_size_sp) + widgetModel.textSizeDelta).sp
 
         Column(
             modifier = Modifier

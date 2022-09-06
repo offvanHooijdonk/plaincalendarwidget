@@ -9,8 +9,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.glance.GlanceModifier
-import androidx.glance.Image
-import androidx.glance.ImageProvider
+import androidx.glance.LocalContext
 import androidx.glance.action.clickable
 import androidx.glance.appwidget.action.actionStartActivity
 import androidx.glance.appwidget.appWidgetBackground
@@ -29,7 +28,6 @@ import androidx.glance.layout.height
 import androidx.glance.layout.padding
 import androidx.glance.layout.size
 import androidx.glance.layout.width
-import androidx.glance.layout.wrapContentSize
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
@@ -39,7 +37,6 @@ import by.offvanhooijdonk.plaincalendarv2.widget.model.DummyWidget
 import by.offvanhooijdonk.plaincalendarv2.widget.model.EventModel
 import by.offvanhooijdonk.plaincalendarv2.widget.model.WidgetModel
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.preview.previewEvents
-import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.D
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.GD
 import java.util.*
 
@@ -49,7 +46,7 @@ fun WidgetBodyDefault(events: List<EventModel>, model: WidgetModel) {
     val backColor = model.backgroundColor.toColor()
     val opacity = model.opacity
     val textColorStyle = TextStyle(
-        fontSize = (WidgetModel.INITIAL_FONT_SIZE + model.textSizeDelta).sp,
+        fontSize = (LocalContext.current.resources.getInteger(R.integer.default_font_size_sp) + model.textSizeDelta).sp,
         color = ColorProvider(model.textColor.toColor())
     )
 
@@ -62,8 +59,7 @@ fun WidgetBodyDefault(events: List<EventModel>, model: WidgetModel) {
     ) {
         LazyColumn {
             itemsIndexed(events, itemId = { _, item -> item.eventId }) { index, event ->
-                Column() {
-
+                Column {
                     Column(
                         modifier = GlanceModifier
                             .clickable(actionStartActivity(createOpenEventIntent(event.eventId)))

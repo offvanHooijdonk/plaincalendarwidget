@@ -15,8 +15,8 @@ data class WidgetModel(
     val textSizeDelta: Int,
     /** Show marks (circles) with event color */
     val showEventColor: Boolean,
+    /** Show date (at the top of widget?) */
     val showTodayDate: Boolean,
-    val showTodayDayOfWeek: Boolean,
     val showEventDividers: Boolean,
     val showEndDate: ShowEndDate,
     /** Show 'today'/'tomorrow' dates as corresponding text */
@@ -34,6 +34,16 @@ data class WidgetModel(
                 MORE_THAN_DAY -> R.string.event_end_option_if_next_day
                 ALWAYS -> R.string.event_end_option_always
             }.let { stringResource(it) }
+
+        companion object {
+            val default = ALWAYS
+
+            fun valueOfOrDefault(value: String) = try {
+                valueOf(value)
+            } catch (e: IllegalArgumentException) {
+                default
+            }
+        }
     }
 
     companion object {
@@ -47,13 +57,10 @@ data class WidgetModel(
             showEventColor = true,
             showDateAsTextLabel = true,
             showEventDividers = true,
-            showEndDate = ShowEndDate.MORE_THAN_DAY,
+            showEndDate = ShowEndDate.default,
             showTodayDate = true,
             layoutType = LayoutType.default,
-            showTodayDayOfWeek = true,
         )
-
-        const val INITIAL_FONT_SIZE = 14
     }
 }
 
