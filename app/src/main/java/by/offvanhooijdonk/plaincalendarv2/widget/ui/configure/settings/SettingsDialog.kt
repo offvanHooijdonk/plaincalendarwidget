@@ -32,11 +32,17 @@ fun SettingsScreen(widgetModel: WidgetModel, onChange: (WidgetModel) -> Unit) {
 
         Row(verticalAlignment = Alignment.CenterVertically) {
             val options = WidgetModel.ShowEndDate.values().map { it.title }
-            val selectedOption = remember { mutableStateOf(0) }
+            val selectedOption = remember(widgetModel.showEndDate) { mutableStateOf(widgetModel.showEndDate.ordinal) }
             Spacer(modifier = Modifier.width(8.dp))
             Text("Show event end date:")
             Spacer(modifier = Modifier.width(4.dp))
-            Spinner(text = options[selectedOption.value], items = options, onItemSelected = { selectedOption.value = it })
+            Spinner(
+                text = options[selectedOption.value],
+                items = options,
+                onItemSelected = {
+                    selectedOption.value = it; onChange(widgetModel.copy(showEndDate = WidgetModel.ShowEndDate.values()[it]))
+                }
+            )
         }
         Spacer(modifier = Modifier.height(8.dp))
 

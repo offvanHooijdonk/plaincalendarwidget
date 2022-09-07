@@ -2,6 +2,7 @@
 
 package by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.preview
 
+import android.text.format.DateUtils
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Box
@@ -28,9 +29,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 import by.offvanhooijdonk.plaincalendarv2.widget.R
+import by.offvanhooijdonk.plaincalendarv2.widget.ext.isToday
+import by.offvanhooijdonk.plaincalendarv2.widget.ext.isTomorrow
+import by.offvanhooijdonk.plaincalendarv2.widget.ext.millis
+import by.offvanhooijdonk.plaincalendarv2.widget.ext.timeTitle
 import by.offvanhooijdonk.plaincalendarv2.widget.ext.toColor
 import by.offvanhooijdonk.plaincalendarv2.widget.model.DummyWidget
 import by.offvanhooijdonk.plaincalendarv2.widget.model.EventModel
@@ -40,9 +47,8 @@ import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.D
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.WidgetItemShape
 import java.time.DayOfWeek
 import java.time.LocalDateTime
-import java.time.format.TextStyle
 import java.time.temporal.ChronoField
-import java.util.*
+import java.time.temporal.ChronoUnit
 
 @Composable
 fun WidgetPreview(modifier: Modifier = Modifier, widget: WidgetModel) {
@@ -101,11 +107,14 @@ private fun WidgetEventItem(event: EventModel, widgetModel: WidgetModel) {
                 .fillMaxWidth()
                 .padding(horizontal = D.eventItemPaddingH, vertical = D.eventItemPaddingV)
         ) {
-            Text(
-                text = event.dateStart.dayOfWeek.getDisplayName(TextStyle.FULL, Locale.getDefault())
-                    .replaceFirstChar { it.uppercase() },
-                color = textColor,
-                fontSize = textSize,
+            EventDateText(
+                dateStart = event.dateStart,
+                dateEnd = event.dateEnd,
+                isAllDayEvent = event.isAllDay,
+                showDayAsText = widgetModel.showDateAsTextLabel,
+                showEndDate = widgetModel.showEndDate,
+                textColor = textColor,
+                textSize = textSize
             )
 
             Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
@@ -129,6 +138,72 @@ private fun WidgetEventItem(event: EventModel, widgetModel: WidgetModel) {
     }
 }
 
+@Composable
+private fun EventDateText(
+    dateStart: LocalDateTime,
+    dateEnd: LocalDateTime,
+    isAllDayEvent: Boolean,
+    showDayAsText: Boolean,
+    showEndDate: WidgetModel.ShowEndDate,
+    textColor: Color,
+    textSize: TextUnit
+) {
+    val dateText = createDateLabel(dateStart, dateEnd, isAllDayEvent, showDayAsText, showEndDate)
+
+    Text(
+        text = dateText,
+        color = textColor,
+        fontSize = textSize,
+    )
+}
+
+@Composable
+private fun createDateLabel(
+    dateStart: LocalDateTime,
+    dateEnd: LocalDateTime,
+    isAllDayEvent: Boolean,
+    showDayAsText: Boolean,
+    showEndDate: WidgetModel.ShowEndDate,
+): String {
+    val startDateText = createFullDateTimeText(date = dateStart, isAllDayEvent = isAllDayEvent, showDayAsText = showDayAsText)
+    return when (showEndDate) {
+        WidgetModel.ShowEndDate.NEVER -> startDateText
+        WidgetModel.ShowEndDate.MORE_THAN_DAY -> if (isOneDayEvent(dateStart, dateEnd)) {
+            startDateText
+        } else {
+            val endDateText = createFullDateTimeText(dateEnd, isAllDayEvent = isAllDayEvent, showDayAsText = showDayAsText)
+            stringResource(R.string.date_range_format, startDateText, endDateText)
+        }
+        WidgetModel.ShowEndDate.ALWAYS -> {
+            val isOneDayEvent = isOneDayEvent(dateStart, dateEnd)
+            when {
+                isOneDayEvent && !isAllDayEvent -> stringResource(R.string.date_range_format, startDateText, dateEnd.timeTitle)
+                isOneDayEvent && isAllDayEvent -> startDateText
+                else -> stringResource(
+                    R.string.date_range_format,
+                    startDateText,
+                    createFullDateTimeText(dateEnd, isAllDayEvent = isAllDayEvent, showDayAsText = showDayAsText)
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun createFullDateTimeText(date: LocalDateTime, isAllDayEvent: Boolean, showDayAsText: Boolean): String =
+    when {
+        showDayAsText && date.isToday -> stringResource(R.string.today)
+        showDayAsText && date.isTomorrow -> stringResource(R.string.tomorrow)
+        else -> DateUtils.formatDateTime(
+            LocalContext.current,
+            date.millis,
+            DateUtils.FORMAT_SHOW_DATE or DateUtils.FORMAT_ABBREV_MONTH or DateUtils.FORMAT_NO_YEAR
+        )
+    }.let { if (isAllDayEvent) it else stringResource(R.string.date_and_time_format, it, date.timeTitle) }
+
+private fun isOneDayEvent(dateStart: LocalDateTime, dateEnd: LocalDateTime) =
+    dateStart.truncatedTo(ChronoUnit.DAYS).isEqual(dateEnd.truncatedTo(ChronoUnit.DAYS))
+
 @Preview
 @Composable
 private fun Preview_WidgetBlueprint() {
@@ -137,23 +212,28 @@ private fun Preview_WidgetBlueprint() {
     }
 }
 
+private val Wednesday = LocalDateTime.now().with(ChronoField.DAY_OF_WEEK, DayOfWeek.WEDNESDAY.value.toLong())
+private val Thursday = LocalDateTime.now().with(ChronoField.DAY_OF_WEEK, DayOfWeek.THURSDAY.value.toLong())
+private val Sunday = LocalDateTime.now().with(ChronoField.DAY_OF_WEEK, DayOfWeek.SUNDAY.value.toLong())
+
 val previewEvents = listOf(
     EventModel(
         1,
         "Bicycling on every Wednesday evening",
-        LocalDateTime.now().with(ChronoField.DAY_OF_WEEK, DayOfWeek.WEDNESDAY.value.toLong()),
-        LocalDateTime.now().with(ChronoField.DAY_OF_WEEK, DayOfWeek.THURSDAY.value.toLong()),
+        Wednesday,
+        Wednesday.plusHours(2),
     ),
     EventModel(
         2,
         "Go waltzing to the zoo",
-        LocalDateTime.now().with(ChronoField.DAY_OF_WEEK, DayOfWeek.THURSDAY.value.toLong()),
-        LocalDateTime.now().with(ChronoField.DAY_OF_WEEK, DayOfWeek.FRIDAY.value.toLong()),
+        Thursday,
+        Thursday.plusDays(1).minusHours(1),
     ),
     EventModel(
-        3,
-        "Lazing on a Sunday afternoon",
-        LocalDateTime.now().with(ChronoField.DAY_OF_WEEK, DayOfWeek.SUNDAY.value.toLong()),
-        LocalDateTime.now().with(ChronoField.DAY_OF_WEEK, DayOfWeek.MONDAY.value.toLong()),
+        id = 3,
+        title = "Lazing on a Sunday afternoon",
+        isAllDay = true,
+        dateStart = Sunday,
+        dateEnd = Sunday.plusDays(1),
     ),
 )

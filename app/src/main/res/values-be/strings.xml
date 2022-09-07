@@ -42,8 +42,8 @@
     </string-array>
 
     <string name="widget_settings_text_size">Тэкст</string>
-    <string name="format_date_plus_time">%s, %s</string>
-    <string name="date_range_separator">" - "</string>
+    <string name="date_and_time_format">%s %s</string>
+    <string name="date_range_format">%s - %s</string>
     <string name="settings_show_today_date">Паказваць дату</string>
     <string name="settings_show_day_of_week">Дзень у тыднi</string>
     <string name="settings_leading_zero_today">Нуль у даце</string>
@@ -56,4 +56,11 @@
     <string name="permission_rationale_calendar">Калi ласка, дазвольце доступ да вашых календароў, каб вiджэт мог адлюстраваць вашыя падзеi</string>
     <string name="permission_rationale_calendar_action">Дазволiць</string>
     <string name="dialog_pick_calendars_title">Абярыце Календары</string>
+    <string name="widget_description">Мiнiмалiстычны каляндарь падзей</string>
+    <string name="event_end_option_never">Нiколi</string>
+    <string name="event_end_option_if_next_day">Калi скончываецца у другi дзень</string>
+    <string name="event_end_option_always">Заўсёды</string>
+    <string name="btn_save_widget_settings">Прымяниць</string>
+    <string name="layout_title_default">Звычайны</string>
+    <string name="layout_title_extended">Разшыраны</string>
 </resources>

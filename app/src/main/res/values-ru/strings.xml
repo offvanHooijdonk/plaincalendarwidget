@@ -48,12 +48,19 @@
     <string name="settings_show_line">Разделитель после даты</string>
     <string name="settings_show_event_end">Время окончания события</string>
     <string name="settings_show_today_tomorrow">Показывать \"Сегодня\", \"Завтра\"</string>
-    <string name="format_date_plus_time">%s, %s</string>
-    <string name="date_range_separator">" - "</string>
+    <string name="date_and_time_format">%s %s</string>
+    <string name="date_range_format">%s - %s</string>
     <string name="title_no_widget">Нет Виджетов</string>
     <string name="btn_settings">Настройки</string>
     <string name="btn_apply_all">Применить</string>
     <string name="permission_rationale_calendar">Разрешите, пожалуйста, доступ к вашим Календарям, чтобы виджет мог отобразить Ваши события</string>
     <string name="permission_rationale_calendar_action">Разрешить</string>
     <string name="dialog_pick_calendars_title">Выберите Календари</string>
+    <string name="widget_description">Минималистичный календарь событий</string>
+    <string name="event_end_option_never">Никогда</string>
+    <string name="event_end_option_if_next_day">Если заканчивается в другой день</string>
+    <string name="event_end_option_always">Всегда</string>
+    <string name="btn_save_widget_settings">Применить</string>
+    <string name="layout_title_default">Обычный</string>
+    <string name="layout_title_extended">Расширенный</string>
 </resources>

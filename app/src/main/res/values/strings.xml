@@ -24,8 +24,8 @@
 
     <string name="date_all_day">All day</string>
     <string name="per_cent_sign">%</string>
-    <string name="format_date_plus_time">%s, %s</string>
-    <string name="date_range_separator">" - "</string>
+    <string name="date_and_time_format">%s %s</string>
+    <string name="date_range_format">%s + %s</string>
     <string name="today">Today</string>
     <string name="tomorrow">Tomorrow</string>
     <string name="fish_event_title_1">Movies, \'Blade Runner\'</string>
@@ -56,7 +56,7 @@
     </string-array>
 
     <string name="event_end_option_never">Never</string>
-    <string name="event_end_option_if_next_day">If finishes next day</string>
+    <string name="event_end_option_if_next_day">If finishes other day</string>
     <string name="event_end_option_always">Always</string>
 
     <!-- V2 -->
