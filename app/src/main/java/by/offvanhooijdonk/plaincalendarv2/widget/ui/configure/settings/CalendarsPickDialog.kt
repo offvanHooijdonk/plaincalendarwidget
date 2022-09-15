@@ -1,20 +1,16 @@
 package by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.AlertDialog
 import androidx.compose.material.Checkbox
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
@@ -32,7 +28,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
 import by.offvanhooijdonk.plaincalendarv2.widget.R
 import by.offvanhooijdonk.plaincalendarv2.widget.model.CalendarModel
 
@@ -45,16 +40,13 @@ fun CalendarsPickDialog(
 ) {
     val selection = remember(pickedCalendars) { pickedCalendars.toMutableList() }
 
-    Dialog(onDismissRequest = { onDismissRequest() }) {
-        Surface(shape = RoundedCornerShape(28.dp)) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp)
-            ) {
-                LazyColumn(modifier = Modifier.fillMaxWidth(), contentPadding = PaddingValues(vertical = 4.dp)) {
+    AlertDialog(
+        onDismissRequest = { onDismissRequest() },
+        text = {
+            Box(modifier = Modifier.padding(top = 16.dp)) {
+                LazyColumn(modifier = Modifier.fillMaxWidth()) {
                     items(items = allCalendars, key = { it.id }) { calendar ->
-                        val isChecked = remember { mutableStateOf(pickedCalendars.contains(calendar)) }
+                        val isChecked = remember { mutableStateOf(selection.contains(calendar)) }
 
                         CalendarsListItem(calendar = calendar, isChecked = isChecked.value) {
                             isChecked.value = !isChecked.value
@@ -62,25 +54,19 @@ fun CalendarsPickDialog(
                         }
                     }
                 }
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        /*.padding(8.dp)*/,
-                    horizontalArrangement = Arrangement.End
-                ) {
-                    TextButton(onClick = { onDismissRequest() }) {
-                        Text(text = stringResource(android.R.string.cancel))
-                    }
-                    Spacer(modifier = Modifier.width(16.dp))
-                    TextButton(onClick = { onSelectionSave(selection) }) {
-                        Text(text = stringResource(android.R.string.ok))
-                    }
-                }
             }
-        }
-    }
+        },
+        confirmButton = {
+            TextButton(onClick = { onSelectionSave(selection) }) {
+                Text(text = stringResource(android.R.string.ok))
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = { onDismissRequest() }) {
+                Text(text = stringResource(android.R.string.cancel))
+            }
+        },
+    )
 }
 
 @Composable

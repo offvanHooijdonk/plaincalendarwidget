@@ -12,12 +12,12 @@ interface WidgetDimensions {
     val spacingM: Dp @Composable @ReadOnlyComposable get() = 8.dp
     val spacingL: Dp @Composable @ReadOnlyComposable get() = 16.dp
 
-    val widgetPaddingH: Dp @Composable @ReadOnlyComposable get() = Dimens.spacingM
-    val widgetPaddingV: Dp @Composable @ReadOnlyComposable get() = Dimens.spacingM
-    val listSpacingV: Dp @Composable @ReadOnlyComposable get() = Dimens.spacingS
-    val eventItemPaddingV: Dp @Composable @ReadOnlyComposable get() = Dimens.spacingM
-    val eventItemPaddingH: Dp @Composable @ReadOnlyComposable get() = Dimens.spacingM
-    val eventColorSpacing: Dp @Composable @ReadOnlyComposable get() = Dimens.spacingM
+    val widgetPaddingH: Dp @Composable @ReadOnlyComposable get() = spacingM
+    val widgetPaddingV: Dp @Composable @ReadOnlyComposable get() = spacingM
+    val listSpacingV: Dp @Composable @ReadOnlyComposable get() = spacingS
+    val eventItemPaddingV: Dp @Composable @ReadOnlyComposable get() = spacingM
+    val eventItemPaddingH: Dp @Composable @ReadOnlyComposable get() = spacingM
+    val eventColorSpacing: Dp @Composable @ReadOnlyComposable get() = spacingM
 
     val eventColorMarkSize: Dp @Composable @ReadOnlyComposable get() = 12.dp
 }

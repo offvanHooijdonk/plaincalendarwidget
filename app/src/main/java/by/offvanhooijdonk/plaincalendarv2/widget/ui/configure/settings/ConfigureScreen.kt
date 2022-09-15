@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -56,6 +57,7 @@ import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.Result
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.layouts.LayoutsPickPanel
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.preview.WidgetPreview
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.tabs.StylesTabsPanel
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.D
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.PlainTheme
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.views.ExtendedFAB
 import kotlin.math.roundToInt
@@ -126,12 +128,10 @@ private fun ConfigureScreen(
         ConstraintLayout(modifier = Modifier.fillMaxSize()) {
             val (topSettings, layouts, preview, btnSave, btnSettings, bottomSettings) = createRefs()
             Column(
-                Modifier
+                modifier = Modifier
                     .background(color = MaterialTheme.colors.surface)
                     .padding(16.dp)
-                    .constrainAs(topSettings) {
-                        top.linkTo(parent.top)
-                    }
+                    .constrainAs(topSettings) { top.linkTo(parent.top) }
             ) {
                 //val calendarsList = remember(widget) { mutableStateOf(widget.calendars) }
                 CalendarsForm(
@@ -212,6 +212,18 @@ private fun CalendarsForm(
     onCalendarsSelected: (List<CalendarModel>) -> Unit,
 ) {
     val isDialogCanShow = remember { mutableStateOf(false) }
+    val showPermissionCheck = remember { mutableStateOf(false) }
+    if (showPermissionCheck.value) {
+        permissionCheck(
+            ifGranted = {
+                onChangeBtnClick()
+                isDialogCanShow.value = true
+            },
+            ifDenied = { /*todo*/ },
+            ifShowRationale = { /*todo*/ },
+        )
+        showPermissionCheck.value = false
+    }
 
     ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
         val (caption, rowList, btn) = createRefs()
@@ -224,17 +236,43 @@ private fun CalendarsForm(
             text = "Calendars".uppercase() + pickedCalendars.size.let { if (it == 0) "" else ": $it" },
             color = MaterialTheme.colors.primary,
         )
-        LazyRow(modifier = Modifier.constrainAs(rowList) {
-            //start.linkTo(parent.start); end.linkTo(parent.end)
-            width = Dimension.matchParent
-            //this.width = Dimension.fillToConstraints
-            top.linkTo(caption.bottom, 8.dp)
-        }) {
+        LazyRow(
+            modifier = Modifier.constrainAs(rowList) {
+                width = Dimension.matchParent
+                top.linkTo(caption.bottom, 8.dp)
+            },
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             if (pickedCalendars.isEmpty()) {
-                item { Text(modifier = Modifier.padding(6.dp), text = "No calendars picked") }
-            } else {
+                item {
+                    Spacer(modifier = Modifier.width(D.spacingM))
+                    Text(text = "No calendars picked", fontSize = 16.sp)
+                    Spacer(modifier = Modifier.width(36.dp))
+                }
+            }
+            item(key = "add") {
+                Chip(
+                    onClick = { showPermissionCheck.value = true },
+                    shape = RoundedCornerShape(percent = 50),
+                    colors = ChipDefaults.chipColors(
+                        backgroundColor = MaterialTheme.colors.primary,
+                        contentColor = MaterialTheme.colors.onPrimary
+                    )
+                ) {
+                    Spacer(modifier = Modifier.width(D.spacingS))
+                    Icon(
+                        modifier = Modifier.size(D.spacingL),
+                        painter = painterResource(R.drawable.ic_edit_calendar_24),
+                        contentDescription = null
+                    )
+                    Spacer(modifier = Modifier.width(D.spacingS))
+                }
+                Spacer(modifier = Modifier.width(D.spacingM))
+            }
+            if (pickedCalendars.isNotEmpty()) {
                 items(items = pickedCalendars, key = { it.id }) {
                     Chip(
+                        // todo to separate fun
                         onClick = { },
                         shape = RoundedCornerShape(percent = 50),
                         colors = ChipDefaults.chipColors(
@@ -244,22 +282,11 @@ private fun CalendarsForm(
                     ) {
                         Text(text = it.displayName.calendarName/*.uppercase()*/, fontSize = 14.sp)
                     }
-                    Spacer(modifier = Modifier.width(2.dp))
+                    Spacer(modifier = Modifier.width(D.spacingS))
                 }
             }
         }
-        val showPermissionCheck = remember { mutableStateOf(false) }
-        if (showPermissionCheck.value) {
-            permissionCheck(
-                ifGranted = {
-                    onChangeBtnClick()
-                    isDialogCanShow.value = true
-                },
-                ifDenied = { /*todo*/ },
-                ifShowRationale = { /*todo*/ },
-            )
-            showPermissionCheck.value = false
-        }
+
         IconButton(
             modifier = Modifier.constrainAs(btn) { end.linkTo(parent.end); centerVerticallyTo(caption) },
             onClick = { showPermissionCheck.value = true },

@@ -8,7 +8,8 @@ import androidx.compose.ui.unit.dp
 
 val PlainThemeShapes =
     Shapes(
-        large = RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp)
+        medium = RoundedCornerShape(28.dp),
+        large = RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp),
     )
 
 val WidgetItemShape: Shape @Composable get() =  RoundedCornerShape(D.spacingM)
