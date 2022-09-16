@@ -5,7 +5,6 @@ import android.provider.CalendarContract
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.glance.GlanceModifier
@@ -17,36 +16,28 @@ import androidx.glance.appwidget.cornerRadius
 import androidx.glance.appwidget.lazy.LazyColumn
 import androidx.glance.appwidget.lazy.itemsIndexed
 import androidx.glance.background
-import androidx.glance.layout.Alignment
-import androidx.glance.layout.Box
-import androidx.glance.layout.Column
-import androidx.glance.layout.Row
-import androidx.glance.layout.Spacer
-import androidx.glance.layout.fillMaxSize
-import androidx.glance.layout.fillMaxWidth
-import androidx.glance.layout.height
-import androidx.glance.layout.padding
-import androidx.glance.layout.size
-import androidx.glance.layout.width
+import androidx.glance.layout.*
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
 import by.offvanhooijdonk.plaincalendarv2.widget.R
 import by.offvanhooijdonk.plaincalendarv2.widget.ext.toColor
-import by.offvanhooijdonk.plaincalendarv2.widget.model.DummyWidget
 import by.offvanhooijdonk.plaincalendarv2.widget.model.EventModel
 import by.offvanhooijdonk.plaincalendarv2.widget.model.WidgetModel
-import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.preview.previewEvents
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.GD
-import java.util.*
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.util.createDateLabel
 
 @Composable
 fun WidgetBodyDefault(events: List<EventModel>, model: WidgetModel) {
     val dividerColor = MaterialTheme.colors.onSurface.copy(alpha = 0.12f)
     val backColor = model.backgroundColor.toColor()
     val opacity = model.opacity
-    val textColorStyle = TextStyle(
-        fontSize = (LocalContext.current.resources.getInteger(R.integer.default_font_size_sp) + model.textSizeDelta).sp,
+    val textStyleDate = TextStyle(
+        fontSize = (LocalContext.current.resources.getInteger(R.integer.date_default_font_size_sp) + model.textSizeDelta).sp,
+        color = ColorProvider(model.textColor.toColor())
+    )
+    val textStyleEvent = TextStyle(
+        fontSize = (LocalContext.current.resources.getInteger(R.integer.event_default_font_size_sp) + model.textSizeDelta).sp,
         color = ColorProvider(model.textColor.toColor())
     )
 
@@ -67,9 +58,15 @@ fun WidgetBodyDefault(events: List<EventModel>, model: WidgetModel) {
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Text(
-                            text = event.dateStart.dayOfWeek.getDisplayName(java.time.format.TextStyle.FULL, Locale.getDefault())
-                                .replaceFirstChar { it.uppercase() },
-                            style = textColorStyle
+                            text = createDateLabel(
+                                event.dateStart,
+                                event.dateEnd,
+                                event.isAllDay,
+                                model.showDateAsTextLabel,
+                                model.showEndDate,
+                                ctx = LocalContext.current,
+                            ),
+                            style = textStyleDate
                         )
                         Row(modifier = GlanceModifier.padding(start = 2.dp), verticalAlignment = Alignment.CenterVertically) {
                             if (model.showEventColor) {
@@ -81,7 +78,7 @@ fun WidgetBodyDefault(events: List<EventModel>, model: WidgetModel) {
                                 ) {}
                                 Spacer(modifier = GlanceModifier.width(GD.eventColorSpacing))
                             }
-                            Text(text = event.title, style = textColorStyle, maxLines = 1)
+                            Text(text = event.title, style = textStyleEvent, maxLines = 1)
                         }
                     }
                     if (model.showEventDividers && (index < events.size - 1)) {
@@ -98,9 +95,3 @@ fun WidgetBodyDefault(events: List<EventModel>, model: WidgetModel) {
 
 private fun createOpenEventIntent(eventId: Long) =
     Intent(Intent.ACTION_VIEW).apply { data = CalendarContract.Events.CONTENT_URI.buildUpon().appendPath(eventId.toString()).build() }
-
-@Preview
-@Composable
-private fun Preview_WidgetBody() {
-    WidgetBodyDefault(previewEvents, DummyWidget)
-}

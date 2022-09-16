@@ -7,8 +7,6 @@
     <string name="date_default">31</string>
     <string name="fish_digit_value">48</string>
     <string name="empty_cal_list">Календарей не найдено</string>
-    <string name="title_add_widget">Добавляем виджет</string>
-    <string name="title_edit_widget">Виджет №%s</string>
     <string name="no_widgets_yet">Виджетов пока нет</string>
     <string name="widget_settings_background">Цвет фона</string>
     <string name="widget_settings_date_color">Цвет текста</string>
@@ -63,4 +61,22 @@
     <string name="btn_save_widget_settings">Применить</string>
     <string name="layout_title_default">Обычный</string>
     <string name="layout_title_extended">Расширенный</string>
+    <string name="widget_preview_missing">Не сделано</string>
+    <string name="sample_event_monday">Идти на работу</string>
+    <string name="sample_event_tuesday">Уезжаю в медовый месяц</string>
+    <string name="sample_event_wednesday">Езжу на велосипеде по вечерам</string>
+    <string name="sample_event_thursday">Иду танцевать по зоопарку</string>
+    <string name="sample_event_friday">Рисую в Лувре</string>
+    <string name="sample_event_saturday">Делаю предложение</string>
+    <string name="sample_event_sunday">Ленюсь воскресным полднем</string>
+    <string name="tollbar_title_empty">...</string>
+    <string name="toolbar_title_new_widget">Новый виджет</string>
+    <string name="toolbar_title_widget_number">Виджет №%s</string>
+    <string name="calendars_picked_empty">Выберите календари</string>
+    <string name="title_days_to_show">Показывать дней</string>
+    <string name="title_calendars_picked">Календари</string>
+    <string name="settings_date_as_text">Показывать сегодня/завтра текстом</string>
+    <string name="settings_show_end_date">Показывать дату завершения:</string>
+    <string name="settings_show_end_color">Показывать цвет события</string>
+    <string name="settings_show_events_dividers">Показывать разделители</string>
 </resources>

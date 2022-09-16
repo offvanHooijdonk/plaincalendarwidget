@@ -12,7 +12,8 @@
     <dimen name="widget_padding_h">@dimen/spacing_m</dimen>
     <dimen name="widget_padding_v">@dimen/spacing_m</dimen>
     <dimen name="event_color_mark_size">12dp</dimen>
-    <integer name="default_font_size_sp">14</integer>
+    <integer name="event_default_font_size_sp">14</integer>
+    <integer name="date_default_font_size_sp">12</integer>
 
 <!-- Obsolete fixme remove when all done -->
     <dimen name="cal_icon_sibling_margin">0dp</dimen>

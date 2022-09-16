@@ -3,8 +3,6 @@
     <string name="app_name">Просты Вiджэт Каляндара</string>
     <string name="dialog_load_calendars_msg">Загружаем Каляндары…</string>
     <string name="empty_cal_list">Не знойдзена каляндароў</string>
-    <string name="title_add_widget">Дадаем вiджэт</string>
-    <string name="title_edit_widget">Вiджэт №%s</string>
     <string name="widget_empty_events_list">Падзей няма</string>
     <string name="fish_day_of_week">ня</string>
     <string name="fish_digit_value">48</string>
@@ -63,4 +61,22 @@
     <string name="btn_save_widget_settings">Прымяниць</string>
     <string name="layout_title_default">Звычайны</string>
     <string name="layout_title_extended">Разшыраны</string>
+    <string name="widget_preview_missing">Яшчэ ня зроблена</string>
+    <string name="sample_event_monday">Пагуляць пад сонцам</string>
+    <string name="sample_event_tuesday">Нешта добрае зрабіць</string>
+    <string name="sample_event_wednesday">Вучыцца, вучыцца i зноў вучыцца</string>
+    <string name="sample_event_thursday">Паглядзець на свет вясёлымi вачыма</string>
+    <string name="sample_event_friday">Пагуляць пад сонцам</string>
+    <string name="sample_event_saturday">Маляваць</string>
+    <string name="sample_event_sunday">Рыхтавацца да новага тыдня</string>
+    <string name="tollbar_title_empty">...</string>
+    <string name="toolbar_title_new_widget">Навы вiджэт</string>
+    <string name="toolbar_title_widget_number">Вiджэт №%s</string>
+    <string name="calendars_picked_empty">Абярыце свае календары</string>
+    <string name="title_days_to_show">Паказваць дзён</string>
+    <string name="title_calendars_picked">Календары</string>
+    <string name="settings_date_as_text">Паказваць сягодня/заутра тэкстам</string>
+    <string name="settings_show_end_date">Паказваць дату заканчэння:</string>
+    <string name="settings_show_end_color">Паказваць колер падзеi</string>
+    <string name="settings_show_events_dividers">Паказваць падзельнiкi</string>
 </resources>

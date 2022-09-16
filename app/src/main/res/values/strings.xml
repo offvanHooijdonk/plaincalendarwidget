@@ -6,10 +6,6 @@
     <string name="empty_cal_list">No calendars found</string>
     <string name="widget_description">Calendar events list in a minimalistic manner</string>
 
-    <string name="title_add_widget">Adding a Widget</string>
-    <string name="title_edit_widget">Widget #%s</string>
-    <string name="title_no_widget">No Widgets</string>
-
     <string name="widget_empty_events_list">No Events</string>
     <string name="fish_day_of_week">su</string>
     <string name="fish_digit_value">48</string>
@@ -25,7 +21,7 @@
     <string name="date_all_day">All day</string>
     <string name="per_cent_sign">%</string>
     <string name="date_and_time_format">%s %s</string>
-    <string name="date_range_format">%s + %s</string>
+    <string name="date_range_format">%s - %s</string>
     <string name="today">Today</string>
     <string name="tomorrow">Tomorrow</string>
     <string name="fish_event_title_1">Movies, \'Blade Runner\'</string>
@@ -63,4 +59,23 @@
     <string name="btn_save_widget_settings">Apply settings</string>
     <string name="layout_title_default">Default</string>
     <string name="layout_title_extended">Extended</string>
+    <string name="widget_preview_missing">Not yet designed</string>
+
+    <string name="sample_event_monday">Go out to work in morning</string>
+    <string name="sample_event_tuesday">Go off to honeymoon</string>
+    <string name="sample_event_wednesday">Bicycling on every evening</string>
+    <string name="sample_event_thursday">Go waltzing to the zoo</string>
+    <string name="sample_event_friday">Go painting in the Louvre</string>
+    <string name="sample_event_saturday">But to be proposing at night</string>
+    <string name="sample_event_sunday">Lazing on a Sunday afternoon</string>
+    <string name="tollbar_title_empty">...</string>
+    <string name="toolbar_title_new_widget">New widget</string>
+    <string name="toolbar_title_widget_number">Widget #%s</string>
+    <string name="calendars_picked_empty">Pick your calendars</string>
+    <string name="title_days_to_show">Days to show</string>
+    <string name="title_calendars_picked">Calendars</string>
+    <string name="settings_date_as_text">Use Today/Tomorrow for dates</string>
+    <string name="settings_show_end_date">Show event end date:</string>
+    <string name="settings_show_end_color">Show event color</string>
+    <string name="settings_show_events_dividers">Show events dividers</string>
 </resources>

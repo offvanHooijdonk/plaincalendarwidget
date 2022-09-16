@@ -41,15 +41,15 @@ dependencies {
     ext.room_version = '2.4.3'
     ext.koin_version = "3.2.0"
     ext.lifecycle_version = "2.5.1"
-    ext.compose_version = "1.2.0"
+    ext.compose_version = "1.2.1"
 
-    implementation 'androidx.core:core-ktx:1.8.0'
-    implementation 'androidx.appcompat:appcompat:1.5.0'
+    implementation 'androidx.core:core-ktx:1.9.0'
+    implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'com.google.android.material:material:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
-    implementation 'androidx.appcompat:appcompat:1.6.0-beta01'
+    implementation 'androidx.appcompat:appcompat:1.6.0-rc01'
 
     // --- COMPOSE ---
     implementation "androidx.compose.ui:ui:$compose_version"

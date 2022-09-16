@@ -36,7 +36,7 @@ data class WidgetModel(
             }.let { stringResource(it) }
 
         companion object {
-            val default = ALWAYS
+            val default = MORE_THAN_DAY
 
             fun valueOfOrDefault(value: String) = try {
                 valueOf(value)

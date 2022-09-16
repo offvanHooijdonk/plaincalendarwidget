@@ -1,37 +1,14 @@
 @file:OptIn(ExperimentalMaterialApi::class)
 
-package by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings
+package by.offvanhooijdonk.plaincalendarv2.widget.ui.configure
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.systemGestureExclusion
-import androidx.compose.material.Chip
-import androidx.compose.material.ChipDefaults
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.FloatingActionButton
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.ModalBottomSheetLayout
-import androidx.compose.material.ModalBottomSheetValue
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Slider
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
-import androidx.compose.material.rememberModalBottomSheetState
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
@@ -52,9 +29,10 @@ import by.offvanhooijdonk.plaincalendarv2.widget.R
 import by.offvanhooijdonk.plaincalendarv2.widget.model.CalendarModel
 import by.offvanhooijdonk.plaincalendarv2.widget.model.DummyWidget
 import by.offvanhooijdonk.plaincalendarv2.widget.model.WidgetModel
-import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.ConfigureViewModel
-import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.Result
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.CalendarsPickDialog
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.SettingsScreen
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.layouts.LayoutsPickPanel
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.permissionCheck
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.preview.WidgetPreview
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.tabs.StylesTabsPanel
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.D
@@ -66,9 +44,9 @@ import kotlin.math.roundToInt
 fun MainScreen(viewModel: ConfigureViewModel) {
     val widget = viewModel.widgetModel.observeAsState(DummyWidget).value
     val title = when (viewModel.loadResult.observeAsState().value) {
-        is Result.Widget.Success -> "Widget #${widget.id}"
-        Result.Widget.New -> "New widget"
-        else -> "..."
+        is Result.Widget.Success -> stringResource(R.string.toolbar_title_widget_number, widget.id)
+        Result.Widget.New -> stringResource(R.string.toolbar_title_new_widget)
+        else -> stringResource(R.string.tollbar_title_empty)
     }
 
     val sheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
@@ -124,7 +102,6 @@ private fun ConfigureScreen(
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
-        //val widgetPreview = remember(widget) { mutableStateOf(widget) }
         ConstraintLayout(modifier = Modifier.fillMaxSize()) {
             val (topSettings, layouts, preview, btnSave, btnSettings, bottomSettings) = createRefs()
             Column(
@@ -170,7 +147,6 @@ private fun ConfigureScreen(
                 modifier = Modifier.constrainAs(btnSave) {
                     top.linkTo(btnSettings.top)
                     bottom.linkTo(btnSettings.bottom)
-                    /*start.linkTo(preview.start)*/
                     end.linkTo(preview.end)
                 },
                 onClick = { onSaveChanges() },
@@ -182,7 +158,6 @@ private fun ConfigureScreen(
             FloatingActionButton(
                 modifier = Modifier.constrainAs(btnSettings) {
                     bottom.linkTo(bottomSettings.top, 16.dp)
-                    /*end.linkTo(preview.end)*/
                     start.linkTo(preview.start)
                 },
                 onClick = { onSettingsClick() },
@@ -233,7 +208,7 @@ private fun CalendarsForm(
                 start.linkTo(parent.start)
                 top.linkTo(parent.top)
             },
-            text = "Calendars".uppercase() + pickedCalendars.size.let { if (it == 0) "" else ": $it" },
+            text = stringResource(R.string.title_calendars_picked).uppercase() + pickedCalendars.size.let { if (it == 0) "" else ": $it" },
             color = MaterialTheme.colors.primary,
         )
         LazyRow(
@@ -246,7 +221,7 @@ private fun CalendarsForm(
             if (pickedCalendars.isEmpty()) {
                 item {
                     Spacer(modifier = Modifier.width(D.spacingM))
-                    Text(text = "No calendars picked", fontSize = 16.sp)
+                    Text(text = stringResource(R.string.calendars_picked_empty), fontSize = 18.sp)
                     Spacer(modifier = Modifier.width(36.dp))
                 }
             }
@@ -280,14 +255,14 @@ private fun CalendarsForm(
                             contentColor = MaterialTheme.colors.onPrimary
                         ),
                     ) {
-                        Text(text = it.displayName.calendarName/*.uppercase()*/, fontSize = 14.sp)
+                        Text(text = it.displayName.calendarName, fontSize = 14.sp)
                     }
                     Spacer(modifier = Modifier.width(D.spacingS))
                 }
             }
         }
 
-        IconButton(
+        /*IconButton(
             modifier = Modifier.constrainAs(btn) { end.linkTo(parent.end); centerVerticallyTo(caption) },
             onClick = { showPermissionCheck.value = true },
         ) {
@@ -296,7 +271,7 @@ private fun CalendarsForm(
                 tint = MaterialTheme.colors.primary,
                 contentDescription = null
             )
-        }
+        }*/
     }
 
     if (allCalendars is Result.Calendars.Success && isDialogCanShow.value) {
@@ -312,7 +287,7 @@ private fun CalendarsForm(
 @Composable
 private fun DaysNumberForm(daySelected: Int, onDaysChange: (Int) -> Unit) {
     Column(modifier = Modifier.fillMaxWidth()) {
-        Text(text = "Days to show".uppercase(), color = MaterialTheme.colors.primary)
+        Text(text = stringResource(R.string.title_days_to_show).uppercase(), color = MaterialTheme.colors.primary)
 
         val daysPick = remember(daySelected) { mutableStateOf(daySelected.toFloat()) }
         Row(verticalAlignment = Alignment.CenterVertically) {

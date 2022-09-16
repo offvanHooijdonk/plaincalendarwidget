@@ -5,8 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.material.MaterialTheme
-import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.MainScreen
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.PlainTheme
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
