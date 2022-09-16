@@ -13,8 +13,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.dp
 import by.offvanhooijdonk.plaincalendarv2.widget.model.WidgetModel
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.D
 
 @Composable
 fun Spinner(text: String, items: List<String>, onItemSelected: (Int) -> Unit) {
@@ -25,7 +25,7 @@ fun Spinner(text: String, items: List<String>, onItemSelected: (Int) -> Unit) {
             modifier = Modifier
                 .clickable { isExpanded.value = true }
                 .background(MaterialTheme.colors.secondary.copy(0.3f), shape = MaterialTheme.shapes.small)
-                .padding(horizontal = 12.dp, vertical = 8.dp),
+                .padding(horizontal = D.spacingML, vertical = D.spacingM),
             text = text,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,

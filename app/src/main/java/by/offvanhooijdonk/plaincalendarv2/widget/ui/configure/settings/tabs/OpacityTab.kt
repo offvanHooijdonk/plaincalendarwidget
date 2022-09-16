@@ -1,10 +1,6 @@
 package by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.tabs
 
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.systemGestureExclusion
 import androidx.compose.material.Slider
 import androidx.compose.material.Text
@@ -15,25 +11,25 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.D
 
 @Composable
 fun OpacityTab(opacitySelected: Float, onPickOpacity: (Float) -> Unit) {
     Row(
         modifier = Modifier
-            .padding(horizontal = 16.dp, vertical = 8.dp)
+            .padding(horizontal = D.spacingL, vertical = D.spacingM)
             .fillMaxSize(),
         verticalAlignment = Alignment.CenterVertically
     ) {
         val sliderValue = remember(opacitySelected) { mutableStateOf(opacitySelected * 100 / OPACITY_VALUE_STEP) }
         Text(
-            modifier = Modifier.width(32.dp),
+            modifier = Modifier.width(D.spacingXXL),
             text = (sliderValue.value.toInt() * OPACITY_VALUE_STEP).toString(),
             fontSize = 18.sp,
             textAlign = TextAlign.End,
         )
-        Spacer(modifier = Modifier.width(16.dp))
+        Spacer(modifier = Modifier.width(D.spacingL))
         Slider(
             modifier = Modifier.systemGestureExclusion(),
             value = sliderValue.value,

@@ -21,7 +21,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
@@ -107,7 +106,7 @@ private fun ConfigureScreen(
             Column(
                 modifier = Modifier
                     .background(color = MaterialTheme.colors.surface)
-                    .padding(16.dp)
+                    .padding(D.spacingL)
                     .constrainAs(topSettings) { top.linkTo(parent.top) }
             ) {
                 //val calendarsList = remember(widget) { mutableStateOf(widget.calendars) }
@@ -119,7 +118,7 @@ private fun ConfigureScreen(
                         onWidgetChange(widget.copy(calendars = list, calendarIds = list.map { it.id }))
                     },
                 )
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(D.spacingL))
 
                 DaysNumberForm(widget.days) { onWidgetChange(widget.copy(days = it)) }
             }
@@ -135,8 +134,8 @@ private fun ConfigureScreen(
                 modifier = Modifier.constrainAs(preview) {
                     top.linkTo(layouts.bottom)
                     bottom.linkTo(bottomSettings.top)
-                    start.linkTo(parent.start, 32.dp)
-                    end.linkTo(parent.end, 32.dp)
+                    start.linkTo(parent.start, D.spacingXXL)
+                    end.linkTo(parent.end, D.spacingXXL)
                     width = Dimension.fillToConstraints
                 },
                 widget = widget,
@@ -157,7 +156,7 @@ private fun ConfigureScreen(
 
             FloatingActionButton(
                 modifier = Modifier.constrainAs(btnSettings) {
-                    bottom.linkTo(bottomSettings.top, 16.dp)
+                    bottom.linkTo(bottomSettings.top, D.spacingL)
                     start.linkTo(preview.start)
                 },
                 onClick = { onSettingsClick() },
@@ -214,7 +213,7 @@ private fun CalendarsForm(
         LazyRow(
             modifier = Modifier.constrainAs(rowList) {
                 width = Dimension.matchParent
-                top.linkTo(caption.bottom, 8.dp)
+                top.linkTo(caption.bottom, D.spacingM)
             },
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -222,7 +221,7 @@ private fun CalendarsForm(
                 item {
                     Spacer(modifier = Modifier.width(D.spacingM))
                     Text(text = stringResource(R.string.calendars_picked_empty), fontSize = 18.sp)
-                    Spacer(modifier = Modifier.width(36.dp))
+                    Spacer(modifier = Modifier.width(D.spacingL))
                 }
             }
             item(key = "add") {
@@ -292,12 +291,12 @@ private fun DaysNumberForm(daySelected: Int, onDaysChange: (Int) -> Unit) {
         val daysPick = remember(daySelected) { mutableStateOf(daySelected.toFloat()) }
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
-                modifier = Modifier.width(28.dp),
+                modifier = Modifier.width(D.spacingXXL),
                 text = daysPick.value.roundToInt().toString(),
                 fontSize = 20.sp,
                 textAlign = TextAlign.End,
             )
-            Spacer(modifier = Modifier.width(8.dp))
+            Spacer(modifier = Modifier.width(D.spacingM))
             Slider(
                 modifier = Modifier.systemGestureExclusion(),
                 value = daysPick.value,
@@ -322,7 +321,7 @@ private fun LoadingScreen() {
             .background(MaterialTheme.colors.surface),
         contentAlignment = Alignment.Center
     ) {
-        CircularProgressIndicator(strokeWidth = 4.dp)
+        CircularProgressIndicator(strokeWidth = D.spacingS)
     }
 }
 
@@ -334,7 +333,7 @@ private fun ErrorScreen(msg: String) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(D.spacingL)
     ) {
         Text(text = msg, color = MaterialTheme.colors.error, fontSize = 24.sp)
     }

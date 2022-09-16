@@ -3,12 +3,8 @@
 package by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.tabs
 
 import androidx.annotation.DrawableRes
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.with
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,9 +18,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
-import by.offvanhooijdonk.plaincalendarv2.widget.model.WidgetModel
 import by.offvanhooijdonk.plaincalendarv2.widget.R
+import by.offvanhooijdonk.plaincalendarv2.widget.model.WidgetModel
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.D
 
 @Composable
 fun StylesTabsPanel(widget: WidgetModel, onPreviewSettingsChange: (WidgetModel) -> Unit) {
@@ -43,7 +39,7 @@ fun StylesTabsPanel(widget: WidgetModel, onPreviewSettingsChange: (WidgetModel) 
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(80.dp)
+                .height(D.styleBlockHeight)
         ) {
             // todo update animSpec to just Fade ?
             AnimatedContent(targetState = selectedIndex.value, transitionSpec = { transitionFade }) { state ->

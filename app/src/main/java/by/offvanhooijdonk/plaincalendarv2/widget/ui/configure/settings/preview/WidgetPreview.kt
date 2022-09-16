@@ -19,7 +19,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import by.offvanhooijdonk.plaincalendarv2.widget.R
 import by.offvanhooijdonk.plaincalendarv2.widget.ext.toColor
@@ -142,20 +141,20 @@ private fun WidgetHeader(widget: WidgetModel) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 8.dp),
+            .padding(horizontal = D.spacingM),
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         val textColor = widget.textColor.toColor()
         val textSizeDate =
             (LocalContext.current.resources.getInteger(R.integer.date_default_font_size_sp) + widget.textSizeDelta).sp
         Text(
-            modifier = Modifier.padding(horizontal = 2.dp),
+            modifier = Modifier.padding(horizontal = D.spacingXS),
             text = LocalDate.now().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)),
             color = textColor,
             fontSize = textSizeDate,
         )
         Icon(
-            modifier = Modifier.size(16.dp),
+            modifier = Modifier.size(D.spacingL),
             painter = painterResource(R.drawable.ic_settings), tint = textColor, contentDescription = null
         )
     }

@@ -1,22 +1,10 @@
 package by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.AlertDialog
-import androidx.compose.material.Checkbox
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -26,10 +14,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import by.offvanhooijdonk.plaincalendarv2.widget.R
 import by.offvanhooijdonk.plaincalendarv2.widget.model.CalendarModel
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.D
 
 @Composable
 fun CalendarsPickDialog(
@@ -43,7 +30,7 @@ fun CalendarsPickDialog(
     AlertDialog(
         onDismissRequest = { onDismissRequest() },
         text = {
-            Box(modifier = Modifier.padding(top = 16.dp)) {
+            Box(modifier = Modifier.padding(top = D.spacingL)) {
                 LazyColumn(modifier = Modifier.fillMaxWidth()) {
                     items(items = allCalendars, key = { it.id }) { calendar ->
                         val isChecked = remember { mutableStateOf(selection.contains(calendar)) }
@@ -75,47 +62,21 @@ private fun CalendarsListItem(calendar: CalendarModel, isChecked: Boolean, onIte
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 8.dp, vertical = 6.dp),
+                .padding(horizontal = D.spacingM, vertical = D.spacingSM),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Checkbox(
                 checked = isChecked, onCheckedChange = null,
             )
-            Spacer(modifier = Modifier.width(12.dp))
+            Spacer(modifier = Modifier.width(D.spacingML))
             Icon(
-                modifier = Modifier.size(16.dp),
+                modifier = Modifier.size(D.spacingL),
                 painter = painterResource(R.drawable.ic_circle),
                 tint = calendar.color?.let { Color(it.toLong()) } ?: Color.White,
                 contentDescription = null)
-            Spacer(modifier = Modifier.width(8.dp))
+            Spacer(modifier = Modifier.width(D.spacingM))
 
             Text(text = calendar.displayName, fontWeight = if (calendar.isPrimaryOnAccount) FontWeight.Medium else FontWeight.Normal)
-        }
-    }
-}
-
-@Preview
-@Composable
-private fun Preview_CalendarListItemPrimary() {
-    MaterialTheme {
-        Surface {
-            CalendarsListItem(
-                calendar = CalendarModel(1, "temporal.email.@gmail.com", "temporal.user", null, true),
-                isChecked = true
-            ) { }
-        }
-    }
-}
-
-@Preview
-@Composable
-private fun Preview_CalendarListItem() {
-    MaterialTheme {
-        Surface {
-            CalendarsListItem(
-                calendar = CalendarModel(1, "temporal.email.@gmail.com", "temporal.user", null, false),
-                isChecked = true
-            ) { }
         }
     }
 }

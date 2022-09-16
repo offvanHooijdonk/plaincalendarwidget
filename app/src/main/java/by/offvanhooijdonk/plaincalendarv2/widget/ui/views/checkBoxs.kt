@@ -10,18 +10,18 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.D
 
 @Composable
 fun LabeledCheckBox(label: String, isChecked: Boolean, onCheck: () -> Unit) {
     Row(
         modifier = Modifier
             .clickable { onCheck() }
-            .padding(horizontal = 8.dp, vertical = 4.dp),
+            .padding(horizontal = D.spacingM, vertical = D.spacingS),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Checkbox(checked = isChecked, onCheckedChange = null)
-        Spacer(modifier = Modifier.width(4.dp))
+        Spacer(modifier = Modifier.width(D.spacingS))
         Text(text = label)
     }
 }

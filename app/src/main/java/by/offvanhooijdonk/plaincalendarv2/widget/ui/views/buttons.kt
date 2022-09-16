@@ -17,7 +17,7 @@ import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.D
 fun ExtendedFAB(modifier: Modifier = Modifier, onClick: () -> Unit, enabled: Boolean = true, text: @Composable () -> Unit) {
     Button(
         modifier = Modifier
-            .height(48.dp)
+            .height(ExtFABHeight)
             .then(modifier),
         elevation = ButtonDefaults.elevation(
             defaultElevation = 6.dp,
@@ -38,3 +38,5 @@ fun ExtendedFAB(modifier: Modifier = Modifier, onClick: () -> Unit, enabled: Boo
         Spacer(modifier = Modifier.width(D.spacingS))
     }
 }
+
+val ExtFABHeight = 48.dp

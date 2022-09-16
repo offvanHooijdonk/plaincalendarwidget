@@ -4,11 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -24,8 +20,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import by.offvanhooijdonk.plaincalendarv2.widget.R
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.D
 
 @Composable
 fun BackgroundColorTab(colorSelected: Color, onColorPick: (Color) -> Unit) {
@@ -46,19 +42,19 @@ private fun ColorTab(colorsList: List<Color>, colorSelected: Color, onColorPick:
     LazyRow(
         modifier = Modifier.fillMaxSize(),
         state = listState,
-        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+        contentPadding = PaddingValues(horizontal = D.spacingL, vertical = D.spacingM),
         verticalAlignment = Alignment.CenterVertically
     ) {
         items(items = colorsList, key = { it.value.toLong() }) { colorItem ->
-            Box(modifier = Modifier.padding(end = 8.dp)) {
+            Box(modifier = Modifier.padding(end = D.spacingM)) {
                 Box(
                     modifier = Modifier
-                        .size(32.dp)
-                        .background(colorItem, RoundedCornerShape(2.dp))
+                        .size(D.spacingXXL)
+                        .background(colorItem, RoundedCornerShape(D.spacingXS))
                         .border(
-                            width = if (colorItem == colorSelected) 2.dp else 1.dp,
+                            width = if (colorItem == colorSelected) D.spacingXS else D.spacingXXS,
                             color = MaterialTheme.colors.primary,
-                            RoundedCornerShape(2.dp)
+                            RoundedCornerShape(D.spacingXS)
                         )
                         .clickable(
                             interactionSource = remember { MutableInteractionSource() },
@@ -68,7 +64,7 @@ private fun ColorTab(colorsList: List<Color>, colorSelected: Color, onColorPick:
                 ) {
                     if (colorItem == colorSelected) {
                         Icon(
-                            modifier = Modifier.padding(2.dp),
+                            modifier = Modifier.padding(D.spacingXS),
                             painter = painterResource(id = R.drawable.ic_check),
                             tint = Color.White,
                             contentDescription = null
