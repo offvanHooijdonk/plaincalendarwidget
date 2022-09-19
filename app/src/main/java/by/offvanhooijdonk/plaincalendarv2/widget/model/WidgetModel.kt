@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import by.offvanhooijdonk.plaincalendarv2.widget.R
-import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.layouts.LayoutType
 
 data class WidgetModel(
     val id: Long = 0,
@@ -37,6 +36,26 @@ data class WidgetModel(
 
         companion object {
             val default = MORE_THAN_DAY
+
+            fun valueOfOrDefault(value: String) = try {
+                valueOf(value)
+            } catch (e: IllegalArgumentException) {
+                default
+            }
+        }
+    }
+
+    enum class LayoutType {
+        TIMELINE, PER_DAY;
+
+        val title: String
+            @Composable get() = when (this) {
+                TIMELINE -> R.string.event_end_option_never
+                PER_DAY -> R.string.event_end_option_if_next_day
+            }.let { stringResource(it) }
+
+        companion object {
+            val default = TIMELINE
 
             fun valueOfOrDefault(value: String) = try {
                 valueOf(value)

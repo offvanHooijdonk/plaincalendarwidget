@@ -59,8 +59,8 @@
     <string name="event_end_option_if_next_day">Калi скончываецца у другi дзень</string>
     <string name="event_end_option_always">Заўсёды</string>
     <string name="btn_save_widget_settings">Прымяниць</string>
-    <string name="layout_title_default">Звычайны</string>
-    <string name="layout_title_extended">Разшыраны</string>
+    <string name="layout_title_timeline">Расклад</string>
+    <string name="layout_title_per_day">Дзень</string>
     <string name="widget_preview_missing">Яшчэ ня зроблена</string>
     <string name="sample_event_monday">Пагуляць пад сонцам</string>
     <string name="sample_event_tuesday">Нешта добрае зрабіць</string>

@@ -18,7 +18,7 @@ import by.offvanhooijdonk.plaincalendarv2.widget.model.WidgetModel
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.D
 
 @Composable
-fun LayoutsPickPanel(modifier: Modifier = Modifier, widget: WidgetModel, onLayoutPick: (LayoutType) -> Unit) {
+fun LayoutsPickPanel(modifier: Modifier = Modifier, widget: WidgetModel, onLayoutPick: (WidgetModel.LayoutType) -> Unit) {
     Box(modifier = Modifier.then(modifier)) {
         val selected = remember(widget) { widget.layoutType.ordinal }
         ScrollableTabRow(
@@ -37,7 +37,7 @@ fun LayoutsPickPanel(modifier: Modifier = Modifier, widget: WidgetModel, onLayou
                     Tab(
                         modifier = Modifier.background(backColor, RoundedCornerShape(D.spacingM)),
                         selected = index == selected,
-                        onClick = { onLayoutPick(LayoutType.values().getOrNull(index) ?: LayoutType.default) },
+                        onClick = { onLayoutPick(WidgetModel.LayoutType.values().getOrNull(index) ?: WidgetModel.LayoutType.default) },
                         selectedContentColor = MaterialTheme.colors.background,
                         unselectedContentColor = unselectedTextColor,
                         text = {
@@ -52,21 +52,13 @@ fun LayoutsPickPanel(modifier: Modifier = Modifier, widget: WidgetModel, onLayou
 
 private data class LayoutItem(
     @StringRes val titleRes: Int,
-    val type: LayoutType,
+    val type: WidgetModel.LayoutType,
 )
 
 private val LayoutsList = listOf(
-    LayoutItem(R.string.layout_title_default, LayoutType.DEFAULT),
-    LayoutItem(R.string.layout_title_extended, LayoutType.EXTENDED),
+    LayoutItem(R.string.layout_title_timeline, WidgetModel.LayoutType.TIMELINE),
+    LayoutItem(R.string.layout_title_per_day, WidgetModel.LayoutType.PER_DAY),
 )
-
-enum class LayoutType {
-    DEFAULT, EXTENDED;
-
-    companion object {
-        val default = DEFAULT
-    }
-}
 
 @Preview
 @Composable
