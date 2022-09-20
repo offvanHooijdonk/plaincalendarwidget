@@ -25,7 +25,7 @@ import by.offvanhooijdonk.plaincalendarv2.widget.ext.toColor
 import by.offvanhooijdonk.plaincalendarv2.widget.model.EventModel
 import by.offvanhooijdonk.plaincalendarv2.widget.model.WidgetModel
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.GD
-import by.offvanhooijdonk.plaincalendarv2.widget.ui.util.createDateLabel
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.util.formatDateRangeLabel
 
 @Composable
 fun WidgetBodyDefault(events: List<EventModel>, model: WidgetModel) {
@@ -33,11 +33,11 @@ fun WidgetBodyDefault(events: List<EventModel>, model: WidgetModel) {
     val backColor = model.backgroundColor.toColor()
     val opacity = model.opacity
     val textStyleDate = TextStyle(
-        fontSize = (LocalContext.current.resources.getInteger(R.integer.date_default_font_size_sp) + model.textSizeDelta).sp,
+        fontSize = (LocalContext.current.resources.getInteger(R.integer.event_date_default_font_size_sp) + model.textSizeDelta).sp,
         color = ColorProvider(model.textColor.toColor())
     )
     val textStyleEvent = TextStyle(
-        fontSize = (LocalContext.current.resources.getInteger(R.integer.event_default_font_size_sp) + model.textSizeDelta).sp,
+        fontSize = (LocalContext.current.resources.getInteger(R.integer.event_text_default_font_size_sp) + model.textSizeDelta).sp,
         color = ColorProvider(model.textColor.toColor())
     )
 
@@ -58,7 +58,7 @@ fun WidgetBodyDefault(events: List<EventModel>, model: WidgetModel) {
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Text(
-                            text = createDateLabel(
+                            text = formatDateRangeLabel(
                                 event.dateStart,
                                 event.dateEnd,
                                 event.isAllDay,

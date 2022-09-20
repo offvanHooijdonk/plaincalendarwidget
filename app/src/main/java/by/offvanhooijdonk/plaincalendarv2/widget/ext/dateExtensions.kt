@@ -1,5 +1,6 @@
 package by.offvanhooijdonk.plaincalendarv2.widget.ext
 
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -17,12 +18,12 @@ fun LocalDateTime.toMidnightAtDay(days: Long): LocalDateTime = plusDays(days).tr
 
 val LocalDateTime.millis: Long get() = atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
 
-private val timeFormat = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)
-
-val LocalDateTime.timeTitle: String
-    get() = this.format(timeFormat)
-
 val LocalDateTime.isToday: Boolean
     get() = truncatedTo(ChronoUnit.DAYS).isEqual(LocalDateTime.now().truncatedTo(ChronoUnit.DAYS))
 val LocalDateTime.isTomorrow: Boolean
     get() = truncatedTo(ChronoUnit.DAYS).isEqual(LocalDateTime.now().plusDays(1).truncatedTo(ChronoUnit.DAYS))
+
+val LocalDate.isToday: Boolean
+    get() = isEqual(LocalDate.now())
+val LocalDate.isTomorrow: Boolean
+    get() = isEqual(LocalDate.now().plusDays(1))
