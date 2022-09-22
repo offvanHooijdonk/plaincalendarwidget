@@ -40,7 +40,7 @@ class PlainGlanceWidget : GlanceAppWidget(), KoinComponent {
             widgetModel.days
         )
 
-        WidgetBodyDefault(events.value, widgetModel)
+        WidgetBodyTimeline(events.value, widgetModel)
     }
 
     fun loadData() {

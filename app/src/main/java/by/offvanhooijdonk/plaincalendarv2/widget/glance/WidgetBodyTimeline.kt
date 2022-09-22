@@ -5,7 +5,6 @@ import android.provider.CalendarContract
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.glance.GlanceModifier
 import androidx.glance.LocalContext
@@ -28,7 +27,7 @@ import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.GD
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.util.formatDateRangeLabel
 
 @Composable
-fun WidgetBodyDefault(events: List<EventModel>, model: WidgetModel) {
+fun WidgetBodyTimeline(events: List<EventModel>, model: WidgetModel) {
     val dividerColor = MaterialTheme.colors.onSurface.copy(alpha = 0.12f)
     val backColor = model.backgroundColor.toColor()
     val opacity = model.opacity
@@ -57,24 +56,29 @@ fun WidgetBodyDefault(events: List<EventModel>, model: WidgetModel) {
                             .padding(horizontal = GD.eventItemPaddingH, vertical = GD.eventItemPaddingV),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
-                        Text(
-                            text = formatDateRangeLabel(
-                                event.dateStart,
-                                event.dateEnd,
-                                event.isAllDay,
-                                model.showDateAsTextLabel,
-                                model.showEndDate,
-                                ctx = LocalContext.current,
-                            ),
-                            style = textStyleDate
-                        )
-                        Row(modifier = GlanceModifier.padding(start = 2.dp), verticalAlignment = Alignment.CenterVertically) {
+                        Row {
+                            if (model.showEventColor) {
+                                Spacer(modifier = GlanceModifier.width(GD.eventColorMarkSize + GD.eventColorSpacing))
+                            }
+                            Text(
+                                text = formatDateRangeLabel(
+                                    event.dateStart,
+                                    event.dateEnd,
+                                    event.isAllDay,
+                                    model.showDateAsTextLabel,
+                                    model.showEndDate,
+                                    ctx = LocalContext.current,
+                                ),
+                                style = textStyleDate
+                            )
+                        }
+                        Row(modifier = GlanceModifier.padding(start = GD.spacingXS), verticalAlignment = Alignment.CenterVertically) {
                             if (model.showEventColor) {
                                 Box(
                                     modifier = GlanceModifier
                                         .size(GD.eventColorMarkSize)
                                         .background(event.eventColor?.let { Color(it.toLong()) } ?: Color.White)
-                                        .cornerRadius(4.dp) // todo use dimens or image
+                                        .cornerRadius(GD.spacingS) // todo use dimens or image
                                 ) {}
                                 Spacer(modifier = GlanceModifier.width(GD.eventColorSpacing))
                             }
@@ -82,10 +86,14 @@ fun WidgetBodyDefault(events: List<EventModel>, model: WidgetModel) {
                         }
                     }
                     if (model.showEventDividers && (index < events.size - 1)) {
-                        Box(
-                            modifier = GlanceModifier.height(1.dp).fillMaxWidth()
-                                .background(dividerColor)
-                        ) {}
+                        Box(modifier = GlanceModifier.padding(horizontal = GD.eventItemPaddingH)) {
+                            Box(
+                                modifier = GlanceModifier
+                                    .height(GD.spacingXXS)
+                                    .fillMaxWidth()
+                                    .background(dividerColor)
+                            ) {}
+                        }
                     }
                 }
             }

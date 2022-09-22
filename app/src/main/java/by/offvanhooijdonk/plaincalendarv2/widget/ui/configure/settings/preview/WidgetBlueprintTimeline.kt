@@ -1,7 +1,9 @@
-@file:OptIn(ExperimentalMaterialApi::class)
+@file:OptIn(ExperimentalMaterialApi::class, ExperimentalAnimationApi::class)
 
 package by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.preview
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -41,7 +43,7 @@ fun WidgetBlueprintTimeline(widget: WidgetModel) {
                 Column {
                     WidgetEventItem(item, widget)
                     if (widget.showEventDividers && (index < events.size - 1)) {
-                        Divider()
+                        Divider(modifier = Modifier.padding(horizontal = D.eventItemPaddingH))
                     }
                 }
             }
@@ -65,15 +67,22 @@ private fun WidgetEventItem(event: EventModel, widget: WidgetModel) {
                 .fillMaxWidth()
                 .padding(horizontal = D.eventItemPaddingH, vertical = D.eventItemPaddingV)
         ) {
-            EventDateText(
-                dateStart = event.dateStart,
-                dateEnd = event.dateEnd,
-                isAllDayEvent = event.isAllDay,
-                showDayAsText = widget.showDateAsTextLabel,
-                showEndDate = widget.showEndDate,
-                textColor = textColor,
-                textSize = textSizeDate
-            )
+            Row {
+                AnimatedContent(targetState = widget.showEventColor) { isShow ->
+                    if (isShow) {
+                        Spacer(modifier = Modifier.width(D.eventColorMarkSize + D.eventColorSpacing - D.spacingXS))
+                    }
+                }
+                EventDateText(
+                    dateStart = event.dateStart,
+                    dateEnd = event.dateEnd,
+                    isAllDayEvent = event.isAllDay,
+                    showDayAsText = widget.showDateAsTextLabel,
+                    showEndDate = widget.showEndDate,
+                    textColor = textColor,
+                    textSize = textSizeDate
+                )
+            }
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
