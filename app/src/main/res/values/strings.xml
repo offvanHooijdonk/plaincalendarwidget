@@ -59,7 +59,6 @@
     <string name="btn_save_widget_settings">Apply settings</string>
     <string name="layout_title_timeline">Timeline</string>
     <string name="layout_title_per_day">Daily</string>
-    <string name="widget_preview_missing">Not yet designed</string>
 
     <string name="sample_event_monday">Go out to work in morning</string>
     <string name="sample_event_tuesday">Go off to honeymoon</string>

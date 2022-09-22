@@ -20,7 +20,7 @@ fun WidgetPreview(modifier: Modifier = Modifier, widget: WidgetModel) {
         AnimatedContent(targetState = widget.layoutType) { layout ->
             when (layout) {
                 WidgetModel.LayoutType.TIMELINE -> WidgetBlueprintTimeline(widget)
-                WidgetModel.LayoutType.PER_DAY -> WidgetBlueprintDaily(widget)
+                WidgetModel.LayoutType.PER_DAY -> WidgetBlueprintPerDay(widget)
             }
         }
     }

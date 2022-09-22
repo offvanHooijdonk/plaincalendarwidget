@@ -26,12 +26,12 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 
 @Composable
-fun WidgetBlueprintDaily(widget: WidgetModel) {
+fun WidgetBlueprintPerDay(widget: WidgetModel) {
     WidgetEventWrapper(widget) {
         val events = previewEvents
         val textColor = widget.textColor.toColor()
         val textSizeDate = getDateTextSize(LocalContext.current, widget)
-        val textSizeTitle = getTextSize(LocalContext.current, widget)
+        val textSizeTitle = getTitleTextSize(LocalContext.current, widget)
 
         LazyColumn(
             modifier = Modifier.fillMaxWidth(),
@@ -123,7 +123,7 @@ private fun EventItem(
 @Composable
 private fun Preview_WidgetBlueprintDaily() {
     MaterialTheme {
-        WidgetBlueprintDaily(DummyWidget.copy(opacity = 0.5f))
+        WidgetBlueprintPerDay(DummyWidget.copy(opacity = 0.5f))
     }
 }
 

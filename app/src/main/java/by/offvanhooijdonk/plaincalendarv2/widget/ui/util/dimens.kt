@@ -5,7 +5,7 @@ import androidx.compose.ui.unit.sp
 import by.offvanhooijdonk.plaincalendarv2.widget.R
 import by.offvanhooijdonk.plaincalendarv2.widget.model.WidgetModel
 
-fun getTextSize(context: Context, widgetModel: WidgetModel) =
+fun getTitleTextSize(context: Context, widgetModel: WidgetModel) =
     (context.resources.getInteger(R.integer.event_text_default_font_size_sp) + widgetModel.textSizeDelta).sp
 
 fun getDateTextSize(context: Context, widgetModel: WidgetModel) =

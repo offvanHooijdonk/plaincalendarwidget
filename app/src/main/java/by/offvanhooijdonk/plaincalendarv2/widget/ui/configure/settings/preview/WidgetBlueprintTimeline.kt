@@ -27,7 +27,7 @@ import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.D
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.WidgetItemShape
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.util.formatDateRangeLabel
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.util.getDateTextSize
-import by.offvanhooijdonk.plaincalendarv2.widget.ui.util.getTextSize
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.util.getTitleTextSize
 import java.time.DayOfWeek
 import java.time.LocalDateTime
 
@@ -60,7 +60,7 @@ private fun WidgetEventItem(event: EventModel, widget: WidgetModel) {
     ) {
         val textColor = widget.textColor.toColor()
         val textSizeDate = getDateTextSize(LocalContext.current, widget)
-        val textSizeEvent = getTextSize(LocalContext.current, widget)
+        val textSizeEvent = getTitleTextSize(LocalContext.current, widget)
 
         Column(
             modifier = Modifier

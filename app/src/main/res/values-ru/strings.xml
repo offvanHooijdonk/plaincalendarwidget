@@ -60,8 +60,7 @@
     <string name="event_end_option_always">Всегда</string>
     <string name="btn_save_widget_settings">Применить</string>
     <string name="layout_title_timeline">Расписание</string>
-    <string name="layout_title_per_day">День</string>
-    <string name="widget_preview_missing">Не сделано</string>
+    <string name="layout_title_per_day">По дням</string>
     <string name="sample_event_monday">Идти на работу</string>
     <string name="sample_event_tuesday">Уезжаю в медовый месяц</string>
     <string name="sample_event_wednesday">Езжу на велосипеде по вечерам</string>

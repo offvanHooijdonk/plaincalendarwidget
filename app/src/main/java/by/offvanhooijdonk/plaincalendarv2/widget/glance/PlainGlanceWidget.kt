@@ -14,7 +14,10 @@ import androidx.glance.state.GlanceStateDefinition
 import androidx.glance.state.PreferencesGlanceStateDefinition
 import by.offvanhooijdonk.plaincalendarv2.widget.app.App
 import by.offvanhooijdonk.plaincalendarv2.widget.glance.prefs.readWidgetModel
+import by.offvanhooijdonk.plaincalendarv2.widget.glance.widgetui.WidgetBodyPerDay
+import by.offvanhooijdonk.plaincalendarv2.widget.glance.widgetui.WidgetBodyTimeline
 import by.offvanhooijdonk.plaincalendarv2.widget.model.EventModel
+import by.offvanhooijdonk.plaincalendarv2.widget.model.WidgetModel
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
@@ -40,7 +43,10 @@ class PlainGlanceWidget : GlanceAppWidget(), KoinComponent {
             widgetModel.days
         )
 
-        WidgetBodyTimeline(events.value, widgetModel)
+        when(widgetModel.layoutType) {
+            WidgetModel.LayoutType.TIMELINE -> WidgetBodyTimeline(events.value, widgetModel)
+            WidgetModel.LayoutType.PER_DAY -> WidgetBodyPerDay(events.value, widgetModel)
+        }
     }
 
     fun loadData() {

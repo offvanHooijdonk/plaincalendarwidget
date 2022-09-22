@@ -60,8 +60,7 @@
     <string name="event_end_option_always">Заўсёды</string>
     <string name="btn_save_widget_settings">Прымяниць</string>
     <string name="layout_title_timeline">Расклад</string>
-    <string name="layout_title_per_day">Дзень</string>
-    <string name="widget_preview_missing">Яшчэ ня зроблена</string>
+    <string name="layout_title_per_day">Па днях</string>
     <string name="sample_event_monday">Пагуляць пад сонцам</string>
     <string name="sample_event_tuesday">Нешта добрае зрабіць</string>
     <string name="sample_event_wednesday">Вучыцца, вучыцца i зноў вучыцца</string>
