@@ -44,6 +44,7 @@ fun MainScreen(viewModel: ConfigureViewModel) {
     val widget = viewModel.widgetModel.observeAsState(DummyWidget).value
     val title = when (viewModel.loadResult.observeAsState().value) {
         is Result.Widget.Success -> stringResource(R.string.toolbar_title_widget_number, widget.id)
+        Result.Widget.Empty -> "Plain Calendar Widget"
         Result.Widget.New -> stringResource(R.string.toolbar_title_new_widget)
         else -> stringResource(R.string.tollbar_title_empty)
     }
@@ -75,7 +76,7 @@ fun MainScreen(viewModel: ConfigureViewModel) {
 private fun ConfigureScreenWrap(viewModel: ConfigureViewModel) {
     val widget = viewModel.widgetModel.observeAsState(DummyWidget)
     when (val result = viewModel.loadResult.observeAsState().value) {
-        Result.Widget.New, Result.Widget.Success -> ConfigureScreen(
+        Result.Widget.New, Result.Widget.Success, Result.Widget.Empty -> ConfigureScreen(
             widget.value,
             viewModel.calendarsResponse.observeAsState().value ?: Result.Idle,
             onCalendarsRequested = viewModel::loadCalendars,

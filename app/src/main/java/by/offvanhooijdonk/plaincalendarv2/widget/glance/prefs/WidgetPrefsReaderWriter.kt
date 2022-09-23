@@ -41,9 +41,10 @@ fun WidgetModel.writeToPrefs(prefs: MutablePreferences) {
     prefs[keyLayoutType] = layoutType.name
 }
 
-fun Preferences.readWidgetModel(): WidgetModel =
+fun Preferences.readWidgetModel(glanceId: Long? = null): WidgetModel =
     with(WidgetModel.createDefault()) {
         copy(
+            id = glanceId ?: id,
             days = get(keyDays) ?: days,
             backgroundColor = get(keyBackgroundColor) ?: backgroundColor,
             opacity = get(keyBackgroundOpacity) ?: opacity,
