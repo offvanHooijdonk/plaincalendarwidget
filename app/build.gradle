@@ -57,13 +57,16 @@ dependencies {
     implementation "androidx.compose.foundation:foundation:$compose_version"
     implementation "androidx.compose.material:material:$compose_version"
     implementation "androidx.constraintlayout:constraintlayout-compose:1.0.1"
-    implementation "androidx.activity:activity-compose:1.5.1"
+    implementation "androidx.activity:activity-compose:1.6.0"
     // Integration with ViewModels
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version"
     implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
 
     // Compose Widgets
     implementation "androidx.glance:glance-appwidget:1.0.0-alpha03"
+
+    // compose showcase intro
+    implementation 'com.canopas.intro-showcase-view:introshowcaseview:1.0.7'
 
     implementation "io.insert-koin:koin-android:$koin_version"
 

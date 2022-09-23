@@ -37,6 +37,9 @@ import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.tabs.Styl
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.D
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.PlainTheme
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.views.ExtendedFAB
+import com.canopas.lib.showcase.IntroShowCaseScaffold
+import com.canopas.lib.showcase.IntroShowCaseScope
+import com.canopas.lib.showcase.introShowCaseTarget
 import kotlin.math.roundToInt
 
 @Composable
@@ -117,94 +120,98 @@ private fun ConfigureScreen(
     onSaveChanges: () -> Unit,
     onSettingsClick: () -> Unit,
 ) {
-    Column(
-        modifier = Modifier.fillMaxSize()
+    IntroShowCaseScaffold(
+        showIntroShowCase = true,
+        onShowCaseCompleted = { /*TODO*/ }
     ) {
-        ConstraintLayout(modifier = Modifier.fillMaxSize()) {
-            val (topSettings, layouts, preview, btnSave, btnSettings, bottomSettings) = createRefs()
-            Column(
-                modifier = Modifier
-                    .background(color = MaterialTheme.colors.surface)
-                    .padding(D.spacingL)
-                    .constrainAs(topSettings) { top.linkTo(parent.top) }
-            ) {
-                //val calendarsList = remember(widget) { mutableStateOf(widget.calendars) }
-                CalendarsForm(
-                    widget.calendars,
-                    allCalendars,
-                    onChangeBtnClick = { onCalendarsRequested() },
-                    onCalendarsSelected = { list ->
-                        onWidgetChange(widget.copy(calendars = list, calendarIds = list.map { it.id }))
+        Column(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            ConstraintLayout(modifier = Modifier.fillMaxSize()) {
+                val (topSettings, layouts, preview, btnSave, btnSettings, bottomSettings) = createRefs()
+                Column(
+                    modifier = Modifier
+                        .background(color = MaterialTheme.colors.surface)
+                        .padding(D.spacingL)
+                        .constrainAs(topSettings) { top.linkTo(parent.top) }
+                ) {
+                    //val calendarsList = remember(widget) { mutableStateOf(widget.calendars) }
+                    CalendarsForm(
+                        widget.calendars,
+                        allCalendars,
+                        onChangeBtnClick = { onCalendarsRequested() },
+                        onCalendarsSelected = { list ->
+                            onWidgetChange(widget.copy(calendars = list, calendarIds = list.map { it.id }))
+                        },
+                    )
+                    Spacer(modifier = Modifier.height(D.spacingL))
+
+                    DaysNumberForm(widget.days) { onWidgetChange(widget.copy(days = it)) }
+                }
+                LayoutsPickPanel(
+                    modifier = Modifier.constrainAs(layouts) {
+                        top.linkTo(topSettings.bottom)
                     },
+                    widget = widget,
+                    onLayoutPick = { onWidgetChange(widget.copy(layoutType = it)) },
                 )
-                Spacer(modifier = Modifier.height(D.spacingL))
 
-                DaysNumberForm(widget.days) { onWidgetChange(widget.copy(days = it)) }
-            }
-            LayoutsPickPanel(
-                modifier = Modifier.constrainAs(layouts) {
-                    top.linkTo(topSettings.bottom)
-                },
-                widget = widget,
-                onLayoutPick = { onWidgetChange(widget.copy(layoutType = it)) },
-            )
+                WidgetPreview(
+                    modifier = Modifier.constrainAs(preview) {
+                        top.linkTo(layouts.bottom, D.spacingL)
+                        bottom.linkTo(btnSettings.top, D.spacingM)
+                        start.linkTo(parent.start, D.spacingXXL)
+                        end.linkTo(parent.end, D.spacingXXL)
+                        width = Dimension.fillToConstraints
+                    },
+                    widget = widget,
+                )
 
-            WidgetPreview(
-                modifier = Modifier.constrainAs(preview) {
-                    top.linkTo(layouts.bottom, D.spacingL)
-                    bottom.linkTo(btnSettings.top, D.spacingM)
-                    start.linkTo(parent.start, D.spacingXXL)
-                    end.linkTo(parent.end, D.spacingXXL)
-                    width = Dimension.fillToConstraints
-                },
-                widget = widget,
-            )
+                val isSaveEnabled = widget.id != 0L && widget.calendars.isNotEmpty()
+                ExtendedFAB(
+                    modifier = Modifier.constrainAs(btnSave) {
+                        top.linkTo(btnSettings.top)
+                        bottom.linkTo(btnSettings.bottom)
+                        end.linkTo(preview.end)
+                    },
+                    onClick = { onSaveChanges() },
+                    enabled = isSaveEnabled,
+                ) {
+                    Text(text = stringResource(R.string.btn_save_widget_settings))
+                }
 
-            val isSaveEnabled = widget.id != 0L && widget.calendars.isNotEmpty()
-            ExtendedFAB(
-                modifier = Modifier.constrainAs(btnSave) {
-                    top.linkTo(btnSettings.top)
-                    bottom.linkTo(btnSettings.bottom)
-                    end.linkTo(preview.end)
-                },
-                onClick = { onSaveChanges() },
-                enabled = isSaveEnabled,
-            ) {
-                Text(text = stringResource(R.string.btn_save_widget_settings))
-            }
+                FloatingActionButton(
+                    modifier = Modifier.constrainAs(btnSettings) {
+                        bottom.linkTo(bottomSettings.top, D.spacingL)
+                        start.linkTo(preview.start)
+                    },
+                    onClick = { onSettingsClick() },
+                    backgroundColor = MaterialTheme.colors.surface,
+                    contentColor = MaterialTheme.colors.primary,
+                ) {
+                    Icon(painterResource(R.drawable.ic_settings), contentDescription = null)
+                }
 
-            FloatingActionButton(
-                modifier = Modifier.constrainAs(btnSettings) {
-                    bottom.linkTo(bottomSettings.top, D.spacingL)
-                    start.linkTo(preview.start)
-                },
-                onClick = { onSettingsClick() },
-                backgroundColor = MaterialTheme.colors.surface,
-                contentColor = MaterialTheme.colors.primary,
-            ) {
-                Icon(painterResource(R.drawable.ic_settings), contentDescription = null)
-            }
-
-            Box(modifier = Modifier
-                .background(color = MaterialTheme.colors.surface)
-                .fillMaxWidth()
-                .constrainAs(bottomSettings) {
-                    bottom.linkTo(parent.bottom)
-                }) {
-                StylesTabsPanel(widget) { onWidgetChange(it) }
+                Box(modifier = Modifier
+                    .background(color = MaterialTheme.colors.surface)
+                    .fillMaxWidth()
+                    .constrainAs(bottomSettings) {
+                        bottom.linkTo(parent.bottom)
+                    }) {
+                    StylesTabsPanel(widget) { onWidgetChange(it) }
+                }
             }
         }
     }
 }
 
 @Composable
-private fun CalendarsForm(
+private fun IntroShowCaseScope.CalendarsForm(
     pickedCalendars: List<CalendarModel>,
     allCalendars: Result,
     onChangeBtnClick: () -> Unit,
     onCalendarsSelected: (List<CalendarModel>) -> Unit,
 ) {
-
     val isDialogCanShow = remember { mutableStateOf(false) }
     val showPermissionCheck = remember { mutableStateOf(false) }
     if (showPermissionCheck.value) {
@@ -246,6 +253,7 @@ private fun CalendarsForm(
             }
             item(key = "add") {
                 Chip(
+                    modifier = Modifier.introShowCaseTarget(index = 0) {},
                     onClick = { showPermissionCheck.value = true },
                     shape = RoundedCornerShape(percent = 50),
                     colors = ChipDefaults.chipColors(
