@@ -70,6 +70,24 @@ fun MainScreen(viewModel: ConfigureViewModel) {
             ConfigureScreenWrap(viewModel)
         }
     }
+
+    if (viewModel.showExitConfirmation.observeAsState(false).value) {
+        AlertDialog(
+            onDismissRequest = { viewModel.onExitCanceled() },
+            title = { Text(stringResource(R.string.exit_confirmation_title)) },
+            text = { Text(stringResource(R.string.exit_confirmation_text)) },
+            confirmButton = {
+                TextButton(onClick = { viewModel.onExitConfirmed() }) {
+                    Text(stringResource(android.R.string.ok))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { viewModel.onExitCanceled() }) {
+                    Text(stringResource(android.R.string.cancel))
+                }
+            }
+        )
+    }
 }
 
 @Composable
@@ -133,8 +151,8 @@ private fun ConfigureScreen(
 
             WidgetPreview(
                 modifier = Modifier.constrainAs(preview) {
-                    top.linkTo(layouts.bottom)
-                    bottom.linkTo(bottomSettings.top)
+                    top.linkTo(layouts.bottom, D.spacingL)
+                    bottom.linkTo(btnSettings.top, D.spacingM)
                     start.linkTo(parent.start, D.spacingXXL)
                     end.linkTo(parent.end, D.spacingXXL)
                     width = Dimension.fillToConstraints
@@ -186,6 +204,7 @@ private fun CalendarsForm(
     onChangeBtnClick: () -> Unit,
     onCalendarsSelected: (List<CalendarModel>) -> Unit,
 ) {
+
     val isDialogCanShow = remember { mutableStateOf(false) }
     val showPermissionCheck = remember { mutableStateOf(false) }
     if (showPermissionCheck.value) {
@@ -308,6 +327,11 @@ private fun DaysNumberForm(daySelected: Int, onDaysChange: (Int) -> Unit) {
             )
         }
     }
+}
+
+@Composable
+private fun ExitConfirmationDialog() {
+
 }
 
 private const val DAYS_RANGE_MIN = 1

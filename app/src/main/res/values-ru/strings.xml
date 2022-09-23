@@ -22,22 +22,7 @@
     <string name="increment_days">+1</string>
     <string name="decrement_days">-1</string>
     <string name="widget_settings_days">Дней</string>
-    <string name="fish_days">14</string>
-    <string name="widget_settings_corners">Скругление</string>
 
-    <string-array name="corner_sizes">
-        <item>Нет</item>
-        <item>Маленькое</item>
-        <item>Среднее</item>
-        <item>Большое</item>
-        <item>Ещё больше</item>
-    </string-array>
-
-    <string-array name="event_end_options">
-        <item>Никогда</item>
-        <item>Если больше дня</item>
-        <item>Всегда</item>
-    </string-array>
 
     <string name="widget_settings_text_size">Текст</string>
     <string name="settings_show_today_date">Показывать дату</string>
@@ -48,7 +33,6 @@
     <string name="settings_show_today_tomorrow">Показывать \"Сегодня\", \"Завтра\"</string>
     <string name="date_and_time_format">%s %s</string>
     <string name="date_range_format">%s - %s</string>
-    <string name="title_no_widget">Нет Виджетов</string>
     <string name="btn_settings">Настройки</string>
     <string name="btn_apply_all">Применить</string>
     <string name="permission_rationale_calendar">Разрешите, пожалуйста, доступ к вашим Календарям, чтобы виджет мог отобразить Ваши события</string>
@@ -68,7 +52,7 @@
     <string name="sample_event_friday">Рисую в Лувре</string>
     <string name="sample_event_saturday">Делаю предложение</string>
     <string name="sample_event_sunday">Ленюсь воскресным полднем</string>
-    <string name="tollbar_title_empty">...</string>
+    <string name="tollbar_title_empty">…</string>
     <string name="toolbar_title_new_widget">Новый виджет</string>
     <string name="toolbar_title_widget_number">Виджет №%s</string>
     <string name="calendars_picked_empty">Выберите календари</string>
@@ -78,4 +62,6 @@
     <string name="settings_show_end_date">Показывать дату завершения:</string>
     <string name="settings_show_end_color">Показывать цвет события</string>
     <string name="settings_show_events_dividers">Показывать разделители</string>
+    <string name="exit_confirmation_title">Отменить изменения?</string>
+    <string name="exit_confirmation_text">Вы уверены, что хотите выйти без сохранения настроек?</string>
 </resources>

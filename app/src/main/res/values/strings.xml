@@ -67,7 +67,7 @@
     <string name="sample_event_friday">Go painting in the Louvre</string>
     <string name="sample_event_saturday">But to be proposing at night</string>
     <string name="sample_event_sunday">Lazing on a Sunday afternoon</string>
-    <string name="tollbar_title_empty">...</string>
+    <string name="tollbar_title_empty">…</string>
     <string name="toolbar_title_new_widget">New widget</string>
     <string name="toolbar_title_widget_number">Widget #%s</string>
     <string name="calendars_picked_empty">Pick your calendars</string>
@@ -77,4 +77,6 @@
     <string name="settings_show_end_date">Show event end date:</string>
     <string name="settings_show_end_color">Show event color</string>
     <string name="settings_show_events_dividers">Show events dividers</string>
+    <string name="exit_confirmation_text">Are you sure you want to exit without applying the changes?</string>
+    <string name="exit_confirmation_title">Discard changes?</string>
 </resources>

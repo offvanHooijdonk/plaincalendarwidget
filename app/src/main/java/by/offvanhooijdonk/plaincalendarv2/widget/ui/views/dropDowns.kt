@@ -13,7 +13,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
-import by.offvanhooijdonk.plaincalendarv2.widget.model.WidgetModel
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.D
 
 @Composable
@@ -31,8 +30,8 @@ fun Spinner(text: String, items: List<String>, onItemSelected: (Int) -> Unit) {
             overflow = TextOverflow.Ellipsis,
         )
         DropdownMenu(expanded = isExpanded.value, onDismissRequest = { isExpanded.value = false }) {
-            WidgetModel.ShowEndDate.values().forEachIndexed { index, item ->
-                SpinnerItem(label = item.title) { onItemSelected(index); isExpanded.value = false }
+            items.forEachIndexed { index, item ->
+                SpinnerItem(label = item) { onItemSelected(index); isExpanded.value = false }
             }
         }
     }

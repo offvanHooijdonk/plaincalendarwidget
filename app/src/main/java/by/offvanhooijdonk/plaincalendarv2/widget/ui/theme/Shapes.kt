@@ -11,4 +11,5 @@ val PlainThemeShapes =
         large = RoundedCornerShape(topStart = D.dialogCornerRadius, topEnd = D.dialogCornerRadius),
     )
 
-val WidgetItemShape: Shape @Composable get() =  RoundedCornerShape(D.spacingM)
+val WidgetItemShape =  RoundedCornerShape(D.spacingM)
+val AlertDialogShape = RoundedCornerShape(D.dialogCornerRadius)
