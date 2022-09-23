@@ -48,8 +48,9 @@ fun WidgetBodyTimeline(events: List<EventModel>, model: WidgetModel) {
                 Column {
                     Column(
                         modifier = GlanceModifier
-                            .clickable(actionStartActivity(createOpenEventIntent(event.eventId)))
-                            .padding(horizontal = GD.eventItemPaddingH, vertical = GD.eventItemPaddingV),
+                            .fillMaxWidth()
+                            .padding(horizontal = GD.eventItemPaddingH, vertical = GD.eventItemPaddingV)
+                            .clickable(actionStartActivity(createOpenEventIntent(event.eventId))),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Row {

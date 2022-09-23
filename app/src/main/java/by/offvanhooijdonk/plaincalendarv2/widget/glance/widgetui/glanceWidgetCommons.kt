@@ -33,7 +33,7 @@ fun EventColorMark(eventColor: Color) {
         modifier = GlanceModifier
             .size(GD.eventColorMarkSize)
             .background(eventColor)
-            .cornerRadius(GD.spacingS) // todo use dimens or image
+            .cornerRadius(GD.spacingSM)
     ) {}
     Spacer(modifier = GlanceModifier.width(GD.eventColorSpacing))
 }

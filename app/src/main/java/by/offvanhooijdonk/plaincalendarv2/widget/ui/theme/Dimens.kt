@@ -54,6 +54,7 @@ object Dimens : WidgetDimensions {
 object GlanceDimens : WidgetDimensions {
     override val spacingXS: Dp /*@Composable @ReadOnlyComposable*/ get() = 2.dp
     override val spacingS: Dp /*@Composable @ReadOnlyComposable*/ get() = 3.dp
+    override val spacingSM: Dp /*@Composable @ReadOnlyComposable*/ get() = 4.dp
     override val spacingM: Dp /*@Composable @ReadOnlyComposable*/ get() = 6.dp
     override val spacingL: Dp /*@Composable @ReadOnlyComposable*/ get() = 12.dp
     override val spacingXXL: Dp /*@Composable @ReadOnlyComposable*/ get() = 24.dp
