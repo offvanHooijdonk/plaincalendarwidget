@@ -7,6 +7,6 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val uiModule = module {
-    viewModel { ConfigureViewModel(androidContext(), get()) }
+    viewModel { ConfigureViewModel(androidContext(), get(), get()) }
     factory { WidgetViewModel(get()) }
 }

@@ -15,10 +15,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import by.offvanhooijdonk.plaincalendarv2.widget.R
 import by.offvanhooijdonk.plaincalendarv2.widget.model.DummyWidget
 import by.offvanhooijdonk.plaincalendarv2.widget.model.WidgetModel
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.intro.IntroLayouts
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.intro.IntroStyleLayouts
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.intro.IntroTargets
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.D
+import com.canopas.lib.showcase.IntroShowCaseScaffold
+import com.canopas.lib.showcase.IntroShowCaseScope
 
 @Composable
-fun LayoutsPickPanel(modifier: Modifier = Modifier, widget: WidgetModel, onLayoutPick: (WidgetModel.LayoutType) -> Unit) {
+fun IntroShowCaseScope.LayoutsPickPanel(
+    modifier: Modifier = Modifier,
+    widget: WidgetModel,
+    onLayoutPick: (WidgetModel.LayoutType) -> Unit
+) {
     Box(modifier = Modifier.then(modifier)) {
         val selected = remember(widget) { widget.layoutType.ordinal }
         ScrollableTabRow(
@@ -35,7 +44,12 @@ fun LayoutsPickPanel(modifier: Modifier = Modifier, widget: WidgetModel, onLayou
                 val backColor = if (index == selected) MaterialTheme.colors.primary else Color.Transparent
                 Box(modifier = Modifier.padding(vertical = D.spacingM)) {
                     Tab(
-                        modifier = Modifier.background(backColor, RoundedCornerShape(D.spacingM)),
+                        modifier = Modifier
+                            .background(backColor, RoundedCornerShape(D.spacingM)).run {
+                                if (index == selected)
+                                    introShowCaseTarget(IntroTargets.LAYOUTS.ordinal, IntroStyleLayouts) { IntroLayouts() }
+                                else this
+                            },
                         selected = index == selected,
                         onClick = { onLayoutPick(WidgetModel.LayoutType.values().getOrNull(index) ?: WidgetModel.LayoutType.default) },
                         selectedContentColor = MaterialTheme.colors.background,
@@ -63,5 +77,7 @@ private val LayoutsList = listOf(
 @Preview
 @Composable
 private fun Preview_LayoutsPickPanel() {
-    LayoutsPickPanel(widget = DummyWidget) {}
+    IntroShowCaseScaffold(showIntroShowCase = false, onShowCaseCompleted = {}) {
+        LayoutsPickPanel(widget = DummyWidget) {}
+    }
 }

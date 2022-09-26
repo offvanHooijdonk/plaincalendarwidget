@@ -68,7 +68,7 @@ data class WidgetModel(
     companion object {
         fun createDefault(id: Long? = null) = WidgetModel(
             id = id ?: 0,
-            days = 7,
+            days = 1,
             backgroundColor = Color.White.value.toLong(),
             opacity = 1.0f,
             textColor = Color.Black.value.toLong(),

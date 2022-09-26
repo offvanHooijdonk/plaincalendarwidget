@@ -7,6 +7,7 @@ import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.platform.LocalContext
 import by.offvanhooijdonk.plaincalendarv2.widget.app.App.Companion.LOGCAT
@@ -25,9 +26,10 @@ fun permissionCheck(ifGranted: () -> Unit, ifDenied: () -> Unit, ifShowRationale
         } else {
             Log.d(LOGCAT, "Not need rationale, showing request")
             val launcherPermission = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+                Log.d(LOGCAT, "Permission request result: $isGranted")
                 if (isGranted) ifGranted() else ifDenied()
             }
-            SideEffect {
+            LaunchedEffect(Unit) {
                 launcherPermission.launch(permission)
             }
         }

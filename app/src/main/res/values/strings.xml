@@ -1,55 +1,16 @@
 <resources>
     <string name="app_name">Plain Calendar Widget</string>
-    <string name="fish_short" translatable="false">Lorem Ipsum</string>
-    <string name="fish_date" translatable="false">8/16/2017</string>
-    <string name="dialog_load_calendars_msg">Loading Calendars…</string>
-    <string name="empty_cal_list">No calendars found</string>
     <string name="widget_description">Calendar events list in a minimalistic manner</string>
 
     <string name="widget_empty_events_list">No Events</string>
     <string name="fish_day_of_week">su</string>
-    <string name="fish_digit_value">48</string>
     <string name="date_default">31</string>
-    <string name="no_widgets_yet">No widgets yet added</string>
-    <string name="widget_settings_background">Background</string>
-    <string name="widget_settings_date_color">Text color</string>
-    <string name="widget_settings_opacity">Opacity</string>
-    <string name="permission_rationale_calendar">Please allow access to your Calendars so widget can read your events.</string>
-    <string name="permission_rationale_calendar_action">Allow</string>
-    <string name="dialog_pick_calendars_title">Pick Calendars</string>
 
     <string name="date_all_day">All day</string>
-    <string name="per_cent_sign">%</string>
     <string name="date_and_time_format">%s %s</string>
     <string name="date_range_format">%s - %s</string>
     <string name="today">Today</string>
     <string name="tomorrow">Tomorrow</string>
-    <string name="fish_event_title_1">Movies, \'Blade Runner\'</string>
-    <string name="fish_event_title_2">Birthday - John Doe</string>
-    <string name="number_no_widgets">None selected</string>
-    <string name="settings_show_event_color">Show Event Color</string>
-    <string name="increment_days">+1</string>
-    <string name="decrement_days">-1</string>
-    <string name="widget_settings_days">Days</string>
-    <string name="fish_days">14</string>
-    <string name="widget_settings_corners">Radius</string>
-    <string name="widget_settings_text_size">Text size</string>
-    <string name="settings_show_today_date">Show Today Date</string>
-    <string name="settings_show_day_of_week">Day of Week</string>
-    <string name="settings_leading_zero_today">Leading Zero for Today</string>
-    <string name="settings_show_line">Line Before Events List</string>
-    <string name="settings_show_event_end">Display Event End</string>
-    <string name="settings_show_today_tomorrow">Show \'Today\', \'Tomorrow\'</string>
-    <string name="btn_settings">Settings</string>
-    <string name="btn_apply_all">Apply</string>
-
-    <string-array name="corner_sizes">
-        <item>None</item>
-        <item>Small</item>
-        <item>Medium</item>
-        <item>Large</item>
-        <item>X-Large</item>
-    </string-array>
 
     <string name="event_end_option_never">Never</string>
     <string name="event_end_option_if_next_day">If finishes other day</string>
@@ -67,7 +28,7 @@
     <string name="sample_event_friday">Go painting in the Louvre</string>
     <string name="sample_event_saturday">But to be proposing at night</string>
     <string name="sample_event_sunday">Lazing on a Sunday afternoon</string>
-    <string name="tollbar_title_empty">…</string>
+    <string name="toolbar_title_empty">…</string>
     <string name="toolbar_title_new_widget">New widget</string>
     <string name="toolbar_title_widget_number">Widget #%s</string>
     <string name="calendars_picked_empty">Pick your calendars</string>
@@ -79,4 +40,12 @@
     <string name="settings_show_events_dividers">Show events dividers</string>
     <string name="exit_confirmation_text">Are you sure you want to exit without applying the changes?</string>
     <string name="exit_confirmation_title">Discard changes?</string>
+    <string name="calendar_permissions_rationale">Please grant rights to read calendar.</string>
+    <string name="intro_widget_preview">Here you will see your changes updated in real time</string>
+    <string name="intro_configure_calendars">Pick the calendars to be shown in the widget</string>
+    <string name="intro_days">Slide to set the number of days you will see events for</string>
+    <string name="intro_layouts">Pick one of layouts you like more</string>
+    <string name="intro_settings">Click \'Settings\' button for more options for the widget outline</string>
+    <string name="intro_colors_tabs">Apply background color, opacity, text style</string>
+    <string name="intro_apply_button">Don\'t forget to click \'Apply\' to finish setup and add the widget</string>
 </resources>

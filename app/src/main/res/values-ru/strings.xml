@@ -1,43 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Просто Виджет Календаря</string>
-    <string name="dialog_load_calendars_msg">Загружаем Календари…</string>
     <string name="widget_empty_events_list">Событий нет</string>
     <string name="fish_day_of_week">вс</string>
     <string name="date_default">31</string>
-    <string name="fish_digit_value">48</string>
-    <string name="empty_cal_list">Календарей не найдено</string>
-    <string name="no_widgets_yet">Виджетов пока нет</string>
-    <string name="widget_settings_background">Цвет фона</string>
-    <string name="widget_settings_date_color">Цвет текста</string>
     <string name="date_all_day">Весь день</string>
-    <string name="widget_settings_opacity">Прозрачность</string>
-    <string name="per_cent_sign">%</string>
-    <string name="fish_event_title_1">Кино, \"Бегущий по лезвию\"</string>
-    <string name="fish_event_title_2">День рождения - Вася Пупкин</string>
     <string name="tomorrow">Завтра</string>
     <string name="today">Сегодня</string>
-    <string name="number_no_widgets">Не выбрано</string>
-    <string name="settings_show_event_color">Цвет события</string>
-    <string name="increment_days">+1</string>
-    <string name="decrement_days">-1</string>
-    <string name="widget_settings_days">Дней</string>
 
 
-    <string name="widget_settings_text_size">Текст</string>
-    <string name="settings_show_today_date">Показывать дату</string>
-    <string name="settings_show_day_of_week">День недели</string>
-    <string name="settings_leading_zero_today">Ноль в дате</string>
-    <string name="settings_show_line">Разделитель после даты</string>
-    <string name="settings_show_event_end">Время окончания события</string>
-    <string name="settings_show_today_tomorrow">Показывать \"Сегодня\", \"Завтра\"</string>
     <string name="date_and_time_format">%s %s</string>
     <string name="date_range_format">%s - %s</string>
-    <string name="btn_settings">Настройки</string>
-    <string name="btn_apply_all">Применить</string>
-    <string name="permission_rationale_calendar">Разрешите, пожалуйста, доступ к вашим Календарям, чтобы виджет мог отобразить Ваши события</string>
-    <string name="permission_rationale_calendar_action">Разрешить</string>
-    <string name="dialog_pick_calendars_title">Выберите Календари</string>
     <string name="widget_description">Минималистичный календарь событий</string>
     <string name="event_end_option_never">Никогда</string>
     <string name="event_end_option_if_next_day">Если заканчивается в другой день</string>
@@ -52,7 +25,7 @@
     <string name="sample_event_friday">Рисую в Лувре</string>
     <string name="sample_event_saturday">Делаю предложение</string>
     <string name="sample_event_sunday">Ленюсь воскресным полднем</string>
-    <string name="tollbar_title_empty">…</string>
+    <string name="toolbar_title_empty">…</string>
     <string name="toolbar_title_new_widget">Новый виджет</string>
     <string name="toolbar_title_widget_number">Виджет №%s</string>
     <string name="calendars_picked_empty">Выберите календари</string>
@@ -64,4 +37,12 @@
     <string name="settings_show_events_dividers">Показывать разделители</string>
     <string name="exit_confirmation_title">Отменить изменения?</string>
     <string name="exit_confirmation_text">Вы уверены, что хотите выйти без сохранения настроек?</string>
+    <string name="calendar_permissions_rationale">Пожалуйста, разрешите доступ к календарю.</string>
+    <string name="intro_widget_preview">Тут будут отображаться изменения от выбора настроек</string>
+    <string name="intro_configure_calendars">Выберете календари, для которых показывать события</string>
+    <string name="intro_days">Проведите чтобы выбрать количество дней, за которые показывать события</string>
+    <string name="intro_layouts">Выберите варианты отображения событий</string>
+    <string name="intro_settings">Нажмите кнопку настроек, чтобы увидеть больше опций</string>
+    <string name="intro_colors_tabs">Выберите цвет, прозрачность, цвет и размер текста</string>
+    <string name="intro_apply_button">Не забудьте нажать \'Применить\' чтобы добавить виджет на экран</string>
 </resources>

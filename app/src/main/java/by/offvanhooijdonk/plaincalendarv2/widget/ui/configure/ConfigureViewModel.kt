@@ -1,6 +1,7 @@
 package by.offvanhooijdonk.plaincalendarv2.widget.ui.configure
 
 import android.content.Context
+import androidx.datastore.preferences.core.Preferences
 import androidx.glance.GlanceId
 import androidx.glance.appwidget.GlanceAppWidgetManager
 import androidx.glance.appwidget.state.getAppWidgetState
@@ -11,6 +12,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import by.offvanhooijdonk.plaincalendarv2.widget.data.CalendarDataSource
+import by.offvanhooijdonk.plaincalendarv2.widget.data.Prefs
 import by.offvanhooijdonk.plaincalendarv2.widget.glance.PlainGlanceWidget
 import by.offvanhooijdonk.plaincalendarv2.widget.glance.prefs.readWidgetModel
 import by.offvanhooijdonk.plaincalendarv2.widget.glance.prefs.writeToPrefs
@@ -22,6 +24,7 @@ import kotlinx.coroutines.launch
 class ConfigureViewModel(
     private val ctx: Context,
     private val calendarDataSource: CalendarDataSource,
+    private val prefs: Prefs,
 ) : ViewModel() {
     private var initialWidgetModel: WidgetModel? = null
 
@@ -43,7 +46,14 @@ class ConfigureViewModel(
     private val _showExitConfirmation = MutableLiveData(false)
     val showExitConfirmation: LiveData<Boolean> = _showExitConfirmation
 
+    private val _isIntroPassed = MutableLiveData(true)
+    val isIntroPassed: LiveData<Boolean> = _isIntroPassed
+
     var widgetId: Int? = null
+
+    init {
+        _isIntroPassed.value = prefs.isIntroPassed
+    }
 
     fun passWidgetId(id: Int?) {
         widgetId = id
@@ -118,6 +128,11 @@ class ConfigureViewModel(
 
     fun onExitCanceled() {
         _showExitConfirmation.value = false
+    }
+
+    fun onIntroPassed() {
+        prefs.isIntroPassed = true
+        _isIntroPassed.value = true
     }
 
     enum class FinishResult {

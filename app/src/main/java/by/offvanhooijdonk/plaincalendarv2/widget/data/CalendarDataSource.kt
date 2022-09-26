@@ -24,7 +24,6 @@ class CalendarDataSource(private val ctx: Context) {
             prepareCalendarsCursor(ctx.contentResolver, CalendarContract.Calendars.CONTENT_URI)?.use { cur ->
                 while (cur.moveToNext()) {
                     val calendar = CalendarModel(
-                        // todo check for nulls
                         id = cur.getLong(cur.getColumnIndex(CalendarContract.Calendars._ID)),
                         displayName = cur.getString(cur.getColumnIndex(CalendarContract.Calendars.CALENDAR_DISPLAY_NAME)),
                         accountName = cur.getString(cur.getColumnIndex(CalendarContract.Calendars.ACCOUNT_NAME)),
