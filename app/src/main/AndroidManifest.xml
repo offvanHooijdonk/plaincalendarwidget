@@ -19,6 +19,7 @@
         <activity
             android:name="by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.ConfigurationActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

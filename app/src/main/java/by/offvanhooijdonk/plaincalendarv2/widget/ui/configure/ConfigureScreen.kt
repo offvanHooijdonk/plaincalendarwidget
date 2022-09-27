@@ -50,7 +50,7 @@ fun MainScreen(viewModel: ConfigureViewModel) {
     val widget = viewModel.widgetModel.observeAsState(DummyWidget).value
     val title = when (viewModel.loadResult.observeAsState().value) {
         is Result.Widget.Success -> stringResource(R.string.toolbar_title_widget_number, widget.id)
-        Result.Widget.Empty -> "Plain Calendar Widget"
+        Result.Widget.Empty -> stringResource(R.string.app_name)
         Result.Widget.New -> stringResource(R.string.toolbar_title_new_widget)
         else -> stringResource(R.string.toolbar_title_empty)
     }
@@ -295,6 +295,9 @@ private fun IntroShowCaseScope.CalendarsForm(
                                 Toast.makeText(context, rationaleText, Toast.LENGTH_LONG).show()
                             }
                             permissionCalendar.launchPermissionRequest()
+                        } else {
+                            onChangeBtnClick()
+                            isDialogCanShow.value = true
                         }
                     },
                     shape = RoundedCornerShape(percent = 50),
