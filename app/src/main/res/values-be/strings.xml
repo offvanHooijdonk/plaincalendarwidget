@@ -1,54 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Просты Вiджэт Каляндара</string>
-    <string name="dialog_load_calendars_msg">Загружаем Каляндары…</string>
-    <string name="btn_pick_calendars">Выбярыце</string>
-    <string name="empty_cal_list">Не знойдзена каляндароў</string>
-    <string name="title_add_widget">Дадаем вiджэт</string>
-    <string name="title_edit_widget">Вiджэт №%s</string>
-    <string name="widget_empty_events_list">Нiчога няма</string>
+    <string name="app_name">Просты Вiджэт Календара</string>
+    <string name="widget_empty_events_list">Падзей няма</string>
     <string name="fish_day_of_week">ня</string>
-    <string name="fish_digit_value">48</string>
     <string name="date_default">31</string>
-    <string name="no_widgets_yet">Вiджэтаў пакуль няма</string>
-    <string name="widget_settings_background">Фонавы колер</string>
-    <string name="widget_settings_date_color">Колер тэксту</string>
-    <string name="widget_settings_opacity">Празрыстасьць</string>
     <string name="date_all_day">Увесь дзень</string>
-    <string name="per_cent_sign">%</string>
-    <string name="fish_event_title_1">Кiно, Бягучы па лязу</string>
-    <string name="fish_event_title_2">Дзень нараджэньня - Алесь Пупкiн</string>
     <string name="today">Сёньня</string>
     <string name="tomorrow">Заўтра</string>
-    <string name="number_no_widgets">Не абрана</string>
-    <string name="settings_show_event_color">Коляр падзеi</string>
-    <string name="increment_days">+1</string>
-    <string name="decrement_days">-1</string>
-    <string name="widget_settings_days">дзён</string>
-    <string name="fish_days">14</string>
-    <string name="widget_settings_corners">Зкругленьне</string>
 
-    <string-array name="corner_sizes">
-        <item>Вострае</item>
-        <item>Маленькае</item>
-        <item>Сярэдняе</item>
-        <item>Вялiкае</item>
-        <item>Вялiзарнае</item>
-    </string-array>
-
-    <string-array name="event_end_options">
-        <item>Нiколi</item>
-        <item>Калi больш за дзень</item>
-        <item>Заўсёды</item>
-    </string-array>
-
-    <string name="widget_settings_text_size">Тэкст</string>
-    <string name="format_date_plus_time">%s, %s</string>
-    <string name="date_range_separator">" - "</string>
-    <string name="settings_show_today_date">Паказваць дату</string>
-    <string name="settings_show_day_of_week">Дзень у тыднi</string>
-    <string name="settings_leading_zero_today">Нуль у даце</string>
-    <string name="settings_show_line">Падзельник пасля даты</string>
-    <string name="settings_show_event_end">Час заканчэньня падзеi</string>
-    <string name="settings_show_today_tomorrow">Паказваць \"Сёньня\", \"Заўтра\"</string>
+    <string name="date_and_time_format">%s %s</string>
+    <string name="date_range_format">%s - %s</string>
+    <string name="widget_description">Мiнiмалiстычны каляндарь падзей</string>
+    <string name="event_end_option_never">Нiколi</string>
+    <string name="event_end_option_if_next_day">Калi скончываецца у другi дзень</string>
+    <string name="event_end_option_always">Заўсёды</string>
+    <string name="btn_save_widget_settings">Прымянiць</string>
+    <string name="layout_title_timeline">Расклад</string>
+    <string name="layout_title_per_day">Па днях</string>
+    <string name="sample_event_monday">Пагуляць пад сонцам</string>
+    <string name="sample_event_tuesday">Нешта добрае зрабіць</string>
+    <string name="sample_event_wednesday">Вучыцца, вучыцца i зноў вучыцца</string>
+    <string name="sample_event_thursday">Паглядзець на свет вясёлымi вачыма</string>
+    <string name="sample_event_friday">Пагуляць пад сонцам</string>
+    <string name="sample_event_saturday">Маляваць</string>
+    <string name="sample_event_sunday">Рыхтавацца да новага тыдня</string>
+    <string name="toolbar_title_empty">…</string>
+    <string name="toolbar_title_new_widget">Навы вiджэт</string>
+    <string name="toolbar_title_widget_number">Вiджэт №%s</string>
+    <string name="calendars_picked_empty">Абярыце свае календары</string>
+    <string name="title_days_to_show">Паказваць дзён</string>
+    <string name="title_calendars_picked">Календары</string>
+    <string name="settings_date_as_text">Паказваць сягодня/заутра тэкстам</string>
+    <string name="settings_show_end_date">Паказваць дату заканчэння:</string>
+    <string name="settings_show_end_color">Паказваць колер падзеi</string>
+    <string name="settings_show_events_dividers">Паказваць падзельнiкi</string>
+    <string name="exit_confirmation_title">Адмянiць налады?</string>
+    <string name="exit_confirmation_text">Цi вы дакладна хацiце выйсцi без захвання наладаў?</string>
+    <string name="calendar_permissions_rationale">Калi ласка, дазвольце доступ да календара.</string>
+    <string name="intro_widget_preview">Тут можна бачыць эфект змены наладаў</string>
+    <string name="intro_configure_calendars">Абярыце календары якiя будуць паказаны</string>
+    <string name="intro_days">Правядзiце каб выбрать колькасць дзён, за якiя будут паказаны падзеi</string>
+    <string name="intro_layouts">Абярыце спосаб паказу падзей</string>
+    <string name="intro_settings">Нацiснiце кнопку наладаў дзеля розных варыяцый</string>
+    <string name="intro_colors_tabs">Абярыце колер фону, тэксту i iншае</string>
+    <string name="intro_apply_button">Не забудьце нацiснуць \'Прымянiць\' каб дадаць вiджэт на экран</string>
 </resources>

@@ -1,54 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Просто Виджет Календаря</string>
-    <string name="dialog_load_calendars_msg">Загружаем Календари…</string>
-    <string name="btn_pick_calendars">Выберите</string>
-    <string name="widget_empty_events_list">Ничего</string>
+    <string name="widget_empty_events_list">Событий нет</string>
     <string name="fish_day_of_week">вс</string>
     <string name="date_default">31</string>
-    <string name="fish_digit_value">48</string>
-    <string name="empty_cal_list">Календарей не найдено</string>
-    <string name="title_add_widget">Добавляем виджет</string>
-    <string name="title_edit_widget">Виджет №%s</string>
-    <string name="no_widgets_yet">Виджетов пока нет</string>
-    <string name="widget_settings_background">Цвет фона</string>
-    <string name="widget_settings_date_color">Цвет текста</string>
     <string name="date_all_day">Весь день</string>
-    <string name="widget_settings_opacity">Прозрачность</string>
-    <string name="per_cent_sign">%</string>
-    <string name="fish_event_title_1">Кино, \"Бегущий по лезвию\"</string>
-    <string name="fish_event_title_2">День рождения - Вася Пупкин</string>
     <string name="tomorrow">Завтра</string>
     <string name="today">Сегодня</string>
-    <string name="number_no_widgets">Не выборано</string>
-    <string name="settings_show_event_color">Цвет события</string>
-    <string name="increment_days">+1</string>
-    <string name="decrement_days">-1</string>
-    <string name="widget_settings_days">дней</string>
-    <string name="fish_days">14</string>
-    <string name="widget_settings_corners">Скругление</string>
 
-    <string-array name="corner_sizes">
-        <item>Нет</item>
-        <item>Маленькое</item>
-        <item>Среднее</item>
-        <item>Большое</item>
-        <item>Ещё больше</item>
-    </string-array>
 
-    <string-array name="event_end_options">
-        <item>Никогда</item>
-        <item>Если больше дня</item>
-        <item>Всегда</item>
-    </string-array>
-
-    <string name="widget_settings_text_size">Текст</string>
-    <string name="settings_show_today_date">Показывать дату</string>
-    <string name="settings_show_day_of_week">День недели</string>
-    <string name="settings_leading_zero_today">Ноль в дате</string>
-    <string name="settings_show_line">Разделитель после даты</string>
-    <string name="settings_show_event_end">Время окончания события</string>
-    <string name="settings_show_today_tomorrow">Показывать \"Сегодня\", \"Завтра\"</string>
-    <string name="format_date_plus_time">%s, %s</string>
-    <string name="date_range_separator">" - "</string>
+    <string name="date_and_time_format">%s %s</string>
+    <string name="date_range_format">%s - %s</string>
+    <string name="widget_description">Минималистичный календарь событий</string>
+    <string name="event_end_option_never">Никогда</string>
+    <string name="event_end_option_if_next_day">Если заканчивается в другой день</string>
+    <string name="event_end_option_always">Всегда</string>
+    <string name="btn_save_widget_settings">Применить</string>
+    <string name="layout_title_timeline">Расписание</string>
+    <string name="layout_title_per_day">По дням</string>
+    <string name="sample_event_monday">Идти на работу</string>
+    <string name="sample_event_tuesday">Уезжаю в медовый месяц</string>
+    <string name="sample_event_wednesday">Езжу на велосипеде по вечерам</string>
+    <string name="sample_event_thursday">Иду танцевать по зоопарку</string>
+    <string name="sample_event_friday">Рисую в Лувре</string>
+    <string name="sample_event_saturday">Делаю предложение</string>
+    <string name="sample_event_sunday">Ленюсь воскресным полднем</string>
+    <string name="toolbar_title_empty">…</string>
+    <string name="toolbar_title_new_widget">Новый виджет</string>
+    <string name="toolbar_title_widget_number">Виджет №%s</string>
+    <string name="calendars_picked_empty">Выберите календари</string>
+    <string name="title_days_to_show">Показывать дней</string>
+    <string name="title_calendars_picked">Календари</string>
+    <string name="settings_date_as_text">Показывать сегодня/завтра текстом</string>
+    <string name="settings_show_end_date">Показывать дату завершения:</string>
+    <string name="settings_show_end_color">Показывать цвет события</string>
+    <string name="settings_show_events_dividers">Показывать разделители</string>
+    <string name="exit_confirmation_title">Отменить изменения?</string>
+    <string name="exit_confirmation_text">Вы уверены, что хотите выйти без сохранения настроек?</string>
+    <string name="calendar_permissions_rationale">Пожалуйста, разрешите доступ к календарю.</string>
+    <string name="intro_widget_preview">Тут будут отображаться изменения от выбора настроек</string>
+    <string name="intro_configure_calendars">Выберете календари, для которых показывать события</string>
+    <string name="intro_days">Проведите чтобы выбрать количество дней, за которые показывать события</string>
+    <string name="intro_layouts">Выберите варианты отображения событий</string>
+    <string name="intro_settings">Нажмите кнопку настроек, чтобы увидеть больше опций</string>
+    <string name="intro_colors_tabs">Выберите цвет, прозрачность, цвет и размер текста</string>
+    <string name="intro_apply_button">Не забудьте нажать \'Применить\' чтобы добавить виджет на экран</string>
 </resources>
