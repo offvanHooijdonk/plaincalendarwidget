@@ -9,7 +9,7 @@ import java.time.format.TextStyle
 import java.time.temporal.ChronoUnit
 import java.util.*
 
-var MILLIS_IN_DAY = (24 * 60 * 60 * 1000).toLong()
+var MILLIS_IN_DAY = 24 * 60 * 60 * 1000L
 
 val LocalDateTime.closestMidnightMillis: Long
     get() = toMidnightAtDay(1).millis

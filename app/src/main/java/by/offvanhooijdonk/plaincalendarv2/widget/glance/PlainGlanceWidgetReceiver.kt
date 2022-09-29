@@ -23,6 +23,7 @@ class PlainGlanceWidgetReceiver : GlanceAppWidgetReceiver(), KoinComponent {
     override fun onEnabled(context: Context) {
         super.onEnabled(context)
 
+        setupDailyAlarm(context)
         CalendarChangeJobService.scheduleCalendarChangeJob(context)
     }
 
@@ -43,6 +44,8 @@ class PlainGlanceWidgetReceiver : GlanceAppWidgetReceiver(), KoinComponent {
             Intent.ACTION_TIMEZONE_CHANGED,
             INTENT_ACTION_NEW_DAY -> {
                 PlainGlanceWidget().loadData()
+                cancelDailyAlarm(context)
+                setupDailyAlarm(context)
             }
             Intent.ACTION_BOOT_COMPLETED -> {
                 PlainGlanceWidget().loadData()
@@ -76,7 +79,6 @@ class PlainGlanceWidgetReceiver : GlanceAppWidgetReceiver(), KoinComponent {
             it.action = INTENT_ACTION_NEW_DAY
             PendingIntent.getBroadcast(ctx, 0, it, PendingIntent.FLAG_IMMUTABLE)
         }
-
 
     companion object {
         private const val INTENT_ACTION_NEW_DAY = "NEW_DAY_STARTED"
