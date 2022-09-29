@@ -1,7 +1,6 @@
 package by.offvanhooijdonk.plaincalendarv2.widget.ui.configure
 
 import android.content.Context
-import androidx.datastore.preferences.core.Preferences
 import androidx.glance.GlanceId
 import androidx.glance.appwidget.GlanceAppWidgetManager
 import androidx.glance.appwidget.state.getAppWidgetState
@@ -59,19 +58,20 @@ class ConfigureViewModel(
         widgetId = id
         widgetId?.let {
             _loadResult.value = Result.Widget.New
-            _widgetModel.value = WidgetModel.createDefault(it.toLong()).also { w -> initialWidgetModel = w }
+            _widgetModel.value = WidgetModel.createDefault(it.toLong()).also { w -> initialWidgetModel = w.copy() }
         } ?: run {
             viewModelScope.launch {
-                GlanceAppWidgetManager(ctx).getGlanceIds(PlainGlanceWidget::class.java).firstOrNull()?.let { glanceId ->
+                //  todo move to separate class
+                GlanceAppWidgetManager(ctx).getGlanceIds(PlainGlanceWidget::class.java).lastOrNull()?.let { glanceId ->
                     widgetId = glanceId.toIntId()
                     val state = getAppWidgetState(ctx, PreferencesGlanceStateDefinition, glanceId)
                     val widget = state.readWidgetModel(widgetId?.toLong())
                     _loadResult.value = Result.Widget.Success
-                    _widgetModel.value = widget.also { w -> initialWidgetModel = w }
+                    _widgetModel.value = widget.also { w -> initialWidgetModel = w.copy() }
                     loadCalendars()
                 } ?: run {
                     _loadResult.value = Result.Widget.Empty
-                    _widgetModel.value = WidgetModel.createDefault().also { w -> initialWidgetModel = w }
+                    _widgetModel.value = WidgetModel.createDefault()
                 }
             }
         }
