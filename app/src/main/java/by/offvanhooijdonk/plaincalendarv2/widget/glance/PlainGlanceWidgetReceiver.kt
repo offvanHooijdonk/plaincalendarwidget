@@ -20,16 +20,18 @@ class PlainGlanceWidgetReceiver : GlanceAppWidgetReceiver(), KoinComponent {
 
     private val alarmManager: AlarmManager by inject()
 
-    override fun onEnabled(context: Context) {
+    /*override fun onEnabled(context: Context) {
         super.onEnabled(context)
 
-        setupDailyAlarm(context)
-        CalendarChangeJobService.scheduleCalendarChangeJob(context)
-    }
+        Log.d(LOGCAT, "WidgetReceiver onEnabled")
+    }*/
 
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
         super.onUpdate(context, appWidgetManager, appWidgetIds)
         Log.d(LOGCAT, "WidgetReceiver onUpdate")
+
+        reSetupDailyAlarm(context)
+        rescheduleChangeJob(context)
 
         glanceAppWidget.loadData()
     }
@@ -39,16 +41,18 @@ class PlainGlanceWidgetReceiver : GlanceAppWidgetReceiver(), KoinComponent {
         Log.d(LOGCAT, "WidgetReceiver onReceive action=${intent.action}")
 
         when (intent.action) {
+            Intent.ACTION_LOCALE_CHANGED,
+            Intent.ACTION_APPLICATION_LOCALE_CHANGED -> glanceAppWidget.loadData()
             Intent.ACTION_DATE_CHANGED,
             Intent.ACTION_TIME_CHANGED,
             Intent.ACTION_TIMEZONE_CHANGED -> {
                 glanceAppWidget.loadData()
-                cancelDailyAlarm(context)
-                setupDailyAlarm(context)
+                reSetupDailyAlarm(context)
+                rescheduleChangeJob(context)
             }
             INTENT_ACTION_NEW_DAY -> {
-                Log.d("PLNCLDWDG", "NEW_DAY_STARTED , loading data")
                 glanceAppWidget.loadData()
+                rescheduleChangeJob(context)
             }
             Intent.ACTION_BOOT_COMPLETED -> {
                 glanceAppWidget.loadData()
@@ -62,6 +66,16 @@ class PlainGlanceWidgetReceiver : GlanceAppWidgetReceiver(), KoinComponent {
 
         CalendarChangeJobService.cancelCalendarChangeJob(context)
         cancelDailyAlarm(context)
+    }
+
+    private fun rescheduleChangeJob(context: Context) {
+        CalendarChangeJobService.cancelCalendarChangeJob(context)
+        CalendarChangeJobService.scheduleCalendarChangeJob(context)
+    }
+
+    private fun reSetupDailyAlarm(context: Context) {
+        cancelDailyAlarm(context)
+        setupDailyAlarm(context)
     }
 
     private fun setupDailyAlarm(ctx: Context) {

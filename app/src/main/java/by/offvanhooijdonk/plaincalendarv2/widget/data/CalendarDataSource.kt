@@ -62,7 +62,7 @@ class CalendarDataSource(private val ctx: Context) {
                         eventId = cur.getLong(cur.getColumnIndex(CalendarContract.Instances.EVENT_ID)),
                     )
 
-                    Log.d(App.LOGCAT, "Event read: $event")
+                    //Log.d(App.LOGCAT, "Event read: $event")
                     eventModels.add(event)
                 }
             }
