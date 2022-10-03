@@ -41,14 +41,17 @@ class PlainGlanceWidgetReceiver : GlanceAppWidgetReceiver(), KoinComponent {
         when (intent.action) {
             Intent.ACTION_DATE_CHANGED,
             Intent.ACTION_TIME_CHANGED,
-            Intent.ACTION_TIMEZONE_CHANGED,
-            INTENT_ACTION_NEW_DAY -> {
-                PlainGlanceWidget().loadData()
+            Intent.ACTION_TIMEZONE_CHANGED -> {
+                glanceAppWidget.loadData()
                 cancelDailyAlarm(context)
                 setupDailyAlarm(context)
             }
+            INTENT_ACTION_NEW_DAY -> {
+                Log.d("PLNCLDWDG", "NEW_DAY_STARTED , loading data")
+                glanceAppWidget.loadData()
+            }
             Intent.ACTION_BOOT_COMPLETED -> {
-                PlainGlanceWidget().loadData()
+                glanceAppWidget.loadData()
                 setupDailyAlarm(context)
             }
         }

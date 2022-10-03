@@ -1,6 +1,7 @@
 package by.offvanhooijdonk.plaincalendarv2.widget.glance.widgetui
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.unit.dp
 import androidx.glance.GlanceModifier
 import androidx.glance.LocalContext
 import androidx.glance.action.clickable
@@ -54,9 +55,12 @@ fun WidgetBodyTimeline(events: List<EventModel>, model: WidgetModel) {
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Row {
-                            if (model.showEventColor) {
-                                Spacer(modifier = GlanceModifier.width(GD.eventColorMarkSize + GD.eventColorSpacing))
-                            }
+                            Spacer(
+                                modifier = GlanceModifier.width(
+                                    if (model.showEventColor) GD.eventColorMarkSize + GD.eventColorSpacing + GD.spacingXXS else GD.spacingXXS
+                                )
+                            )
+
                             Text(
                                 text = formatDateRangeLabel(
                                     event.dateStart,

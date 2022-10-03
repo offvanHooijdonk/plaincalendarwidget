@@ -59,6 +59,8 @@ object GlanceDimens : WidgetDimensions {
     override val spacingL: Dp /*@Composable @ReadOnlyComposable*/ get() = 12.dp
     override val spacingXXL: Dp /*@Composable @ReadOnlyComposable*/ get() = 24.dp
 
+    override val widgetPaddingV: Dp /*@Composable @ReadOnlyComposable*/ get() = spacingM + GD.spacingXXS
+
     override val eventItemPaddingV: Dp /*@Composable @ReadOnlyComposable*/ get() = spacingS
     override val eventColorMarkSize: Dp /*@Composable @ReadOnlyComposable*/ get() = 8.dp
 }

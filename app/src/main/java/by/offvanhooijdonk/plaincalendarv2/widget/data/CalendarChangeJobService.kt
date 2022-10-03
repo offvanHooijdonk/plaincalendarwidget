@@ -20,13 +20,13 @@ class CalendarChangeJobService : JobService() {
 
         scheduleCalendarChangeJob(applicationContext)
 
-        return true
+        return false
     }
 
     override fun onStopJob(params: JobParameters): Boolean = true
 
     companion object {
-        private const val TRIGGER_MAX_DELAY_TIME: Long = 1000 * 60
+        private const val TRIGGER_MAX_DELAY_TIME: Long = 1000 * 10
         private const val JOB_CALENDAR_CHANGE_ID = 1002
 
         fun scheduleCalendarChangeJob(ctx: Context) {
