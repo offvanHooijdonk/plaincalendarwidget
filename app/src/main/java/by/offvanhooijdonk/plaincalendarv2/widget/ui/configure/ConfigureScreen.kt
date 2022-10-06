@@ -355,6 +355,7 @@ private fun IntroShowCaseScope.DaysNumberForm(daySelected: Int, onDaysChange: (I
             Text(
                 modifier = Modifier.width(D.spacingXXL),
                 text = daysPick.value.roundToInt().toString(),
+                color = MaterialTheme.colors.onSurface,
                 fontSize = 20.sp,
                 textAlign = TextAlign.End,
             )

@@ -2,6 +2,7 @@ package by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.tabs
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.systemGestureExclusion
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Slider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -26,6 +27,7 @@ fun OpacityTab(opacitySelected: Float, onPickOpacity: (Float) -> Unit) {
         Text(
             modifier = Modifier.width(D.spacingXXL),
             text = (sliderValue.value.toInt() * OPACITY_VALUE_STEP).toString(),
+            color = MaterialTheme.colors.onSurface,
             fontSize = 18.sp,
             textAlign = TextAlign.End,
         )

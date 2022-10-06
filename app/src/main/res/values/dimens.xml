@@ -5,7 +5,7 @@
     <dimen name="widget_corner_radius">28dp</dimen>
     <dimen name="widget_padding_h">@dimen/spacing_m</dimen>
     <dimen name="widget_padding_v">@dimen/spacing_m</dimen>
-    <integer name="event_text_default_font_size_sp">14</integer>
-    <integer name="event_date_default_font_size_sp">12</integer>
+    <integer name="event_text_default_font_size_sp">15</integer>
+    <integer name="event_date_default_font_size_sp">13</integer>
 
 </resources>

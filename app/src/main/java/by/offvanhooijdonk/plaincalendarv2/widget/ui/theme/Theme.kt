@@ -2,6 +2,7 @@ package by.offvanhooijdonk.plaincalendarv2.widget.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.primarySurface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.SideEffect
@@ -24,7 +25,7 @@ fun PlainTheme(isDarkMode: Boolean = isSystemInDarkTheme(), content: @Composable
 @Composable
 fun AppSystemBarsColors(darkTheme: Boolean = isSystemInDarkTheme()) {
     val systemUiController = rememberSystemUiController()
-    val statusBarColor = MaterialTheme.colors.primary
+    val statusBarColor = MaterialTheme.colors.primarySurface
     val navBarColor = MaterialTheme.colors.background
     //val useDarkIcons = true//!darkTheme
 
