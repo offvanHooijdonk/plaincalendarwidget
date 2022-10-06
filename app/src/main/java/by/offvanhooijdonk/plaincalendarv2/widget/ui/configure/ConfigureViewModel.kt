@@ -58,7 +58,9 @@ class ConfigureViewModel(
         widgetId = id
         widgetId?.let {
             _loadResult.value = Result.Widget.New
-            _widgetModel.value = WidgetModel.createDefault(it.toLong()).also { w -> initialWidgetModel = w.copy() }
+            _widgetModel.value = WidgetModel.createDefault(it.toLong())
+                .let { w -> if (_isIntroPassed.value == false) w.copy(days = 1) else w }
+                .also { w -> initialWidgetModel = w.copy() }
         } ?: run {
             viewModelScope.launch {
                 //  todo move to separate class
@@ -133,6 +135,9 @@ class ConfigureViewModel(
     fun onIntroPassed() {
         prefs.isIntroPassed = true
         _isIntroPassed.value = true
+        if (_loadResult.value == Result.Widget.New) {
+            _widgetModel.value = _widgetModel.value?.copy(days = WidgetModel.DAYS_DEFAULT)
+        }
     }
 
     enum class FinishResult {
