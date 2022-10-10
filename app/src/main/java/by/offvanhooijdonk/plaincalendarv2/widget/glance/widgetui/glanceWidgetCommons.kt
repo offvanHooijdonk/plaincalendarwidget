@@ -16,7 +16,7 @@ fun createOpenEventIntent(eventId: Long) =
     Intent(Intent.ACTION_VIEW).apply { data = CalendarContract.Events.CONTENT_URI.buildUpon().appendPath(eventId.toString()).build() }
 
 @Composable
-fun EventsDivider() {
+fun EventsDivider() { // todo pass modifier here and set paddings from out
     Box(modifier = GlanceModifier.padding(horizontal = GD.eventItemPaddingH)) {
         Box(
             modifier = GlanceModifier

@@ -17,10 +17,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import by.offvanhooijdonk.plaincalendarv2.widget.R
 import by.offvanhooijdonk.plaincalendarv2.widget.model.WidgetModel
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.D
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.util.isTextDeltaValid
 
 @Composable
 fun StylesTabsPanel(widget: WidgetModel, onPreviewSettingsChange: (WidgetModel) -> Unit) {
@@ -66,8 +68,19 @@ fun StylesTabsPanel(widget: WidgetModel, onPreviewSettingsChange: (WidgetModel) 
                         }
                     }
                     SettingTab.TextSizeTab -> {
-                        val textSizeDelta = remember(widget) { mutableStateOf(widget.textSizeDelta) }
-                        TextSizeTab(textSizeDelta.value) { onPreviewSettingsChange(widget.copy(textSizeDelta = it)) } // TODO add restrictions to min/max
+                        val ctx = LocalContext.current
+                        val textSizeDelta = remember(widget) { widget.textSizeDelta }
+                        val textStyleBold = remember(widget) { widget.textStyleBold }
+                        TextSizeTab(
+                            textSizeDelta,
+                            textStyleBold,
+                            onSizeChange = { newValue ->
+                                if (isTextDeltaValid(ctx, newValue)) {
+                                    onPreviewSettingsChange(widget.copy(textSizeDelta = newValue))
+                                }
+                            },
+                            onStyleChange = { onPreviewSettingsChange(widget.copy(textStyleBold = it)) }
+                        )
                     }
                 }
             }

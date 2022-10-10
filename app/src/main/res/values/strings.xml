@@ -48,4 +48,5 @@
     <string name="intro_settings">Click \'Settings\' button for more options for the widget outline</string>
     <string name="intro_colors_tabs">Apply background color, opacity, text style</string>
     <string name="intro_apply_button">Don\'t forget to click \'Apply\' to finish setup and add the widget</string>
+    <string name="text_style_bold">Bold</string>
 </resources>

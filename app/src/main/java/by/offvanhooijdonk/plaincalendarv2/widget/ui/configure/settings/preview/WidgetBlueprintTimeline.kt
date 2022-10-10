@@ -15,9 +15,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.TextUnit
 import by.offvanhooijdonk.plaincalendarv2.widget.R
 import by.offvanhooijdonk.plaincalendarv2.widget.ext.toColor
 import by.offvanhooijdonk.plaincalendarv2.widget.model.DummyWidget
@@ -58,9 +59,17 @@ private fun WidgetEventItem(event: EventModel, widget: WidgetModel) {
         shape = WidgetItemShape,
         color = Color.Transparent
     ) {
-        val textColor = widget.textColor.toColor()
-        val textSizeDate = getDateTextSize(LocalContext.current, widget)
-        val textSizeEvent = getTitleTextSize(LocalContext.current, widget)
+        val titleTextStyle = TextStyle(
+            color = widget.textColor.toColor(),
+            fontSize = getTitleTextSize(LocalContext.current, widget),
+            fontWeight = if (widget.textStyleBold) FontWeight.Bold else FontWeight.Normal
+        )
+
+        val dateTextStyle = TextStyle(
+            color = widget.textColor.toColor(),
+            fontSize = getDateTextSize(LocalContext.current, widget),
+            fontWeight = if (widget.textStyleBold) FontWeight.Bold else FontWeight.Normal
+        )
 
         Column(
             modifier = Modifier
@@ -79,8 +88,7 @@ private fun WidgetEventItem(event: EventModel, widget: WidgetModel) {
                     isAllDayEvent = event.isAllDay,
                     showDayAsText = widget.showDateAsTextLabel,
                     showEndDate = widget.showEndDate,
-                    textColor = textColor,
-                    textSize = textSizeDate
+                    textStyle = dateTextStyle,
                 )
             }
 
@@ -92,7 +100,7 @@ private fun WidgetEventItem(event: EventModel, widget: WidgetModel) {
                     isShow = widget.showEventColor,
                     eventColor = widget.calendars.firstOrNull()?.color?.let { Color(it.toLong()) } ?: DefaultEventPreviewColor
                 )
-                Text(text = event.title, color = textColor, fontSize = textSizeEvent, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                Text(text = event.title, style = titleTextStyle, maxLines = 1, overflow = TextOverflow.Ellipsis)
             }
         }
     }
@@ -105,8 +113,7 @@ private fun EventDateText(
     isAllDayEvent: Boolean,
     showDayAsText: Boolean,
     showEndDate: WidgetModel.ShowEndDate,
-    textColor: Color,
-    textSize: TextUnit
+    textStyle: TextStyle
 ) {
     val dateText = formatDateRangeLabel(
         dateStart,
@@ -119,8 +126,7 @@ private fun EventDateText(
 
     Text(
         text = dateText,
-        color = textColor,
-        fontSize = textSize,
+        style = textStyle,
     )
 }
 

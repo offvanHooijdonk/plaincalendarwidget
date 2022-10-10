@@ -1,7 +1,6 @@
 package by.offvanhooijdonk.plaincalendarv2.widget.glance.widgetui
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.unit.dp
 import androidx.glance.GlanceModifier
 import androidx.glance.LocalContext
 import androidx.glance.action.clickable
@@ -11,6 +10,7 @@ import androidx.glance.appwidget.lazy.LazyColumn
 import androidx.glance.appwidget.lazy.itemsIndexed
 import androidx.glance.background
 import androidx.glance.layout.*
+import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
@@ -29,11 +29,13 @@ fun WidgetBodyTimeline(events: List<EventModel>, model: WidgetModel) {
     val opacity = model.opacity
     val textStyleDate = TextStyle(
         fontSize = getDateTextSize(LocalContext.current, model),
-        color = ColorProvider(model.textColor.toColor())
+        color = ColorProvider(model.textColor.toColor()),
+        fontWeight = if (model.textStyleBold) FontWeight.Bold else FontWeight.Normal
     )
     val textStyleEvent = TextStyle(
         fontSize = getTitleTextSize(LocalContext.current, model),
-        color = ColorProvider(model.textColor.toColor())
+        color = ColorProvider(model.textColor.toColor()),
+        fontWeight = if (model.textStyleBold) FontWeight.Bold else FontWeight.Normal
     )
     // todo ----
 
@@ -50,7 +52,7 @@ fun WidgetBodyTimeline(events: List<EventModel>, model: WidgetModel) {
                     Column(
                         modifier = GlanceModifier
                             .fillMaxWidth()
-                            .padding(horizontal = GD.eventItemPaddingH, vertical = GD.eventItemPaddingV)
+                            .padding(horizontal = GD.eventItemPaddingH, vertical = GD.eventItemPaddingV - GD.spacingXXS)
                             .clickable(actionStartActivity(createOpenEventIntent(event.eventId))),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
@@ -81,7 +83,9 @@ fun WidgetBodyTimeline(events: List<EventModel>, model: WidgetModel) {
                         }
                     }
                     if (model.showEventDividers && (index < events.size - 1)) {
+                        Spacer(modifier = GlanceModifier.height(GD.spacingXXS))
                         EventsDivider()
+                        Spacer(modifier = GlanceModifier.height(GD.spacingXXS))
                     }
                 }
             }

@@ -12,6 +12,7 @@ data class WidgetModel(
     val textColor: Long,
     val opacity: Float,
     val textSizeDelta: Int,
+    val textStyleBold: Boolean,
     /** Show marks (circles) with event color */
     val showEventColor: Boolean,
     /** Show date (at the top of widget?) */
@@ -75,6 +76,7 @@ data class WidgetModel(
             opacity = 1.0f,
             textColor = Color.Black.value.toLong(),
             textSizeDelta = 0,
+            textStyleBold = false,
             showEventColor = true,
             showDateAsTextLabel = true,
             showEventDividers = true,

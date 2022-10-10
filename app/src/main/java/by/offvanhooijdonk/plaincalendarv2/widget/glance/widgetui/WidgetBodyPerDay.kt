@@ -10,6 +10,7 @@ import androidx.glance.appwidget.lazy.LazyColumn
 import androidx.glance.appwidget.lazy.itemsIndexed
 import androidx.glance.background
 import androidx.glance.layout.*
+import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
@@ -28,11 +29,13 @@ fun WidgetBodyPerDay(events: List<EventModel>, widget: WidgetModel) {
     val opacity = widget.opacity
     val textStyleDate = TextStyle(
         fontSize = getDateTextSize(LocalContext.current, widget),
-        color = ColorProvider(widget.textColor.toColor())
+        color = ColorProvider(widget.textColor.toColor()),
+        fontWeight = if (widget.textStyleBold) FontWeight.Bold else FontWeight.Normal
     )
     val textStyleTitle = TextStyle(
         fontSize = getTitleTextSize(LocalContext.current, widget),
-        color = ColorProvider(widget.textColor.toColor())
+        color = ColorProvider(widget.textColor.toColor()),
+        fontWeight = if (widget.textStyleBold) FontWeight.Bold else FontWeight.Normal
     )
 
     Box(

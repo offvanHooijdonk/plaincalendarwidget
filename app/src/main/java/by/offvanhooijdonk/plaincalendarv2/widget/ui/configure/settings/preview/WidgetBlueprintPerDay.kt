@@ -12,6 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
@@ -29,9 +31,18 @@ import java.time.LocalDateTime
 fun WidgetBlueprintPerDay(widget: WidgetModel) {
     WidgetEventWrapper(widget) {
         val events = previewEvents
-        val textColor = widget.textColor.toColor()
-        val textSizeDate = getDateTextSize(LocalContext.current, widget)
-        val textSizeTitle = getTitleTextSize(LocalContext.current, widget)
+
+        val titleTextStyle = TextStyle(
+            color = widget.textColor.toColor(),
+            fontSize = getTitleTextSize(LocalContext.current, widget),
+            fontWeight = if (widget.textStyleBold) FontWeight.Bold else FontWeight.Normal
+        )
+
+        val dateTextStyle = TextStyle(
+            color = widget.textColor.toColor(),
+            fontSize = getDateTextSize(LocalContext.current, widget),
+            fontWeight = if (widget.textStyleBold) FontWeight.Bold else FontWeight.Normal
+        )
 
         LazyColumn(
             modifier = Modifier.fillMaxWidth(),
@@ -39,15 +50,14 @@ fun WidgetBlueprintPerDay(widget: WidgetModel) {
         ) {
             events.groupBy { it.dateStart.toLocalDate() }.forEach { (dayDate, dayEvents) ->
                 item(key = dayDate) {
-                    EventDayLabelItem(dayDate, textColor, textSizeDate, widget.showDateAsTextLabel)
+                    EventDayLabelItem(dayDate, dateTextStyle, widget.showDateAsTextLabel)
                 }
                 itemsIndexed(dayEvents, key = { _, item -> item.id }) { index, event ->
                     Column {
                         EventItem(
                             eventModel = event,
-                            textColor = textColor,
-                            titleFontSize = textSizeTitle,
-                            dateFontSize = textSizeDate,
+                            titleTextStyle = titleTextStyle,
+                            dateTextStyle = dateTextStyle,
                             eventColor = widget.calendars.firstOrNull()?.color?.let { Color(it.toLong()) } ?: DefaultEventPreviewColor,
                             isShowEventColor = widget.showEventColor,
                             isShowEndDate = widget.showEndDate == WidgetModel.ShowEndDate.ALWAYS
@@ -65,12 +75,15 @@ fun WidgetBlueprintPerDay(widget: WidgetModel) {
 }
 
 @Composable
-private fun EventDayLabelItem(day: LocalDate, textColor: Color, fontSize: TextUnit, isShowDateAsText: Boolean) {
+private fun EventDayLabelItem(
+    day: LocalDate,
+    dateTextStyle: TextStyle,
+    isShowDateAsText: Boolean
+) {
     Box(modifier = Modifier.padding(top = D.spacingS, bottom = D.spacingXS)) {
         Text(
             text = formatDateLabel(LocalContext.current, day.atStartOfDay(), isShowDateAsText),
-            color = textColor,
-            fontSize = fontSize
+            style = dateTextStyle
         )
     }
 }
@@ -78,9 +91,8 @@ private fun EventDayLabelItem(day: LocalDate, textColor: Color, fontSize: TextUn
 @Composable
 private fun EventItem(
     eventModel: EventModel,
-    textColor: Color,
-    titleFontSize: TextUnit,
-    dateFontSize: TextUnit,
+    titleTextStyle: TextStyle,
+    dateTextStyle: TextStyle,
     eventColor: Color,
     isShowEventColor: Boolean,
     isShowEndDate: Boolean
@@ -104,15 +116,13 @@ private fun EventItem(
                 isAllDayEvent = eventModel.isAllDay,
                 isShowEndDate = isShowEndDate,
             ),
-            color = textColor,
-            fontSize = dateFontSize
+            style = dateTextStyle
         ) // todo show end/'all day' date if configured
         Spacer(Modifier.width(D.spacingS))
         Text(
             modifier = Modifier.alignByBaseline(),
             text = eventModel.title,
-            color = textColor,
-            fontSize = titleFontSize,
+            style = titleTextStyle,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
         )

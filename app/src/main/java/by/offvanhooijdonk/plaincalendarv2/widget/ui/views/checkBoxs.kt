@@ -13,15 +13,23 @@ import androidx.compose.ui.Modifier
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.D
 
 @Composable
-fun LabeledCheckBox(label: String, isChecked: Boolean, onCheck: () -> Unit) {
+fun LabeledCheckBox(modifier: Modifier = Modifier, isChecked: Boolean, onCheck: () -> Unit, label: @Composable () -> Unit) {
     Row(
         modifier = Modifier
             .clickable { onCheck() }
-            .padding(horizontal = D.spacingM, vertical = D.spacingS),
+            .padding(horizontal = D.spacingM, vertical = D.spacingS)
+            .then(modifier),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Checkbox(checked = isChecked, onCheckedChange = null)
         Spacer(modifier = Modifier.width(D.spacingS))
-        Text(text = label)
+        label()
+    }
+}
+
+@Composable
+fun LabeledCheckBox(modifier: Modifier = Modifier, labelText: String, isChecked: Boolean, onCheck: () -> Unit) {
+    LabeledCheckBox(modifier, isChecked, onCheck) {
+        Text(text = labelText)
     }
 }

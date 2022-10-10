@@ -21,7 +21,7 @@ import by.offvanhooijdonk.plaincalendarv2.widget.ui.views.Spinner
 fun SettingsScreen(widgetModel: WidgetModel, onChange: (WidgetModel) -> Unit) {
     Column(modifier = Modifier.padding(top = D.dialogCornerRadius, start = D.spacingL, end = D.spacingXL, bottom = D.spacingXL)) {
         LabeledCheckBox(
-            label = stringResource(R.string.settings_date_as_text),
+            labelText = stringResource(R.string.settings_date_as_text),
             isChecked = widgetModel.showDateAsTextLabel,
             onCheck = { onChange(widgetModel.copy(showDateAsTextLabel = !widgetModel.showDateAsTextLabel)) },
         )
@@ -44,14 +44,14 @@ fun SettingsScreen(widgetModel: WidgetModel, onChange: (WidgetModel) -> Unit) {
         Spacer(modifier = Modifier.height(D.spacingM))
 
         LabeledCheckBox(
-            label = stringResource(R.string.settings_show_end_color),
+            labelText = stringResource(R.string.settings_show_end_color),
             isChecked = widgetModel.showEventColor,
             onCheck = { onChange(widgetModel.copy(showEventColor = !widgetModel.showEventColor)) },
         )
         Spacer(modifier = Modifier.height(D.spacingM))
 
         LabeledCheckBox(
-            label = stringResource(R.string.settings_show_events_dividers),
+            labelText = stringResource(R.string.settings_show_events_dividers),
             isChecked = widgetModel.showEventDividers,
             onCheck = { onChange(widgetModel.copy(showEventDividers = !widgetModel.showEventDividers)) },
         )
