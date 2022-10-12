@@ -1,10 +1,12 @@
 package by.offvanhooijdonk.plaincalendarv2.widget.model
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import by.offvanhooijdonk.plaincalendarv2.widget.R
 
+@Stable
 data class WidgetModel(
     val id: Long = 0,
     val days: Int,

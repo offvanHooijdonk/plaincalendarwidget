@@ -1,5 +1,8 @@
 package by.offvanhooijdonk.plaincalendarv2.widget.model
 
+import androidx.compose.runtime.Stable
+
+@Stable
 data class CalendarModel(
     val id: Long,
     val displayName: String,

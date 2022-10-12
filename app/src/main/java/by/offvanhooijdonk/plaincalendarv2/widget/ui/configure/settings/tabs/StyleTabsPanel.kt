@@ -43,7 +43,6 @@ fun StylesTabsPanel(widget: WidgetModel, onPreviewSettingsChange: (WidgetModel) 
                 .fillMaxWidth()
                 .height(D.styleBlockHeight)
         ) {
-            // todo update animSpec to just Fade ?
             AnimatedContent(targetState = selectedIndex.value, transitionSpec = { transitionFade }) { state ->
                 when (SettingTabsList[state]) {
                     SettingTab.ColorTab -> {

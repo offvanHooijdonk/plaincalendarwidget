@@ -28,7 +28,7 @@ fun CalendarsPickDialog(
     val selection = remember(pickedCalendars) { pickedCalendars.toMutableList() }
 
     AlertDialog(
-        onDismissRequest = { onDismissRequest() },
+        onDismissRequest = onDismissRequest,
         text = {
             Box(modifier = Modifier.padding(top = D.spacingL)) {
                 LazyColumn(modifier = Modifier.fillMaxWidth()) {
@@ -49,7 +49,7 @@ fun CalendarsPickDialog(
             }
         },
         dismissButton = {
-            TextButton(onClick = { onDismissRequest() }) {
+            TextButton(onClick = onDismissRequest) {
                 Text(text = stringResource(android.R.string.cancel))
             }
         },

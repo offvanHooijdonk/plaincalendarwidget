@@ -4,14 +4,41 @@ package by.offvanhooijdonk.plaincalendarv2.widget.ui.configure
 
 import android.widget.Toast
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.systemGestureExclusion
-import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.material.AlertDialog
+import androidx.compose.material.Chip
+import androidx.compose.material.ChipDefaults
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.FloatingActionButton
+import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.ModalBottomSheetLayout
+import androidx.compose.material.ModalBottomSheetValue
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Slider
+import androidx.compose.material.Text
+import androidx.compose.material.TextButton
+import androidx.compose.material.TopAppBar
+import androidx.compose.material.rememberModalBottomSheetState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,7 +60,19 @@ import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.SettingsS
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.layouts.LayoutsPickPanel
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.preview.WidgetPreview
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.tabs.StylesTabsPanel
-import by.offvanhooijdonk.plaincalendarv2.widget.ui.intro.*
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.intro.IntroApplyButton
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.intro.IntroColorsTabs
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.intro.IntroConfigureCalendars
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.intro.IntroDays
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.intro.IntroPreview
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.intro.IntroSettings
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.intro.IntroStyleApplyButton
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.intro.IntroStyleColorsTabs
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.intro.IntroStyleConfigureCalendars
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.intro.IntroStyleDays
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.intro.IntroStylePreview
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.intro.IntroStyleSettings
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.intro.IntroTargets
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.D
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.PlainTheme
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.views.ExtendedFAB
@@ -88,12 +127,12 @@ fun MainScreen(viewModel: ConfigureViewModel) {
             title = { Text(stringResource(R.string.exit_confirmation_title)) },
             text = { Text(stringResource(R.string.exit_confirmation_text)) },
             confirmButton = {
-                TextButton(onClick = { viewModel.onExitConfirmed() }) {
+                TextButton(onClick = viewModel::onExitConfirmed) {
                     Text(stringResource(android.R.string.ok))
                 }
             },
             dismissButton = {
-                TextButton(onClick = { viewModel.onExitCanceled() }) {
+                TextButton(onClick = viewModel::onExitCanceled) {
                     Text(stringResource(android.R.string.cancel))
                 }
             }
@@ -130,7 +169,9 @@ private fun IntroShowCaseScope.ConfigureScreen(
     onSettingsClick: () -> Unit,
     isIntroPassed: Boolean,
 ) {
-
+    val callOnWidgetChanged: (widget: WidgetModel) -> Unit = remember {
+        return@remember onWidgetChange
+    }
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -146,21 +187,21 @@ private fun IntroShowCaseScope.ConfigureScreen(
                 CalendarsForm(
                     widget.calendars,
                     allCalendars,
-                    onChangeBtnClick = { onCalendarsRequested() },
+                    onChangeBtnClick = onCalendarsRequested,
                     onCalendarsSelected = { list ->
-                        onWidgetChange(widget.copy(calendars = list, calendarIds = list.map { it.id }))
+                        callOnWidgetChanged(widget.copy(calendars = list, calendarIds = list.map { it.id }))
                     },
                 )
                 Spacer(modifier = Modifier.height(D.spacingL))
 
-                DaysNumberForm(widget.days) { onWidgetChange(widget.copy(days = it)) }
+                DaysNumberForm(widget.days) { callOnWidgetChanged(widget.copy(days = it)) }
             }
             LayoutsPickPanel(
                 modifier = Modifier.constrainAs(layouts) {
                     top.linkTo(topSettings.bottom)
                 },
                 widget = widget,
-                onLayoutPick = { onWidgetChange(widget.copy(layoutType = it)) },
+                onLayoutPick = { callOnWidgetChanged(widget.copy(layoutType = it)) },
             )
 
             WidgetPreview(
@@ -195,7 +236,7 @@ private fun IntroShowCaseScope.ConfigureScreen(
                         end.linkTo(preview.end)
                     }
                     .introShowCaseTarget(IntroTargets.APPLY.ordinal, IntroStyleApplyButton) { IntroApplyButton() },
-                onClick = { onSaveChanges() },
+                onClick = onSaveChanges,
                 enabled = isSaveEnabled,
             ) {
                 Text(text = stringResource(R.string.btn_save_widget_settings))
@@ -208,13 +249,12 @@ private fun IntroShowCaseScope.ConfigureScreen(
                         start.linkTo(preview.start)
                     }
                     .introShowCaseTarget(IntroTargets.SETTINGS.ordinal, IntroStyleSettings) { IntroSettings() },
-                onClick = { onSettingsClick() },
+                onClick = onSettingsClick,
                 backgroundColor = MaterialTheme.colors.surface,
                 contentColor = MaterialTheme.colors.primary,
             ) {
                 Icon(painterResource(R.drawable.ic_settings), contentDescription = null)
             }
-
 
             Box(modifier = Modifier
                 .background(color = MaterialTheme.colors.surface)
@@ -222,7 +262,7 @@ private fun IntroShowCaseScope.ConfigureScreen(
                 .constrainAs(bottomSettings) {
                     bottom.linkTo(parent.bottom)
                 }) {
-                StylesTabsPanel(widget) { onWidgetChange(it) }
+                StylesTabsPanel(widget) { callOnWidgetChanged(it) }
             }
             Box(modifier = Modifier
                 .constrainAs(bottomSettingsIntro) {
@@ -289,7 +329,7 @@ private fun IntroShowCaseScope.CalendarsForm(
                     modifier = Modifier.introShowCaseTarget(IntroTargets.CONFIGURE_CALENDARS.ordinal, IntroStyleConfigureCalendars) {
                         IntroConfigureCalendars()
                     },
-                    onClick = {
+                    onClick = { // todo move to a function
                         if (permissionCalendar.status != PermissionStatus.Granted) {
                             if (permissionCalendar.status.shouldShowRationale) {
                                 Toast.makeText(context, rationaleText, Toast.LENGTH_LONG).show()
@@ -340,7 +380,7 @@ private fun IntroShowCaseScope.CalendarsForm(
             pickedCalendars = pickedCalendars,
             allCalendars = allCalendars.list,
             onDismissRequest = { isDialogCanShow.value = false },
-            onSelectionSave = { list -> isDialogCanShow.value = false; onCalendarsSelected(list) },
+            onSelectionSave = { list -> isDialogCanShow.value = false; onCalendarsSelected(allCalendars.list.filter { it in list }) }, // filter here to preserve sorting order
         )
     }
 }
