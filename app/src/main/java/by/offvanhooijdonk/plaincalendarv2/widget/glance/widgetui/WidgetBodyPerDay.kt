@@ -30,12 +30,12 @@ fun WidgetBodyPerDay(events: List<EventModel>, widget: WidgetModel) {
     val textStyleDate = TextStyle(
         fontSize = getDateTextSize(LocalContext.current, widget),
         color = ColorProvider(widget.textColor.toColor()),
-        fontWeight = if (widget.textStyleBold) FontWeight.Bold else FontWeight.Normal
+        fontWeight = if (widget.textStyleBold) FontWeight.Medium else FontWeight.Normal
     )
     val textStyleTitle = TextStyle(
         fontSize = getTitleTextSize(LocalContext.current, widget),
         color = ColorProvider(widget.textColor.toColor()),
-        fontWeight = if (widget.textStyleBold) FontWeight.Bold else FontWeight.Normal
+        fontWeight = if (widget.textStyleBold) FontWeight.Medium else FontWeight.Normal
     )
 
     Box(

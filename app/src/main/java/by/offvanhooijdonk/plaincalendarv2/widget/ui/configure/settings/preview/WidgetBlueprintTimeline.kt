@@ -62,13 +62,13 @@ private fun WidgetEventItem(event: EventModel, widget: WidgetModel) {
         val titleTextStyle = TextStyle(
             color = widget.textColor.toColor(),
             fontSize = getTitleTextSize(LocalContext.current, widget),
-            fontWeight = if (widget.textStyleBold) FontWeight.Bold else FontWeight.Normal
+            fontWeight = if (widget.textStyleBold) FontWeight.Medium else FontWeight.Normal
         )
 
         val dateTextStyle = TextStyle(
             color = widget.textColor.toColor(),
             fontSize = getDateTextSize(LocalContext.current, widget),
-            fontWeight = if (widget.textStyleBold) FontWeight.Bold else FontWeight.Normal
+            fontWeight = if (widget.textStyleBold) FontWeight.Medium else FontWeight.Normal
         )
 
         Column(

@@ -30,12 +30,12 @@ fun WidgetBodyTimeline(events: List<EventModel>, model: WidgetModel) {
     val textStyleDate = TextStyle(
         fontSize = getDateTextSize(LocalContext.current, model),
         color = ColorProvider(model.textColor.toColor()),
-        fontWeight = if (model.textStyleBold) FontWeight.Bold else FontWeight.Normal
+        fontWeight = if (model.textStyleBold) FontWeight.Medium else FontWeight.Normal
     )
     val textStyleEvent = TextStyle(
         fontSize = getTitleTextSize(LocalContext.current, model),
         color = ColorProvider(model.textColor.toColor()),
-        fontWeight = if (model.textStyleBold) FontWeight.Bold else FontWeight.Normal
+        fontWeight = if (model.textStyleBold) FontWeight.Medium else FontWeight.Normal
     )
     // todo ----
 
@@ -52,7 +52,7 @@ fun WidgetBodyTimeline(events: List<EventModel>, model: WidgetModel) {
                     Column(
                         modifier = GlanceModifier
                             .fillMaxWidth()
-                            .padding(horizontal = GD.eventItemPaddingH, vertical = GD.eventItemPaddingV - GD.spacingXXS)
+                            .padding(horizontal = GD.eventItemPaddingH, vertical = GD.eventItemPaddingV)
                             .clickable(actionStartActivity(createOpenEventIntent(event.eventId))),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {

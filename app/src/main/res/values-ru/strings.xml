@@ -45,4 +45,5 @@
     <string name="intro_settings">Нажмите кнопку настроек, чтобы увидеть больше опций</string>
     <string name="intro_colors_tabs">Выберите цвет, прозрачность, цвет и размер текста</string>
     <string name="intro_apply_button">Не забудьте нажать \'Применить\' чтобы добавить виджет на экран</string>
+    <string name="text_style_bold">Полужирный</string>
 </resources>
