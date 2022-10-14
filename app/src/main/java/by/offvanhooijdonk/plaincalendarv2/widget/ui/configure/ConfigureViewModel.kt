@@ -1,7 +1,10 @@
+@file:Suppress("INVISIBLE_MEMBER", "INVISIBLE_REFERENCE")
+
 package by.offvanhooijdonk.plaincalendarv2.widget.ui.configure
 
 import android.content.Context
 import androidx.glance.GlanceId
+import androidx.glance.appwidget.AppWidgetId
 import androidx.glance.appwidget.GlanceAppWidgetManager
 import androidx.glance.appwidget.state.getAppWidgetState
 import androidx.glance.appwidget.state.updateAppWidgetState
@@ -48,7 +51,10 @@ class ConfigureViewModel(
     private val _isIntroPassed = MutableLiveData(true)
     val isIntroPassed: LiveData<Boolean> = _isIntroPassed
 
-    var widgetId: Int? = null
+    private val _widgetIdsList = MutableLiveData<List<GlanceId>>()
+    val widgetIdsList: LiveData<List<GlanceId>> = _widgetIdsList
+
+    var widgetId: Int? = null // todo replace with #_widgetModel field usage ?
 
     init {
         _isIntroPassed.value = prefs.isIntroPassed
@@ -64,12 +70,10 @@ class ConfigureViewModel(
         } ?: run {
             viewModelScope.launch {
                 //  todo move to separate class
-                GlanceAppWidgetManager(ctx).getGlanceIds(PlainGlanceWidget::class.java).lastOrNull()?.let { glanceId ->
-                    widgetId = glanceId.toIntId()
-                    val state = getAppWidgetState(ctx, PreferencesGlanceStateDefinition, glanceId)
-                    val widget = state.readWidgetModel(widgetId?.toLong())
-                    _loadResult.value = Result.Widget.Success
-                    _widgetModel.value = widget.also { w -> initialWidgetModel = w.copy() }
+                GlanceAppWidgetManager(ctx).getGlanceIds(PlainGlanceWidget::class.java).also {
+                    _widgetIdsList.postValue(it)
+                }.lastOrNull()?.let { glanceId ->
+                    readWidgetModel(glanceId)
                     loadCalendars()
                 } ?: run {
                     _loadResult.value = Result.Widget.Empty
@@ -79,7 +83,14 @@ class ConfigureViewModel(
         }
     }
 
-    fun updateWidget() { // fixme not working when opened
+    fun onWidgetPicked(glanceId: GlanceId) {
+        viewModelScope.launch {
+            readWidgetModel(glanceId)
+            loadCalendars()
+        }
+    }
+
+    fun updateWidget() {
         viewModelScope.launch { // todo add ability to call update from other places?
             var updateGlanceId: GlanceId? = null
             GlanceAppWidgetManager(ctx).getGlanceIds(PlainGlanceWidget::class.java).forEach { glanceId ->
@@ -100,7 +111,7 @@ class ConfigureViewModel(
         _allCalendarsResponse.value = Result.Progress
         viewModelScope.launch {
             val calendars = calendarDataSource.loadCalendars()
-
+// todo fill calendars data separately
             val currentCalendarsSelection = calendars.filter { it.id in (_widgetModel.value?.calendarIds ?: emptyList()) }
             _widgetModel.postValue(_widgetModel.value?.copy(calendars = currentCalendarsSelection))
             _allCalendarsResponse.postValue(Result.Calendars.Success(calendars))
@@ -140,18 +151,22 @@ class ConfigureViewModel(
         }
     }
 
+    private suspend fun readWidgetModel(glanceId: GlanceId) {
+        widgetId = glanceId.toIntId()
+        val state = getAppWidgetState(ctx, PreferencesGlanceStateDefinition, glanceId)
+        val widget = state.readWidgetModel(widgetId?.toLong())
+        _loadResult.value = Result.Widget.Success
+        _widgetModel.value = widget.also { w -> initialWidgetModel = w.copy() }
+    }
+
     enum class FinishResult {
         OK, CANCELED
     }
 }
 
-// current implementation while now match between GlanceId and WidgetId can be made
-fun GlanceId.toIntId() =
-    this.toString().let {
-        it.substring(it.indexOfFirst { ch -> ch.isDigit() }, it.indexOfLast { ch -> ch.isDigit() } + 1).toInt()
-    }
+fun GlanceId.toIntId() = (this as AppWidgetId).appWidgetId
 
-sealed interface Result { // todo remove cause configuration will be loaded from Prefs by Glance?
+sealed interface Result {
     object Idle : Result
     object Progress : Result
     class Error(val msg: String?) : Result
@@ -166,6 +181,5 @@ sealed interface Result { // todo remove cause configuration will be loaded from
         class Success(val list: List<CalendarModel>) : Result // todo convert to object as Widget
     }
 }
-
 
 class Flag(val value: Boolean)

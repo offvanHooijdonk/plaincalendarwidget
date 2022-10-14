@@ -68,7 +68,11 @@ fun formatDateLabel(ctx: Context, date: LocalDateTime, showDayAsText: Boolean): 
 private fun formatDate(context: Context, date: LocalDateTime): String = DateUtils.formatDateTime(
     context,
     date.millis,
-    DateUtils.FORMAT_SHOW_DATE or DateUtils.FORMAT_ABBREV_MONTH or DateUtils.FORMAT_NO_YEAR
+    DateUtils.FORMAT_SHOW_DATE
+            or DateUtils.FORMAT_ABBREV_MONTH
+            or DateUtils.FORMAT_NO_YEAR
+            or DateUtils.FORMAT_SHOW_WEEKDAY
+            or DateUtils.FORMAT_ABBREV_WEEKDAY
 )
 
 private fun formatFullDateTimeText(

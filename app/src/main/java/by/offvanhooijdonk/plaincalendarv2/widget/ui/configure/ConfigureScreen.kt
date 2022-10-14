@@ -102,6 +102,7 @@ fun MainScreen(viewModel: ConfigureViewModel) {
         }
     }
 
+    val widgetIds = viewModel.widgetIdsList.observeAsState()
     IntroShowCaseScaffold(
         showIntroShowCase = !viewModel.isIntroPassed.observeAsState(true).value,
         onShowCaseCompleted = { viewModel.onIntroPassed() }
@@ -114,7 +115,13 @@ fun MainScreen(viewModel: ConfigureViewModel) {
         ) {
             Scaffold(
                 backgroundColor = Color.Transparent,
-                topBar = { TopAppBar(title = { Text(title) }) },
+                topBar = {
+                    TopAppBar(title = { Text(title) }, actions = {
+                        widgetIds.value?.takeIf { it.size > 1 }?.let { list ->
+                            WidgetsDropDown(list) { viewModel.onWidgetPicked(it) }
+                        }
+                    })
+                },
             ) {
                 ConfigureScreenWrap(viewModel)
             }
@@ -380,7 +387,9 @@ private fun IntroShowCaseScope.CalendarsForm(
             pickedCalendars = pickedCalendars,
             allCalendars = allCalendars.list,
             onDismissRequest = { isDialogCanShow.value = false },
-            onSelectionSave = { list -> isDialogCanShow.value = false; onCalendarsSelected(allCalendars.list.filter { it in list }) }, // filter here to preserve sorting order
+            onSelectionSave = { list ->
+                isDialogCanShow.value = false; onCalendarsSelected(allCalendars.list.filter { it in list })
+            }, // filter here to preserve sorting order
         )
     }
 }
