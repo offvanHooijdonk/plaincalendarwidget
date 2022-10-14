@@ -25,6 +25,7 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetValue
@@ -119,6 +120,9 @@ fun MainScreen(viewModel: ConfigureViewModel) {
                     TopAppBar(title = { Text(title) }, actions = {
                         widgetIds.value?.takeIf { it.size > 1 }?.let { list ->
                             WidgetsDropDown(list) { viewModel.onWidgetPicked(it) }
+                        }
+                        IconButton(onClick = { viewModel.onIntroductionRequested() }) {
+                            Icon(painter = painterResource(R.drawable.ic_help), contentDescription = "Introduction")
                         }
                     })
                 },

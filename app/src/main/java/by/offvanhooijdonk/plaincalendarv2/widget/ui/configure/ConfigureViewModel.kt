@@ -151,6 +151,10 @@ class ConfigureViewModel(
         }
     }
 
+    fun onIntroductionRequested() {
+        _isIntroPassed.value = false
+    }
+
     private suspend fun readWidgetModel(glanceId: GlanceId) {
         widgetId = glanceId.toIntId()
         val state = getAppWidgetState(ctx, PreferencesGlanceStateDefinition, glanceId)
