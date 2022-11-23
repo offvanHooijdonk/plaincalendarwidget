@@ -40,8 +40,8 @@ dependencies {
     ext.room_version = '2.4.3'
     ext.koin_version = "3.2.0"
     ext.lifecycle_version = "2.5.1"
-    ext.compose_version = "1.3.0"
-    ext.acompanist_version = "0.25.1"
+    ext.compose_version = "1.3.1"
+    ext.acompanist_version = "0.27.1"
 
     implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'
