@@ -5,10 +5,13 @@ import android.provider.CalendarContract
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.glance.GlanceModifier
 import androidx.glance.appwidget.cornerRadius
 import androidx.glance.background
 import androidx.glance.layout.*
+import androidx.glance.text.Text
+import by.offvanhooijdonk.plaincalendarv2.widget.R
 import by.offvanhooijdonk.plaincalendarv2.widget.model.EventModel
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.GD
 
@@ -36,6 +39,17 @@ fun EventColorMark(eventColor: Color) {
             .cornerRadius(GD.spacingSM)
     ) {}
     Spacer(modifier = GlanceModifier.width(GD.eventColorSpacing))
+}
+
+@Composable
+fun EmptyEventsMessage() {
+    Column(
+        modifier = GlanceModifier
+            .fillMaxWidth()
+            .padding(horizontal = GD.eventItemPaddingH, vertical = GD.eventItemPaddingV)
+    ) {
+        Text(text = stringResource(R.string.events_empty_message))
+    }
 }
 
 val EventModel.colorValue: Color get() = eventColor?.let { Color(it.toLong()) } ?: Color.White

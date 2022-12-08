@@ -45,4 +45,5 @@
     <string name="intro_colors_tabs">Абярыце колер фону, тэксту i iншае</string>
     <string name="intro_apply_button">Не забудьце нацiснуць \'Прымянiць\' каб дадаць вiджэт на экран</string>
     <string name="text_style_bold">Паўтлусты</string>
+    <string name="events_empty_message">Падзей не не прадбачыцца 🎉</string>
 </resources>

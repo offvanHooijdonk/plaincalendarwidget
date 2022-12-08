@@ -46,6 +46,11 @@ fun WidgetBodyPerDay(events: List<EventModel>, widget: WidgetModel) {
             .fillMaxSize()
     ) {
         LazyColumn(modifier = GlanceModifier.padding(horizontal = GD.widgetPaddingH)) {
+            if (events.isEmpty()) {
+                item {
+                    EmptyEventsMessage()
+                }
+            }
             events.groupBy { it.dateStart.toLocalDate() }.forEach { (dayDate, events) ->
                 item(itemId = dayDate.toEpochDay()) {
                     Box(modifier = GlanceModifier.padding(top = GD.spacingS, bottom = GD.spacingXS)) {
