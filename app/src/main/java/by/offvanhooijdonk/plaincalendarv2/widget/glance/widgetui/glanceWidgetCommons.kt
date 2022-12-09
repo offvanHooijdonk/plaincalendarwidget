@@ -7,10 +7,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.glance.GlanceModifier
+import androidx.glance.LocalContext
 import androidx.glance.appwidget.cornerRadius
 import androidx.glance.background
 import androidx.glance.layout.*
 import androidx.glance.text.Text
+import androidx.glance.text.TextStyle
 import by.offvanhooijdonk.plaincalendarv2.widget.R
 import by.offvanhooijdonk.plaincalendarv2.widget.model.EventModel
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.GD
@@ -42,13 +44,13 @@ fun EventColorMark(eventColor: Color) {
 }
 
 @Composable
-fun EmptyEventsMessage() {
+fun EmptyEventsMessage(textStyle: TextStyle) {
     Column(
         modifier = GlanceModifier
             .fillMaxWidth()
             .padding(horizontal = GD.eventItemPaddingH, vertical = GD.eventItemPaddingV)
     ) {
-        Text(text = stringResource(R.string.events_empty_message))
+        Text(text = LocalContext.current.getString(R.string.events_empty_message), style = textStyle)
     }
 }
 

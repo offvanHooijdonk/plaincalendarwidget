@@ -51,7 +51,7 @@ fun WidgetBodyTimeline(events: List<EventModel>, model: WidgetModel) {
         LazyColumn {
             if (events.isEmpty()) {
                 item {
-                    EmptyEventsMessage()
+                    EmptyEventsMessage(textStyle = textStyleEvent)
                 }
             }
             itemsIndexed(events, itemId = { _, item -> item.eventId }) { index, event ->

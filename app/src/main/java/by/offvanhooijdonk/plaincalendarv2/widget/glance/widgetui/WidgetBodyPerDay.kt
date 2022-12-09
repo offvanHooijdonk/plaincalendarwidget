@@ -48,7 +48,7 @@ fun WidgetBodyPerDay(events: List<EventModel>, widget: WidgetModel) {
         LazyColumn(modifier = GlanceModifier.padding(horizontal = GD.widgetPaddingH)) {
             if (events.isEmpty()) {
                 item {
-                    EmptyEventsMessage()
+                    EmptyEventsMessage(textStyle = textStyleTitle)
                 }
             }
             events.groupBy { it.dateStart.toLocalDate() }.forEach { (dayDate, events) ->
