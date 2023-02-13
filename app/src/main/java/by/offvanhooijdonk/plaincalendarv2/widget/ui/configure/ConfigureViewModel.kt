@@ -62,13 +62,18 @@ class ConfigureViewModel(
 
     fun passWidgetId(id: Int?) {
         widgetId = id
-        widgetId?.let {
-            _loadResult.value = Result.Widget.New
-            _widgetModel.value = WidgetModel.createDefault(it.toLong())
-                .let { w -> if (_isIntroPassed.value == false) w.copy(days = 1) else w }
-                .also { w -> initialWidgetModel = w.copy() }
-        } ?: run {
-            viewModelScope.launch {
+        viewModelScope.launch {
+            widgetId?.let {
+                findExistingWidgetId(it)?.let { glanceId ->
+                    readWidgetModel(glanceId)
+                    loadCalendars()
+                } ?: run {
+                    _loadResult.value = Result.Widget.New
+                    _widgetModel.value = WidgetModel.createDefault(it.toLong())
+                        .let { w -> if (_isIntroPassed.value == false) w.copy(days = 1) else w }
+                        .also { w -> initialWidgetModel = w.copy() }
+                }
+            } ?: run {
                 //  todo move to separate class
                 GlanceAppWidgetManager(ctx).getGlanceIds(PlainGlanceWidget::class.java).also {
                     _widgetIdsList.postValue(it)
@@ -127,7 +132,9 @@ class ConfigureViewModel(
     }
 
     fun onBackPressed() {
-        if (_loadResult.value in listOf(Result.Widget.Success, Result.Widget.New) && initialWidgetModel != _widgetModel.value) {
+        if (_loadResult.value in listOf(Result.Widget.Success, Result.Widget.New)
+            && initialWidgetModel?.isEqualSettings(_widgetModel.value) == false
+        ) {
             _showExitConfirmation.value = true
         } else {
             _finishScreen.value = FinishResult.CANCELED
@@ -154,6 +161,9 @@ class ConfigureViewModel(
     fun onIntroductionRequested() {
         _isIntroPassed.value = false
     }
+
+    private suspend fun findExistingWidgetId(widgetId: Int) =
+        GlanceAppWidgetManager(ctx).getGlanceIds(PlainGlanceWidget::class.java).find { it.toIntId() == widgetId }
 
     private suspend fun readWidgetModel(glanceId: GlanceId) {
         widgetId = glanceId.toIntId()

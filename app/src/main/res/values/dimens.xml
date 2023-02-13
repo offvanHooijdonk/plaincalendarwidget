@@ -3,8 +3,8 @@
     <dimen name="spacing_m">8dp</dimen>
 
     <dimen name="widget_corner_radius">28dp</dimen>
-    <dimen name="widget_padding_h">@dimen/spacing_m</dimen>
-    <dimen name="widget_padding_v">@dimen/spacing_m</dimen>
+    <dimen name="widget_padding_h">16dp</dimen>
+    <dimen name="widget_padding_v">16dp</dimen>
     <integer name="event_text_default_font_size_sp">15</integer>
     <integer name="event_text_max_font_size_sp">24</integer>
     <integer name="event_text_min_font_size_sp">12</integer>

@@ -98,7 +98,8 @@ private fun WidgetEventItem(event: EventModel, widget: WidgetModel) {
             ) {
                 EventColorMarkAnimated(
                     isShow = widget.showEventColor,
-                    eventColor = widget.calendars.firstOrNull()?.color?.let { Color(it.toLong()) } ?: DefaultEventPreviewColor
+                    eventColor = widget.calendars.firstOrNull()?.color?.let { Color(it.toLong()) } ?: DefaultEventPreviewColor,
+                    shape = widget.eventColorShape,
                 )
                 Text(text = event.title, style = titleTextStyle, maxLines = 1, overflow = TextOverflow.Ellipsis)
             }

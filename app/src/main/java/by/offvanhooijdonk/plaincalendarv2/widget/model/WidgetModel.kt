@@ -17,6 +17,7 @@ data class WidgetModel(
     val textStyleBold: Boolean,
     /** Show marks (circles) with event color */
     val showEventColor: Boolean,
+    val eventColorShape: EventColorShape,
     /** Show date (at the top of widget?) */
     val showTodayDate: Boolean,
     val showEventDividers: Boolean,
@@ -27,6 +28,9 @@ data class WidgetModel(
     val calendars: List<CalendarModel> = emptyList(), // use to present on preview todo remove and use Calendars list on preview as an independent val
     val calendarIds: List<Long> = emptyList(), // use to store with widget info
 ) {
+    fun isEqualSettings(other: WidgetModel?): Boolean =
+        other?.copy(calendars = emptyList()) == copy(calendars = emptyList())
+
     enum class ShowEndDate {
         NEVER, MORE_THAN_DAY, ALWAYS;
 
@@ -51,14 +55,22 @@ data class WidgetModel(
     enum class LayoutType {
         TIMELINE, PER_DAY;
 
-        val title: String
-            @Composable get() = when (this) {
-                TIMELINE -> R.string.event_end_option_never
-                PER_DAY -> R.string.event_end_option_if_next_day
-            }.let { stringResource(it) }
-
         companion object {
             val default = TIMELINE
+
+            fun valueOfOrDefault(value: String) = try {
+                valueOf(value)
+            } catch (e: IllegalArgumentException) {
+                default
+            }
+        }
+    }
+
+    enum class EventColorShape {
+        CIRCLE, SQUARE;
+
+        companion object {
+            val default = CIRCLE
 
             fun valueOfOrDefault(value: String) = try {
                 valueOf(value)
@@ -80,6 +92,7 @@ data class WidgetModel(
             textSizeDelta = 0,
             textStyleBold = false,
             showEventColor = true,
+            eventColorShape = EventColorShape.default,
             showDateAsTextLabel = true,
             showEventDividers = true,
             showEndDate = ShowEndDate.default,

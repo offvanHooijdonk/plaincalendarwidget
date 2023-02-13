@@ -11,9 +11,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.ripple.rememberRipple
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,6 +20,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import by.offvanhooijdonk.plaincalendarv2.widget.R
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.D
+import kotlinx.coroutines.launch
 
 @Composable
 fun BackgroundColorTab(colorSelected: Color, onColorPick: (Color) -> Unit) {
@@ -35,19 +34,26 @@ fun TextColorTab(colorSelected: Color, onColorPick: (Color) -> Unit) {
 
 @Composable
 private fun ColorTab(colorsList: List<Color>, colorSelected: Color, onColorPick: (Color) -> Unit) {
+    val composableScope = rememberCoroutineScope()
     val listState = rememberLazyListState()
-    LaunchedEffect(key1 = Unit) {
-        listState.scrollToItem(colorsList.indexOf(colorSelected).let { if (it == -1) 0 else it }, 0)
-    }
     val colorSelectionDark = Color.Gray.copy(alpha = SelectionMarkDarkAlpha)
     val colorSelectionLight = Color.White.copy(alpha = SelectionMarkLightAlpha)
+
+    LaunchedEffect(key1 = colorSelected) {
+        composableScope.launch {
+            val colorIndex = colorsList.indexOf(colorSelected)
+            if ((listState.layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: 0) < colorIndex) {
+                listState.scrollToItem(colorIndex.let { if (it == -1) 0 else it }, 0)
+            }
+        }
+    }
+
     LazyRow(
         modifier = Modifier.fillMaxWidth(),
         state = listState,
         contentPadding = PaddingValues(horizontal = D.spacingL, vertical = D.spacingM),
         verticalAlignment = Alignment.CenterVertically
     ) {
-
         items(items = colorsList, key = { it.value.toLong() }) { colorItem ->
             Box(modifier = Modifier.padding(end = D.spacingM)) {
                 Box(

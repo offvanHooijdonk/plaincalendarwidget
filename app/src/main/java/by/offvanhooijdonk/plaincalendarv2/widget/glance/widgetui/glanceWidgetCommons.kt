@@ -5,7 +5,6 @@ import android.provider.CalendarContract
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.glance.GlanceModifier
 import androidx.glance.LocalContext
 import androidx.glance.appwidget.cornerRadius
@@ -15,6 +14,7 @@ import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import by.offvanhooijdonk.plaincalendarv2.widget.R
 import by.offvanhooijdonk.plaincalendarv2.widget.model.EventModel
+import by.offvanhooijdonk.plaincalendarv2.widget.model.WidgetModel
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.GD
 
 fun createOpenEventIntent(eventId: Long) =
@@ -33,12 +33,16 @@ fun EventsDivider() { // todo pass modifier here and set paddings from out
 }
 
 @Composable
-fun EventColorMark(eventColor: Color) {
+fun EventColorMark(eventColor: Color, shape: WidgetModel.EventColorShape) {
+    val cornerRadius = when(shape) {
+        WidgetModel.EventColorShape.CIRCLE -> GD.eventColorMarkRadiusCircle
+        WidgetModel.EventColorShape.SQUARE -> GD.eventColorMarkRadiusSquare
+    }
     Box(
         modifier = GlanceModifier
             .size(GD.eventColorMarkSize)
             .background(eventColor)
-            .cornerRadius(GD.spacingSM)
+            .cornerRadius(cornerRadius)
     ) {}
     Spacer(modifier = GlanceModifier.width(GD.eventColorSpacing))
 }

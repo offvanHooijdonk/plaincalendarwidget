@@ -60,7 +60,8 @@ fun WidgetBlueprintPerDay(widget: WidgetModel) {
                             dateTextStyle = dateTextStyle,
                             eventColor = widget.calendars.firstOrNull()?.color?.let { Color(it.toLong()) } ?: DefaultEventPreviewColor,
                             isShowEventColor = widget.showEventColor,
-                            isShowEndDate = widget.showEndDate == WidgetModel.ShowEndDate.ALWAYS
+                            isShowEndDate = widget.showEndDate == WidgetModel.ShowEndDate.ALWAYS,
+                            eventColorShape = widget.eventColorShape,
                         )
 
                         if (widget.showEventDividers && index < dayEvents.size - 1) {
@@ -95,7 +96,8 @@ private fun EventItem(
     dateTextStyle: TextStyle,
     eventColor: Color,
     isShowEventColor: Boolean,
-    isShowEndDate: Boolean
+    isShowEndDate: Boolean,
+    eventColorShape: WidgetModel.EventColorShape,
 ) {
     Row(
         modifier = Modifier
@@ -105,7 +107,8 @@ private fun EventItem(
     ) {
         EventColorMarkAnimated(
             isShow = isShowEventColor,
-            eventColor = eventColor
+            eventColor = eventColor,
+            shape = eventColorShape,
         )
         Text(
             modifier = Modifier.alignByBaseline(),

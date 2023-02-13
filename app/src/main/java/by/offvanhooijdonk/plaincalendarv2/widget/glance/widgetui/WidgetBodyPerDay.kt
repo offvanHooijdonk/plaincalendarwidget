@@ -82,7 +82,7 @@ private fun EventItem(event: EventModel, widget: WidgetModel, textStyleTitle: Te
         verticalAlignment = Alignment.CenterVertically,
     ) {
         if (widget.showEventColor) {
-            EventColorMark(event.colorValue)
+            EventColorMark(event.colorValue, widget.eventColorShape)
         }
         Text(
             text = formatTimeLabel(

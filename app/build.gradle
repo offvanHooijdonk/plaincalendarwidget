@@ -8,10 +8,10 @@ android {
 
     defaultConfig {
         applicationId "by.offvanhooijdonk.plaincalendar.widget"
-        minSdk 24
+        minSdk 26
         targetSdk 33
-        versionCode 3
-        versionName "0.1.0-beta-03"
+        versionCode 4
+        versionName "0.1.0-beta-04"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

@@ -4,6 +4,7 @@ package by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.preview
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
@@ -45,21 +46,38 @@ fun WidgetEventWrapper(widget: WidgetModel, block: @Composable () -> Unit) {
 }
 
 @Composable
-fun EventColorMarkAnimated(isShow: Boolean, eventColor: Color, trailingSpacing: Dp = D.eventColorSpacing) {
+fun EventColorMarkAnimated(isShow: Boolean, eventColor: Color, shape: WidgetModel.EventColorShape) {
     AnimatedContent(targetState = isShow) { showColor ->
         when (showColor) {
             true -> Row {
-                Icon(
+                /*Icon(
                     modifier = Modifier.size(D.eventColorMarkSize),
                     painter = painterResource(R.drawable.ic_circle),
                     tint = eventColor,
                     contentDescription = null,
-                )
-                Spacer(modifier = Modifier.width(trailingSpacing))
+                )*/
+                EventColorMark(eventColor, shape)
             }
             false -> Unit
         }
     }
+}
+
+/**
+ * @param multiplier - only used for Settings dialog
+ */
+@Composable
+fun EventColorMark(eventColor: Color, shape: WidgetModel.EventColorShape, multiplier: Float = 1.0f) {
+    val cornerRadius = when (shape) {
+        WidgetModel.EventColorShape.CIRCLE -> D.eventColorMarkRadiusCircle * multiplier
+        WidgetModel.EventColorShape.SQUARE -> D.eventColorMarkRadiusSquare * multiplier
+    }
+    Box(
+        modifier = Modifier
+            .size(D.eventColorMarkSize * multiplier)
+            .background(color = eventColor, shape = RoundedCornerShape(cornerRadius))
+    )
+    Spacer(modifier = Modifier.width(D.eventColorSpacing))
 }
 
 @Composable

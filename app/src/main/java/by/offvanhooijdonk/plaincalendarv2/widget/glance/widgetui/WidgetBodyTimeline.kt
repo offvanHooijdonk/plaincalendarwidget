@@ -84,7 +84,7 @@ fun WidgetBodyTimeline(events: List<EventModel>, model: WidgetModel) {
                         }
                         Row(modifier = GlanceModifier.padding(start = GD.spacingXS), verticalAlignment = Alignment.CenterVertically) {
                             if (model.showEventColor) {
-                                EventColorMark(event.colorValue)
+                                EventColorMark(event.colorValue, model.eventColorShape)
                             }
                             Text(text = event.title, style = textStyleEvent, maxLines = 1)
                         }

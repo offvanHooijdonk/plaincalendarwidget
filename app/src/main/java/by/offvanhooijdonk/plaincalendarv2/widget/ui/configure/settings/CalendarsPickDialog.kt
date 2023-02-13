@@ -11,10 +11,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import by.offvanhooijdonk.plaincalendarv2.widget.R
 import by.offvanhooijdonk.plaincalendarv2.widget.model.CalendarModel
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.D
 
@@ -58,6 +56,7 @@ fun CalendarsPickDialog(
 
 @Composable
 private fun CalendarsListItem(calendar: CalendarModel, isChecked: Boolean, onItemClick: () -> Unit) {
+    val calendarColor = calendar.color?.let { Color(it.toLong()) } ?: MaterialTheme.colors.secondary
     Box(modifier = Modifier.clickable { onItemClick() }) {
         Row(
             modifier = Modifier
@@ -67,14 +66,10 @@ private fun CalendarsListItem(calendar: CalendarModel, isChecked: Boolean, onIte
         ) {
             Checkbox(
                 checked = isChecked, onCheckedChange = null,
+                colors = CheckboxDefaults.colors(uncheckedColor = calendarColor, checkedColor = calendarColor)
             )
             Spacer(modifier = Modifier.width(D.spacingML))
-            Icon(
-                modifier = Modifier.size(D.spacingL),
-                painter = painterResource(R.drawable.ic_circle),
-                tint = calendar.color?.let { Color(it.toLong()) } ?: Color.White,
-                contentDescription = null)
-            Spacer(modifier = Modifier.width(D.spacingM))
+            if (!calendar.isPrimaryOnAccount) Spacer(modifier = Modifier.width(D.spacingXS))
 
             Text(text = calendar.displayName, fontWeight = if (calendar.isPrimaryOnAccount) FontWeight.Medium else FontWeight.Normal)
         }

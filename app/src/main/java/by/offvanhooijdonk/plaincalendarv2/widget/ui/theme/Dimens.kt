@@ -40,6 +40,8 @@ interface WidgetDimensions {
     val eventItemPaddingH: Dp /*@Composable @ReadOnlyComposable*/ get() = spacingM
     val eventColorSpacing: Dp /*@Composable @ReadOnlyComposable*/ get() = spacingM
     val eventColorMarkSize: Dp /*@Composable @ReadOnlyComposable*/ get() = 12.dp
+    val eventColorMarkRadiusCircle: Dp /*@Composable @ReadOnlyComposable*/ get() = spacingSM
+    val eventColorMarkRadiusSquare: Dp /*@Composable @ReadOnlyComposable*/ get() = spacingXS
 }
 
 object Dimens : WidgetDimensions {
@@ -63,7 +65,8 @@ object GlanceDimens : WidgetDimensions {
     override val widgetPaddingV: Dp /*@Composable @ReadOnlyComposable*/ get() = spacingM + GD.spacingXXS
 
     override val eventItemPaddingV: Dp /*@Composable @ReadOnlyComposable*/ get() = spacingS
-    override val eventColorMarkSize: Dp /*@Composable @ReadOnlyComposable*/ get() = 8.dp
+    override val eventColorMarkRadiusCircle: Dp /*@Composable @ReadOnlyComposable*/ get() = 5.dp
+    override val eventColorMarkSize: Dp /*@Composable @ReadOnlyComposable*/ get() = 10.dp
 }
 
 typealias D = Dimens
