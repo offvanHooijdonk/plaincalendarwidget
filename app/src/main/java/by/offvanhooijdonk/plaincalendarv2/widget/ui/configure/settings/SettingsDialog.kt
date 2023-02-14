@@ -17,27 +17,34 @@ import by.offvanhooijdonk.plaincalendarv2.widget.R
 import by.offvanhooijdonk.plaincalendarv2.widget.model.DummyWidget
 import by.offvanhooijdonk.plaincalendarv2.widget.model.WidgetModel
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.preview.EventColorMark
-import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.D
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.PlainTheme
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.dimens
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.views.LabeledCheckBox
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.views.Spinner
 
 @Composable
 fun SettingsScreen(widgetModel: WidgetModel, onChange: (WidgetModel) -> Unit) {
-    Column(modifier = Modifier.padding(top = D.dialogCornerRadius, start = D.spacingL, end = D.spacingXL, bottom = D.spacingXL)) {
+    Column(
+        modifier = Modifier.padding(
+            top = dimens().dialogCornerRadius,
+            start = dimens().spacingL,
+            end = dimens().spacingXL,
+            bottom = dimens().spacingXL
+        ),
+        verticalArrangement = Arrangement.spacedBy(dimens().spacingXL),
+    ) {
         LabeledCheckBox(
             labelText = stringResource(R.string.settings_date_as_text),
             isChecked = widgetModel.showDateAsTextLabel,
             onCheck = { onChange(widgetModel.copy(showDateAsTextLabel = !widgetModel.showDateAsTextLabel)) },
         )
-        Spacer(modifier = Modifier.height(D.spacingM))
 
         Row(verticalAlignment = Alignment.CenterVertically) {
             val options = WidgetModel.ShowEndDate.values().map { it.title }
             val selectedOption = remember(widgetModel.showEndDate) { mutableStateOf(widgetModel.showEndDate.ordinal) }
-            Spacer(modifier = Modifier.width(D.spacingM))
+            Spacer(modifier = Modifier.width(dimens().spacingM))
             Text(stringResource(R.string.settings_show_end_date))
-            Spacer(modifier = Modifier.width(D.spacingS))
+            Spacer(modifier = Modifier.width(dimens().spacingS))
             Spinner(
                 text = options[selectedOption.value],
                 items = options,
@@ -46,35 +53,35 @@ fun SettingsScreen(widgetModel: WidgetModel, onChange: (WidgetModel) -> Unit) {
                 }
             )
         }
-        Spacer(modifier = Modifier.height(D.spacingM))
 
-        LabeledCheckBox(
-            labelText = stringResource(R.string.settings_show_end_color),
-            isChecked = widgetModel.showEventColor,
-            onCheck = { onChange(widgetModel.copy(showEventColor = !widgetModel.showEventColor)) },
-        )
-        AnimatedVisibility(visible = widgetModel.showEventColor) {
-            Column {
-                Spacer(modifier = Modifier.height(D.spacingM))
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceAround,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    SelectableShape(
-                        isSelected = widgetModel.eventColorShape == WidgetModel.EventColorShape.CIRCLE,
-                        onClick = { onChange(widgetModel.copy(eventColorShape = WidgetModel.EventColorShape.CIRCLE)) }) {
-                        EventColorMark(MaterialTheme.colors.secondary, WidgetModel.EventColorShape.CIRCLE, multiplier = 4.0f)
-                    }
-                    SelectableShape(
-                        isSelected = widgetModel.eventColorShape == WidgetModel.EventColorShape.SQUARE,
-                        onClick = { onChange(widgetModel.copy(eventColorShape = WidgetModel.EventColorShape.SQUARE)) }) {
-                        EventColorMark(MaterialTheme.colors.secondary, WidgetModel.EventColorShape.SQUARE, multiplier = 4.0f)
+        Column {
+            LabeledCheckBox(
+                labelText = stringResource(R.string.settings_show_end_color),
+                isChecked = widgetModel.showEventColor,
+                onCheck = { onChange(widgetModel.copy(showEventColor = !widgetModel.showEventColor)) },
+            )
+            AnimatedVisibility(visible = widgetModel.showEventColor) {
+                Column {
+                    Spacer(modifier = Modifier.height(dimens().spacingM))
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceAround,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        SelectableShape(
+                            isSelected = widgetModel.eventColorShape == WidgetModel.EventColorShape.CIRCLE,
+                            onClick = { onChange(widgetModel.copy(eventColorShape = WidgetModel.EventColorShape.CIRCLE)) }) {
+                            EventColorMark(MaterialTheme.colors.secondary, WidgetModel.EventColorShape.CIRCLE, multiplier = 4.0f)
+                        }
+                        SelectableShape(
+                            isSelected = widgetModel.eventColorShape == WidgetModel.EventColorShape.SQUARE,
+                            onClick = { onChange(widgetModel.copy(eventColorShape = WidgetModel.EventColorShape.SQUARE)) }) {
+                            EventColorMark(MaterialTheme.colors.secondary, WidgetModel.EventColorShape.SQUARE, multiplier = 4.0f)
+                        }
                     }
                 }
             }
         }
-        Spacer(modifier = Modifier.height(D.spacingM))
 
         LabeledCheckBox(
             labelText = stringResource(R.string.settings_show_events_dividers),
@@ -95,14 +102,14 @@ private fun SelectableShape(isSelected: Boolean, onClick: () -> Unit, block: @Co
                         it.then(
                             Modifier.background(
                                 color = MaterialTheme.colors.secondaryVariant.copy(alpha = 0.12f),
-                                shape = RoundedCornerShape(D.spacingM),
+                                shape = RoundedCornerShape(dimens().spacingM),
                             )
                         )
                     } else {
                         it
                     }
                 }
-                .padding(vertical = D.spacingSM, horizontal = D.spacingM)
+                .padding(vertical = dimens().spacingSM, horizontal = dimens().spacingM)
         ) {
             block()
         }

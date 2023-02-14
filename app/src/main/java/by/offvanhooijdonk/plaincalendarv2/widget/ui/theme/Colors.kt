@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.graphics.Color
 
-interface IntroColor {
+interface AppColors {
     val colorPreview: Color @Composable get() = Color.Unspecified
     val colorCalendars: Color @Composable get() = Color.Unspecified
     val colorIntroDays: Color @Composable get() = Color.Unspecified
@@ -17,19 +17,17 @@ interface IntroColor {
     val colorApply: Color @Composable get() = Color.Unspecified
 }
 
-object IntroColorsLight : IntroColor {
+object AppColorsLight : AppColors {
     override val colorPreview: Color @Composable get() = Color(0xFF119DA4)
     override val colorCalendars: Color @Composable get() = MaterialTheme.colors.primary
     override val colorIntroDays: Color @Composable get() = Color(0xFF0A8754)
-    override val colorIntroLayouts: Color @Composable get() = Color(0xFFC879FF)//Color(0xFFBD93D8)
-    override val colorIntroSettings: Color @Composable get() = Color(0xFFF4D06F)//Color(0xFFD62839)
-    override val colorIntroTabs: Color @Composable get() = Color(0xFFEF2D56)//Color(0xFF9381FF)//Color(0xFFBD93D8)
+    override val colorIntroLayouts: Color @Composable get() = Color(0xFFC879FF)
+    override val colorIntroSettings: Color @Composable get() = Color(0xFFF4D06F)
+    override val colorIntroTabs: Color @Composable get() = Color(0xFFEF2D56)
     override val colorApply: Color @Composable get() = MaterialTheme.colors.secondary
 }
-//0A8754
-//BD93D8
 
-object IntroColorsDark : IntroColor {
+object AppColorsDark : AppColors {
     override val colorPreview: Color @Composable get() = Color(0xFF119DA4)
     override val colorCalendars: Color @Composable get() = MaterialTheme.colors.primary
     override val colorIntroDays: Color @Composable get() = Color(0xFF0A8754)
@@ -51,4 +49,4 @@ val darkColors = darkColors(
     secondaryVariant = Color(0xFF0095a8),
 )
 
-val LocalIntroColors = compositionLocalOf<IntroColor> { IntroColorsLight }
+val LocalIntroColors = compositionLocalOf<AppColors> { AppColorsLight }

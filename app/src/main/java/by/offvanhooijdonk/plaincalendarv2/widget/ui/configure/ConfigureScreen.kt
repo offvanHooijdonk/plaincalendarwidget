@@ -4,37 +4,12 @@ package by.offvanhooijdonk.plaincalendarv2.widget.ui.configure
 
 import android.widget.Toast
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.systemGestureExclusion
-import androidx.compose.material.AlertDialog
-import androidx.compose.material.Chip
-import androidx.compose.material.ChipDefaults
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.FloatingActionButton
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.ModalBottomSheetLayout
-import androidx.compose.material.ModalBottomSheetValue
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Slider
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
-import androidx.compose.material.TopAppBar
-import androidx.compose.material.rememberModalBottomSheetState
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
@@ -61,28 +36,13 @@ import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.SettingsS
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.layouts.LayoutsPickPanel
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.preview.WidgetPreview
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.tabs.StylesTabsPanel
-import by.offvanhooijdonk.plaincalendarv2.widget.ui.intro.IntroApplyButton
-import by.offvanhooijdonk.plaincalendarv2.widget.ui.intro.IntroColorsTabs
-import by.offvanhooijdonk.plaincalendarv2.widget.ui.intro.IntroConfigureCalendars
-import by.offvanhooijdonk.plaincalendarv2.widget.ui.intro.IntroDays
-import by.offvanhooijdonk.plaincalendarv2.widget.ui.intro.IntroPreview
-import by.offvanhooijdonk.plaincalendarv2.widget.ui.intro.IntroSettings
-import by.offvanhooijdonk.plaincalendarv2.widget.ui.intro.IntroStyleApplyButton
-import by.offvanhooijdonk.plaincalendarv2.widget.ui.intro.IntroStyleColorsTabs
-import by.offvanhooijdonk.plaincalendarv2.widget.ui.intro.IntroStyleConfigureCalendars
-import by.offvanhooijdonk.plaincalendarv2.widget.ui.intro.IntroStyleDays
-import by.offvanhooijdonk.plaincalendarv2.widget.ui.intro.IntroStylePreview
-import by.offvanhooijdonk.plaincalendarv2.widget.ui.intro.IntroStyleSettings
-import by.offvanhooijdonk.plaincalendarv2.widget.ui.intro.IntroTargets
-import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.D
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.intro.*
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.PlainTheme
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.dimens
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.views.ExtendedFAB
 import com.canopas.lib.showcase.IntroShowCaseScaffold
 import com.canopas.lib.showcase.IntroShowCaseScope
-import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.PermissionStatus
-import com.google.accompanist.permissions.rememberPermissionState
-import com.google.accompanist.permissions.shouldShowRationale
+import com.google.accompanist.permissions.*
 import kotlin.math.roundToInt
 
 @Composable
@@ -127,6 +87,7 @@ fun MainScreen(viewModel: ConfigureViewModel) {
                     })
                 },
             ) {
+                it.calculateBottomPadding()
                 ConfigureScreenWrap(viewModel)
             }
         }
@@ -152,7 +113,7 @@ fun MainScreen(viewModel: ConfigureViewModel) {
 }
 
 @Composable
-private fun IntroShowCaseScope.ConfigureScreenWrap(viewModel: ConfigureViewModel) {
+private fun IntroShowCaseScope.ConfigureScreenWrap(viewModel: ConfigureViewModel) { // added to calm compiler
     val widget = viewModel.widgetModel.observeAsState(DummyWidget)
     when (val result = viewModel.loadResult.observeAsState().value) {
         Result.Widget.New, Result.Widget.Success, Result.Widget.Empty -> ConfigureScreen(
@@ -180,6 +141,7 @@ private fun IntroShowCaseScope.ConfigureScreen(
     onSettingsClick: () -> Unit,
     isIntroPassed: Boolean,
 ) {
+    val dimens = dimens() // constraints do not take composable functions
     val callOnWidgetChanged: (widget: WidgetModel) -> Unit = remember {
         return@remember onWidgetChange
     }
@@ -191,7 +153,7 @@ private fun IntroShowCaseScope.ConfigureScreen(
             Column(
                 modifier = Modifier
                     .background(color = MaterialTheme.colors.surface)
-                    .padding(D.spacingL)
+                    .padding(dimens().spacingL)
                     .constrainAs(topSettings) { top.linkTo(parent.top) }
             ) {
                 //val calendarsList = remember(widget) { mutableStateOf(widget.calendars) }
@@ -203,7 +165,7 @@ private fun IntroShowCaseScope.ConfigureScreen(
                         callOnWidgetChanged(widget.copy(calendars = list, calendarIds = list.map { it.id }))
                     },
                 )
-                Spacer(modifier = Modifier.height(D.spacingL))
+                Spacer(modifier = Modifier.height(dimens().spacingL))
 
                 DaysNumberForm(widget.days) { callOnWidgetChanged(widget.copy(days = it)) }
             }
@@ -218,10 +180,10 @@ private fun IntroShowCaseScope.ConfigureScreen(
             WidgetPreview(
                 modifier = Modifier
                     .constrainAs(preview) {
-                        top.linkTo(layouts.bottom, D.spacingL)
-                        bottom.linkTo(btnSettings.top, D.spacingM)
-                        start.linkTo(parent.start, D.spacingXXL)
-                        end.linkTo(parent.end, D.spacingXXL)
+                        top.linkTo(layouts.bottom, dimens.spacingL)
+                        bottom.linkTo(btnSettings.top, dimens.spacingM)
+                        start.linkTo(parent.start, dimens.spacingXXL)
+                        end.linkTo(parent.end, dimens.spacingXXL)
                         width = Dimension.fillToConstraints
                     },
                 widget = widget,
@@ -256,7 +218,7 @@ private fun IntroShowCaseScope.ConfigureScreen(
             FloatingActionButton(
                 modifier = Modifier
                     .constrainAs(btnSettings) {
-                        bottom.linkTo(bottomSettings.top, D.spacingL)
+                        bottom.linkTo(bottomSettings.top, dimens.spacingL)
                         start.linkTo(preview.start)
                     }
                     .introShowCaseTarget(IntroTargets.SETTINGS.ordinal, IntroStyleSettings) { IntroSettings() },
@@ -295,8 +257,7 @@ private fun IntroShowCaseScope.CalendarsForm(
     onChangeBtnClick: () -> Unit,
     onCalendarsSelected: (List<CalendarModel>) -> Unit,
 ) {
-
-
+    val dimens = dimens()
     val isDialogCanShow = remember { mutableStateOf(false) }
 
     val permissionCalendar = rememberPermissionState(
@@ -322,15 +283,15 @@ private fun IntroShowCaseScope.CalendarsForm(
         LazyRow(
             modifier = Modifier.constrainAs(rowList) {
                 width = Dimension.matchParent
-                top.linkTo(caption.bottom, D.spacingM)
+                top.linkTo(caption.bottom, dimens.spacingM)
             },
             verticalAlignment = Alignment.CenterVertically
         ) {
             if (pickedCalendars.isEmpty()) {
                 item {
-                    Spacer(modifier = Modifier.width(D.spacingM))
+                    Spacer(modifier = Modifier.width(dimens().spacingM))
                     Text(text = stringResource(R.string.calendars_picked_empty), fontSize = 18.sp)
-                    Spacer(modifier = Modifier.width(D.spacingL))
+                    Spacer(modifier = Modifier.width(dimens().spacingL))
                 }
             }
             item(key = "configure") {
@@ -357,15 +318,15 @@ private fun IntroShowCaseScope.CalendarsForm(
                         contentColor = MaterialTheme.colors.onPrimary
                     )
                 ) {
-                    Spacer(modifier = Modifier.width(D.spacingS))
+                    Spacer(modifier = Modifier.width(dimens().spacingS))
                     Icon(
-                        modifier = Modifier.size(D.spacingL),
+                        modifier = Modifier.size(dimens().spacingL),
                         painter = painterResource(R.drawable.ic_edit_calendar_24),
                         contentDescription = null
                     )
-                    Spacer(modifier = Modifier.width(D.spacingS))
+                    Spacer(modifier = Modifier.width(dimens().spacingS))
                 }
-                Spacer(modifier = Modifier.width(D.spacingM))
+                Spacer(modifier = Modifier.width(dimens().spacingM))
             }
             if (pickedCalendars.isNotEmpty()) {
                 items(items = pickedCalendars, key = { it.id }) {
@@ -380,7 +341,7 @@ private fun IntroShowCaseScope.CalendarsForm(
                     ) {
                         Text(text = it.displayName.calendarName, fontSize = 14.sp)
                     }
-                    Spacer(modifier = Modifier.width(D.spacingS))
+                    Spacer(modifier = Modifier.width(dimens().spacingS))
                 }
             }
         }
@@ -406,13 +367,13 @@ private fun IntroShowCaseScope.DaysNumberForm(daySelected: Int, onDaysChange: (I
         val daysPick = remember(daySelected) { mutableStateOf(daySelected.toFloat()) }
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
-                modifier = Modifier.width(D.spacingXXL),
+                modifier = Modifier.width(dimens().spacingXXL),
                 text = daysPick.value.roundToInt().toString(),
                 color = MaterialTheme.colors.onSurface,
                 fontSize = 20.sp,
                 textAlign = TextAlign.End,
             )
-            Spacer(modifier = Modifier.width(D.spacingM))
+            Spacer(modifier = Modifier.width(dimens().spacingM))
             Box(contentAlignment = Alignment.CenterStart) {
                 Box(modifier = Modifier
                     .size(20.dp)
@@ -444,7 +405,7 @@ private fun LoadingScreen() {
             .background(MaterialTheme.colors.surface),
         contentAlignment = Alignment.Center
     ) {
-        CircularProgressIndicator(strokeWidth = D.spacingS)
+        CircularProgressIndicator(strokeWidth = dimens().spacingS)
     }
 }
 
@@ -456,7 +417,7 @@ private fun ErrorScreen(msg: String) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(D.spacingL)
+            .padding(dimens().spacingL)
     ) {
         Text(text = msg, color = MaterialTheme.colors.error, fontSize = 24.sp)
     }

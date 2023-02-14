@@ -5,10 +5,7 @@ package by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.tabs
 import androidx.annotation.DrawableRes
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
 import androidx.compose.material.LeadingIconTab
 import androidx.compose.material.TabRow
@@ -21,7 +18,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import by.offvanhooijdonk.plaincalendarv2.widget.R
 import by.offvanhooijdonk.plaincalendarv2.widget.model.WidgetModel
-import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.D
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.dimens
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.util.isTextDeltaValid
 
 @Composable
@@ -41,7 +38,7 @@ fun StylesTabsPanel(widget: WidgetModel, onPreviewSettingsChange: (WidgetModel) 
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(D.styleBlockHeight)
+                .height(dimens().styleBlockHeight)
         ) {
             AnimatedContent(targetState = selectedIndex.value, transitionSpec = { transitionFade }) { state ->
                 when (SettingTabsList[state]) {

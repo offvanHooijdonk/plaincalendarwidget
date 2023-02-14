@@ -14,7 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import by.offvanhooijdonk.plaincalendarv2.widget.model.CalendarModel
-import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.D
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.dimens
 
 @Composable
 fun CalendarsPickDialog(
@@ -28,7 +28,7 @@ fun CalendarsPickDialog(
     AlertDialog(
         onDismissRequest = onDismissRequest,
         text = {
-            Box(modifier = Modifier.padding(top = D.spacingL)) {
+            Box(modifier = Modifier.padding(top = dimens().spacingL)) {
                 LazyColumn(modifier = Modifier.fillMaxWidth()) {
                     items(items = allCalendars, key = { it.id }) { calendar ->
                         val isChecked = remember { mutableStateOf(selection.contains(calendar)) }
@@ -61,15 +61,15 @@ private fun CalendarsListItem(calendar: CalendarModel, isChecked: Boolean, onIte
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = D.spacingM, vertical = D.spacingSM),
+                .padding(horizontal = dimens().spacingM, vertical = dimens().spacingSM),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Checkbox(
                 checked = isChecked, onCheckedChange = null,
                 colors = CheckboxDefaults.colors(uncheckedColor = calendarColor, checkedColor = calendarColor)
             )
-            Spacer(modifier = Modifier.width(D.spacingML))
-            if (!calendar.isPrimaryOnAccount) Spacer(modifier = Modifier.width(D.spacingXS))
+            Spacer(modifier = Modifier.width(dimens().spacingML))
+            if (!calendar.isPrimaryOnAccount) Spacer(modifier = Modifier.width(dimens().spacingXS))
 
             Text(text = calendar.displayName, fontWeight = if (calendar.isPrimaryOnAccount) FontWeight.Medium else FontWeight.Normal)
         }

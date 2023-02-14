@@ -1,7 +1,6 @@
 package by.offvanhooijdonk.plaincalendarv2.widget.glance.widgetui
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.stringResource
 import androidx.glance.GlanceModifier
 import androidx.glance.LocalContext
 import androidx.glance.action.clickable
@@ -15,11 +14,10 @@ import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
-import by.offvanhooijdonk.plaincalendarv2.widget.R
 import by.offvanhooijdonk.plaincalendarv2.widget.ext.toColor
 import by.offvanhooijdonk.plaincalendarv2.widget.model.EventModel
 import by.offvanhooijdonk.plaincalendarv2.widget.model.WidgetModel
-import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.GD
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.glanceDimens
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.util.formatDateRangeLabel
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.util.getDateTextSize
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.util.getTitleTextSize
@@ -43,7 +41,7 @@ fun WidgetBodyTimeline(events: List<EventModel>, model: WidgetModel) {
 
     Box(
         modifier = GlanceModifier
-            .padding(horizontal = GD.widgetPaddingH, vertical = GD.widgetPaddingV)
+            .padding(horizontal = glanceDimens().widgetPaddingH, vertical = glanceDimens().widgetPaddingV)
             .background(backColor.copy(alpha = opacity))
             .appWidgetBackground()
             .fillMaxSize()
@@ -59,14 +57,14 @@ fun WidgetBodyTimeline(events: List<EventModel>, model: WidgetModel) {
                     Column(
                         modifier = GlanceModifier
                             .fillMaxWidth()
-                            .padding(horizontal = GD.eventItemPaddingH, vertical = GD.eventItemPaddingV)
+                            .padding(horizontal = glanceDimens().eventItemPaddingH, vertical = glanceDimens().eventItemPaddingV)
                             .clickable(actionStartActivity(createOpenEventIntent(event.eventId))),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Row {
                             Spacer(
                                 modifier = GlanceModifier.width(
-                                    if (model.showEventColor) GD.eventColorMarkSize + GD.eventColorSpacing + GD.spacingXXS else GD.spacingXXS
+                                    if (model.showEventColor) glanceDimens().eventColorMarkSize + glanceDimens().eventColorSpacing + glanceDimens().spacingXXS else glanceDimens().spacingXXS
                                 )
                             )
 
@@ -82,7 +80,7 @@ fun WidgetBodyTimeline(events: List<EventModel>, model: WidgetModel) {
                                 style = textStyleDate
                             )
                         }
-                        Row(modifier = GlanceModifier.padding(start = GD.spacingXS), verticalAlignment = Alignment.CenterVertically) {
+                        Row(modifier = GlanceModifier.padding(start = glanceDimens().spacingXS), verticalAlignment = Alignment.CenterVertically) {
                             if (model.showEventColor) {
                                 EventColorMark(event.colorValue, model.eventColorShape)
                             }
@@ -90,9 +88,9 @@ fun WidgetBodyTimeline(events: List<EventModel>, model: WidgetModel) {
                         }
                     }
                     if (model.showEventDividers && (index < events.size - 1)) {
-                        Spacer(modifier = GlanceModifier.height(GD.spacingXXS))
+                        Spacer(modifier = GlanceModifier.height(glanceDimens().spacingXXS))
                         EventsDivider()
-                        Spacer(modifier = GlanceModifier.height(GD.spacingXXS))
+                        Spacer(modifier = GlanceModifier.height(glanceDimens().spacingXXS))
                     }
                 }
             }

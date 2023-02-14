@@ -24,8 +24,8 @@ import by.offvanhooijdonk.plaincalendarv2.widget.ext.toColor
 import by.offvanhooijdonk.plaincalendarv2.widget.model.DummyWidget
 import by.offvanhooijdonk.plaincalendarv2.widget.model.EventModel
 import by.offvanhooijdonk.plaincalendarv2.widget.model.WidgetModel
-import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.D
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.WidgetItemShape
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.dimens
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.util.formatDateRangeLabel
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.util.getDateTextSize
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.util.getTitleTextSize
@@ -38,13 +38,13 @@ fun WidgetBlueprintTimeline(widget: WidgetModel) {
         val events = previewEvents
         LazyColumn(
             modifier = Modifier.fillMaxWidth(),
-            contentPadding = PaddingValues(vertical = D.listSpacingV)
+            contentPadding = PaddingValues(vertical = dimens().listSpacingV)
         ) {
             itemsIndexed(events, key = { _, item -> item.id }) { index, item ->
                 Column {
                     WidgetEventItem(item, widget)
                     if (widget.showEventDividers && (index < events.size - 1)) {
-                        Divider(modifier = Modifier.padding(horizontal = D.eventItemPaddingH))
+                        Divider(modifier = Modifier.padding(horizontal = dimens().eventItemPaddingH))
                     }
                 }
             }
@@ -74,12 +74,12 @@ private fun WidgetEventItem(event: EventModel, widget: WidgetModel) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = D.eventItemPaddingH, vertical = D.eventItemPaddingV)
+                .padding(horizontal = dimens().eventItemPaddingH, vertical = dimens().eventItemPaddingV)
         ) {
             Row {
                 AnimatedContent(targetState = widget.showEventColor) { isShow ->
                     if (isShow) {
-                        Spacer(modifier = Modifier.width(D.eventColorMarkSize + D.eventColorSpacing - D.spacingXS))
+                        Spacer(modifier = Modifier.width(dimens().eventColorMarkSize + dimens().eventColorSpacing - dimens().spacingXS))
                     }
                 }
                 EventDateText(

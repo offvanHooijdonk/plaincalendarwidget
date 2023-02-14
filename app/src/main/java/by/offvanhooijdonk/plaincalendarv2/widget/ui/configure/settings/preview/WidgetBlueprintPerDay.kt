@@ -16,13 +16,12 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.TextUnit
 import by.offvanhooijdonk.plaincalendarv2.widget.R
 import by.offvanhooijdonk.plaincalendarv2.widget.ext.toColor
 import by.offvanhooijdonk.plaincalendarv2.widget.model.DummyWidget
 import by.offvanhooijdonk.plaincalendarv2.widget.model.EventModel
 import by.offvanhooijdonk.plaincalendarv2.widget.model.WidgetModel
-import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.D
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.dimens
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.util.*
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -46,7 +45,7 @@ fun WidgetBlueprintPerDay(widget: WidgetModel) {
 
         LazyColumn(
             modifier = Modifier.fillMaxWidth(),
-            contentPadding = PaddingValues(vertical = D.listSpacingV, horizontal = D.eventItemPaddingH)
+            contentPadding = PaddingValues(vertical = dimens().listSpacingV, horizontal = dimens().eventItemPaddingH)
         ) {
             events.groupBy { it.dateStart.toLocalDate() }.forEach { (dayDate, dayEvents) ->
                 item(key = dayDate) {
@@ -65,8 +64,8 @@ fun WidgetBlueprintPerDay(widget: WidgetModel) {
                         )
 
                         if (widget.showEventDividers && index < dayEvents.size - 1) {
-                            Spacer(modifier = Modifier.height(D.spacingXS))
-                            Divider(Modifier.padding(start = D.spacingM))
+                            Spacer(modifier = Modifier.height(dimens().spacingXS))
+                            Divider(Modifier.padding(start = dimens().spacingM))
                         }
                     }
                 }
@@ -81,7 +80,7 @@ private fun EventDayLabelItem(
     dateTextStyle: TextStyle,
     isShowDateAsText: Boolean
 ) {
-    Box(modifier = Modifier.padding(top = D.spacingS, bottom = D.spacingXS)) {
+    Box(modifier = Modifier.padding(top = dimens().spacingS, bottom = dimens().spacingXS)) {
         Text(
             text = formatDateLabel(LocalContext.current, day.atStartOfDay(), isShowDateAsText),
             style = dateTextStyle
@@ -102,7 +101,7 @@ private fun EventItem(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = D.spacingM, vertical = D.spacingXS),
+            .padding(horizontal = dimens().spacingM, vertical = dimens().spacingXS),
         verticalAlignment = Alignment.CenterVertically
     ) {
         EventColorMarkAnimated(
@@ -121,7 +120,7 @@ private fun EventItem(
             ),
             style = dateTextStyle
         ) // todo show end/'all day' date if configured
-        Spacer(Modifier.width(D.spacingS))
+        Spacer(Modifier.width(dimens().spacingS))
         Text(
             modifier = Modifier.alignByBaseline(),
             text = eventModel.title,

@@ -18,7 +18,7 @@ import by.offvanhooijdonk.plaincalendarv2.widget.model.WidgetModel
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.intro.IntroLayouts
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.intro.IntroStyleLayouts
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.intro.IntroTargets
-import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.D
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.dimens
 import com.canopas.lib.showcase.IntroShowCaseScaffold
 import com.canopas.lib.showcase.IntroShowCaseScope
 
@@ -32,7 +32,7 @@ fun IntroShowCaseScope.LayoutsPickPanel(
         val selected = remember(widget) { widget.layoutType.ordinal }
         ScrollableTabRow(
             selectedTabIndex = selected,
-            edgePadding = D.spacingL,
+            edgePadding = dimens().spacingL,
             indicator = {},
             backgroundColor = MaterialTheme.colors.background
         ) {
@@ -42,10 +42,10 @@ fun IntroShowCaseScope.LayoutsPickPanel(
 
             LayoutsList.forEachIndexed { index, layoutItem ->
                 val backColor = if (index == selected) MaterialTheme.colors.primary else Color.Transparent
-                Box(modifier = Modifier.padding(vertical = D.spacingM)) {
+                Box(modifier = Modifier.padding(vertical = dimens().spacingM)) {
                     Tab(
                         modifier = Modifier
-                            .background(backColor, RoundedCornerShape(D.spacingM)).run {
+                            .background(backColor, RoundedCornerShape(dimens().spacingM)).run {
                                 if (index == selected)
                                     introShowCaseTarget(IntroTargets.LAYOUTS.ordinal, IntroStyleLayouts) { IntroLayouts() }
                                 else this

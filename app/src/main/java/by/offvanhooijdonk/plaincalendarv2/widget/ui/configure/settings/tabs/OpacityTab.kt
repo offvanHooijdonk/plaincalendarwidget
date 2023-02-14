@@ -13,25 +13,25 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
-import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.D
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.dimens
 
 @Composable
 fun OpacityTab(opacitySelected: Float, onPickOpacity: (Float) -> Unit) {
     Row(
         modifier = Modifier
-            .padding(horizontal = D.spacingL, vertical = D.spacingM)
+            .padding(horizontal = dimens().spacingL, vertical = dimens().spacingM)
             .fillMaxSize(),
         verticalAlignment = Alignment.CenterVertically
     ) {
         val sliderValue = remember(opacitySelected) { mutableStateOf(opacitySelected * 100 / OPACITY_VALUE_STEP) }
         Text(
-            modifier = Modifier.width(D.spacingXXL),
+            modifier = Modifier.width(dimens().spacingXXL),
             text = (sliderValue.value.toInt() * OPACITY_VALUE_STEP).toString(),
             color = MaterialTheme.colors.onSurface,
             fontSize = 18.sp,
             textAlign = TextAlign.End,
         )
-        Spacer(modifier = Modifier.width(D.spacingL))
+        Spacer(modifier = Modifier.width(dimens().spacingL))
         Slider(
             modifier = Modifier.systemGestureExclusion(),
             value = sliderValue.value,

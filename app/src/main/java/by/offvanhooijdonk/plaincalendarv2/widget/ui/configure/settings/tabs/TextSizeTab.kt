@@ -11,8 +11,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import by.offvanhooijdonk.plaincalendarv2.widget.R
-import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.D
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.PlainTheme
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.dimens
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.views.LabeledCheckBox
 
 @Composable
@@ -20,7 +20,7 @@ fun TextSizeTab(value: Int, isBold: Boolean, onSizeChange: (Int) -> Unit, onStyl
     Row(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = D.spacingL),
+            .padding(horizontal = dimens().spacingL),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceAround
     ) {
@@ -28,9 +28,9 @@ fun TextSizeTab(value: Int, isBold: Boolean, onSizeChange: (Int) -> Unit, onStyl
             OutlinedButton(onClick = { onSizeChange(value + 1) }) {
                 Text(text = "+")
             }
-            Spacer(modifier = Modifier.width(D.spacingL))
+            Spacer(modifier = Modifier.width(dimens().spacingL))
             Text(text = value.toString(), color = MaterialTheme.colors.onSurface, fontSize = 24.sp)
-            Spacer(modifier = Modifier.width(D.spacingL))
+            Spacer(modifier = Modifier.width(dimens().spacingL))
             OutlinedButton(onClick = { onSizeChange(value - 1) }) {
                 Text(text = "-")
             }

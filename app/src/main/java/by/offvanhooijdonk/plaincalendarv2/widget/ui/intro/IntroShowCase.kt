@@ -14,8 +14,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import by.offvanhooijdonk.plaincalendarv2.widget.R
-import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.D
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.LocalIntroColors
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.dimens
 import com.canopas.lib.showcase.ShowcaseStyle
 
 private const val IntroAlpha = 1.0f
@@ -31,7 +31,7 @@ fun IntroPreview() {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = D.spacingL)
+            .padding(horizontal = dimens().spacingL)
     ) {
         Text(stringResource(R.string.intro_widget_preview), style = IntroHeaderTextStyle)
     }
@@ -61,12 +61,12 @@ fun IntroDays() {
     Row {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Icon(
-                modifier = Modifier.size(D.spacingXXL),
+                modifier = Modifier.size(dimens().spacingXXL),
                 painter = painterResource(R.drawable.ic_swipe),
                 contentDescription = null,
                 tint = Color.White
             )
-            Spacer(modifier = Modifier.height(D.spacingL))
+            Spacer(modifier = Modifier.height(dimens().spacingL))
             Text(stringResource(R.string.intro_days), style = IntroHeaderTextStyle)
         }
     }
@@ -83,7 +83,7 @@ fun IntroLayouts() {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = D.spacingL)
+            .padding(horizontal = dimens().spacingL)
     ) {
         Text(stringResource(R.string.intro_layouts), style = IntroHeaderTextStyle)
     }
@@ -113,7 +113,7 @@ fun IntroColorsTabs() {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = D.spacingL)
+            .padding(horizontal = dimens().spacingL)
     ) {
         Text(stringResource(R.string.intro_colors_tabs), style = IntroHeaderTextStyle)
     }
@@ -130,7 +130,7 @@ fun IntroApplyButton() {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = D.spacingL)
+            .padding(horizontal = dimens().spacingL)
     ) {
         Text(stringResource(R.string.intro_apply_button), style = IntroHeaderTextStyle)
     }

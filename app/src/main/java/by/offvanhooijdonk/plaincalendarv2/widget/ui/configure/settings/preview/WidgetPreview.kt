@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalMaterialApi::class, ExperimentalAnimationApi::class)
+@file:OptIn(ExperimentalAnimationApi::class)
 
 package by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.preview
 

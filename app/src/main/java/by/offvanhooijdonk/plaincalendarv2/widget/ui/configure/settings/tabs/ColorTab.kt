@@ -19,7 +19,7 @@ import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import by.offvanhooijdonk.plaincalendarv2.widget.R
-import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.D
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.dimens
 import kotlinx.coroutines.launch
 
 @Composable
@@ -51,19 +51,19 @@ private fun ColorTab(colorsList: List<Color>, colorSelected: Color, onColorPick:
     LazyRow(
         modifier = Modifier.fillMaxWidth(),
         state = listState,
-        contentPadding = PaddingValues(horizontal = D.spacingL, vertical = D.spacingM),
+        contentPadding = PaddingValues(horizontal = dimens().spacingL, vertical = dimens().spacingM),
         verticalAlignment = Alignment.CenterVertically
     ) {
         items(items = colorsList, key = { it.value.toLong() }) { colorItem ->
-            Box(modifier = Modifier.padding(end = D.spacingM)) {
+            Box(modifier = Modifier.padding(end = dimens().spacingM)) {
                 Box(
                     modifier = Modifier
-                        .size(D.spacingXXL)
-                        .background(colorItem, RoundedCornerShape(D.spacingXS))
+                        .size(dimens().spacingXXL)
+                        .background(colorItem, RoundedCornerShape(dimens().spacingXS))
                         .border(
-                            width = D.spacingXXS,
+                            width = dimens().spacingXXS,
                             color = Color.Gray,
-                            RoundedCornerShape(D.spacingXS)
+                            RoundedCornerShape(dimens().spacingXS)
                         )
                         .clickable(
                             interactionSource = remember { MutableInteractionSource() },
@@ -76,7 +76,7 @@ private fun ColorTab(colorsList: List<Color>, colorSelected: Color, onColorPick:
                             if (colorItem.luminance() > 0.7f) colorSelectionDark else colorSelectionLight
                         }
                         Icon(
-                            modifier = Modifier.padding(D.spacingXS),
+                            modifier = Modifier.padding(dimens().spacingXS),
                             painter = painterResource(id = R.drawable.ic_check),
                             tint = selectionColor,
                             contentDescription = null

@@ -15,17 +15,17 @@ import androidx.glance.text.TextStyle
 import by.offvanhooijdonk.plaincalendarv2.widget.R
 import by.offvanhooijdonk.plaincalendarv2.widget.model.EventModel
 import by.offvanhooijdonk.plaincalendarv2.widget.model.WidgetModel
-import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.GD
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.glanceDimens
 
 fun createOpenEventIntent(eventId: Long) =
     Intent(Intent.ACTION_VIEW).apply { data = CalendarContract.Events.CONTENT_URI.buildUpon().appendPath(eventId.toString()).build() }
 
 @Composable
 fun EventsDivider() { // todo pass modifier here and set paddings from out
-    Box(modifier = GlanceModifier.padding(horizontal = GD.eventItemPaddingH)) {
+    Box(modifier = GlanceModifier.padding(horizontal = glanceDimens().eventItemPaddingH)) {
         Box(
             modifier = GlanceModifier
-                .height(GD.spacingXXS)
+                .height(glanceDimens().spacingXXS)
                 .fillMaxWidth()
                 .background(MaterialTheme.colors.onSurface.copy(alpha = 0.12f))
         ) {}
@@ -35,16 +35,16 @@ fun EventsDivider() { // todo pass modifier here and set paddings from out
 @Composable
 fun EventColorMark(eventColor: Color, shape: WidgetModel.EventColorShape) {
     val cornerRadius = when(shape) {
-        WidgetModel.EventColorShape.CIRCLE -> GD.eventColorMarkRadiusCircle
-        WidgetModel.EventColorShape.SQUARE -> GD.eventColorMarkRadiusSquare
+        WidgetModel.EventColorShape.CIRCLE -> glanceDimens().eventColorMarkRadiusCircle
+        WidgetModel.EventColorShape.SQUARE -> glanceDimens().eventColorMarkRadiusSquare
     }
     Box(
         modifier = GlanceModifier
-            .size(GD.eventColorMarkSize)
+            .size(glanceDimens().eventColorMarkSize)
             .background(eventColor)
             .cornerRadius(cornerRadius)
     ) {}
-    Spacer(modifier = GlanceModifier.width(GD.eventColorSpacing))
+    Spacer(modifier = GlanceModifier.width(glanceDimens().eventColorSpacing))
 }
 
 @Composable
@@ -52,7 +52,7 @@ fun EmptyEventsMessage(textStyle: TextStyle) {
     Column(
         modifier = GlanceModifier
             .fillMaxWidth()
-            .padding(horizontal = GD.eventItemPaddingH, vertical = GD.eventItemPaddingV)
+            .padding(horizontal = glanceDimens().eventItemPaddingH, vertical = glanceDimens().eventItemPaddingV)
     ) {
         Text(text = LocalContext.current.getString(R.string.events_empty_message), style = textStyle)
     }

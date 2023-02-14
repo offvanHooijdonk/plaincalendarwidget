@@ -17,7 +17,7 @@ import androidx.glance.unit.ColorProvider
 import by.offvanhooijdonk.plaincalendarv2.widget.ext.toColor
 import by.offvanhooijdonk.plaincalendarv2.widget.model.EventModel
 import by.offvanhooijdonk.plaincalendarv2.widget.model.WidgetModel
-import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.GD
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.glanceDimens
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.util.formatDateLabel
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.util.formatTimeLabel
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.util.getDateTextSize
@@ -40,12 +40,12 @@ fun WidgetBodyPerDay(events: List<EventModel>, widget: WidgetModel) {
 
     Box(
         modifier = GlanceModifier
-            .padding(horizontal = GD.widgetPaddingH, vertical = GD.widgetPaddingV)
+            .padding(horizontal = glanceDimens().widgetPaddingH, vertical = glanceDimens().widgetPaddingV)
             .background(backColor.copy(alpha = opacity))
             .appWidgetBackground()
             .fillMaxSize()
     ) {
-        LazyColumn(modifier = GlanceModifier.padding(horizontal = GD.widgetPaddingH)) {
+        LazyColumn(modifier = GlanceModifier.padding(horizontal = glanceDimens().widgetPaddingH)) {
             if (events.isEmpty()) {
                 item {
                     EmptyEventsMessage(textStyle = textStyleTitle)
@@ -53,7 +53,7 @@ fun WidgetBodyPerDay(events: List<EventModel>, widget: WidgetModel) {
             }
             events.groupBy { it.dateStart.toLocalDate() }.forEach { (dayDate, events) ->
                 item(itemId = dayDate.toEpochDay()) {
-                    Box(modifier = GlanceModifier.padding(top = GD.spacingS, bottom = GD.spacingXS)) {
+                    Box(modifier = GlanceModifier.padding(top = glanceDimens().spacingS, bottom = glanceDimens().spacingXS)) {
                         Text(
                             text = formatDateLabel(LocalContext.current, dayDate.atStartOfDay(), widget.showDateAsTextLabel),
                             style = textStyleDate,
@@ -78,7 +78,7 @@ fun WidgetBodyPerDay(events: List<EventModel>, widget: WidgetModel) {
 @Composable
 private fun EventItem(event: EventModel, widget: WidgetModel, textStyleTitle: TextStyle, textStyleDate: TextStyle) {
     Row(
-        modifier = GlanceModifier.padding(horizontal = GD.eventItemPaddingH, vertical = GD.eventItemPaddingV),
+        modifier = GlanceModifier.padding(horizontal = glanceDimens().eventItemPaddingH, vertical = glanceDimens().eventItemPaddingV),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         if (widget.showEventColor) {
@@ -93,7 +93,7 @@ private fun EventItem(event: EventModel, widget: WidgetModel, textStyleTitle: Te
                 isShowEndDate = widget.showEndDate == WidgetModel.ShowEndDate.ALWAYS,
             ), style = textStyleDate
         )
-        Spacer(modifier = GlanceModifier.width(GD.spacingS))
+        Spacer(modifier = GlanceModifier.width(glanceDimens().spacingS))
         Text(text = event.title, style = textStyleTitle, maxLines = 1)
     }
 }
