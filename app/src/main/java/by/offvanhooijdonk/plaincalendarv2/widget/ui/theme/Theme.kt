@@ -21,6 +21,7 @@ fun PlainTheme(isDarkMode: Boolean = isSystemInDarkTheme(), content: @Composable
     ) {
         MaterialTheme(
             colors = if (isDarkMode) darkColors else lightColors,
+            typography = Typography,
             shapes = PlainThemeShapes,
         ) {
             AppSystemBarsColors()

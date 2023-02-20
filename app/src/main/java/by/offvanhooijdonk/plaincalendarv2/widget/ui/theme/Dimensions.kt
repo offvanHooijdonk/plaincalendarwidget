@@ -49,6 +49,7 @@ interface AppDimensions {
     val screenPaddingV: Dp get() = spacingL
     val screenPaddingH: Dp get() = spacingL
     val styleBlockHeight: Dp get() = 80.dp
+    val eventMarkSpacing: Dp get() = spacingXXL
 }
 
 object Dimensions : AppDimensions

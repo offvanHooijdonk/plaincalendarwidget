@@ -41,12 +41,16 @@ val lightColors = lightColors(
     primary = Color(0xFF3f51b5),
     secondary = Color(0xFF26c6da),
     secondaryVariant = Color(0xFF0095a8),
+    surface = Color(0xFFFAFAFA),
+    onSurface = Color(0xFF303651),
 )
 
 val darkColors = darkColors(
     primary = Color(0xFF757de8),
     secondary = Color(0xFF26c6da),
     secondaryVariant = Color(0xFF0095a8),
+    surface = Color(0xFF303651),
+    onSurface = Color(0xFFFAFAFA),
 )
 
 val LocalIntroColors = compositionLocalOf<AppColors> { AppColorsLight }
