@@ -22,7 +22,7 @@ class ConfigurationActivity : AppCompatActivity() {
             }
         }
 
-        viewModel.finishScreen.observe({ lifecycle }) {
+        viewModel.finishScreen.observe(this) {
             if (it != null) {
                 viewModel.widgetId?.let { widgetId ->
                     val intent = Intent().apply {

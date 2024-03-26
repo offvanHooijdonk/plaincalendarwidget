@@ -8,6 +8,7 @@ import androidx.compose.runtime.remember
 import androidx.datastore.preferences.core.Preferences
 import androidx.glance.GlanceId
 import androidx.glance.appwidget.GlanceAppWidget
+import androidx.glance.appwidget.provideContent
 import androidx.glance.appwidget.updateAll
 import androidx.glance.currentState
 import androidx.glance.state.GlanceStateDefinition
@@ -31,8 +32,14 @@ class PlainGlanceWidget : GlanceAppWidget(), KoinComponent {
     private val context: Context by inject()
     private val coroutineScope = MainScope()
 
+    override suspend fun provideGlance(context: Context, id: GlanceId) {
+        provideContent {
+            Content()
+        }
+    }
+
     @Composable
-    override fun Content() {
+    fun Content() {
         val state = currentState<Preferences>()
 
         val events = remember { mutableStateOf(emptyList<EventModel>()) }
