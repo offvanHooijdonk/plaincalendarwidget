@@ -10,11 +10,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.systemGestureExclusion
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -114,13 +111,13 @@ fun MainScreen(viewModel: ConfigureViewModel) {
 
 @Composable
 private fun IntroShowCaseScope.ConfigureScreenWrap(viewModel: ConfigureViewModel) { // added to calm compiler
-    val widget = viewModel.widgetModel.observeAsState(DummyWidget)
+    val widget = viewModel.widgetModel.collectAsState(DummyWidget).value
     when (val result = viewModel.loadResult.observeAsState().value) {
         Result.Widget.New, Result.Widget.Success, Result.Widget.Empty -> ConfigureScreen(
             widget.value,
             viewModel.calendarsResponse.observeAsState().value ?: Result.Idle,
             onCalendarsRequested = viewModel::loadCalendars,
-            onWidgetChange = viewModel::onWidgetChange,
+            onAction = viewModel::onAction,
             onSaveChanges = viewModel::updateWidget,
             onSettingsClick = viewModel::onSettingsClick,
             viewModel.isIntroPassed.observeAsState(true).value,
@@ -136,15 +133,13 @@ private fun IntroShowCaseScope.ConfigureScreen(
     widget: WidgetModel,
     allCalendars: Result, // todo don't like it
     onCalendarsRequested: () -> Unit,
-    onWidgetChange: (WidgetModel) -> Unit,
+    onAction: (ConfigureViewModel.Action) -> Unit,
+    //onWidgetChange: (WidgetModel) -> Unit,
     onSaveChanges: () -> Unit,
     onSettingsClick: () -> Unit,
     isIntroPassed: Boolean,
 ) {
     val dimens = dimens() // constraints do not take composable functions
-    val callOnWidgetChanged: (widget: WidgetModel) -> Unit = remember {
-        return@remember onWidgetChange
-    }
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -162,6 +157,7 @@ private fun IntroShowCaseScope.ConfigureScreen(
                     allCalendars,
                     onChangeBtnClick = onCalendarsRequested,
                     onCalendarsSelected = { list ->
+                        onAction(ConfigureViewModel.Action.OnCalendarsPicked(list))
                         callOnWidgetChanged(widget.copy(calendars = list, calendarIds = list.map { it.id }))
                     },
                 )

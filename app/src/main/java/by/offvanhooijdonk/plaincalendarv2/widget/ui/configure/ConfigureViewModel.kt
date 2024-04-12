@@ -21,6 +21,9 @@ import by.offvanhooijdonk.plaincalendarv2.widget.glance.prefs.writeToPrefs
 import by.offvanhooijdonk.plaincalendarv2.widget.model.CalendarModel
 import by.offvanhooijdonk.plaincalendarv2.widget.model.DummyWidget
 import by.offvanhooijdonk.plaincalendarv2.widget.model.WidgetModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class ConfigureViewModel(
@@ -33,8 +36,8 @@ class ConfigureViewModel(
     private val _loadResult = MutableLiveData<Result>(Result.Idle)
     val loadResult: LiveData<Result> = _loadResult
 
-    private val _widgetModel = MutableLiveData(DummyWidget)
-    val widgetModel: LiveData<WidgetModel> = _widgetModel
+    private val _widgetModel = MutableStateFlow(DummyWidget)
+    val widgetModel = _widgetModel.asStateFlow()
 
     private val _allCalendarsResponse = MutableLiveData<Result>(Result.Idle)
     val calendarsResponse: LiveData<Result> = _allCalendarsResponse
@@ -127,6 +130,15 @@ class ConfigureViewModel(
         _showSettingsSheet.postValue(Flag(true))
     }
 
+    fun onAction(action: Action) {
+        when (action) {
+            is Action.OnCalendarsPicked -> _widgetModel.update { state ->
+                state.copy(calendars = action.calendars, calendarIds = action.calendars.map { it.id })
+            }
+        }
+    }
+
+    @Deprecated("Use onAction() approach instead", replaceWith = ReplaceWith("onAction()"))
     fun onWidgetChange(widget: WidgetModel) {
         _widgetModel.value = widget
     }
@@ -154,7 +166,7 @@ class ConfigureViewModel(
         prefs.isIntroPassed = true
         _isIntroPassed.value = true
         if (_loadResult.value == Result.Widget.New) {
-            _widgetModel.value = _widgetModel.value?.copy(days = WidgetModel.DAYS_DEFAULT)
+            _widgetModel.update { it.copy(days = WidgetModel.DAYS_DEFAULT) }
         }
     }
 
@@ -172,6 +184,14 @@ class ConfigureViewModel(
         _loadResult.value = Result.Widget.Success
         _widgetModel.value = widget.also { w -> initialWidgetModel = w.copy() }
     }
+
+    sealed interface Action {
+        data class OnCalendarsPicked(val calendars: List<CalendarModel>) : Action
+    }
+
+    data class UiState(
+        val i: Int,
+    )
 
     enum class FinishResult {
         OK, CANCELED
