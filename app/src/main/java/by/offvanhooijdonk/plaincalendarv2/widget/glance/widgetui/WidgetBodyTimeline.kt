@@ -80,7 +80,11 @@ fun WidgetBodyTimeline(events: List<EventModel>, model: WidgetModel) {
                                 style = textStyleDate
                             )
                         }
-                        Row(modifier = GlanceModifier.padding(start = glanceDimens().spacingXS), verticalAlignment = Alignment.CenterVertically) {
+                        Row(
+                            modifier = GlanceModifier.padding(start = glanceDimens().spacingXS),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalAlignment = Alignment.Start,
+                        ) {
                             if (model.showEventColor) {
                                 EventColorMark(event.colorValue, model.eventColorShape)
                             }

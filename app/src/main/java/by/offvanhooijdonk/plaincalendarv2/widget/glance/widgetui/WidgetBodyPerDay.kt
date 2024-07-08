@@ -80,6 +80,7 @@ private fun EventItem(event: EventModel, widget: WidgetModel, textStyleTitle: Te
     Row(
         modifier = GlanceModifier.padding(horizontal = glanceDimens().eventItemPaddingH, vertical = glanceDimens().eventItemPaddingV),
         verticalAlignment = Alignment.CenterVertically,
+        horizontalAlignment = Alignment.Start,
     ) {
         if (widget.showEventColor) {
             EventColorMark(event.colorValue, widget.eventColorShape)
