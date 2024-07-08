@@ -9,7 +9,7 @@ class Prefs(ctx: Context) {
     var isIntroPassed: Boolean
         get() = sharedPreferences.getBoolean(KEY_IS_INTRO_PASSED, false)
         set(value) {
-            sharedPreferences.edit().putBoolean(KEY_IS_INTRO_PASSED, value).commit()
+            sharedPreferences.edit().putBoolean(KEY_IS_INTRO_PASSED, value).apply()
         }
 
     companion object {

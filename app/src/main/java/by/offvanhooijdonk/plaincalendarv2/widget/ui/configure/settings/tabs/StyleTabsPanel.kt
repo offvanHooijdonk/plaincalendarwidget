@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalAnimationApi::class)
-
 package by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.tabs
 
 import androidx.annotation.DrawableRes
@@ -9,27 +7,26 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
 import androidx.compose.material.LeadingIconTab
 import androidx.compose.material.TabRow
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import by.offvanhooijdonk.plaincalendarv2.widget.R
 import by.offvanhooijdonk.plaincalendarv2.widget.model.WidgetModel
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.ConfigureViewModel.Action
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.dimens
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.util.isTextDeltaValid
 
 @Composable
-fun StylesTabsPanel(widget: WidgetModel, onPreviewSettingsChange: (WidgetModel) -> Unit) {
+fun StylesTabsPanel(widget: WidgetModel, onAction: (Action) -> Unit) {
     Column(modifier = Modifier.fillMaxWidth()) {
-        val selectedIndex = remember { mutableStateOf(0) }
-        TabRow(selectedTabIndex = selectedIndex.value) {
+        val selectedIndex = remember { mutableIntStateOf(0) }
+        TabRow(selectedTabIndex = selectedIndex.intValue) {
             SettingTabsList.forEachIndexed { index, tab ->
                 LeadingIconTab(
-                    selected = index == selectedIndex.value,
-                    onClick = { selectedIndex.value = index },
+                    selected = index == selectedIndex.intValue,
+                    onClick = { selectedIndex.intValue = index },
                     text = { },
                     icon = { Icon(painterResource(tab.iconRes), contentDescription = null) }
                 )
@@ -40,27 +37,27 @@ fun StylesTabsPanel(widget: WidgetModel, onPreviewSettingsChange: (WidgetModel) 
                 .fillMaxWidth()
                 .height(dimens().styleBlockHeight)
         ) {
-            AnimatedContent(targetState = selectedIndex.value, transitionSpec = { transitionFade }) { state ->
+            AnimatedContent(targetState = selectedIndex.intValue, transitionSpec = { transitionFade }) { state ->
                 when (SettingTabsList[state]) {
                     SettingTab.ColorTab -> {
                         val backColor = remember(widget) { mutableStateOf(Color(widget.backgroundColor.toULong())) }
                         BackgroundColorTab(backColor.value) {
                             backColor.value = it
-                            onPreviewSettingsChange(widget.copy(backgroundColor = it.value.toLong()))
+                            onAction(Action.OnBackgroundColorPick(it.value.toLong()))
                         }
                     }
                     SettingTab.OpacityTab -> {
-                        val opacity = remember(widget) { mutableStateOf(widget.opacity) }
-                        OpacityTab(opacity.value) {
-                            opacity.value = it
-                            onPreviewSettingsChange(widget.copy(opacity = it))
+                        val opacity = remember(widget) { mutableFloatStateOf(widget.opacity) }
+                        OpacityTab(opacity.floatValue) {
+                            opacity.floatValue = it
+                            onAction(Action.OnBackgroundOpacityPick(it))
                         }
                     }
                     SettingTab.TextColorTab -> {
                         val textColor = remember(widget) { mutableStateOf(Color(widget.textColor.toULong())) }
                         TextColorTab(textColor.value) {
                             textColor.value = it
-                            onPreviewSettingsChange(widget.copy(textColor = it.value.toLong()))
+                            onAction(Action.OnTextColorPick(it.value.toLong()))
                         }
                     }
                     SettingTab.TextSizeTab -> {
@@ -72,10 +69,10 @@ fun StylesTabsPanel(widget: WidgetModel, onPreviewSettingsChange: (WidgetModel) 
                             textStyleBold,
                             onSizeChange = { newValue ->
                                 if (isTextDeltaValid(ctx, newValue)) {
-                                    onPreviewSettingsChange(widget.copy(textSizeDelta = newValue))
+                                    onAction(Action.OnTextSizeDeltaPick(newValue))
                                 }
                             },
-                            onStyleChange = { onPreviewSettingsChange(widget.copy(textStyleBold = it)) }
+                            onStyleChange = { onAction(Action.OnTextBoldPick) }
                         )
                     }
                 }
@@ -87,10 +84,10 @@ fun StylesTabsPanel(widget: WidgetModel, onPreviewSettingsChange: (WidgetModel) 
 sealed class SettingTab(
     @DrawableRes val iconRes: Int,
 ) {
-    object ColorTab : SettingTab(R.drawable.ic_color_palette)
-    object OpacityTab : SettingTab(R.drawable.ic_opacity)
-    object TextColorTab : SettingTab(R.drawable.ic_color_text)
-    object TextSizeTab : SettingTab(R.drawable.ic_text_size)
+    data object ColorTab : SettingTab(R.drawable.ic_color_palette)
+    data object OpacityTab : SettingTab(R.drawable.ic_opacity)
+    data object TextColorTab : SettingTab(R.drawable.ic_color_text)
+    data object TextSizeTab : SettingTab(R.drawable.ic_text_size)
 }
 
 val SettingTabsList = listOf(
@@ -100,4 +97,4 @@ val SettingTabsList = listOf(
     SettingTab.TextSizeTab,
 )
 
-private val transitionFade = fadeIn(animationSpec = tween(220, delayMillis = 90)) with fadeOut(animationSpec = tween(90))
+private val transitionFade = fadeIn(animationSpec = tween(220, delayMillis = 90)) togetherWith fadeOut(animationSpec = tween(90))

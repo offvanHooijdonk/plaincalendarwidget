@@ -37,7 +37,7 @@ class ConfigurationActivity : AppCompatActivity() {
 
         onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                viewModel.onBackPressed()
+                viewModel.onAction(ConfigureViewModel.Action.OnPackPressed)
             }
         })
     }
