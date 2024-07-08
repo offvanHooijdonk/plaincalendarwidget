@@ -14,6 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import by.offvanhooijdonk.plaincalendarv2.widget.R
 import by.offvanhooijdonk.plaincalendarv2.widget.model.DummyWidget
 import by.offvanhooijdonk.plaincalendarv2.widget.model.WidgetModel
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.ConfigureViewModel.Action
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.preview.EventColorMark
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.PlainTheme
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.dimens
@@ -21,7 +22,7 @@ import by.offvanhooijdonk.plaincalendarv2.widget.ui.views.LabeledCheckBox
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.views.Spinner
 
 @Composable
-fun SettingsScreen(widgetModel: WidgetModel, onChange: (WidgetModel) -> Unit) {
+fun SettingsScreen(widgetModel: WidgetModel, onAction: (Action) -> Unit) {
     CompositionLocalProvider(LocalTextStyle provides MaterialTheme.typography.subtitle1) {
 
         Column(
@@ -36,20 +37,21 @@ fun SettingsScreen(widgetModel: WidgetModel, onChange: (WidgetModel) -> Unit) {
             LabeledCheckBox(
                 labelText = stringResource(R.string.settings_date_as_text),
                 isChecked = widgetModel.showDateAsTextLabel,
-                onCheck = { onChange(widgetModel.copy(showDateAsTextLabel = !widgetModel.showDateAsTextLabel)) },
+                onCheck = { onAction(Action.OnDateAsTextPick) },
             )
 
             Row(verticalAlignment = Alignment.CenterVertically) {
-                val options = WidgetModel.ShowEndDate.values().map { it.title }
-                val selectedOption = remember(widgetModel.showEndDate) { mutableStateOf(widgetModel.showEndDate.ordinal) }
+                val options = WidgetModel.ShowEndDate.entries.map { it.title }
+                val selectedOption = remember(widgetModel.showEndDate) { mutableIntStateOf(widgetModel.showEndDate.ordinal) }
                 Spacer(modifier = Modifier.width(dimens().spacingM))
                 Text(stringResource(R.string.settings_show_end_date))
                 Spacer(modifier = Modifier.width(dimens().spacingS))
                 Spinner(
-                    text = options[selectedOption.value],
+                    text = options[selectedOption.intValue],
                     items = options,
                     onItemSelected = {
-                        selectedOption.value = it; onChange(widgetModel.copy(showEndDate = WidgetModel.ShowEndDate.values()[it]))
+                        selectedOption.intValue = it
+                        onAction(Action.OnShowEndDatePick(WidgetModel.ShowEndDate.entries[it]))
                     }
                 )
             }
@@ -58,7 +60,7 @@ fun SettingsScreen(widgetModel: WidgetModel, onChange: (WidgetModel) -> Unit) {
                 LabeledCheckBox(
                     labelText = stringResource(R.string.settings_show_end_color),
                     isChecked = widgetModel.showEventColor,
-                    onCheck = { onChange(widgetModel.copy(showEventColor = !widgetModel.showEventColor)) },
+                    onCheck = { onAction(Action.OnShowEventColorPick) },
                 )
                 AnimatedVisibility(visible = widgetModel.showEventColor) {
                     Column {
@@ -70,13 +72,15 @@ fun SettingsScreen(widgetModel: WidgetModel, onChange: (WidgetModel) -> Unit) {
                         ) {
                             SelectableShape(
                                 isSelected = widgetModel.eventColorShape == WidgetModel.EventColorShape.CIRCLE,
-                                onClick = { onChange(widgetModel.copy(eventColorShape = WidgetModel.EventColorShape.CIRCLE)) }) {
+                                onClick = { onAction(Action.OnEventColorShapePick(WidgetModel.EventColorShape.CIRCLE)) },
+                            ) {
                                 EventColorMark(MaterialTheme.colors.secondary, WidgetModel.EventColorShape.CIRCLE, multiplier = 4.0f)
                             }
                             Spacer(modifier = Modifier.width(dimens().eventMarkSpacing))
                             SelectableShape(
                                 isSelected = widgetModel.eventColorShape == WidgetModel.EventColorShape.SQUARE,
-                                onClick = { onChange(widgetModel.copy(eventColorShape = WidgetModel.EventColorShape.SQUARE)) }) {
+                                onClick = { onAction(Action.OnEventColorShapePick(WidgetModel.EventColorShape.SQUARE)) },
+                            ) {
                                 EventColorMark(MaterialTheme.colors.secondary, WidgetModel.EventColorShape.SQUARE, multiplier = 4.0f)
                             }
                         }
@@ -87,7 +91,7 @@ fun SettingsScreen(widgetModel: WidgetModel, onChange: (WidgetModel) -> Unit) {
             LabeledCheckBox(
                 labelText = stringResource(R.string.settings_show_events_dividers),
                 isChecked = widgetModel.showEventDividers,
-                onCheck = { onChange(widgetModel.copy(showEventDividers = !widgetModel.showEventDividers)) },
+                onCheck = { onAction(Action.OnShowDividersPick) },
             )
         }
     }
@@ -122,6 +126,6 @@ private fun SelectableShape(isSelected: Boolean, onClick: () -> Unit, block: @Co
 @Composable
 private fun Preview_SettingsScreen() {
     PlainTheme {
-        SettingsScreen(widgetModel = DummyWidget, onChange = {})
+        SettingsScreen(widgetModel = DummyWidget, onAction = {})
     }
 }

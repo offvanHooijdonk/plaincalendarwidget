@@ -10,8 +10,8 @@ android {
         applicationId "by.offvanhooijdonk.plaincalendar.widget"
         minSdk 26
         targetSdk 34
-        versionCode 5
-        versionName "0.1.1-beta-01"
+        versionCode 6
+        versionName "0.1.1-beta-02"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -29,27 +29,28 @@ android {
         jvmTarget = "11"
     }
     composeOptions {
-        kotlinCompilerExtensionVersion '1.4.3'
+        kotlinCompilerExtensionVersion '1.5.14'
     }
     buildFeatures {
         compose true
     }
+    namespace 'by.offvanhooijdonk.plaincalendarv2.widget'
 }
 
 dependencies {
     ext.room_version = '2.4.3'
     ext.koin_version = "3.5.3"
-    ext.lifecycle_version = "2.7.0"
-    ext.compose_version = "1.6.4"
-    ext.acompanist_version = "0.30.1"
+    ext.lifecycle_version = "2.8.3"
+    ext.compose_version = "1.6.8"
+    ext.acompanist_version = "0.34.0"
 
-    implementation 'androidx.core:core-ktx:1.12.0'
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.11.0'
+    implementation 'androidx.core:core-ktx:1.13.1'
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'com.google.android.material:material:1.12.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
-    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.appcompat:appcompat:1.7.0'
 
     // --- COMPOSE ---
     implementation "androidx.compose.ui:ui:$compose_version"
@@ -57,7 +58,7 @@ dependencies {
     implementation "androidx.compose.foundation:foundation:$compose_version"
     implementation "androidx.compose.material:material:$compose_version"
     implementation "androidx.constraintlayout:constraintlayout-compose:1.0.1"
-    implementation "androidx.activity:activity-compose:1.8.2"
+    implementation "androidx.activity:activity-compose:1.9.0"
     // accompanist
     implementation "com.google.accompanist:accompanist-systemuicontroller:$acompanist_version"
     implementation "com.google.accompanist:accompanist-permissions:$acompanist_version"
@@ -66,7 +67,7 @@ dependencies {
     implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
 
     // Compose Widgets
-    implementation "androidx.glance:glance-appwidget:1.0.0"
+    implementation "androidx.glance:glance-appwidget:1.1.0"
 
     // compose showcase intro
     implementation 'com.canopas.intro-showcase-view:introshowcaseview:1.0.7'

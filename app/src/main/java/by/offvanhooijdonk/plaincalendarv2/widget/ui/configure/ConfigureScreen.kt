@@ -28,6 +28,7 @@ import by.offvanhooijdonk.plaincalendarv2.widget.R
 import by.offvanhooijdonk.plaincalendarv2.widget.model.CalendarModel
 import by.offvanhooijdonk.plaincalendarv2.widget.model.DummyWidget
 import by.offvanhooijdonk.plaincalendarv2.widget.model.WidgetModel
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.ConfigureViewModel.Action
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.CalendarsPickDialog
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.SettingsScreen
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.settings.layouts.LayoutsPickPanel
@@ -44,11 +45,12 @@ import kotlin.math.roundToInt
 
 @Composable
 fun MainScreen(viewModel: ConfigureViewModel) {
-    val widget = viewModel.widgetModel.observeAsState(DummyWidget).value
-    val title = when (viewModel.loadResult.observeAsState().value) {
-        is Result.Widget.Success -> stringResource(R.string.toolbar_title_widget_number, widget.id)
-        Result.Widget.Empty -> stringResource(R.string.app_name)
-        Result.Widget.New -> stringResource(R.string.toolbar_title_new_widget)
+    val widget = viewModel.widgetModel.collectAsState().value
+    val state = viewModel.uiState.collectAsState().value
+    val title = when (state.loadState) {
+        is LoadState.Widget.Success -> stringResource(R.string.toolbar_title_widget_number, widget.id)
+        LoadState.Widget.Empty -> stringResource(R.string.app_name)
+        LoadState.Widget.New -> stringResource(R.string.toolbar_title_new_widget)
         else -> stringResource(R.string.toolbar_title_empty)
     }
 
@@ -62,13 +64,13 @@ fun MainScreen(viewModel: ConfigureViewModel) {
 
     val widgetIds = viewModel.widgetIdsList.observeAsState()
     IntroShowCaseScaffold(
-        showIntroShowCase = !viewModel.isIntroPassed.observeAsState(true).value,
-        onShowCaseCompleted = { viewModel.onIntroPassed() }
+        showIntroShowCase = !state.isIntroPassed,
+        onShowCaseCompleted = { viewModel.onAction(Action.OnIntroPassed) }
     ) {
         ModalBottomSheetLayout(
             sheetState = sheetState,
             sheetContent = {
-                SettingsScreen(viewModel.widgetModel.observeAsState(DummyWidget).value, viewModel::onWidgetChange)
+                SettingsScreen(viewModel.widgetModel.collectAsState().value, viewModel::onAction)
             },
         ) {
             Scaffold(
@@ -76,9 +78,9 @@ fun MainScreen(viewModel: ConfigureViewModel) {
                 topBar = {
                     TopAppBar(title = { Text(title) }, actions = {
                         widgetIds.value?.takeIf { it.size > 1 }?.let { list ->
-                            WidgetsDropDown(list) { viewModel.onWidgetPicked(it) }
+                            WidgetsDropDown(list) { viewModel.onAction(Action.OnWidgetPick(it)) }
                         }
-                        IconButton(onClick = { viewModel.onIntroductionRequested() }) {
+                        IconButton(onClick = { viewModel.onAction(Action.OnIntroductionRequested) }) {
                             Icon(painter = painterResource(R.drawable.ic_help), contentDescription = "Introduction")
                         }
                     })
@@ -90,18 +92,18 @@ fun MainScreen(viewModel: ConfigureViewModel) {
         }
     }
 
-    if (viewModel.showExitConfirmation.observeAsState(false).value) {
+    if (state.isShowExitConfirmation) {
         AlertDialog(
-            onDismissRequest = { viewModel.onExitCanceled() },
+            onDismissRequest = { viewModel.onAction(Action.OnExitCanceled) },
             title = { Text(stringResource(R.string.exit_confirmation_title)) },
             text = { Text(stringResource(R.string.exit_confirmation_text)) },
             confirmButton = {
-                TextButton(onClick = viewModel::onExitConfirmed) {
+                TextButton(onClick = { viewModel.onAction(Action.OnExitConfirmed) }) {
                     Text(stringResource(android.R.string.ok))
                 }
             },
             dismissButton = {
-                TextButton(onClick = viewModel::onExitCanceled) {
+                TextButton(onClick = { viewModel.onAction(Action.OnExitCanceled) }) {
                     Text(stringResource(android.R.string.cancel))
                 }
             }
@@ -112,18 +114,16 @@ fun MainScreen(viewModel: ConfigureViewModel) {
 @Composable
 private fun IntroShowCaseScope.ConfigureScreenWrap(viewModel: ConfigureViewModel) { // added to calm compiler
     val widget = viewModel.widgetModel.collectAsState(DummyWidget).value
-    when (val result = viewModel.loadResult.observeAsState().value) {
-        Result.Widget.New, Result.Widget.Success, Result.Widget.Empty -> ConfigureScreen(
-            widget.value,
-            viewModel.calendarsResponse.observeAsState().value ?: Result.Idle,
-            onCalendarsRequested = viewModel::loadCalendars,
+    val state = viewModel.uiState.collectAsState().value
+    when (val result = state.loadState) {
+        LoadState.Widget.New, LoadState.Widget.Success, LoadState.Widget.Empty -> ConfigureScreen(
+            widget,
+            viewModel.calendarsResponse.observeAsState().value ?: LoadState.Idle,
             onAction = viewModel::onAction,
-            onSaveChanges = viewModel::updateWidget,
-            onSettingsClick = viewModel::onSettingsClick,
-            viewModel.isIntroPassed.observeAsState(true).value,
+            state.isIntroPassed,
         )
-        is Result.Error -> ErrorScreen(result.msg ?: "Default error")
-        Result.Progress, Result.Idle -> LoadingScreen()
+        is LoadState.Error -> ErrorScreen(result.msg ?: "Default error")
+        LoadState.Progress, LoadState.Idle -> LoadingScreen()
         else -> Unit
     }
 }
@@ -131,12 +131,8 @@ private fun IntroShowCaseScope.ConfigureScreenWrap(viewModel: ConfigureViewModel
 @Composable
 private fun IntroShowCaseScope.ConfigureScreen(
     widget: WidgetModel,
-    allCalendars: Result, // todo don't like it
-    onCalendarsRequested: () -> Unit,
-    onAction: (ConfigureViewModel.Action) -> Unit,
-    //onWidgetChange: (WidgetModel) -> Unit,
-    onSaveChanges: () -> Unit,
-    onSettingsClick: () -> Unit,
+    allCalendars: LoadState, // todo don't like it
+    onAction: (Action) -> Unit,
     isIntroPassed: Boolean,
 ) {
     val dimens = dimens() // constraints do not take composable functions
@@ -155,22 +151,22 @@ private fun IntroShowCaseScope.ConfigureScreen(
                 CalendarsForm(
                     widget.calendars,
                     allCalendars,
-                    onChangeBtnClick = onCalendarsRequested,
+                    onChangeBtnClick = { onAction(Action.OnCalendarsRequested) },
                     onCalendarsSelected = { list ->
-                        onAction(ConfigureViewModel.Action.OnCalendarsPicked(list))
-                        callOnWidgetChanged(widget.copy(calendars = list, calendarIds = list.map { it.id }))
+                        onAction(Action.OnCalendarsPicked(list))
+                        // todo logic to VM (widget.copy(calendars = list, calendarIds = list.map { it.id }))
                     },
                 )
                 Spacer(modifier = Modifier.height(dimens().spacingL))
 
-                DaysNumberForm(widget.days) { callOnWidgetChanged(widget.copy(days = it)) }
+                DaysNumberForm(widget.days, onAction)
             }
             LayoutsPickPanel(
                 modifier = Modifier.constrainAs(layouts) {
                     top.linkTo(topSettings.bottom)
                 },
                 widget = widget,
-                onLayoutPick = { callOnWidgetChanged(widget.copy(layoutType = it)) },
+                onLayoutPick = { onAction(Action.OnLayoutPick(it)) },
             )
 
             WidgetPreview(
@@ -205,7 +201,7 @@ private fun IntroShowCaseScope.ConfigureScreen(
                         end.linkTo(preview.end)
                     }
                     .introShowCaseTarget(IntroTargets.APPLY.ordinal, IntroStyleApplyButton) { IntroApplyButton() },
-                onClick = onSaveChanges,
+                onClick = { onAction(Action.OnSaveChanges) },
                 enabled = isSaveEnabled,
             ) {
                 Text(text = stringResource(R.string.btn_save_widget_settings))
@@ -218,7 +214,7 @@ private fun IntroShowCaseScope.ConfigureScreen(
                         start.linkTo(preview.start)
                     }
                     .introShowCaseTarget(IntroTargets.SETTINGS.ordinal, IntroStyleSettings) { IntroSettings() },
-                onClick = onSettingsClick,
+                onClick = { onAction(Action.OnSettingsClick) },
                 backgroundColor = MaterialTheme.colors.surface,
                 contentColor = MaterialTheme.colors.primary,
             ) {
@@ -231,7 +227,7 @@ private fun IntroShowCaseScope.ConfigureScreen(
                 .constrainAs(bottomSettings) {
                     bottom.linkTo(parent.bottom)
                 }) {
-                StylesTabsPanel(widget) { callOnWidgetChanged(it) }
+                StylesTabsPanel(widget, onAction)
             }
             Box(modifier = Modifier
                 .constrainAs(bottomSettingsIntro) {
@@ -249,7 +245,7 @@ private fun IntroShowCaseScope.ConfigureScreen(
 @Composable
 private fun IntroShowCaseScope.CalendarsForm(
     pickedCalendars: List<CalendarModel>,
-    allCalendars: Result,
+    allCalendars: LoadState,
     onChangeBtnClick: () -> Unit,
     onCalendarsSelected: (List<CalendarModel>) -> Unit,
 ) {
@@ -343,7 +339,7 @@ private fun IntroShowCaseScope.CalendarsForm(
         }
     }
 
-    if (allCalendars is Result.Calendars.Success && isDialogCanShow.value) {
+    if (allCalendars is LoadState.Calendars.Success && isDialogCanShow.value) {
         CalendarsPickDialog(
             pickedCalendars = pickedCalendars,
             allCalendars = allCalendars.list,
@@ -356,7 +352,7 @@ private fun IntroShowCaseScope.CalendarsForm(
 }
 
 @Composable
-private fun IntroShowCaseScope.DaysNumberForm(daySelected: Int, onDaysChange: (Int) -> Unit) {
+private fun IntroShowCaseScope.DaysNumberForm(daySelected: Int, onAction: (Action) -> Unit) {
     Column(modifier = Modifier.fillMaxWidth()) {
         Text(text = stringResource(R.string.title_days_to_show).uppercase(), color = MaterialTheme.colors.primary)
 
@@ -381,7 +377,7 @@ private fun IntroShowCaseScope.DaysNumberForm(daySelected: Int, onDaysChange: (I
                     valueRange = DAYS_RANGE_MIN.toFloat()..DAYS_RANGE_MAX.toFloat(),
                     steps = DAYS_RANGE_STEPS,
                     onValueChange = { daysPick.value = it },
-                    onValueChangeFinished = { onDaysChange(daysPick.value.roundToInt()) },
+                    onValueChangeFinished = { onAction(Action.OnDaysPick(daysPick.value.roundToInt())) },
                 )
             }
 
@@ -424,7 +420,7 @@ private fun ErrorScreen(msg: String) {
 fun Preview_ConfigureNew() {
     PlainTheme {
         IntroShowCaseScaffold(showIntroShowCase = true, onShowCaseCompleted = { /*TODO*/ }) {
-            ConfigureScreen(DummyWidget.copy(id = 1L, days = 25), Result.Idle, {}, {}, {}, {}, true)
+            ConfigureScreen(DummyWidget.copy(id = 1L, days = 25), LoadState.Idle, {}, true)
         }
     }
 }
