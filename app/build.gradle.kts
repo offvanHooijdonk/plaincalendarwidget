@@ -16,8 +16,8 @@ android {
         applicationId = "by.offvanhooijdonk.plaincalendarv2.widget"
         minSdk = 31
         targetSdk = 37
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 8
+        versionName = "0.2.0-beta-01"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
