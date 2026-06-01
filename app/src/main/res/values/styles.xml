@@ -1,0 +1,8 @@
+<resources>
+
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowBackground">#00000000</item>
+        <item name="android:windowShowWallpaper">true</item>
+    </style>
+</resources>
