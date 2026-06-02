@@ -46,8 +46,8 @@ class ConfigureViewModel(
     private val _finishScreen = MutableStateFlow<FinishResult?>(null)
     val finishScreen: StateFlow<FinishResult?> = _finishScreen // TODO replace with SideEffect
 
-    private val _showSettingsSheet = MutableStateFlow(Flag(false))
-    val showSettingsSheet: StateFlow<Flag> = _showSettingsSheet // TODO replace with SideEffect
+    private val _showSettingsSheet = MutableStateFlow(false)
+    val showSettingsSheet: StateFlow<Boolean> = _showSettingsSheet // TODO replace with SideEffect
 
     private val _widgetIdsList = MutableStateFlow<List<GlanceId>>(emptyList())
     val widgetIdsList: StateFlow<List<GlanceId>> = _widgetIdsList // TODO replace with State
@@ -151,7 +151,7 @@ class ConfigureViewModel(
     }
 
     private fun onSettingsClick() {
-        _showSettingsSheet.update { Flag(true) }
+        _showSettingsSheet.update { !_showSettingsSheet.value }
     }
 
     private fun onBackPressed() {

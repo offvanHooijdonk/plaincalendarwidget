@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -23,19 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import by.offvanhooijdonk.plaincalendarv2.widget.ui.intro.IntroApplyButton
-import by.offvanhooijdonk.plaincalendarv2.widget.ui.intro.IntroColorsTabs
-import by.offvanhooijdonk.plaincalendarv2.widget.ui.intro.IntroConfigureCalendars
-import by.offvanhooijdonk.plaincalendarv2.widget.ui.intro.IntroDays
-import by.offvanhooijdonk.plaincalendarv2.widget.ui.intro.IntroPreview
-import by.offvanhooijdonk.plaincalendarv2.widget.ui.intro.IntroSettings
-import by.offvanhooijdonk.plaincalendarv2.widget.ui.intro.IntroStyleApplyButton
-import by.offvanhooijdonk.plaincalendarv2.widget.ui.intro.IntroStyleColorsTabs
-import by.offvanhooijdonk.plaincalendarv2.widget.ui.intro.IntroStyleConfigureCalendars
-import by.offvanhooijdonk.plaincalendarv2.widget.ui.intro.IntroStyleDays
-import by.offvanhooijdonk.plaincalendarv2.widget.ui.intro.IntroStylePreview
-import by.offvanhooijdonk.plaincalendarv2.widget.ui.intro.IntroStyleSettings
-import by.offvanhooijdonk.plaincalendarv2.widget.ui.intro.IntroTargets
+import by.offvanhooijdonk.plaincalendarv2.widget.R
 import by.offvanhooijdonk.plaincalendarv2.widget.model.CalendarModel
 import by.offvanhooijdonk.plaincalendarv2.widget.model.DummyWidget
 import by.offvanhooijdonk.plaincalendarv2.widget.model.WidgetModel
@@ -49,11 +38,9 @@ import by.offvanhooijdonk.plaincalendarv2.widget.ui.intro.*
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.PlainTheme
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.dimens
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.views.ExtendedFAB
-import by.offvanhooijdonk.plaincalendarv2.widget.R
 import com.canopas.lib.showcase.IntroShowCaseScaffold
 import com.canopas.lib.showcase.IntroShowCaseScope
 import com.google.accompanist.permissions.*
-import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 @Composable
@@ -69,11 +56,6 @@ fun MainScreen(viewModel: ConfigureViewModel) {
 
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val isShowSettings = viewModel.showSettingsSheet.collectAsState().value
-    LaunchedEffect(key1 = isShowSettings) {
-        if (isShowSettings.value) {
-            sheetState.show()
-        }
-    }
 
     val widgetIds = viewModel.widgetIdsList.collectAsState()
     IntroShowCaseScaffold(
@@ -92,13 +74,15 @@ fun MainScreen(viewModel: ConfigureViewModel) {
                     }
                 })
             },
-        ) {
-            it.calculateBottomPadding()
-            ConfigureScreenWrap(viewModel)
+        ) { innerPaddings ->
+            Box(Modifier.padding(top = innerPaddings.calculateTopPadding())) {
+                ConfigureScreenWrap(viewModel)
 
-            val corScope = rememberCoroutineScope()
-            ModalBottomSheet(sheetState = sheetState, onDismissRequest = { corScope.launch { sheetState.hide() } }) {
-                SettingsScreen(viewModel.widgetModel.collectAsState().value, viewModel::onAction)
+                if (isShowSettings) {
+                    ModalBottomSheet(sheetState = sheetState, onDismissRequest = { viewModel.onAction(Action.OnSettingsClick) }) {
+                        SettingsScreen(viewModel.widgetModel.collectAsState().value, viewModel::onAction)
+                    }
+                }
             }
         }
     }
@@ -236,6 +220,7 @@ private fun IntroShowCaseScope.ConfigureScreen(
             Box(
                 modifier = Modifier
                     .background(color = MaterialTheme.colorScheme.surface)
+                    .padding(bottom = dimens().spacingL)
                     .fillMaxWidth()
                     .constrainAs(bottomSettings) {
                         bottom.linkTo(parent.bottom)
@@ -266,7 +251,8 @@ private fun IntroShowCaseScope.CalendarsForm(
     val dimens = dimens()
     val isDialogCanShow = remember { mutableStateOf(false) }
 
-    val permissionCalendar = rememberPermissionState(
+    val isPreview = LocalInspectionMode.current
+    val permissionCalendar = if (isPreview) DummyPermissionState else rememberPermissionState(
         android.Manifest.permission.READ_CALENDAR
     ) { isGranted ->
         if (isGranted) {
@@ -312,7 +298,7 @@ private fun IntroShowCaseScope.CalendarsForm(
                             if (permissionCalendar.status.shouldShowRationale) {
                                 Toast.makeText(context, rationaleText, Toast.LENGTH_LONG).show()
                             }
-                            permissionCalendar.launchPermissionRequest()
+                            if (!isPreview) permissionCalendar.launchPermissionRequest()
                         } else {
                             onChangeBtnClick()
                             isDialogCanShow.value = true
@@ -378,7 +364,7 @@ private fun IntroShowCaseScope.DaysNumberForm(daySelected: Int, onAction: (Actio
     Column(modifier = Modifier.fillMaxWidth()) {
         Text(text = stringResource(R.string.title_days_to_show).uppercase(), color = MaterialTheme.colorScheme.primary)
 
-        val daysPick = remember(daySelected) { mutableStateOf(daySelected.toFloat()) }
+        val daysPick = remember(daySelected) { mutableFloatStateOf(daySelected.toFloat()) }
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
                 modifier = Modifier.width(dimens().spacingXXL),
@@ -442,8 +428,18 @@ private fun ErrorScreen(msg: String) {
 @Composable
 fun Preview_ConfigureNew() {
     PlainTheme {
-        IntroShowCaseScaffold(showIntroShowCase = true, onShowCaseCompleted = { /*TODO*/ }) {
+        IntroShowCaseScaffold(showIntroShowCase = false, onShowCaseCompleted = { /*TODO*/ }) {
             ConfigureScreen(DummyWidget.copy(id = 1L, days = 25), LoadState.Idle, {}, true)
         }
     }
+}
+
+private object DummyPermissionState : PermissionState {
+    override val permission: String = ""
+    override val status: PermissionStatus = PermissionStatus.Granted
+
+    override fun launchPermissionRequest() {
+
+    }
+
 }

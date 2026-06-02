@@ -7,7 +7,6 @@ import androidx.compose.runtime.Composable
 val PlainThemeShapes @Composable get() =
     Shapes(
         medium = RoundedCornerShape(dimens().dialogCornerRadius),
-        large = RoundedCornerShape(topStart = dimens().dialogCornerRadius, topEnd = dimens().dialogCornerRadius),
     )
 
 val WidgetItemShape @Composable get() =  RoundedCornerShape(dimens().spacingM)

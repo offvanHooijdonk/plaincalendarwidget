@@ -44,7 +44,7 @@ fun WidgetBlueprintTimeline(widget: WidgetModel) {
                 Column {
                     WidgetEventItem(item, widget)
                     if (widget.showEventDividers && (index < events.size - 1)) {
-                        HorizontalDivider(thickness = dimens().eventItemPaddingH)
+                        HorizontalDivider()
                     }
                 }
             }
