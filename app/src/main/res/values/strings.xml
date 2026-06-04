@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Plain Calendar Widget</string>
-    <string name="widget_description">Calendar events list in a minimalistic manner</string>
+    <string name="calendar_widget_description">Calendar events list in a minimalistic manner</string>
+    <string name="weather_widget_description">Weather widget as I see it</string>
 
     <string name="widget_empty_events_list">No Events</string>
     <string name="fish_day_of_week">su</string>

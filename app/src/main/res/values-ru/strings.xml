@@ -11,7 +11,8 @@
 
     <string name="date_and_time_format">%s %s</string>
     <string name="date_range_format">%s - %s</string>
-    <string name="widget_description">Минималистичный календарь событий</string>
+    <string name="calendar_widget_description">Минималистичный календарь событий</string>
+    <string name="weather_widget_description">Виджет погоды каким его вижу я</string>
     <string name="event_end_option_never">Никогда</string>
     <string name="event_end_option_if_next_day">Если заканчивается в другой день</string>
     <string name="event_end_option_always">Всегда</string>

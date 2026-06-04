@@ -16,7 +16,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name="by.offvanhooijdonk.plaincalendarv2.widget.ui.configure.ConfigurationActivity"
+            android:name="by.offvanhooijdonk.plaincalendarv2.widget.ui.calendar.configure.ConfigurationActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan">
@@ -31,7 +31,7 @@
         </activity>
 
         <receiver
-            android:name=".glance.PlainGlanceWidgetReceiver"
+            android:name=".glance.calendar.PlainGlanceWidgetReceiver"
             android:exported="true"
             android:label="@string/app_name">
 
@@ -51,6 +51,26 @@
         <service
             android:name=".data.CalendarChangeJobService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
+
+        <receiver
+            android:name=".glance.weather.WeatherWidgetReceiver"
+            android:exported="true"
+            android:label="@string/app_name">
+
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="android.intent.action.LOCALE_CHANGED" />
+                <action android:name="android.intent.action.APPLICATION_LOCALE_CHANGED" />
+                <action android:name="android.intent.action.TIME_SET" />
+                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
+                <action android:name="android.intent.action.DATE_CHANGED" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/weather_widget_info" />
+        </receiver>
+
     </application>
 
 </manifest>

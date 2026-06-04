@@ -9,7 +9,7 @@ import android.content.Context
 import android.net.Uri
 import android.util.Log
 import by.offvanhooijdonk.plaincalendarv2.widget.app.App
-import by.offvanhooijdonk.plaincalendarv2.widget.glance.PlainGlanceWidget
+import by.offvanhooijdonk.plaincalendarv2.widget.glance.calendar.PlainGlanceWidget
 
 class CalendarChangeJobService : JobService() {
 

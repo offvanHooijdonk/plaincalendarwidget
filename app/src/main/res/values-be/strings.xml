@@ -10,7 +10,8 @@
 
     <string name="date_and_time_format">%s %s</string>
     <string name="date_range_format">%s - %s</string>
-    <string name="widget_description">Мiнiмалiстычны каляндарь падзей</string>
+    <string name="calendar_widget_description">Мiнiмалiстычны каляндарь падзей</string>
+    <string name="weather_widget_description">Віджэт надвор\'я як бачу яго я</string>
     <string name="event_end_option_never">Нiколi</string>
     <string name="event_end_option_if_next_day">Калi скончываецца у другi дзень</string>
     <string name="event_end_option_always">Заўсёды</string>

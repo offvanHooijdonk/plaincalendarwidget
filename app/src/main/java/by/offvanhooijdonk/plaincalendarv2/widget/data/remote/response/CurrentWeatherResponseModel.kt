@@ -10,14 +10,16 @@ data class CurrentWeatherResponseModel(
     val main: MainData,
     val wind: Wind,
     val clouds: Clouds,
+    val rain: Falls?,
+    val snow: Falls?,
     /** distance */
     val visibility: Int,
-    /** timezone ? */
+    /** timezone in seconds */
     val timezone: Int,
     /** localized location name */
     val name: String,
     val sys: Sys,
-    /** timestamp of ? */
+    /** timestamp of weather calculations */
     val dt: Long,
 ) {
     data class Weather(
@@ -61,10 +63,14 @@ data class CurrentWeatherResponseModel(
         val speed: Float,
         /** direction in degrees */
         val deg: Int,
-        /** ??? */
+        /** speed on blows */
         val gust: Float,
     )
     data class Clouds(
         val all: Int,
+    )
+    data class Falls(
+        @SerialName("1h")
+        val hour: Float,
     )
 }
