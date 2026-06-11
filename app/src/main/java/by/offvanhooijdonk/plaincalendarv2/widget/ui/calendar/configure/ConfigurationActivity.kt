@@ -31,7 +31,7 @@ class ConfigurationActivity : AppCompatActivity() {
                         val intent = Intent().apply {
                             putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId)
                         }
-                        setResult(if (it == ConfigureViewModel.FinishResult.OK) RESULT_OK else RESULT_CANCELED, intent)
+                        setResult(if (it == FinishResult.OK) RESULT_OK else RESULT_CANCELED, intent)
                     }
 
                     finish()
@@ -41,7 +41,7 @@ class ConfigurationActivity : AppCompatActivity() {
 
         onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                viewModel.onAction(ConfigureViewModel.Action.OnPackPressed)
+                viewModel.onAction(ConfigureViewModel.Action.OnBackPressed)
             }
         })
     }

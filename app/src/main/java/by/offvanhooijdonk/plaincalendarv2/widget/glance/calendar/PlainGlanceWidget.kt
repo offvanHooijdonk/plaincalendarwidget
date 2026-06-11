@@ -28,7 +28,7 @@ import org.koin.core.component.inject
 class PlainGlanceWidget : GlanceAppWidget(), KoinComponent {
     override val stateDefinition: GlanceStateDefinition<Preferences> = PreferencesGlanceStateDefinition
 
-    private val viewModel: WidgetViewModel by inject()
+    private val viewModel: CalendarWidgetViewModel by inject()
     private val context: Context by inject()
     private val coroutineScope = MainScope()
 

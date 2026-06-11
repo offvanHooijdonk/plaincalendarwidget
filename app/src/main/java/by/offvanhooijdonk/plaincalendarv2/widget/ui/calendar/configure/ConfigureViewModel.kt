@@ -104,7 +104,7 @@ class ConfigureViewModel(
             is Action.OnTextColorPick -> _widgetModel.update { it.copy(textColor = action.colorValue) }
             is Action.OnTextSizeDeltaPick -> _widgetModel.update { it.copy(textSizeDelta = action.textSizeDelta) }
             Action.OnSettingsClick -> onSettingsClick()
-            Action.OnPackPressed -> onBackPressed()
+            Action.OnBackPressed -> onBackPressed()
             Action.OnExitCanceled -> _uiState.update { it.copy(isShowExitConfirmation = false) }
             Action.OnExitConfirmed -> onExitConfirmed()
             Action.OnIntroPassed -> onIntroPassed()
@@ -198,7 +198,7 @@ class ConfigureViewModel(
         data object OnDateAsTextPick : Action
         data object OnShowEventColorPick : Action
         data object OnShowDividersPick : Action
-        data object OnPackPressed : Action
+        data object OnBackPressed : Action
         data class OnCalendarsPicked(val calendars: List<CalendarModel>) : Action
         data class OnLayoutPick(val layoutType: WidgetModel.LayoutType) : Action
         data class OnBackgroundColorPick(val colorValue: Long) : Action
@@ -222,10 +222,11 @@ class ConfigureViewModel(
         val loadState: LoadState = LoadState.Idle,
     )
 
-    enum class FinishResult {
-        OK, CANCELED
-    }
 
+}
+
+enum class FinishResult {
+    OK, CANCELED
 }
 
 fun GlanceId.toIntId() = (this as AppWidgetId).appWidgetId
