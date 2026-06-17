@@ -9,11 +9,13 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import by.offvanhooijdonk.plaincalendarv2.widget.R
@@ -22,7 +24,23 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun BackgroundColorTab(colorSelected: Color, onColorPick: (Color) -> Unit) {
-    ColorTab(BackgroundColors, colorSelected, onColorPick)
+    val dynamicColors = dynamicLightColorScheme(LocalContext.current).let { scheme ->
+        listOf(
+            scheme.primary,
+            scheme.secondary,
+            scheme.tertiary,
+            scheme.onPrimary,
+            scheme.onSecondary,
+            scheme.onTertiary,
+            scheme.primaryContainer,
+            scheme.secondaryContainer,
+            scheme.tertiaryContainer,
+            scheme.onPrimaryContainer,
+            scheme.onSecondaryContainer,
+            scheme.onTertiaryContainer,
+        ).distinctBy { it.value }
+    }
+    ColorTab(dynamicColors + BackgroundColors, colorSelected, onColorPick)
 }
 
 @Composable
