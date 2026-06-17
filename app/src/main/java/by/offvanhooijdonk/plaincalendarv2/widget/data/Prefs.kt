@@ -2,6 +2,7 @@ package by.offvanhooijdonk.plaincalendarv2.widget.data
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.core.content.edit
 
 class Prefs(ctx: Context) {
     private val sharedPreferences: SharedPreferences = ctx.getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE)
@@ -9,7 +10,7 @@ class Prefs(ctx: Context) {
     var isIntroPassed: Boolean
         get() = sharedPreferences.getBoolean(KEY_IS_INTRO_PASSED, false)
         set(value) {
-            sharedPreferences.edit().putBoolean(KEY_IS_INTRO_PASSED, value).apply()
+            sharedPreferences.edit { putBoolean(KEY_IS_INTRO_PASSED, value) }
         }
 
     companion object {

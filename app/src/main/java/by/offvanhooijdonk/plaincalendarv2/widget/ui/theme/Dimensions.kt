@@ -46,10 +46,10 @@ interface AppDimensions {
     val eventColorMarkRadiusSquare: Dp get() = spacingXS
     val dialogCornerRadius: Dp get() = 28.dp
     val widgetCornerRadius: Dp get() = 28.dp
-    val screenPaddingV: Dp get() = spacingL
-    val screenPaddingH: Dp get() = spacingL
     val styleBlockHeight: Dp get() = 80.dp
     val eventMarkSpacing: Dp get() = spacingXXL
+
+    val widgetSelectionCardHeight: Dp get() = 120.dp
 }
 
 object Dimensions : AppDimensions
@@ -70,9 +70,7 @@ object GlanceDimensions : AppDimensions {
     override val eventColorMarkSize: Dp get() = 10.dp
 }
 
-object TabletDimensions : AppDimensions {
-
-}
+object TabletDimensions : AppDimensions
 
 @Composable
 fun dimens() = LocalDimensions.current

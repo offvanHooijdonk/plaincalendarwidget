@@ -7,14 +7,14 @@ import androidx.compose.ui.res.stringResource
 import by.offvanhooijdonk.plaincalendarv2.widget.R
 
 @Stable
-data class WidgetModel(
+data class CalendarWidgetModel(
     val id: Long = 0,
     val days: Int,
-    val backgroundColor: Long,
-    val textColor: Long,
-    val opacity: Float,
-    val textSizeDelta: Int,
-    val textStyleBold: Boolean,
+    override val backgroundColor: Long,
+    override val textColor: Long,
+    override val opacity: Float,
+    override val textSizeDelta: Int,
+    override val textStyleBold: Boolean,
     /** Show marks (circles) with event color */
     val showEventColor: Boolean,
     val eventColorShape: EventColorShape,
@@ -27,8 +27,8 @@ data class WidgetModel(
     val layoutType: LayoutType,
     val calendars: List<CalendarModel> = emptyList(), // use to present on preview todo remove and use Calendars list on preview as an independent val
     val calendarIds: List<Long> = emptyList(), // use to store with widget info
-) {
-    fun isEqualSettings(other: WidgetModel?): Boolean =
+) : ColorSettings {
+    fun isEqualSettings(other: CalendarWidgetModel?): Boolean =
         other?.copy(calendars = emptyList()) == copy(calendars = emptyList())
 
     enum class ShowEndDate {
@@ -83,7 +83,7 @@ data class WidgetModel(
     companion object {
         const val DAYS_DEFAULT = 7
 
-        fun createDefault(id: Long? = null) = WidgetModel(
+        fun createDefault(id: Long? = null) = CalendarWidgetModel(
             id = id ?: 0,
             days = DAYS_DEFAULT,
             backgroundColor = Color.White.value.toLong(),
@@ -102,4 +102,4 @@ data class WidgetModel(
     }
 }
 
-val DummyWidget = WidgetModel.createDefault()
+val DummyWidget = CalendarWidgetModel.createDefault()

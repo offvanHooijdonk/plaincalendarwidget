@@ -18,7 +18,8 @@ import by.offvanhooijdonk.plaincalendarv2.widget.glance.calendar.prefs.readWidge
 import by.offvanhooijdonk.plaincalendarv2.widget.glance.calendar.prefs.writeToPrefs
 import by.offvanhooijdonk.plaincalendarv2.widget.model.CalendarModel
 import by.offvanhooijdonk.plaincalendarv2.widget.model.DummyWidget
-import by.offvanhooijdonk.plaincalendarv2.widget.model.WidgetModel
+import by.offvanhooijdonk.plaincalendarv2.widget.model.CalendarWidgetModel
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.calendar.configure.settings.tabs.StyleAction
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -30,7 +31,7 @@ class ConfigureViewModel(
     private val calendarDataSource: CalendarDataSource,
     private val prefs: Prefs,
 ) : ViewModel() {
-    private var initialWidgetModel: WidgetModel? = null
+    private var initialCalendarWidgetModel: CalendarWidgetModel? = null
 
     private val _widgetModel = MutableStateFlow(DummyWidget)
     val widgetModel = _widgetModel.asStateFlow()
@@ -65,9 +66,9 @@ class ConfigureViewModel(
                     loadCalendars()
                 } ?: run {
                     _uiState.update { state -> state.copy(loadState = LoadState.Widget.New) }
-                    _widgetModel.value = WidgetModel.createDefault(it.toLong())
+                    _widgetModel.value = CalendarWidgetModel.createDefault(it.toLong())
                         .let { w -> if (!_uiState.value.isIntroPassed) w.copy(days = 1) else w }
-                        .also { w -> initialWidgetModel = w.copy() }
+                        .also { w -> initialCalendarWidgetModel = w.copy() }
                 }
             } ?: run {
                 //  todo move to separate class
@@ -78,7 +79,7 @@ class ConfigureViewModel(
                     loadCalendars()
                 } ?: run {
                     _uiState.update { it.copy(loadState = LoadState.Widget.Empty) }
-                    _widgetModel.update { WidgetModel.createDefault() }
+                    _widgetModel.update { CalendarWidgetModel.createDefault() }
                 }
             }
         }
@@ -154,7 +155,7 @@ class ConfigureViewModel(
 
     private fun onBackPressed() {
         if (_uiState.value.loadState in listOf(LoadState.Widget.Success, LoadState.Widget.New)
-            && initialWidgetModel?.isEqualSettings(_widgetModel.value) == false
+            && initialCalendarWidgetModel?.isEqualSettings(_widgetModel.value) == false
         ) {
             _uiState.update { it.copy(isShowExitConfirmation = true) }
         } else {
@@ -171,7 +172,7 @@ class ConfigureViewModel(
         prefs.isIntroPassed = true
         _uiState.update { it.copy(isIntroPassed = true) }
         if (_uiState.value.loadState == LoadState.Widget.New) {
-            _widgetModel.update { it.copy(days = WidgetModel.DAYS_DEFAULT) }
+            _widgetModel.update { it.copy(days = CalendarWidgetModel.DAYS_DEFAULT) }
         }
     }
 
@@ -187,7 +188,7 @@ class ConfigureViewModel(
         val state = getAppWidgetState(ctx, PreferencesGlanceStateDefinition, glanceId)
         val widget = state.readWidgetModel(widgetId?.toLong())
 
-        _widgetModel.value = widget.also { w -> initialWidgetModel = w.copy() }
+        _widgetModel.value = widget.also { w -> initialCalendarWidgetModel = w.copy() }
         _uiState.update { it.copy(loadState = LoadState.Widget.Success) }
     }
 
@@ -200,7 +201,7 @@ class ConfigureViewModel(
         data object OnShowDividersPick : Action
         data object OnBackPressed : Action
         data class OnCalendarsPicked(val calendars: List<CalendarModel>) : Action
-        data class OnLayoutPick(val layoutType: WidgetModel.LayoutType) : Action
+        data class OnLayoutPick(val layoutType: CalendarWidgetModel.LayoutType) : Action
         data class OnBackgroundColorPick(val colorValue: Long) : Action
         data class OnBackgroundOpacityPick(val opacity: Float) : Action
         data class OnTextColorPick(val colorValue: Long) : Action
@@ -211,8 +212,8 @@ class ConfigureViewModel(
         data object OnExitCanceled : Action
         data object OnExitConfirmed : Action
         data class OnDaysPick(val days: Int) : Action
-        data class OnShowEndDatePick(val showEndDate: WidgetModel.ShowEndDate) : Action
-        data class OnEventColorShapePick(val eventColorShape: WidgetModel.EventColorShape) : Action
+        data class OnShowEndDatePick(val showEndDate: CalendarWidgetModel.ShowEndDate) : Action
+        data class OnEventColorShapePick(val eventColorShape: CalendarWidgetModel.EventColorShape) : Action
         data class OnWidgetPick(val glanceId: GlanceId) : Action
     }
 
@@ -249,3 +250,11 @@ sealed interface LoadState {
 }
 
 class Flag(val value: Boolean)
+
+fun StyleAction.toCalendarAction(): ConfigureViewModel.Action = when (this) {
+    is StyleAction.OnBackgroundColorPick -> ConfigureViewModel.Action.OnBackgroundColorPick(colorValue)
+    is StyleAction.OnBackgroundOpacityPick -> ConfigureViewModel.Action.OnBackgroundOpacityPick(opacity)
+    StyleAction.OnTextBoldPick -> ConfigureViewModel.Action.OnTextBoldPick
+    is StyleAction.OnTextColorPick -> ConfigureViewModel.Action.OnTextColorPick(colorValue)
+    is StyleAction.OnTextSizeDeltaPick -> ConfigureViewModel.Action.OnTextSizeDeltaPick(textSizeDelta)
+}

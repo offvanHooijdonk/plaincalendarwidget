@@ -20,7 +20,7 @@ class ConfigurationActivity : AppCompatActivity() {
 
         setContent {
             PlainTheme {
-                MainScreen(viewModel)
+                CalendarConfigureScreen(viewModel)
             }
         }
 

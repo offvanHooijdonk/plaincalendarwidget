@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Просто Виджет Календаря</string>
+    <string name="app_name">Простые Виджеты</string>
+    <string name="calendar_widget_title">Простой Виджет Календаря</string>
+    <string name="weather_widget_title">Простой Виджет Погоды</string>
     <string name="widget_empty_events_list">Событий нет</string>
     <string name="fish_day_of_week">вс</string>
     <string name="date_default">31</string>

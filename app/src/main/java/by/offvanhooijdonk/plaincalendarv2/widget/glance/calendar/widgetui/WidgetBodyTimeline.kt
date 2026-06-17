@@ -16,14 +16,14 @@ import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
 import by.offvanhooijdonk.plaincalendarv2.widget.ext.toColor
 import by.offvanhooijdonk.plaincalendarv2.widget.model.EventModel
-import by.offvanhooijdonk.plaincalendarv2.widget.model.WidgetModel
+import by.offvanhooijdonk.plaincalendarv2.widget.model.CalendarWidgetModel
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.glanceDimens
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.util.formatDateRangeLabel
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.util.getDateTextSize
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.util.getTitleTextSize
 
 @Composable
-fun WidgetBodyTimeline(events: List<EventModel>, model: WidgetModel) {
+fun WidgetBodyTimeline(events: List<EventModel>, model: CalendarWidgetModel) {
     // todo create class for ui settings
     val backColor = model.backgroundColor.toColor()
     val opacity = model.opacity

@@ -10,7 +10,7 @@ import org.koin.dsl.module
 
 val uiModule = module {
     viewModel { ConfigureViewModel(androidContext(), get(), get()) }
-    viewModel { WeatherConfigureViewModel() }
+    viewModel { WeatherConfigureViewModel(androidContext(), get()) }
     factory { CalendarWidgetViewModel(androidContext(), get()) }
-    factory { WeatherWidgetViewModel() }
+    factory { WeatherWidgetViewModel(androidContext(), get()) }
 }

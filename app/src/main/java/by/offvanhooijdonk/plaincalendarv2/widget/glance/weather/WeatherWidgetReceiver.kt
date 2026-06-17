@@ -3,6 +3,7 @@ package by.offvanhooijdonk.plaincalendarv2.widget.glance.weather
 import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import androidx.glance.appwidget.GlanceAppWidgetReceiver
 import org.koin.core.component.KoinComponent
 
@@ -12,11 +13,14 @@ class WeatherWidgetReceiver :GlanceAppWidgetReceiver(), KoinComponent {
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
         super.onUpdate(context, appWidgetManager, appWidgetIds)
 
+        Log.d("===", "onUpdate")
         glanceAppWidget.loadData()
     }
 
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
+
+        Log.d("===", "onReceive")
         // TODO need this?
     }
 

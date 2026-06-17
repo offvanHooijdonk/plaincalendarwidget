@@ -23,7 +23,7 @@ import by.offvanhooijdonk.plaincalendarv2.widget.R
 import by.offvanhooijdonk.plaincalendarv2.widget.ext.toColor
 import by.offvanhooijdonk.plaincalendarv2.widget.model.DummyWidget
 import by.offvanhooijdonk.plaincalendarv2.widget.model.EventModel
-import by.offvanhooijdonk.plaincalendarv2.widget.model.WidgetModel
+import by.offvanhooijdonk.plaincalendarv2.widget.model.CalendarWidgetModel
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.WidgetItemShape
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.dimens
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.util.formatDateRangeLabel
@@ -33,7 +33,7 @@ import java.time.DayOfWeek
 import java.time.LocalDateTime
 
 @Composable
-fun WidgetBlueprintTimeline(widget: WidgetModel) {
+fun WidgetBlueprintTimeline(widget: CalendarWidgetModel) {
     WidgetEventWrapper(widget) {
         val events = previewEvents
         LazyColumn(
@@ -53,7 +53,7 @@ fun WidgetBlueprintTimeline(widget: WidgetModel) {
 }
 
 @Composable
-private fun WidgetEventItem(event: EventModel, widget: WidgetModel) {
+private fun WidgetEventItem(event: EventModel, widget: CalendarWidgetModel) {
     Surface(
         onClick = {},
         shape = WidgetItemShape,
@@ -113,7 +113,7 @@ private fun EventDateText(
     dateEnd: LocalDateTime,
     isAllDayEvent: Boolean,
     showDayAsText: Boolean,
-    showEndDate: WidgetModel.ShowEndDate,
+    showEndDate: CalendarWidgetModel.ShowEndDate,
     textStyle: TextStyle
 ) {
     val dateText = formatDateRangeLabel(

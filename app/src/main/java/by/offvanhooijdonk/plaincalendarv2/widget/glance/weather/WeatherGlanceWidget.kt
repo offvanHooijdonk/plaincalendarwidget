@@ -1,8 +1,12 @@
 package by.offvanhooijdonk.plaincalendarv2.widget.glance.weather
 
 import android.content.Context
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.unit.sp
+import androidx.datastore.core.DataStore
+import androidx.datastore.dataStoreFile
+import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
@@ -13,17 +17,18 @@ import androidx.glance.layout.Column
 import androidx.glance.layout.Spacer
 import androidx.glance.layout.height
 import androidx.glance.state.GlanceStateDefinition
-import androidx.glance.state.PreferencesGlanceStateDefinition
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
+import by.offvanhooijdonk.plaincalendarv2.widget.glance.weather.ui.WeatherWidgetUI
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.dimens
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import java.io.File
 
 class WeatherGlanceWidget : GlanceAppWidget(), KoinComponent {
-    override val stateDefinition: GlanceStateDefinition<Preferences> = PreferencesGlanceStateDefinition
+    override val stateDefinition: GlanceStateDefinition<Preferences> = WeatherStateDefinition
 
     private val viewModel: WeatherWidgetViewModel by inject()
     private val context: Context by inject()
@@ -32,13 +37,12 @@ class WeatherGlanceWidget : GlanceAppWidget(), KoinComponent {
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         provideContent {
             val state = viewModel.state.collectAsState().value
-            viewModel.reload()
-            Column {
-                Text(text = state.cityName, style = TextStyle(fontSize = 18.sp)) // city
-                Spacer(GlanceModifier.height(dimens().spacingS))
 
-                Text(text = state.temp.toString(), style = TextStyle(fontSize = 26.sp)) // temperature
+            LaunchedEffect(Unit) {
+                viewModel.reload()
             }
+
+            WeatherWidgetUI(state)
         }
     }
 
@@ -46,5 +50,19 @@ class WeatherGlanceWidget : GlanceAppWidget(), KoinComponent {
         coroutineScope.launch {
             updateAll(context)
         }
+    }
+}
+
+object WeatherStateDefinition : GlanceStateDefinition<Preferences> {
+    private const val FILE_NAME = "weather_widget_prefs"
+
+    override fun getLocation(context: Context, fileKey: String): File {
+        return context.dataStoreFile("glance_${FILE_NAME}_$fileKey.preferences_pb")
+    }
+
+    override suspend fun getDataStore(context: Context, fileKey: String): DataStore<Preferences> {
+        return PreferenceDataStoreFactory.create(
+            produceFile = { getLocation(context, fileKey) }
+        )
     }
 }

@@ -15,7 +15,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.sp
 import by.offvanhooijdonk.plaincalendarv2.widget.R
 import by.offvanhooijdonk.plaincalendarv2.widget.ext.toColor
-import by.offvanhooijdonk.plaincalendarv2.widget.model.WidgetModel
+import by.offvanhooijdonk.plaincalendarv2.widget.model.CalendarWidgetModel
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.dimens
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -23,7 +23,7 @@ import java.time.format.FormatStyle
 import androidx.compose.ui.platform.LocalResources
 
 @Composable
-fun WidgetEventWrapper(widget: WidgetModel, block: @Composable () -> Unit) {
+fun WidgetEventWrapper(widget: CalendarWidgetModel, block: @Composable () -> Unit) {
     Surface(
         modifier = Modifier
             .fillMaxWidth(),
@@ -42,7 +42,7 @@ fun WidgetEventWrapper(widget: WidgetModel, block: @Composable () -> Unit) {
 }
 
 @Composable
-fun EventColorMarkAnimated(isShow: Boolean, eventColor: Color, shape: WidgetModel.EventColorShape) {
+fun EventColorMarkAnimated(isShow: Boolean, eventColor: Color, shape: CalendarWidgetModel.EventColorShape) {
     AnimatedContent(targetState = isShow) { showColor ->
         when (showColor) {
             true -> Row {
@@ -63,10 +63,10 @@ fun EventColorMarkAnimated(isShow: Boolean, eventColor: Color, shape: WidgetMode
  * @param multiplier - only used for Settings dialog
  */
 @Composable
-fun EventColorMark(eventColor: Color, shape: WidgetModel.EventColorShape, multiplier: Float = 1.0f) {
+fun EventColorMark(eventColor: Color, shape: CalendarWidgetModel.EventColorShape, multiplier: Float = 1.0f) {
     val cornerRadius = when (shape) {
-        WidgetModel.EventColorShape.CIRCLE -> dimens().eventColorMarkRadiusCircle * multiplier
-        WidgetModel.EventColorShape.SQUARE -> dimens().eventColorMarkRadiusSquare * multiplier
+        CalendarWidgetModel.EventColorShape.CIRCLE -> dimens().eventColorMarkRadiusCircle * multiplier
+        CalendarWidgetModel.EventColorShape.SQUARE -> dimens().eventColorMarkRadiusSquare * multiplier
     }
     Box(
         modifier = Modifier
@@ -77,7 +77,7 @@ fun EventColorMark(eventColor: Color, shape: WidgetModel.EventColorShape, multip
 }
 
 @Composable
-private fun WidgetHeader(widget: WidgetModel) {
+private fun WidgetHeader(widget: CalendarWidgetModel) {
     Row(
         modifier = Modifier
             .fillMaxWidth()

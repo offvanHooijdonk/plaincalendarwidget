@@ -1,7 +1,7 @@
 package by.offvanhooijdonk.plaincalendarv2.widget.glance.calendar.prefs
 
 import androidx.datastore.preferences.core.*
-import by.offvanhooijdonk.plaincalendarv2.widget.model.WidgetModel
+import by.offvanhooijdonk.plaincalendarv2.widget.model.CalendarWidgetModel
 
 private const val KEY_DAYS = "key_days"
 private const val KEY_BACK_COLOR = "key_background_color"
@@ -31,7 +31,7 @@ private val keyShowDateAsTextLabel = booleanPreferencesKey(KEY_SHOW_DATE_AS_TEXT
 private val keyShowEndDate = stringPreferencesKey(KEY_SHOW_END_DATE)
 private val keyLayoutType = stringPreferencesKey(KEY_LAYOUT_TYPE)
 
-fun WidgetModel.writeToPrefs(prefs: MutablePreferences) {
+fun CalendarWidgetModel.writeToPrefs(prefs: MutablePreferences) {
     prefs[keyDays] = days
     prefs[keyBackgroundColor] = backgroundColor
     prefs[keyBackgroundOpacity] = opacity
@@ -47,8 +47,8 @@ fun WidgetModel.writeToPrefs(prefs: MutablePreferences) {
     prefs[keyLayoutType] = layoutType.name
 }
 
-fun Preferences.readWidgetModel(glanceId: Long? = null): WidgetModel =
-    with(WidgetModel.createDefault()) {
+fun Preferences.readWidgetModel(glanceId: Long? = null): CalendarWidgetModel =
+    with(CalendarWidgetModel.createDefault()) {
         copy(
             id = glanceId ?: id,
             days = get(keyDays) ?: days,
@@ -59,10 +59,10 @@ fun Preferences.readWidgetModel(glanceId: Long? = null): WidgetModel =
             textStyleBold = get(keyTextBold) ?: textStyleBold,
             calendarIds = get(keyCalendarsIds)?.map { it.toLong() }?.toList() ?: calendarIds,
             showEventColor = get(keyShowEventColor) ?: showEventColor,
-            eventColorShape = get(keyEventColorShape)?.let { WidgetModel.EventColorShape.valueOfOrDefault(it) } ?: eventColorShape,
+            eventColorShape = get(keyEventColorShape)?.let { CalendarWidgetModel.EventColorShape.valueOfOrDefault(it) } ?: eventColorShape,
             showEventDividers = get(keyShowEventDividers) ?: showEventDividers,
             showDateAsTextLabel = get(keyShowDateAsTextLabel) ?: showDateAsTextLabel,
-            showEndDate = get(keyShowEndDate)?.let { WidgetModel.ShowEndDate.valueOfOrDefault(it) } ?: showEndDate,
-            layoutType = get(keyLayoutType)?.let { WidgetModel.LayoutType.valueOfOrDefault(it) } ?: layoutType,
+            showEndDate = get(keyShowEndDate)?.let { CalendarWidgetModel.ShowEndDate.valueOfOrDefault(it) } ?: showEndDate,
+            layoutType = get(keyLayoutType)?.let { CalendarWidgetModel.LayoutType.valueOfOrDefault(it) } ?: layoutType,
         )
     }

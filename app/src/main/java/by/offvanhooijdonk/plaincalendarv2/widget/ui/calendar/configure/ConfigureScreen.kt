@@ -28,7 +28,7 @@ import androidx.constraintlayout.compose.Dimension
 import by.offvanhooijdonk.plaincalendarv2.widget.R
 import by.offvanhooijdonk.plaincalendarv2.widget.model.CalendarModel
 import by.offvanhooijdonk.plaincalendarv2.widget.model.DummyWidget
-import by.offvanhooijdonk.plaincalendarv2.widget.model.WidgetModel
+import by.offvanhooijdonk.plaincalendarv2.widget.model.CalendarWidgetModel
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.calendar.configure.settings.CalendarsPickDialog
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.calendar.configure.settings.SettingsScreen
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.calendar.configure.settings.layouts.LayoutsPickPanel
@@ -56,12 +56,12 @@ import com.google.accompanist.permissions.*
 import kotlin.math.roundToInt
 
 @Composable
-fun MainScreen(viewModel: ConfigureViewModel) {
+fun CalendarConfigureScreen(viewModel: ConfigureViewModel) {
     val widget = viewModel.widgetModel.collectAsState().value
     val state = viewModel.uiState.collectAsState().value
     val title = when (state.loadState) {
         is LoadState.Widget.Success -> stringResource(R.string.toolbar_title_widget_number, widget.id)
-        LoadState.Widget.Empty -> stringResource(R.string.app_name)
+        LoadState.Widget.Empty -> stringResource(R.string.calendar_widget_title)
         LoadState.Widget.New -> stringResource(R.string.toolbar_title_new_widget)
         else -> stringResource(R.string.toolbar_title_empty)
     }
@@ -137,7 +137,7 @@ private fun IntroShowCaseScope.ConfigureScreenWrap(viewModel: ConfigureViewModel
 
 @Composable
 private fun IntroShowCaseScope.ConfigureScreen(
-    widget: WidgetModel,
+    widget: CalendarWidgetModel,
     allCalendars: LoadState, // todo don't like it
     onAction: (ConfigureViewModel.Action) -> Unit,
     isIntroPassed: Boolean,
@@ -237,7 +237,7 @@ private fun IntroShowCaseScope.ConfigureScreen(
                     .constrainAs(bottomSettings) {
                         bottom.linkTo(parent.bottom)
                     }) {
-                StylesTabsPanel(widget, onAction)
+                StylesTabsPanel(widget = widget, onAction = { onAction(it.toCalendarAction()) })
             }
             Box(
                 modifier = Modifier
@@ -438,7 +438,7 @@ private fun ErrorScreen(msg: String) {
 
 @Preview(showSystemUi = true)
 @Composable
-fun Preview_ConfigureNew() {
+private fun Preview_ConfigureNew() {
     PlainTheme {
         IntroShowCaseScaffold(showIntroShowCase = false, onShowCaseCompleted = { /*TODO*/ }) {
             ConfigureScreen(DummyWidget.copy(id = 1L, days = 25), LoadState.Idle, {}, true)

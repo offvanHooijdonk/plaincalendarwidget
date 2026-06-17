@@ -18,7 +18,7 @@ import by.offvanhooijdonk.plaincalendarv2.widget.glance.calendar.prefs.readWidge
 import by.offvanhooijdonk.plaincalendarv2.widget.glance.calendar.widgetui.WidgetBodyPerDay
 import by.offvanhooijdonk.plaincalendarv2.widget.glance.calendar.widgetui.WidgetBodyTimeline
 import by.offvanhooijdonk.plaincalendarv2.widget.model.EventModel
-import by.offvanhooijdonk.plaincalendarv2.widget.model.WidgetModel
+import by.offvanhooijdonk.plaincalendarv2.widget.model.CalendarWidgetModel
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
@@ -51,8 +51,8 @@ class PlainGlanceWidget : GlanceAppWidget(), KoinComponent {
         )
 
         when(widgetModel.layoutType) {
-            WidgetModel.LayoutType.TIMELINE -> WidgetBodyTimeline(events.value, widgetModel)
-            WidgetModel.LayoutType.PER_DAY -> WidgetBodyPerDay(events.value, widgetModel)
+            CalendarWidgetModel.LayoutType.TIMELINE -> WidgetBodyTimeline(events.value, widgetModel)
+            CalendarWidgetModel.LayoutType.PER_DAY -> WidgetBodyPerDay(events.value, widgetModel)
         }
     }
 

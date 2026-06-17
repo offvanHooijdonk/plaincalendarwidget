@@ -1,5 +1,7 @@
 <resources>
-    <string name="app_name">Plain Calendar Widget</string>
+    <string name="app_name">Plain Widgets</string>
+    <string name="calendar_widget_title">Plain Calendar Widget</string>
+    <string name="weather_widget_title">Plain Weather Widget</string>
     <string name="calendar_widget_description">Calendar events list in a minimalistic manner</string>
     <string name="weather_widget_description">Weather widget as I see it</string>
 

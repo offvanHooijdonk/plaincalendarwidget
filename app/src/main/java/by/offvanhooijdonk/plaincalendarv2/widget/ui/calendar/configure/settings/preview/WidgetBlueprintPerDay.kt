@@ -20,14 +20,14 @@ import by.offvanhooijdonk.plaincalendarv2.widget.R
 import by.offvanhooijdonk.plaincalendarv2.widget.ext.toColor
 import by.offvanhooijdonk.plaincalendarv2.widget.model.DummyWidget
 import by.offvanhooijdonk.plaincalendarv2.widget.model.EventModel
-import by.offvanhooijdonk.plaincalendarv2.widget.model.WidgetModel
+import by.offvanhooijdonk.plaincalendarv2.widget.model.CalendarWidgetModel
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.dimens
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.util.*
 import java.time.LocalDate
 import java.time.LocalDateTime
 
 @Composable
-fun WidgetBlueprintPerDay(widget: WidgetModel) {
+fun WidgetBlueprintPerDay(widget: CalendarWidgetModel) {
     WidgetEventWrapper(widget) {
         val events = previewEvents
 
@@ -59,7 +59,7 @@ fun WidgetBlueprintPerDay(widget: WidgetModel) {
                             dateTextStyle = dateTextStyle,
                             eventColor = widget.calendars.firstOrNull()?.color?.let { Color(it.toLong()) } ?: DefaultEventPreviewColor,
                             isShowEventColor = widget.showEventColor,
-                            isShowEndDate = widget.showEndDate == WidgetModel.ShowEndDate.ALWAYS,
+                            isShowEndDate = widget.showEndDate == CalendarWidgetModel.ShowEndDate.ALWAYS,
                             eventColorShape = widget.eventColorShape,
                         )
 
@@ -96,7 +96,7 @@ private fun EventItem(
     eventColor: Color,
     isShowEventColor: Boolean,
     isShowEndDate: Boolean,
-    eventColorShape: WidgetModel.EventColorShape,
+    eventColorShape: CalendarWidgetModel.EventColorShape,
 ) {
     Row(
         modifier = Modifier

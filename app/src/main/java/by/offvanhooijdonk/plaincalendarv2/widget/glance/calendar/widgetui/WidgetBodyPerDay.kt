@@ -16,7 +16,7 @@ import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
 import by.offvanhooijdonk.plaincalendarv2.widget.ext.toColor
 import by.offvanhooijdonk.plaincalendarv2.widget.model.EventModel
-import by.offvanhooijdonk.plaincalendarv2.widget.model.WidgetModel
+import by.offvanhooijdonk.plaincalendarv2.widget.model.CalendarWidgetModel
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.glanceDimens
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.util.formatDateLabel
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.util.formatTimeLabel
@@ -24,7 +24,7 @@ import by.offvanhooijdonk.plaincalendarv2.widget.ui.util.getDateTextSize
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.util.getTitleTextSize
 
 @Composable
-fun WidgetBodyPerDay(events: List<EventModel>, widget: WidgetModel) {
+fun WidgetBodyPerDay(events: List<EventModel>, widget: CalendarWidgetModel) {
     val backColor = widget.backgroundColor.toColor()
     val opacity = widget.opacity
     val textStyleDate = TextStyle(
@@ -76,7 +76,7 @@ fun WidgetBodyPerDay(events: List<EventModel>, widget: WidgetModel) {
 }
 
 @Composable
-private fun EventItem(event: EventModel, widget: WidgetModel, textStyleTitle: TextStyle, textStyleDate: TextStyle) {
+private fun EventItem(event: EventModel, widget: CalendarWidgetModel, textStyleTitle: TextStyle, textStyleDate: TextStyle) {
     Row(
         modifier = GlanceModifier.padding(horizontal = glanceDimens().eventItemPaddingH, vertical = glanceDimens().eventItemPaddingV),
         verticalAlignment = Alignment.CenterVertically,
@@ -91,7 +91,7 @@ private fun EventItem(event: EventModel, widget: WidgetModel, textStyleTitle: Te
                 dateStart = event.dateStart,
                 dateEnd = event.dateEnd,
                 isAllDayEvent = event.isAllDay,
-                isShowEndDate = widget.showEndDate == WidgetModel.ShowEndDate.ALWAYS,
+                isShowEndDate = widget.showEndDate == CalendarWidgetModel.ShowEndDate.ALWAYS,
             ), style = textStyleDate
         )
         Spacer(modifier = GlanceModifier.width(glanceDimens().spacingS))

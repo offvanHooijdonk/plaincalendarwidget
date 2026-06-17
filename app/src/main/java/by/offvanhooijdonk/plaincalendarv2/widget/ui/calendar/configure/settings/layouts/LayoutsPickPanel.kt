@@ -14,7 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import by.offvanhooijdonk.plaincalendarv2.widget.R
 import by.offvanhooijdonk.plaincalendarv2.widget.model.DummyWidget
-import by.offvanhooijdonk.plaincalendarv2.widget.model.WidgetModel
+import by.offvanhooijdonk.plaincalendarv2.widget.model.CalendarWidgetModel
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.calendar.intro.IntroLayouts
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.calendar.intro.IntroStyleLayouts
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.calendar.intro.IntroTargets
@@ -25,8 +25,8 @@ import com.canopas.lib.showcase.IntroShowCaseScope
 @Composable
 fun IntroShowCaseScope.LayoutsPickPanel(
     modifier: Modifier = Modifier,
-    widget: WidgetModel,
-    onLayoutPick: (WidgetModel.LayoutType) -> Unit
+    widget: CalendarWidgetModel,
+    onLayoutPick: (CalendarWidgetModel.LayoutType) -> Unit
 ) {
     Box(modifier = Modifier.then(modifier)) {
         val selected = remember(widget) { widget.layoutType.ordinal }
@@ -51,7 +51,7 @@ fun IntroShowCaseScope.LayoutsPickPanel(
                                 else this
                             },
                         selected = index == selected,
-                        onClick = { onLayoutPick(WidgetModel.LayoutType.entries.getOrNull(index) ?: WidgetModel.LayoutType.default) },
+                        onClick = { onLayoutPick(CalendarWidgetModel.LayoutType.entries.getOrNull(index) ?: CalendarWidgetModel.LayoutType.default) },
                         selectedContentColor = MaterialTheme.colorScheme.background,
                         unselectedContentColor = unselectedTextColor,
                         text = {
@@ -66,12 +66,12 @@ fun IntroShowCaseScope.LayoutsPickPanel(
 
 private data class LayoutItem(
     @field:StringRes val titleRes: Int,
-    val type: WidgetModel.LayoutType,
+    val type: CalendarWidgetModel.LayoutType,
 )
 
 private val LayoutsList = listOf(
-    LayoutItem(R.string.layout_title_timeline, WidgetModel.LayoutType.TIMELINE),
-    LayoutItem(R.string.layout_title_per_day, WidgetModel.LayoutType.PER_DAY),
+    LayoutItem(R.string.layout_title_timeline, CalendarWidgetModel.LayoutType.TIMELINE),
+    LayoutItem(R.string.layout_title_per_day, CalendarWidgetModel.LayoutType.PER_DAY),
 )
 
 @Preview

@@ -1,27 +1,30 @@
 package by.offvanhooijdonk.plaincalendarv2.widget.data.remote.response
 
 import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class CurrentWeatherResponseModel(
     val id: Int,
     /** kinda response code */
     val cod: Int,
-    val weather: Weather,
+    val weather: List<Weather>,
     val main: MainData,
     val wind: Wind,
     val clouds: Clouds,
-    val rain: Falls?,
-    val snow: Falls?,
-    /** distance */
+    val rain: Falls? = null,
+    val snow: Falls? = null,
+    /** Distance */
     val visibility: Int,
-    /** timezone in seconds */
+    /** Timezone in seconds */
     val timezone: Int,
-    /** localized location name */
+    /** Localized location name */
     val name: String,
     val sys: Sys,
-    /** timestamp of weather calculations */
+    /** Timestamp of weather calculations */
     val dt: Long,
 ) {
+    @Serializable
     data class Weather(
         /** condition id */
         val id: Int,
@@ -32,6 +35,7 @@ data class CurrentWeatherResponseModel(
         val icon: String,
     )
 
+    @Serializable
     data class Sys(
         /** country code, like "BY" */
         val country: String,
@@ -41,6 +45,7 @@ data class CurrentWeatherResponseModel(
         val sunset: Long,
     )
 
+    @Serializable
     data class MainData(
         val temp: Float,
         @SerialName("feels_like")
@@ -59,6 +64,7 @@ data class CurrentWeatherResponseModel(
         val groundLevel: Int,
     )
 
+    @Serializable
     data class Wind(
         val speed: Float,
         /** direction in degrees */
@@ -66,9 +72,11 @@ data class CurrentWeatherResponseModel(
         /** speed on blows */
         val gust: Float,
     )
+    @Serializable
     data class Clouds(
         val all: Int,
     )
+    @Serializable
     data class Falls(
         @SerialName("1h")
         val hour: Float,

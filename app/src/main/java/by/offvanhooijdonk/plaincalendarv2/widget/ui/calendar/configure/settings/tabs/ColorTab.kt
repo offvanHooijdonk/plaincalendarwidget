@@ -1,5 +1,6 @@
 package by.offvanhooijdonk.plaincalendarv2.widget.ui.calendar.configure.settings.tabs
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -7,8 +8,10 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -67,22 +70,20 @@ private fun ColorTab(colorsList: List<Color>, colorSelected: Color, onColorPick:
     LazyRow(
         modifier = Modifier.fillMaxWidth(),
         state = listState,
+        horizontalArrangement = Arrangement.spacedBy(dimens().spacingS),
         contentPadding = PaddingValues(horizontal = dimens().spacingL, vertical = dimens().spacingM),
         verticalAlignment = Alignment.CenterVertically
     ) {
         items(items = colorsList, key = { it.value.toLong() }) { colorItem ->
-            IconButton(onClick = { onColorPick(colorItem) }) {
-                Box(
-                    modifier = Modifier
-                        .size(dimens().spacingXXL)
-                        .background(colorItem, RoundedCornerShape(dimens().spacingXS))
-                        .border(
-                            width = dimens().spacingXXS,
-                            color = Color.Gray,
-                            RoundedCornerShape(dimens().spacingXS)
-                        ),
-                    contentAlignment = Alignment.Center,
-                ) {
+
+            OutlinedCard(
+                modifier = Modifier.size(dimens().spacingXXL),
+                onClick = { onColorPick(colorItem) },
+                shape = RoundedCornerShape(dimens().spacingS),
+                border = BorderStroke(width = dimens().spacingXXS, color = Color.Gray),
+                colors = CardDefaults.outlinedCardColors(containerColor = colorItem),
+            ) {
+                Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center,) {
                     if (colorItem == colorSelected) {
                         val selectionColor = remember(colorItem) {
                             if (colorItem.luminance() > 0.7f) colorSelectionDark else colorSelectionLight

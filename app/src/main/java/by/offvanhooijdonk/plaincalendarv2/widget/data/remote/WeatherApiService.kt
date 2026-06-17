@@ -16,8 +16,8 @@ interface WeatherApiService {
 
     @GET("data/2.5/weather")
     suspend fun loadForecast(
-        @Query(value = "lat") lat: Float,
-        @Query(value = "lon") lon: Float,
+        @Query(value = "lat") lat: Double,
+        @Query(value = "lon") lon: Double,
         @Query(value = "appid") apiKey: String = BuildConfig.OPENWEATHER_API_KEY,
         @Query(value = "lang") lang: String,
         @Query(value = "units") units: String = "metric", // Celsius

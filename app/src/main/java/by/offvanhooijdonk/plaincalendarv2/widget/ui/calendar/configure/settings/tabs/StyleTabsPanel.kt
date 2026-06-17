@@ -13,13 +13,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import by.offvanhooijdonk.plaincalendarv2.widget.R
-import by.offvanhooijdonk.plaincalendarv2.widget.model.WidgetModel
-import by.offvanhooijdonk.plaincalendarv2.widget.ui.calendar.configure.ConfigureViewModel
+import by.offvanhooijdonk.plaincalendarv2.widget.model.ColorSettings
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.dimens
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.util.isTextDeltaValid
 
 @Composable
-fun StylesTabsPanel(widget: WidgetModel, onAction: (ConfigureViewModel.Action) -> Unit) {
+fun StylesTabsPanel(widget: ColorSettings, onAction: (StyleAction) -> Unit) {
     Column(modifier = Modifier.fillMaxWidth()) {
         val selectedIndex = remember { mutableIntStateOf(0) }
         TabRow(selectedTabIndex = selectedIndex.intValue) {
@@ -43,21 +42,21 @@ fun StylesTabsPanel(widget: WidgetModel, onAction: (ConfigureViewModel.Action) -
                         val backColor = remember(widget) { mutableStateOf(Color(widget.backgroundColor.toULong())) }
                         BackgroundColorTab(backColor.value) {
                             backColor.value = it
-                            onAction(ConfigureViewModel.Action.OnBackgroundColorPick(it.value.toLong()))
+                            onAction(StyleAction.OnBackgroundColorPick(it.value.toLong()))
                         }
                     }
                     SettingTab.OpacityTab -> {
                         val opacity = remember(widget) { mutableFloatStateOf(widget.opacity) }
                         OpacityTab(opacity.floatValue) {
                             opacity.floatValue = it
-                            onAction(ConfigureViewModel.Action.OnBackgroundOpacityPick(it))
+                            onAction(StyleAction.OnBackgroundOpacityPick(it))
                         }
                     }
                     SettingTab.TextColorTab -> {
                         val textColor = remember(widget) { mutableStateOf(Color(widget.textColor.toULong())) }
                         TextColorTab(textColor.value) {
                             textColor.value = it
-                            onAction(ConfigureViewModel.Action.OnTextColorPick(it.value.toLong()))
+                            onAction(StyleAction.OnTextColorPick(it.value.toLong()))
                         }
                     }
                     SettingTab.TextSizeTab -> {
@@ -69,10 +68,10 @@ fun StylesTabsPanel(widget: WidgetModel, onAction: (ConfigureViewModel.Action) -
                             textStyleBold,
                             onSizeChange = { newValue ->
                                 if (isTextDeltaValid(ctx, newValue)) {
-                                    onAction(ConfigureViewModel.Action.OnTextSizeDeltaPick(newValue))
+                                    onAction(StyleAction.OnTextSizeDeltaPick(newValue))
                                 }
                             },
-                            onStyleChange = { onAction(ConfigureViewModel.Action.OnTextBoldPick) }
+                            onStyleChange = { onAction(StyleAction.OnTextBoldPick) }
                         )
                     }
                 }
@@ -81,8 +80,16 @@ fun StylesTabsPanel(widget: WidgetModel, onAction: (ConfigureViewModel.Action) -
     }
 }
 
+sealed interface StyleAction {
+    data class OnBackgroundColorPick(val colorValue: Long) : StyleAction
+    data class OnBackgroundOpacityPick(val opacity: Float) : StyleAction
+    data class OnTextColorPick(val colorValue: Long) : StyleAction
+    data class OnTextSizeDeltaPick(val textSizeDelta: Int) : StyleAction
+    data object OnTextBoldPick : StyleAction
+}
+
 sealed class SettingTab(
-    @DrawableRes val iconRes: Int,
+    @field:DrawableRes val iconRes: Int,
 ) {
     data object ColorTab : SettingTab(R.drawable.ic_color_palette)
     data object OpacityTab : SettingTab(R.drawable.ic_opacity)

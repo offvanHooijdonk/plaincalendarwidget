@@ -6,7 +6,7 @@ import by.offvanhooijdonk.plaincalendarv2.widget.R
 import by.offvanhooijdonk.plaincalendarv2.widget.ext.isToday
 import by.offvanhooijdonk.plaincalendarv2.widget.ext.isTomorrow
 import by.offvanhooijdonk.plaincalendarv2.widget.ext.millis
-import by.offvanhooijdonk.plaincalendarv2.widget.model.WidgetModel
+import by.offvanhooijdonk.plaincalendarv2.widget.model.CalendarWidgetModel
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -17,20 +17,20 @@ fun formatDateRangeLabel(
     dateEnd: LocalDateTime,
     isAllDayEvent: Boolean,
     showDayAsText: Boolean,
-    showEndDate: WidgetModel.ShowEndDate,
+    showEndDate: CalendarWidgetModel.ShowEndDate,
     ctx: Context,
 ): String {
     val startDateText =
         formatFullDateTimeText(date = dateStart, isAllDayEvent = isAllDayEvent, showDayAsText = showDayAsText, ctx = ctx)
     return when (showEndDate) {
-        WidgetModel.ShowEndDate.NEVER -> startDateText
-        WidgetModel.ShowEndDate.MORE_THAN_DAY -> if (isOneDayEvent(dateStart, dateEnd)) {
+        CalendarWidgetModel.ShowEndDate.NEVER -> startDateText
+        CalendarWidgetModel.ShowEndDate.MORE_THAN_DAY -> if (isOneDayEvent(dateStart, dateEnd)) {
             startDateText
         } else {
             val endDateText = formatFullDateTimeText(dateEnd, isAllDayEvent = isAllDayEvent, showDayAsText = showDayAsText, ctx = ctx)
             ctx.getString(R.string.date_range_format, startDateText, endDateText)
         }
-        WidgetModel.ShowEndDate.ALWAYS -> {
+        CalendarWidgetModel.ShowEndDate.ALWAYS -> {
             val isOneDayEvent = isOneDayEvent(dateStart, dateEnd)
             when {
                 isOneDayEvent && !isAllDayEvent -> ctx.getString(R.string.date_range_format, startDateText, dateEnd.timeTitle)
