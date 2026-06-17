@@ -1,5 +1,7 @@
 package by.offvanhooijdonk.plaincalendarv2.widget.di
 
+import android.R.attr.level
+import by.offvanhooijdonk.plaincalendarv2.widget.BuildConfig
 import by.offvanhooijdonk.plaincalendarv2.widget.data.remote.createWeatherApiService
 import de.jensklingenberg.ktorfit.Ktorfit
 import io.ktor.client.HttpClient
@@ -7,6 +9,9 @@ import io.ktor.client.plugins.HttpSend
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
+import io.ktor.client.plugins.logging.ANDROID
+import io.ktor.client.plugins.logging.LogLevel
+import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.request.header
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
@@ -31,6 +36,10 @@ val networkModule = module {
                 socketTimeoutMillis = 30_000
             }
             install(HttpSend)
+            install(Logging) {
+                level = if (BuildConfig.DEBUG) LogLevel.ALL else LogLevel.NONE
+                logger = io.ktor.client.plugins.logging.Logger.ANDROID
+            }
 
             defaultRequest {
                 url {

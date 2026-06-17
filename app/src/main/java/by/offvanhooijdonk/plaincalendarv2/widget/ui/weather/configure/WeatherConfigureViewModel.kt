@@ -47,7 +47,7 @@ class WeatherConfigureViewModel(
                 }
             }
             is Intent.CitySelect -> {
-                _state.update { it.copy(selectedLocation = intent.city) }
+                _state.update { it.copy(selectedLocation = intent.city, isSuggestionsExpanded = false) }
             }
 
             Intent.DismissSuggestions -> _state.update { it.copy(isSuggestionsExpanded = false) }
@@ -118,7 +118,7 @@ class WeatherConfigureViewModel(
 data class LocationModel(
     val title: String,
     val countryCode: String,
-    val state: String,
+    val state: String?,
     val lat: Double,
     val lon: Double,
 )

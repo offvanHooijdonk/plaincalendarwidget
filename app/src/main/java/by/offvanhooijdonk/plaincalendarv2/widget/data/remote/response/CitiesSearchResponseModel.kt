@@ -9,8 +9,8 @@ data class CitiesSearchResponseModel(
     val lat: Double,
     val lon: Double,
     val country: String,
-    val state: String,
+    val state: String? = null,
     @SerialName("local_names")
-    val localNames: Map<String, String>?,
+    val localNames: Map<String, String>? = null,
 )
 

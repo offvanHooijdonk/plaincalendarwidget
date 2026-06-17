@@ -69,6 +69,7 @@ dependencies {
     implementation(libs.koin.compose.viewmodel)
 
     implementation(libs.ktorfit)
+    implementation(libs.ktor.logging)
     implementation(libs.ktor.serialization)
     implementation(libs.ktor.content)
 

@@ -39,22 +39,18 @@ fun WeatherConfigureScreen(state: UiState, onIntent: (Intent) -> Unit) {
                         .fillMaxWidth()
                         .padding(horizontal = dimens().spacingL),
                 ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        Text(text = "Select your city", style = MaterialTheme.typography.titleMedium)
-                        Spacer(Modifier.width(dimens().spacingL))
+                    Spacer(Modifier.height(dimens().spacingXL))
 
-                        CitySearchDropDown(
-                            modifier = Modifier,
-                            expanded = state.isSuggestionsExpanded,
-                            input = state.cityInput,
-                            onInput = { onIntent(Intent.CityInput(it)) },
-                            suggestions = state.citySuggestions,
-                            onSelect = { onIntent(Intent.CitySelect(it)) },
-                            onDismiss = { onIntent(Intent.DismissSuggestions) },
-                        )
-                    }
+                    CitySearchDropDown(
+                        modifier = Modifier.fillMaxWidth(),
+                        expanded = state.isSuggestionsExpanded,
+                        input = state.cityInput,
+                        onInput = { onIntent(Intent.CityInput(it)) },
+                        suggestions = state.citySuggestions,
+                        onSelect = { onIntent(Intent.CitySelect(it)) },
+                        onDismiss = { onIntent(Intent.DismissSuggestions) },
+                    )
+                    
                     Spacer(Modifier.height(dimens().spacingS))
 
                     AnimatedVisibility(state.selectedLocation != null) {
@@ -65,7 +61,10 @@ fun WeatherConfigureScreen(state: UiState, onIntent: (Intent) -> Unit) {
                                 Text(text = city.title, style = MaterialTheme.typography.titleLarge)
                                 Spacer(Modifier.width(dimens().spacingSM))
 
-                                Text(text = "${city.state}, ${city.countryCode}", style = MaterialTheme.typography.labelMedium)
+                                Text(
+                                    text = "${city.state?.let { "$it, " }}${city.countryCode}",
+                                    style = MaterialTheme.typography.labelMedium
+                                )
                                 Spacer(Modifier.height(dimens().spacingM))
                             }
                         }
@@ -85,7 +84,9 @@ fun WeatherConfigureScreen(state: UiState, onIntent: (Intent) -> Unit) {
                     .fillMaxWidth()
                     .weight(1f)
             ) {
-                Box(Modifier.padding(horizontal = dimens().spacingL)) {
+                Box(Modifier
+                    .padding(horizontal = dimens().spacingL)
+                    .align(Alignment.Center)) {
                     WeatherWidgetPreview(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -131,7 +132,9 @@ private fun CitySearchDropDown(
         onExpandedChange = {}
     ) {
         OutlinedTextField(
-            modifier = Modifier.menuAnchor(type = ExposedDropdownMenuAnchorType.PrimaryEditable),
+            modifier = Modifier
+                .fillMaxWidth()
+                .menuAnchor(type = ExposedDropdownMenuAnchorType.PrimaryEditable),
             value = input,
             onValueChange = onInput,
             label = { Text("City") },
@@ -142,7 +145,7 @@ private fun CitySearchDropDown(
 
         ExposedDropdownMenu(
             expanded = expanded,
-            onDismissRequest = {},
+            onDismissRequest = onDismiss,
         ) {
             suggestions.forEach { location ->
                 DropdownMenuItem(
@@ -159,7 +162,7 @@ fun LocationTextItem(location: LocationModel) {
     Column {
         Text(text = location.title)
 
-        Text(text = "${location.state}, ${location.countryCode}", style = MaterialTheme.typography.labelMedium)
+        Text(text = "${location.state?.let { "$it, " }}${location.countryCode}", style = MaterialTheme.typography.labelMedium)
     }
 }
 
