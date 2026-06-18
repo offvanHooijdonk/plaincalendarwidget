@@ -1,10 +1,11 @@
-package by.offvanhooijdonk.plaincalendarv2.widget.model
+package by.offvanhooijdonk.plaincalendarv2.widget.model.calendar
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import by.offvanhooijdonk.plaincalendarv2.widget.R
+import by.offvanhooijdonk.plaincalendarv2.widget.model.ColorSettings
 
 @Stable
 data class CalendarWidgetModel(

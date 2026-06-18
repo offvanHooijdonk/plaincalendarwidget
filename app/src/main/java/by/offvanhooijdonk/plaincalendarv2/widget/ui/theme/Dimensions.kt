@@ -50,6 +50,8 @@ interface AppDimensions {
     val eventMarkSpacing: Dp get() = spacingXXL
 
     val widgetSelectionCardHeight: Dp get() = 120.dp
+    val widgetPreviewHeight: Dp get() = 136.dp
+    val widgetPreviewWidth: Dp get() = 276.dp
 }
 
 object Dimensions : AppDimensions

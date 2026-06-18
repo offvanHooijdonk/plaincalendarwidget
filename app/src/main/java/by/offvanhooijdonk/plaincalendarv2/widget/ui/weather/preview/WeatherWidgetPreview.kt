@@ -7,7 +7,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import by.offvanhooijdonk.plaincalendarv2.widget.ext.toColor
-import by.offvanhooijdonk.plaincalendarv2.widget.model.WeatherWidgetModel
+import by.offvanhooijdonk.plaincalendarv2.widget.model.weather.WeatherModel
+import by.offvanhooijdonk.plaincalendarv2.widget.model.weather.WeatherWidgetModel
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.PlainTheme
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.dimens
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.weather.configure.LocationModel
@@ -16,14 +17,8 @@ import by.offvanhooijdonk.plaincalendarv2.widget.ui.weather.configure.LocationMo
 fun WeatherWidgetPreview(
     modifier: Modifier,
     widget: WeatherWidgetModel,
+    weather: WeatherModel?,
 ) {
-    val location = LocationModel(
-        title = "Gomel",
-        countryCode = "By",
-        state = "Gomel region",
-        lat = 0.0,
-        lon = 0.0,
-    )
     Card(
         modifier = modifier,
         colors = CardDefaults.cardColors(
@@ -33,10 +28,10 @@ fun WeatherWidgetPreview(
     ) {
         Box(Modifier.padding(dimens().spacingL)) {
             Column() {
-                Text(text = "18.6°", style = MaterialTheme.typography.titleLarge)
+                Text(text = weather?.temperature ?: "--", style = MaterialTheme.typography.titleLarge)
                 Spacer(Modifier.height(dimens().spacingS))
 
-                Text(text = location.title)
+                Text(text = widget.location?.title ?: "--")
             }
         }
     }
@@ -48,10 +43,21 @@ private fun Preview_WeatherWidgetPreview() {
     PlainTheme {
         WeatherWidgetPreview(
             modifier = Modifier
-                .width(360.dp)
-                .height(240.dp)
+                .width(dimens().widgetPreviewWidth)
+                .height(dimens().widgetPreviewHeight)
                 .padding(dimens().spacingL),
-            widget = WeatherWidgetModel()
+            widget = WeatherWidgetModel(
+                location = LocationModel(
+                    title = "Gomel",
+                    countryCode = "BY",
+                    state = "Gomel Region",
+                    lat = 0.0,
+                    lon = 0.0,
+                )
+            ),
+            weather = WeatherModel(
+                tempValue = 18.6f,
+            ),
         )
     }
 }

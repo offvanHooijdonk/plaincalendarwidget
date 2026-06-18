@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import androidx.core.content.ContextCompat
 import by.offvanhooijdonk.plaincalendarv2.widget.data.CalendarDataSource
-import by.offvanhooijdonk.plaincalendarv2.widget.model.EventModel
+import by.offvanhooijdonk.plaincalendarv2.widget.model.calendar.EventModel
 
 class CalendarWidgetViewModel(
     private val context: Context,

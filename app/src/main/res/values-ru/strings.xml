@@ -50,4 +50,6 @@
     <string name="intro_apply_button">Не забудьте нажать \'Применить\' чтобы добавить виджет на экран</string>
     <string name="text_style_bold">Полужирный</string>
     <string name="events_empty_message">Событий нет 😴</string>
+
+    <string name="any_country">Любая страна</string>
 </resources>

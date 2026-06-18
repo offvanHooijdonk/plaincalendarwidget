@@ -1,7 +1,7 @@
 package by.offvanhooijdonk.plaincalendarv2.widget.glance.calendar.prefs
 
 import androidx.datastore.preferences.core.*
-import by.offvanhooijdonk.plaincalendarv2.widget.model.CalendarWidgetModel
+import by.offvanhooijdonk.plaincalendarv2.widget.model.calendar.CalendarWidgetModel
 
 private const val KEY_DAYS = "key_days"
 private const val KEY_BACK_COLOR = "key_background_color"
@@ -47,7 +47,7 @@ fun CalendarWidgetModel.writeToPrefs(prefs: MutablePreferences) {
     prefs[keyLayoutType] = layoutType.name
 }
 
-fun Preferences.readWidgetModel(glanceId: Long? = null): CalendarWidgetModel =
+fun Preferences.readCalendarWidgetModel(glanceId: Long? = null): CalendarWidgetModel =
     with(CalendarWidgetModel.createDefault()) {
         copy(
             id = glanceId ?: id,

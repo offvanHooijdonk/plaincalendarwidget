@@ -15,7 +15,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.sp
 import by.offvanhooijdonk.plaincalendarv2.widget.R
 import by.offvanhooijdonk.plaincalendarv2.widget.ext.toColor
-import by.offvanhooijdonk.plaincalendarv2.widget.model.CalendarWidgetModel
+import by.offvanhooijdonk.plaincalendarv2.widget.model.calendar.CalendarWidgetModel
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.dimens
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter

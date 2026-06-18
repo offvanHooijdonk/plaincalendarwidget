@@ -1,6 +1,5 @@
-package by.offvanhooijdonk.plaincalendarv2.widget.model
+package by.offvanhooijdonk.plaincalendarv2.widget.model.calendar
 
-import androidx.compose.ui.graphics.Color
 import java.time.LocalDateTime
 
 data class EventModel(

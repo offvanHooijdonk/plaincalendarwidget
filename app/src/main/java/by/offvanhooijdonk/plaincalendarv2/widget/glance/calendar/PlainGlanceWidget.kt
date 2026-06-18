@@ -14,11 +14,11 @@ import androidx.glance.currentState
 import androidx.glance.state.GlanceStateDefinition
 import androidx.glance.state.PreferencesGlanceStateDefinition
 import by.offvanhooijdonk.plaincalendarv2.widget.app.App
-import by.offvanhooijdonk.plaincalendarv2.widget.glance.calendar.prefs.readWidgetModel
+import by.offvanhooijdonk.plaincalendarv2.widget.glance.calendar.prefs.readCalendarWidgetModel
 import by.offvanhooijdonk.plaincalendarv2.widget.glance.calendar.widgetui.WidgetBodyPerDay
 import by.offvanhooijdonk.plaincalendarv2.widget.glance.calendar.widgetui.WidgetBodyTimeline
-import by.offvanhooijdonk.plaincalendarv2.widget.model.EventModel
-import by.offvanhooijdonk.plaincalendarv2.widget.model.CalendarWidgetModel
+import by.offvanhooijdonk.plaincalendarv2.widget.model.calendar.EventModel
+import by.offvanhooijdonk.plaincalendarv2.widget.model.calendar.CalendarWidgetModel
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
@@ -44,7 +44,7 @@ class PlainGlanceWidget : GlanceAppWidget(), KoinComponent {
 
         val events = remember { mutableStateOf(emptyList<EventModel>()) }
 
-        val widgetModel = state.readWidgetModel()
+        val widgetModel = state.readCalendarWidgetModel()
         events.value = viewModel.loadEvents(
             widgetModel.calendarIds,
             widgetModel.days

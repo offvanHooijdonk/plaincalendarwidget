@@ -13,8 +13,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import by.offvanhooijdonk.plaincalendarv2.widget.R
-import by.offvanhooijdonk.plaincalendarv2.widget.model.DummyWidget
-import by.offvanhooijdonk.plaincalendarv2.widget.model.CalendarWidgetModel
+import by.offvanhooijdonk.plaincalendarv2.widget.model.calendar.DummyWidget
+import by.offvanhooijdonk.plaincalendarv2.widget.model.calendar.CalendarWidgetModel
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.calendar.intro.IntroLayouts
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.calendar.intro.IntroStyleLayouts
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.calendar.intro.IntroTargets

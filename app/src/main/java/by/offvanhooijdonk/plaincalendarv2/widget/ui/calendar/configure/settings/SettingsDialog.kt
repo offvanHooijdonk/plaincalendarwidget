@@ -11,8 +11,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import by.offvanhooijdonk.plaincalendarv2.widget.model.DummyWidget
-import by.offvanhooijdonk.plaincalendarv2.widget.model.CalendarWidgetModel
+import by.offvanhooijdonk.plaincalendarv2.widget.model.calendar.DummyWidget
+import by.offvanhooijdonk.plaincalendarv2.widget.model.calendar.CalendarWidgetModel
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.calendar.configure.settings.preview.EventColorMark
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.PlainTheme
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.dimens

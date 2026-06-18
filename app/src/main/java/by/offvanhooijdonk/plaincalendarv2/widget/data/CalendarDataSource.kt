@@ -9,8 +9,8 @@ import android.util.Log
 import by.offvanhooijdonk.plaincalendarv2.widget.app.App
 import by.offvanhooijdonk.plaincalendarv2.widget.ext.millis
 import by.offvanhooijdonk.plaincalendarv2.widget.ext.toMidnightAtDay
-import by.offvanhooijdonk.plaincalendarv2.widget.model.CalendarModel
-import by.offvanhooijdonk.plaincalendarv2.widget.model.EventModel
+import by.offvanhooijdonk.plaincalendarv2.widget.model.calendar.CalendarModel
+import by.offvanhooijdonk.plaincalendarv2.widget.model.calendar.EventModel
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId

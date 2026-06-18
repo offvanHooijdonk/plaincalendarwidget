@@ -1,4 +1,4 @@
-package by.offvanhooijdonk.plaincalendarv2.widget.model
+package by.offvanhooijdonk.plaincalendarv2.widget.model.calendar
 
 import androidx.compose.runtime.Stable
 

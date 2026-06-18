@@ -6,7 +6,7 @@ import by.offvanhooijdonk.plaincalendarv2.widget.R
 import by.offvanhooijdonk.plaincalendarv2.widget.ext.isToday
 import by.offvanhooijdonk.plaincalendarv2.widget.ext.isTomorrow
 import by.offvanhooijdonk.plaincalendarv2.widget.ext.millis
-import by.offvanhooijdonk.plaincalendarv2.widget.model.CalendarWidgetModel
+import by.offvanhooijdonk.plaincalendarv2.widget.model.calendar.CalendarWidgetModel
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle

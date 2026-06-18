@@ -22,9 +22,8 @@ class ConfigurationActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        Log.d("===", "onCreate")
         val widgetId = extractWidgetId()
-        Log.d("===", "Widget ID : $widgetId")
+        viewModel.setWidgetId(widgetId)
 
         setContent {
             PlainTheme {

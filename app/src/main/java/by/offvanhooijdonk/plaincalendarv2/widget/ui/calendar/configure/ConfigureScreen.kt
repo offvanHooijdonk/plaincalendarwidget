@@ -26,9 +26,9 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import by.offvanhooijdonk.plaincalendarv2.widget.R
-import by.offvanhooijdonk.plaincalendarv2.widget.model.CalendarModel
-import by.offvanhooijdonk.plaincalendarv2.widget.model.DummyWidget
-import by.offvanhooijdonk.plaincalendarv2.widget.model.CalendarWidgetModel
+import by.offvanhooijdonk.plaincalendarv2.widget.model.calendar.CalendarModel
+import by.offvanhooijdonk.plaincalendarv2.widget.model.calendar.DummyWidget
+import by.offvanhooijdonk.plaincalendarv2.widget.model.calendar.CalendarWidgetModel
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.calendar.configure.settings.CalendarsPickDialog
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.calendar.configure.settings.SettingsScreen
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.calendar.configure.settings.layouts.LayoutsPickPanel

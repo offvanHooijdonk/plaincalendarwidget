@@ -15,8 +15,8 @@ import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
 import by.offvanhooijdonk.plaincalendarv2.widget.ext.toColor
-import by.offvanhooijdonk.plaincalendarv2.widget.model.EventModel
-import by.offvanhooijdonk.plaincalendarv2.widget.model.CalendarWidgetModel
+import by.offvanhooijdonk.plaincalendarv2.widget.model.calendar.EventModel
+import by.offvanhooijdonk.plaincalendarv2.widget.model.calendar.CalendarWidgetModel
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.glanceDimens
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.util.formatDateRangeLabel
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.util.getDateTextSize

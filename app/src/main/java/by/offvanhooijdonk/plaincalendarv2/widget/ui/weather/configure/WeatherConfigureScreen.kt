@@ -2,6 +2,7 @@
 
 package by.offvanhooijdonk.plaincalendarv2.widget.ui.weather.configure
 
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -12,8 +13,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import by.offvanhooijdonk.plaincalendarv2.widget.R
+import by.offvanhooijdonk.plaincalendarv2.widget.model.weather.LocationModel
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.calendar.configure.settings.tabs.StylesTabsPanel
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.PlainTheme
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.dimens
@@ -39,7 +40,15 @@ fun WeatherConfigureScreen(state: UiState, onIntent: (Intent) -> Unit) {
                         .fillMaxWidth()
                         .padding(horizontal = dimens().spacingL),
                 ) {
-                    Spacer(Modifier.height(dimens().spacingXL))
+                    Spacer(Modifier.height(dimens().spacingL))
+                    CountriesDropdown(
+                        modifier = Modifier.fillMaxWidth(),
+                        countries = state.countries,
+                        expanded = state.isCountriesExpanded,
+                        onDismiss = { onIntent(Intent.CountriesListDismiss) },
+                        selectedCountry = state.selectedCountry,
+                        onSelect = { onIntent(Intent.CountrySelect(it)) },
+                    )
 
                     CitySearchDropDown(
                         modifier = Modifier.fillMaxWidth(),
@@ -50,12 +59,12 @@ fun WeatherConfigureScreen(state: UiState, onIntent: (Intent) -> Unit) {
                         onSelect = { onIntent(Intent.CitySelect(it)) },
                         onDismiss = { onIntent(Intent.DismissSuggestions) },
                     )
-                    
+
                     Spacer(Modifier.height(dimens().spacingS))
 
                     AnimatedVisibility(state.selectedLocation != null) {
                         state.selectedLocation?.let { city ->
-                            Column() {
+                            Column {
                                 Spacer(Modifier.height(dimens().spacingS))
 
                                 Text(text = city.title, style = MaterialTheme.typography.titleLarge)
@@ -84,14 +93,17 @@ fun WeatherConfigureScreen(state: UiState, onIntent: (Intent) -> Unit) {
                     .fillMaxWidth()
                     .weight(1f)
             ) {
-                Box(Modifier
-                    .padding(horizontal = dimens().spacingL)
-                    .align(Alignment.Center)) {
+                Box(
+                    Modifier
+                        .padding(horizontal = dimens().spacingL)
+                        .align(Alignment.Center)
+                ) {
                     WeatherWidgetPreview(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .height(220.dp), // todo
+                            .width(dimens().widgetPreviewWidth)
+                            .height(dimens().widgetPreviewHeight),
                         widget = state.widget,
+                        weather = state.weather,
                     )
                 }
 
@@ -110,6 +122,46 @@ fun WeatherConfigureScreen(state: UiState, onIntent: (Intent) -> Unit) {
                 StylesTabsPanel(
                     widget = state.widget,
                     onAction = { onIntent(it.toWeatherIntent()) }
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun CountriesDropdown(
+    modifier: Modifier = Modifier,
+    expanded: Boolean,
+    countries: List<CountryModel>,
+    onDismiss: () -> Unit,
+    selectedCountry: CountryModel,
+    onSelect: (CountryModel) -> Unit,
+) {
+    ExposedDropdownMenuBox(
+        modifier = modifier,
+        expanded = expanded,
+        onExpandedChange = {
+            Log.d("===", "onExpandedChange $it")
+        },
+    ) {
+        OutlinedTextField(
+            modifier = Modifier
+                .fillMaxWidth()
+                .menuAnchor(type = ExposedDropdownMenuAnchorType.PrimaryEditable),
+            value = "${selectedCountry.flag} ${selectedCountry.title}",
+            onValueChange = {},
+            readOnly = true,
+            label = { Text("Country") },
+        )
+
+        ExposedDropdownMenu(
+            expanded = expanded,
+            onDismissRequest = onDismiss,
+        ) {
+            countries.forEach { country ->
+                DropdownMenuItem(
+                    text = { Text(text = "${country.flag} ${country.title}") },
+                    onClick = { onSelect(country) },
                 )
             }
         }

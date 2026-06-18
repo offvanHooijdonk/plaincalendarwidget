@@ -3,6 +3,7 @@ package by.offvanhooijdonk.plaincalendarv2.widget.glance.weather
 import android.content.Context
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.unit.sp
 import androidx.datastore.core.DataStore
 import androidx.datastore.dataStoreFile
@@ -13,13 +14,16 @@ import androidx.glance.GlanceModifier
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.provideContent
 import androidx.glance.appwidget.updateAll
+import androidx.glance.currentState
 import androidx.glance.layout.Column
 import androidx.glance.layout.Spacer
 import androidx.glance.layout.height
 import androidx.glance.state.GlanceStateDefinition
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
+import by.offvanhooijdonk.plaincalendarv2.widget.glance.weather.prefs.readWeatherWidgetModel
 import by.offvanhooijdonk.plaincalendarv2.widget.glance.weather.ui.WeatherWidgetUI
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.calendar.configure.toIntId
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.dimens
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
@@ -37,8 +41,11 @@ class WeatherGlanceWidget : GlanceAppWidget(), KoinComponent {
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         provideContent {
             val state = viewModel.state.collectAsState().value
+            val prefs = currentState<Preferences>()
+            val widgetSettings = remember { prefs.readWeatherWidgetModel() }
 
             LaunchedEffect(Unit) {
+                viewModel.setWidgetSettings(widgetSettings)
                 viewModel.reload()
             }
 

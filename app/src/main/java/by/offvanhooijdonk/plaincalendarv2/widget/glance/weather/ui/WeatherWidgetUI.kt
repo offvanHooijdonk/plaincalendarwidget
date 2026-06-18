@@ -1,7 +1,6 @@
 package by.offvanhooijdonk.plaincalendarv2.widget.glance.weather.ui
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.sp
 import androidx.glance.GlanceModifier
 import androidx.glance.appwidget.appWidgetBackground
@@ -18,17 +17,16 @@ fun WeatherWidgetUI(state: WeatherWidgetViewModel.State) {
     Box(
         modifier = GlanceModifier
             .padding(horizontal = glanceDimens().widgetPaddingH, vertical = glanceDimens().widgetPaddingV)
-            //.background(backColor.copy(alpha = opacity))
-            .background(Color.LightGray)
+            .background(state.widget.backColor)
             .appWidgetBackground()
             .fillMaxSize()
     ) {
 
         Column {
-            Text(text = state.temp.toString(), style = TextStyle(fontSize = 26.sp)) // temperature
+            Text(text = state.weather?.temperature ?: "--", style = TextStyle(fontSize = 26.sp)) // temperature
             Spacer(GlanceModifier.height(dimens().spacingS))
 
-            Text(text = state.cityName, style = TextStyle(fontSize = 18.sp)) // city
+            Text(text = state.widget.location.title, style = TextStyle(fontSize = 18.sp)) // city
         }
     }
 }

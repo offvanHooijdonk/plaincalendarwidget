@@ -14,11 +14,11 @@ import androidx.lifecycle.viewModelScope
 import by.offvanhooijdonk.plaincalendarv2.widget.data.CalendarDataSource
 import by.offvanhooijdonk.plaincalendarv2.widget.data.Prefs
 import by.offvanhooijdonk.plaincalendarv2.widget.glance.calendar.PlainGlanceWidget
-import by.offvanhooijdonk.plaincalendarv2.widget.glance.calendar.prefs.readWidgetModel
+import by.offvanhooijdonk.plaincalendarv2.widget.glance.calendar.prefs.readCalendarWidgetModel
 import by.offvanhooijdonk.plaincalendarv2.widget.glance.calendar.prefs.writeToPrefs
-import by.offvanhooijdonk.plaincalendarv2.widget.model.CalendarModel
-import by.offvanhooijdonk.plaincalendarv2.widget.model.DummyWidget
-import by.offvanhooijdonk.plaincalendarv2.widget.model.CalendarWidgetModel
+import by.offvanhooijdonk.plaincalendarv2.widget.model.calendar.CalendarModel
+import by.offvanhooijdonk.plaincalendarv2.widget.model.calendar.DummyWidget
+import by.offvanhooijdonk.plaincalendarv2.widget.model.calendar.CalendarWidgetModel
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.calendar.configure.settings.tabs.StyleAction
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -186,7 +186,7 @@ class ConfigureViewModel(
     private suspend fun readWidgetModel(glanceId: GlanceId) {
         widgetId = glanceId.toIntId()
         val state = getAppWidgetState(ctx, PreferencesGlanceStateDefinition, glanceId)
-        val widget = state.readWidgetModel(widgetId?.toLong())
+        val widget = state.readCalendarWidgetModel(widgetId?.toLong())
 
         _widgetModel.value = widget.also { w -> initialCalendarWidgetModel = w.copy() }
         _uiState.update { it.copy(loadState = LoadState.Widget.Success) }
