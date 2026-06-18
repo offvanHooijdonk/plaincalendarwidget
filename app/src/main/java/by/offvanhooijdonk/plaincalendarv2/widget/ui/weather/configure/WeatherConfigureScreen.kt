@@ -2,7 +2,6 @@
 
 package by.offvanhooijdonk.plaincalendarv2.widget.ui.weather.configure
 
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -46,6 +45,7 @@ fun WeatherConfigureScreen(state: UiState, onIntent: (Intent) -> Unit) {
                         countries = state.countries,
                         expanded = state.isCountriesExpanded,
                         onDismiss = { onIntent(Intent.CountriesListDismiss) },
+                        onExpand = { onIntent(Intent.CountriesListExpand) },
                         selectedCountry = state.selectedCountry,
                         onSelect = { onIntent(Intent.CountrySelect(it)) },
                     )
@@ -134,15 +134,14 @@ private fun CountriesDropdown(
     expanded: Boolean,
     countries: List<CountryModel>,
     onDismiss: () -> Unit,
+    onExpand: () -> Unit,
     selectedCountry: CountryModel,
     onSelect: (CountryModel) -> Unit,
 ) {
     ExposedDropdownMenuBox(
         modifier = modifier,
         expanded = expanded,
-        onExpandedChange = {
-            Log.d("===", "onExpandedChange $it")
-        },
+        onExpandedChange = { if (it) onExpand() },
     ) {
         OutlinedTextField(
             modifier = Modifier

@@ -56,7 +56,12 @@ class WeatherConfigureViewModel(
             CountryModel(code.uppercase(), name, getCountryFlagEmoji(code.uppercase()))
         }
         val noCountry = CountryModel(CODE_UNKNOWN, context.getString(R.string.any_country), "🌐")
-        _state.update { state -> state.copy(countries = listOf(noCountry) + countries.sortedBy { it.title }) }
+        _state.update { state ->
+            state.copy(
+                countries = listOf(noCountry) + countries.sortedBy { it.title },
+                selectedCountry = noCountry
+            )
+        }
     }
 
 
@@ -69,6 +74,7 @@ class WeatherConfigureViewModel(
                     searchChannel.send(intent.input)
                 }
             }
+
             is Intent.CitySelect -> {
                 _state.update {
                     it.copy(

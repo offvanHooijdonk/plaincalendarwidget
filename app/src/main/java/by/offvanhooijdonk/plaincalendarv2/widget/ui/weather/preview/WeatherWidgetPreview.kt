@@ -7,11 +7,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import by.offvanhooijdonk.plaincalendarv2.widget.ext.toColor
+import by.offvanhooijdonk.plaincalendarv2.widget.model.weather.LocationModel
 import by.offvanhooijdonk.plaincalendarv2.widget.model.weather.WeatherModel
 import by.offvanhooijdonk.plaincalendarv2.widget.model.weather.WeatherWidgetModel
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.PlainTheme
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.theme.dimens
-import by.offvanhooijdonk.plaincalendarv2.widget.ui.weather.configure.LocationModel
 
 @Composable
 fun WeatherWidgetPreview(
