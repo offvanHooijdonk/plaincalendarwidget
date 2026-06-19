@@ -72,8 +72,10 @@ val BackgroundColors = listOf(
 
 val TextColors = listOf(
     Color.Black,
+    Color(0xFF303651),
     Color.DarkGray,
     Color.Gray,
     Color.LightGray,
+    Color(0xFFC0C6E1),
     Color.White,
 )

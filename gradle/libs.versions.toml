@@ -10,7 +10,7 @@ kotlin = "2.3.21"
 composeBom = "2026.05.01"
 composeConstraint = "1.1.1"
 accompanist = "0.36.0"
-glanceWidget = "1.1.1"
+glanceWidget = "1.2.0-rc01"
 canopasShowcase = "1.0.7"
 
 serialization = "1.11.0"

@@ -12,6 +12,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
 import androidx.glance.appwidget.GlanceAppWidget
+import androidx.glance.appwidget.SizeMode
 import androidx.glance.appwidget.provideContent
 import androidx.glance.appwidget.updateAll
 import androidx.glance.currentState
@@ -33,6 +34,7 @@ import java.io.File
 
 class WeatherGlanceWidget : GlanceAppWidget(), KoinComponent {
     override val stateDefinition: GlanceStateDefinition<Preferences> = WeatherStateDefinition
+    override val sizeMode: SizeMode = SizeMode.Exact
 
     private val viewModel: WeatherWidgetViewModel by inject()
     private val context: Context by inject()
@@ -42,9 +44,9 @@ class WeatherGlanceWidget : GlanceAppWidget(), KoinComponent {
         provideContent {
             val state = viewModel.state.collectAsState().value
             val prefs = currentState<Preferences>()
-            val widgetSettings = remember { prefs.readWeatherWidgetModel() }
+            val widgetSettings = prefs.readWeatherWidgetModel() /*remember { prefs.readWeatherWidgetModel() }*/
 
-            LaunchedEffect(Unit) {
+            LaunchedEffect(widgetSettings) {
                 widgetSettings?.let {
                     viewModel.setWidgetSettings(it)
                     viewModel.reload()
