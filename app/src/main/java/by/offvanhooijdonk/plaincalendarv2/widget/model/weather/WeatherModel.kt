@@ -1,16 +1,12 @@
 package by.offvanhooijdonk.plaincalendarv2.widget.model.weather
 
 import by.offvanhooijdonk.plaincalendarv2.widget.data.remote.response.CurrentWeatherResponseModel
-import java.text.DecimalFormat
+import kotlin.math.roundToInt
 
 data class WeatherModel(
     val tempValue: Float,
 ) {
-    val temperature: String = formatter.format(tempValue).let { "$it°" }
-
-    companion object {
-        private val formatter = DecimalFormat("#.#")
-    }
+    val temperature: String = tempValue.roundToInt().let { "$it°" }
 }
 
 fun CurrentWeatherResponseModel.toDomain() = WeatherModel(

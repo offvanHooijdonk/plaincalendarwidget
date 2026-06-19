@@ -71,7 +71,7 @@ fun WeatherConfigureScreen(state: UiState, onIntent: (Intent) -> Unit) {
                                 Spacer(Modifier.width(dimens().spacingSM))
 
                                 Text(
-                                    text = "${city.state?.let { "$it, " }}${city.countryCode}",
+                                    text = "${city.state?.let { "$it, " } ?: ""}${city.countryCode}",
                                     style = MaterialTheme.typography.labelMedium
                                 )
                                 Spacer(Modifier.height(dimens().spacingM))
@@ -213,7 +213,7 @@ fun LocationTextItem(location: LocationModel) {
     Column {
         Text(text = location.title)
 
-        Text(text = "${location.state?.let { "$it, " }}${location.countryCode}", style = MaterialTheme.typography.labelMedium)
+        Text(text = "${location.state?.let { "$it, " } ?: ""}${location.countryCode}", style = MaterialTheme.typography.labelMedium)
     }
 }
 

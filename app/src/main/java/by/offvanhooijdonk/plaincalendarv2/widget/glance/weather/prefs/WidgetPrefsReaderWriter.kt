@@ -40,21 +40,23 @@ fun WeatherWidgetModel.writeToPrefs(prefs: MutablePreferences) {
 
 }
 
-fun Preferences.readWeatherWidgetModel(glanceId: Long? = null): WeatherWidgetModel =
-    with(WeatherWidgetModel()) {
-        copy(
-            id = glanceId ?: id,
-            backgroundColor = get(keyBackgroundColor) ?: backgroundColor,
-            opacity = get(keyBackgroundOpacity) ?: opacity,
-            textColor = get(keyTextColor) ?: textColor,
-            textSizeDelta = get(keyTextSize) ?: textSizeDelta,
-            textStyleBold = get(keyTextBold) ?: textStyleBold,
-            location = LocationModel(
-                title = get(keyLocationTitle) ?: location.title,
-                countryCode = get(keyLocationCountry) ?: location.countryCode,
-                state = get(keyLocationState) ?: location.state,
-                lat = get(keyLocationLat) ?: location.lat,
-                lon = get(keyLocationLon) ?: location.lon,
+fun Preferences.readWeatherWidgetModel(glanceId: Long? = null): WeatherWidgetModel? =
+    get(keyLocationTitle)?.let { // return only if there is a saved model
+        with(WeatherWidgetModel()) {
+            copy(
+                id = glanceId ?: id,
+                backgroundColor = get(keyBackgroundColor) ?: backgroundColor,
+                opacity = get(keyBackgroundOpacity) ?: opacity,
+                textColor = get(keyTextColor) ?: textColor,
+                textSizeDelta = get(keyTextSize) ?: textSizeDelta,
+                textStyleBold = get(keyTextBold) ?: textStyleBold,
+                location = LocationModel(
+                    title = get(keyLocationTitle) ?: location.title,
+                    countryCode = get(keyLocationCountry) ?: location.countryCode,
+                    state = get(keyLocationState) ?: location.state,
+                    lat = get(keyLocationLat) ?: location.lat,
+                    lon = get(keyLocationLon) ?: location.lon,
+                )
             )
-        )
+        }
     }

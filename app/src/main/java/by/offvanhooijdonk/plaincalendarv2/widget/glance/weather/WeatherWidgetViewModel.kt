@@ -23,13 +23,15 @@ class WeatherWidgetViewModel(
     }
 
     suspend fun reload() {
-        val weather = api.loadForecast(
-            lat = _state.value.widget.location.lat,
-            lon = _state.value.widget.location.lon,
-            lang = context.getLanguageCode(),
-        )
+        _state.value.widget.takeIf { it.location.title.isNotBlank() }?.let { widget ->
+            val weather = api.loadForecast(
+                lat = widget.location.lat,
+                lon = widget.location.lon,
+                lang = context.getLanguageCode(),
+            )
 
-        _state.update { it.copy(weather = weather.toDomain()) }
+            _state.update { it.copy(weather = weather.toDomain()) }
+        }
     }
 
     data class State(

@@ -45,8 +45,10 @@ class WeatherGlanceWidget : GlanceAppWidget(), KoinComponent {
             val widgetSettings = remember { prefs.readWeatherWidgetModel() }
 
             LaunchedEffect(Unit) {
-                viewModel.setWidgetSettings(widgetSettings)
-                viewModel.reload()
+                widgetSettings?.let {
+                    viewModel.setWidgetSettings(it)
+                    viewModel.reload()
+                }
             }
 
             WeatherWidgetUI(state)
