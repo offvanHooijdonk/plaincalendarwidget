@@ -1,8 +1,10 @@
 package by.offvanhooijdonk.plaincalendarv2.widget.app
 
 import android.app.Application
+import by.offvanhooijdonk.plaincalendarv2.widget.data.worker.WeatherScheduler
 import by.offvanhooijdonk.plaincalendarv2.widget.di.allModules
 import org.koin.android.ext.koin.androidContext
+import org.koin.androidx.workmanager.koin.workManagerFactory
 import org.koin.core.context.GlobalContext.startKoin
 
 class App : Application() {
@@ -12,7 +14,10 @@ class App : Application() {
         startKoin {
             androidContext(this@App)
             modules(allModules)
+            workManagerFactory()
         }
+
+        WeatherScheduler(this).scheduleAll()
     }
 
     companion object {

@@ -76,7 +76,9 @@ private fun TodayMain(
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(text = weather.temperature, fontSize = 56.sp)
             Icon(
-                modifier = Modifier.size(48.dp).offset(x = (-4).dp),
+                modifier = Modifier
+                    .size(48.dp)
+                    .offset(x = (-4).dp),
                 painter = painterResource(R.drawable.we_cloudy),
                 tint = Color.Unspecified,
                 contentDescription = null,
@@ -85,7 +87,7 @@ private fun TodayMain(
         Spacer(Modifier.height(dimens().spacingSM))
 
         Text(
-            text = "Mostly cloudy",
+            text = weather.description,
             fontSize = 16.sp,
             fontWeight = FontWeight.SemiBold,
             maxLines = 2,
@@ -225,7 +227,25 @@ private fun Preview_WeatherWidgetPreview() {
             ),
             weather = WeatherModel(
                 tempValue = 20.0f,
+                type = "Cloudy",
+                description = "Mostly cloudy",
+                rain = 10,
+                snow = null,
+                clouds = 20,
+                humidity = 55,
+                windSpeed = 2.6f,
             ),
         )
     }
 }
+
+val previewWeather = WeatherModel(
+    tempValue = 20.0f,
+    type = "Cloudy",
+    description = "Mostly cloudy",
+    rain = 10,
+    snow = null,
+    clouds = 20,
+    humidity = 55,
+    windSpeed = 2.6f,
+)

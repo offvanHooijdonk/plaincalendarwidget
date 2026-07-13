@@ -1,6 +1,7 @@
 package by.offvanhooijdonk.plaincalendarv2.widget.glance.weather
 
 import android.content.Context
+import by.offvanhooijdonk.plaincalendarv2.widget.data.local.WeatherLocalStore
 import by.offvanhooijdonk.plaincalendarv2.widget.data.remote.WeatherApiService
 import by.offvanhooijdonk.plaincalendarv2.widget.model.weather.WeatherModel
 import by.offvanhooijdonk.plaincalendarv2.widget.model.weather.WeatherWidgetModel
@@ -12,7 +13,8 @@ import kotlinx.coroutines.flow.update
 
 class WeatherWidgetViewModel(
     private val context: Context,
-    private val api: WeatherApiService,
+    //private val api: WeatherApiService,
+    private val store: WeatherLocalStore,
 ) {
 
     private val _state = MutableStateFlow(State())
@@ -23,14 +25,15 @@ class WeatherWidgetViewModel(
     }
 
     suspend fun reload() {
-        _state.value.widget.takeIf { it.location.title.isNotBlank() }?.let { widget ->
-            val weather = api.loadForecast(
+        _state.value.widget.takeIf { it.location.title.isNotBlank() }?.let {
+            /*val weather = api.loadForecast(
                 lat = widget.location.lat,
                 lon = widget.location.lon,
                 lang = context.getLanguageCode(),
-            )
+            )*/
+            val weather = store.getCurrentWeather()
 
-            _state.update { it.copy(weather = weather.toDomain()) }
+            _state.update { it.copy(weather = weather) }
         }
     }
 

@@ -44,6 +44,7 @@ android {
 
 dependencies {
     implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.worker)
 
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)
@@ -67,11 +68,14 @@ dependencies {
     implementation(libs.koin.annotations)
     implementation(libs.koin.compose)
     implementation(libs.koin.compose.viewmodel)
+    implementation(libs.koin.androidx.workmanager)
 
     implementation(libs.ktorfit)
     implementation(libs.ktor.logging)
     implementation(libs.ktor.serialization)
     implementation(libs.ktor.content)
+
+    implementation(libs.androidx.datastore)
 
     implementation(libs.serialization.json)
 

@@ -9,6 +9,7 @@ import androidx.glance.appwidget.state.updateAppWidgetState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import by.offvanhooijdonk.plaincalendarv2.widget.R
+import by.offvanhooijdonk.plaincalendarv2.widget.data.local.WeatherLocalStore
 import by.offvanhooijdonk.plaincalendarv2.widget.data.remote.WeatherApiService
 import by.offvanhooijdonk.plaincalendarv2.widget.glance.calendar.PlainGlanceWidget
 import by.offvanhooijdonk.plaincalendarv2.widget.glance.calendar.prefs.writeToPrefs
@@ -23,6 +24,7 @@ import by.offvanhooijdonk.plaincalendarv2.widget.ui.calendar.configure.settings.
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.calendar.configure.toIntId
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.util.getLanguageCode
 import by.offvanhooijdonk.plaincalendarv2.widget.ui.util.getLocale
+import by.offvanhooijdonk.plaincalendarv2.widget.ui.weather.preview.previewWeather
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
@@ -33,6 +35,7 @@ import kotlin.time.Duration.Companion.milliseconds
 class WeatherConfigureViewModel(
     private val context: Context,
     private val api: WeatherApiService,
+    private val store: WeatherLocalStore,
 ) : ViewModel() {
     private val _finishScreen = MutableStateFlow<FinishResult?>(null)
     val finishScreen: StateFlow<FinishResult?> = _finishScreen
@@ -162,6 +165,7 @@ class WeatherConfigureViewModel(
                     lon = city.lon,
                     lang = context.getLanguageCode(),
                 ).toDomain()
+                store.saveCurrentWeather(weather)
 
                 _state.update { it.copy(isSearchProgress = false, weather = weather) }
             }
@@ -202,7 +206,7 @@ class WeatherConfigureViewModel(
         val selectedLocation: LocationModel? = null,
         val isSearchProgress: Boolean = false,
         val isSuggestionsExpanded: Boolean = false,
-        val weather: WeatherModel = WeatherModel(tempValue = 20.5f), // sample value so the widget preview is not empty
+        val weather: WeatherModel = previewWeather, // sample value so the widget preview is not empty
         val countries: List<CountryModel> = emptyList(),
         val selectedCountry: CountryModel = CountryModel("", "", ""),
         val isCountriesExpanded: Boolean = false,

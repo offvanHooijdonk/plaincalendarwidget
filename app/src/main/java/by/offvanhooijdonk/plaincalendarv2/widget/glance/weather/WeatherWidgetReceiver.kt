@@ -7,7 +7,7 @@ import android.util.Log
 import androidx.glance.appwidget.GlanceAppWidgetReceiver
 import org.koin.core.component.KoinComponent
 
-class WeatherWidgetReceiver :GlanceAppWidgetReceiver(), KoinComponent {
+class WeatherWidgetReceiver : GlanceAppWidgetReceiver(), KoinComponent {
     override val glanceAppWidget: WeatherGlanceWidget = WeatherGlanceWidget()
 
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
