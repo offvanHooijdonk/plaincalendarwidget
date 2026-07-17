@@ -225,16 +225,7 @@ private fun Preview_WeatherWidgetPreview() {
                     lon = 0.0,
                 )
             ),
-            weather = WeatherModel(
-                tempValue = 20.0f,
-                type = "Cloudy",
-                description = "Mostly cloudy",
-                rain = 10,
-                snow = null,
-                clouds = 20,
-                humidity = 55,
-                windSpeed = 2.6f,
-            ),
+            weather = previewWeather,
         )
     }
 }
@@ -248,4 +239,5 @@ val previewWeather = WeatherModel(
     clouds = 20,
     humidity = 55,
     windSpeed = 2.6f,
+    updateTime = "14:50",
 )

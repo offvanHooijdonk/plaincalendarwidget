@@ -3,6 +3,8 @@
 package by.offvanhooijdonk.plaincalendarv2.widget.ui.weather.configure
 
 import android.content.Context
+import android.content.Intent
+import android.util.Log
 import androidx.glance.GlanceId
 import androidx.glance.appwidget.GlanceAppWidgetManager
 import androidx.glance.appwidget.state.updateAppWidgetState
@@ -158,16 +160,21 @@ class WeatherConfigureViewModel(
 
     private fun loadWeather() {
         _state.value.selectedLocation?.let { city ->
+            Log.d("===", "loadWeather: $city")
             _state.update { it.copy(isSearchProgress = true) }
-            viewModelScope.launch {
-                val weather = api.loadForecast(
-                    lat = city.lat,
-                    lon = city.lon,
-                    lang = context.getLanguageCode(),
-                ).toDomain()
-                store.saveCurrentWeather(weather)
-
-                _state.update { it.copy(isSearchProgress = false, weather = weather) }
+            try {
+                viewModelScope.launch {
+                    val weather = api.loadForecast(
+                        lat = city.lat,
+                        lon = city.lon,
+                        lang = context.getLanguageCode(),
+                    ).toDomain()
+                    Log.d("===", "storing weather")
+                    store.saveCurrentWeather(weather)
+                    _state.update { it.copy(isSearchProgress = false, weather = weather) }
+                }
+            } catch (e: Throwable) {
+                Log.e("===", "Error saving weather", e)
             }
         }
     }

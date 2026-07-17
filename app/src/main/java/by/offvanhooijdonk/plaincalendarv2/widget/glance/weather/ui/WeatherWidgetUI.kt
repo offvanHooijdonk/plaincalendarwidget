@@ -1,7 +1,5 @@
 package by.offvanhooijdonk.plaincalendarv2.widget.glance.weather.ui
 
-import android.R.attr.contentDescription
-import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -65,11 +63,11 @@ fun WeatherWidgetUI(state: WeatherWidgetViewModel.State) {
                         Spacer(GlanceModifier.height(glanceDimens().spacingS))
 
                         Box(GlanceModifier.fillMaxWidth().padding(end = dimens().spacingM), contentAlignment = Alignment.CenterEnd) {
-                            ReloadTimeInfo(timeText = "12:45")
+                            ReloadTimeInfo(timeText = weather.updateTime)
                         }
                         Spacer(GlanceModifier.height(glanceDimens().spacingXL + glanceDimens().spacingL))
 
-                        TodayAdditionalInfo()
+                        TodayAdditionalInfo(weather = weather)
                         Spacer(GlanceModifier.height(glanceDimens().spacingXXL + glanceDimens().spacingXS))
 
                         Forecast()
@@ -120,7 +118,7 @@ private fun TodayMain(
 
         Text(
             modifier = GlanceModifier.padding(start = dimens().spacingS),
-            text = "Mostly cloudy",
+            text = weather.description,
             style = LocalTextStyle.current.copy(
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
@@ -141,17 +139,17 @@ private fun TodayMain(
 }
 
 @Composable
-private fun TodayAdditionalInfo(modifier: GlanceModifier = GlanceModifier) {
+private fun TodayAdditionalInfo(modifier: GlanceModifier = GlanceModifier, weather: WeatherModel) {
     Row(modifier = modifier) {
         Column {
-            InfoBadge(R.drawable.we_windy, "3 m/s")
-            InfoBadge(R.drawable.we_cloudy, "80%")
+            InfoBadge(R.drawable.we_windy, LocalContext.current.getString(R.string.meter_per_Second, weather.windSpeed))
+            InfoBadge(R.drawable.we_cloudy, "${weather.clouds}%")
         }
         Spacer(GlanceModifier.width(glanceDimens().spacingML))
 
         Column {
-            InfoBadge(R.drawable.we_humidity, "58%")
-            InfoBadge(R.drawable.we_heavy_rain, "20%")
+            InfoBadge(R.drawable.we_humidity, "${weather.humidity}%")
+            InfoBadge(R.drawable.we_heavy_rain, "${weather.rain ?: 0}%")
         }
     }
 }

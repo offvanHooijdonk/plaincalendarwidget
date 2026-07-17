@@ -13,5 +13,5 @@ val daoModule = module {
     single { Prefs(androidContext()) }
     single { WeatherLocalStore(androidContext()) }
 
-    worker { CurrentWeatherWorker(androidContext(), get(), get()) }
+    worker { CurrentWeatherWorker(androidContext(), get(), get(), get()) }
 }

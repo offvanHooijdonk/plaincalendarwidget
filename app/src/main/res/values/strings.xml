@@ -56,4 +56,6 @@
     <string name="events_empty_message">No soon events 😴</string>
 
     <string name="any_country">Any Country</string>
+
+    <string name="meter_per_Second">%1$.1f m/s</string>
 </resources>

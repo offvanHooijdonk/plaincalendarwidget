@@ -13,7 +13,6 @@ import kotlinx.coroutines.flow.update
 
 class WeatherWidgetViewModel(
     private val context: Context,
-    //private val api: WeatherApiService,
     private val store: WeatherLocalStore,
 ) {
 
@@ -31,9 +30,9 @@ class WeatherWidgetViewModel(
                 lon = widget.location.lon,
                 lang = context.getLanguageCode(),
             )*/
-            val weather = store.getCurrentWeather()
-
-            _state.update { it.copy(weather = weather) }
+            store.getCurrentWeather { weather ->
+                _state.update { it.copy(weather = weather) }
+            }
         }
     }
 

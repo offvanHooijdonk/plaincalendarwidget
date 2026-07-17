@@ -52,4 +52,6 @@
     <string name="events_empty_message">Событий нет 😴</string>
 
     <string name="any_country">Любая страна</string>
+
+    <string name="meter_per_Second">%1$.1f м/с</string>
 </resources>

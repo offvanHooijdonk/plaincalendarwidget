@@ -51,4 +51,6 @@
     <string name="events_empty_message">Падзей у бліжэйшы час няма 😴</string>
 
     <string name="any_country">Будзь якая краіна</string>
+
+    <string name="meter_per_Second">%1$.1f м/с</string>
 </resources>

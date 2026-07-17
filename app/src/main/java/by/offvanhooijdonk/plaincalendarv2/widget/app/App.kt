@@ -13,8 +13,9 @@ class App : Application() {
 
         startKoin {
             androidContext(this@App)
-            modules(allModules)
             workManagerFactory()
+            
+            modules(allModules)
         }
 
         WeatherScheduler(this).scheduleAll()
